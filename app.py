@@ -81,27 +81,37 @@ def chat():
     try:
         data = request.json
         message = data.get('message', '')
-        conversation_history = data.get('history', [])
+        history = data.get('history', [])
 
-        context = "You are QwikGen AI Assistant. Provide helpful and concise responses.\n\n"
-        for msg in conversation_history[-10:]:
-            context += f"User: {msg.get('user', '')}\nAssistant: {msg.get('assistant', '')}\n"
-        context += f"User: {message}\nAssistant:"
+        # System role instructions
+        system_prompt = (
+            "You are ChatGPT, a helpful, friendly, and conversational AI assistant. "
+            "Answer in clear, natural language. "
+            "Explain step by step when useful, and keep responses easy to read."
+        )
 
+        # Build conversation context
+        conversation = f"System: {system_prompt}\n\n"
+        for turn in history[-10:]:
+            conversation += f"User: {turn.get('user', '')}\nAssistant: {turn.get('assistant', '')}\n"
+        conversation += f"User: {message}\nAssistant:"
+
+        # Call Together API
         response = together.Complete.create(
-            model=TOGETHER_MODELS["chat"],
-            prompt=context,
-            max_tokens=800,
+            model="mistralai/Mixtral-8x7B-Instruct-v0.1",  # or any chat model
+            prompt=conversation,
+            max_tokens=500,
             temperature=0.7,
             top_p=0.9
         )
 
         ai_response = response['choices'][0]['text'].strip()
-        return jsonify({'success': True, 'response': ai_response})
+
+        return jsonify({"success": True, "response": ai_response})
 
     except Exception as e:
         logging.error(f"Chat error: {str(e)}")
-        return jsonify({'success': False, 'error': f'Chat failed: {str(e)}'}), 500
+        return jsonify({"success": False, "error": f"Chat failed: {str(e)}"}), 500
 
 
 @app.route('/api/generate-code', methods=['POST'])
@@ -110,14 +120,31 @@ def generate_code():
         data = request.json
         prompt = data.get('prompt', '')
         language = data.get('language', 'python')
+        history = data.get('history', [])
 
-        system_prompt = f"You are an expert {language} developer. Write clean, commented code."
+        # Build system instructions
+        system_prompt = (
+            f"You are Ghostwriter, an expert {language} developer and web designer. "
+            "only give the code"
+            "Always return code directly in the best possible format, without extra explanation unless requested."
+            "When the user asks for a website, always provide the best production-ready templates "
+            "with smooth animations, modern UI, and responsive design. "
+            "For Python or other programming tasks, generate clean, correct, and well-structured code "
+            "with strong logic, detailed comments, and best practices. "
+            "If the user requests improvements or optimizations, refactor the code clearly "
+            "and explain the changes."
+        )
 
-        full_prompt = f"System: {system_prompt}\n\nUser: {prompt}\n\nAssistant:"
+        # Construct conversation context
+        conversation = f"System: {system_prompt}\n\n"
+        for turn in history[-10:]:
+            conversation += f"User: {turn.get('user', '')}\nAssistant: {turn.get('assistant', '')}\n"
+        conversation += f"User: {prompt}\nAssistant:"
 
+        # Call Together API
         response = together.Complete.create(
-            model=TOGETHER_MODELS["code"],
-            prompt=full_prompt,
+            model="mistralai/Mixtral-8x7B-Instruct-v0.1",  # or replit/deepseek code models
+            prompt=conversation,
             max_tokens=1500,
             temperature=0.3,
             top_p=0.8
@@ -126,14 +153,14 @@ def generate_code():
         generated_code = response['choices'][0]['text'].strip()
 
         return jsonify({
-            'success': True,
-            'content': generated_code,
-            'language': language
+            "success": True,
+            "content": generated_code,
+            "language": language
         })
 
     except Exception as e:
         logging.error(f"Code generation error: {str(e)}")
-        return jsonify({'success': False, 'error': f'Code generation failed: {str(e)}'}), 500
+        return jsonify({"success": False, "error": f"Code generation failed: {str(e)}"}), 500
 
 
 
