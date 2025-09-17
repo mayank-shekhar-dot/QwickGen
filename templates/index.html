@@ -694,6 +694,17 @@
                 display: block;
             }
         }
+
+      /* 📱 Mobile Responsive */
+@media (max-width: 768px) {
+  .content {
+    grid-template-columns: 1fr; /* stacks article + sidebar vertically */
+  }
+  nav {
+    flex-direction: column;   /* turns horizontal nav into vertical */
+    text-align: center;
+  }
+}
     </style>
 </head>
 <body>
