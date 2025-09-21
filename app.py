@@ -36,6 +36,22 @@ IMAGE_STYLES = {
 def serve_frontend():
     return send_from_directory('templates', 'index.html')
 
+@app.route('/')
+def serve_frontend():
+    return send_from_directory('templates', 'about-us.html')
+
+@app.route('/')
+def serve_frontend():
+    return send_from_directory('templates', 'disclaimer.html')
+    
+@app.route('/')
+def serve_frontend():
+    return send_from_directory('templates', 'privacy-policy.html')
+
+@app.route('/')
+def serve_frontend():
+    return send_from_directory('templates', 'terms.html')
+    
 @app.route('/api/generate-text', methods=['POST'])
 def generate_text():
     try:
@@ -230,3 +246,4 @@ def health_check():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
+
