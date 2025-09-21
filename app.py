@@ -36,21 +36,21 @@ IMAGE_STYLES = {
 def serve_frontend():
     return send_from_directory('templates', 'index.html')
 
-@app.route('/')
+@app.route('/about-us')
 def serve_frontend():
-    return send_from_directory('templates', 'about-us.html')
+    return render_template('disclaimer.html')
 
-@app.route('/')
-def serve_frontend():
-    return send_from_directory('templates', 'disclaimer.html')
+@app.route('/disclaimer')
+def privacy_policy():
+    return render_template('disclaimer.html')
     
-@app.route('/')
-def serve_frontend():
-    return send_from_directory('templates', 'privacy-policy.html')
+@app.route('/privacy-policy')
+def privacy_policy():
+    return render_template('privacy-policy.html')
 
-@app.route('/')
-def serve_frontend():
-    return send_from_directory('templates', 'terms.html')
+@app.route('/terms-&-condition')
+def privacy_policy():
+    return render_template('terms.html')
     
 @app.route('/api/generate-text', methods=['POST'])
 def generate_text():
@@ -246,4 +246,5 @@ def health_check():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
+
 
