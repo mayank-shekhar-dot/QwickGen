@@ -34,7 +34,7 @@ IMAGE_STYLES = {
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('templates', 'index.html')
 
 @app.route('/privacy-policy')
 def privacy_policy():
@@ -246,6 +246,7 @@ def health_check():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
+
 
 
 
