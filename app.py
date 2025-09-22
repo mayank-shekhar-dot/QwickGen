@@ -42,7 +42,7 @@ def privacy_policy():
 
 @app.route('/terms')
 def terms():
-    return send_from_directory('templates','terms.html')
+    return send_from_directory('templates', 'terms.html')
 
 @app.route('/about-us')
 def about_us():
@@ -246,6 +246,7 @@ def health_check():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
+
 
 
 
