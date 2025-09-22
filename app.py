@@ -38,19 +38,19 @@ def serve_frontend():
 
 @app.route('/about-us')
 def about_us():
-    return render_template('about-us.html')
+    return send_from_directory('templates', 'about-us.html')
 
 @app.route('/disclaimer')
 def disclaimer():
-    return render_template('disclaimer.html')
+    return send_from_directory('templates', 'disclaimer.html')
 
 @app.route('/privacy-policy')
 def privacy_policy():
-    return render_template('privacy-policy.html')
+    return send_from_directory('templates', 'privacy-policy.html')
 
 @app.route('/terms')
 def terms():
-    return render_template('terms.html')
+    return send_from_directory('templates', 'terms.html')
     
 @app.route('/api/generate-text', methods=['POST'])
 def generate_text():
@@ -246,6 +246,7 @@ def health_check():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
+
 
 
 
