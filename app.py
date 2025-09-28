@@ -1,7 +1,6 @@
 import os
 import logging
-from flask import Flask, request, jsonify, send_from_directory, render_template
-from flask import Flask, render_template
+from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 import together
 import base64
@@ -33,11 +32,13 @@ IMAGE_STYLES = {
     "artistic": "artistic"
 }
 
+# Home page
 @app.route('/')
-def serve_frontend():
-    return send_from_directory('templates', 'index.html')
+def home():
+    return render_template("index.html")
 
-@app.route("/privacy")
+# Privacy page
+@app.route('/privacy')
 def privacy():
     return render_template("privacy-policy.html")
 
@@ -237,6 +238,7 @@ def health_check():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
+
 
 
 
