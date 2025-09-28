@@ -1579,20 +1579,15 @@
         }
     </script>
   
-<footer class="footer" style="background:#111; color:#ddd; padding:20px; text-align:center; font-family:Arial, sans-serif;">
-    <div class="footer-content">
-        <div class="footer-links">
-            <a href="qwickgen/templates/privacy-policy.html" target="_blank">Privacy Policy</a> |
-            <a href="qwickgen/templates/disclaimer.html" target="_blank">Disclaimer</a> |
-            <a href="qwickgen/templates/about-us.html" target="_blank">About Us</a> |
-            <a href="qwickgen/templates/terms-and-conditions.html" target="_blank">Terms & Conditions</a> |
-            <a href="qwickgen/templates/contact-us.html" target="_blank">Contact Us</a>
-        </div>
-        <div class="footer-text">
-            © 2025 QwikGen AI. All rights reserved.
-        </div>
-    </div>
+<footer>
+    <a href="{{ url_for('privacy') }}">Privacy Policy</a> |
+    <a href="https://github.com/mayank-shekhar-dot/QwickGen/blob/main/templates/disclaimer.html">Disclaimer</a> |
+    <a href="https://github.com/mayank-shekhar-dot/QwickGen/blob/main/templates/about-us.html">About Us</a> |
+    <a href="{{ url_for('terms') }}">Terms & Conditions</a> |
+    <a href="{{ url_for('contact') }}">Contact Us</a>
+    <p>&copy; 2025 My Blog</p>
 </footer>
+
 
 
 
