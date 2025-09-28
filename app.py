@@ -36,12 +36,6 @@ IMAGE_STYLES = {
 def home():
     return render_template("index.html")
 
-# Serve privacy-policy.html
-@app.route('/privacy')
-def privacy():
-    return send_from_directory('templates', 'privacy-policy.html')
-
-
     
 @app.route('/api/generate-text', methods=['POST'])
 def generate_text():
@@ -237,6 +231,7 @@ def health_check():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
+
 
 
 
