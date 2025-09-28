@@ -36,9 +36,10 @@ IMAGE_STYLES = {
 def serve_frontend():
     return send_from_directory('.', 'index.html')
 
-@app.route('/disclaimer')
-def serve_disclaimer():
-    return send_from_directory('.', 'disclaimer.html')
+@app.route("/disclaimer")
+def disclaimer():
+    return render_template("disclaimer.html")
+
 
 @app.route('/privacy-policy')
 def serve_privacy():
@@ -243,6 +244,7 @@ def health_check():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
+
 
 
 
