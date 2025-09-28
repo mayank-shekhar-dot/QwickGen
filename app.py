@@ -1,6 +1,6 @@
 import os
 import logging
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, request, jsonify, send_from_directory, render_template
 from flask_cors import CORS
 import together
 import base64
@@ -36,9 +36,9 @@ IMAGE_STYLES = {
 def serve_frontend():
     return send_from_directory('templates', 'index.html')
 
-@app.route('/')
-def serve_frontend():
-    return send_from_directory('terms.html')
+@app.route('/privacy-policy')
+def privacy():
+    return render_template('terms.html')
 
     
 @app.route('/api/generate-text', methods=['POST'])
@@ -235,6 +235,7 @@ def health_check():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
+
 
 
 
