@@ -33,12 +33,9 @@ IMAGE_STYLES = {
 }
 
 @app.route('/')
-def home():
-    return render_template("index.html")
-
-@app.route('/')
-def home():
-    return render_template("privacy-policy.html")
+def serve_frontend():
+    """Serve the main frontend HTML file"""
+    return send_from_directory('templates', 'index.html')
 
     
 @app.route('/api/generate-text', methods=['POST'])
@@ -235,6 +232,7 @@ def health_check():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
+
 
 
 
