@@ -712,17 +712,15 @@
         <nav class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <div class="logo">Quickgenai.in</div>
-                <button class="sidebar-toggle" onclick="toggleSidebar()">
-                    <i class="fas fa-chevron-left"></i>
-                </button>
+               
             </div>
             <div class="sidebar-nav">
                 <button class="nav-item active" onclick="showTool('text-generator')">
                     <i class="fas fa-pen"></i>
                     <span class="nav-text">Text Generator</span>
-                </button>
-                
-                    <span class="nav-text">Code Generator</span>
+                <button class="nav-item" onclick="showTool('code-generator')">
+                    <i class="fas fa-code"></i>
+                    <span class="nav-text">Code Helper</span>
                 </button>
                 <button class="nav-item" onclick="showTool('chatbot')">
                     <i class="fas fa-robot"></i>
@@ -1688,15 +1686,7 @@
     }
   </style>
 </head>
-<body>
-  <div class="container">
-    <div class="flex-container">
-      <div class="flex-item">Box 1</div>
-      <div class="flex-item">Box 2</div>
-      <div class="flex-item">Box 3</div>
-    </div>
-  </div>
-</body>
+
   
 <!-- JavaScript for toggle -->
 <script>
