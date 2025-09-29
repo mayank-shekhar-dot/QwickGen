@@ -28,6 +28,7 @@
 
   <!-- ✅ Favicon -->
   <link rel="icon" href="https://mayank-shekhar-dot.github.io/QwickGen/templates/logo.png.png" type="assets/x-icon" />
+  <link rel="shortcut icon" href="https://mayank-shekhar-dot.github.io/QwickGen/templates/logo.png.png" type="image/x-icon">
 
   <!-- ✅ Structured Data (JSON-LD for Google Rich Snippets) -->
   <script type="application/ld+json">
@@ -58,6 +59,8 @@
   <!-- ✅ Google AdSense Script (Recommended for Ads) -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3467938689807252"
      crossorigin="anonymous"></script>
+
+  
 </head>
 
 <body>
@@ -1651,7 +1654,90 @@
 }
 </style>
 
+<style>/* ✅ Global Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
+/* ✅ Responsive layout */
+img, video {
+  max-width: 100%;
+  height: auto;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px; /* limits width on large screens */
+  margin: auto;
+  padding: 15px;
+}
+
+/* ✅ Text and elements scale well */
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+}
+
+/* ✅ Responsive grid system */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.col {
+  flex: 1;
+  min-width: 250px; /* stacks below this width */
+}
+
+/* ✅ Navigation responsive */
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  background: #333;
+}
+
+nav a {
+  color: white;
+  padding: 10px 15px;
+  text-decoration: none;
+}
+
+nav a:hover {
+  background: #444;
+}
+
+/* ✅ Media Queries */
+@media (max-width: 992px) {
+  .container {
+    padding: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .row {
+    flex-direction: column; /* stack items */
+  }
+
+  nav {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 14px; /* smaller text for small devices */
+  }
+  nav a {
+    padding: 8px 10px;
+  }
+}
+</style>
+  
 <!-- JavaScript for toggle -->
 <script>
 function toggleContent(id) {
