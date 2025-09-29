@@ -60,13 +60,9 @@
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3467938689807252"
      crossorigin="anonymous"></script>
 
-  
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
-<body>
-  <!-- Your Quick Gen website content goes here -->
-  
-</body>
 </html>
 
 
@@ -1654,89 +1650,54 @@
 }
 </style>
 
-<style>/* ✅ Global Reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+  <style>
+    /* ✅ 2. Relative Units Example */
+    .container {
+      width: 90%;       /* Flexible instead of fixed px */
+      max-width: 1200px;
+      margin: auto;
+    }
 
-/* ✅ Responsive layout */
-img, video {
-  max-width: 100%;
-  height: auto;
-}
+    /* ✅ 3. Media Queries for Responsiveness */
+    body {
+      font-size: 16px;
+    }
+    @media (min-width: 768px) {
+      body { font-size: 18px; }
+    }
+    @media (min-width: 1024px) {
+      body { font-size: 20px; }
+    }
 
-.container {
-  width: 100%;
-  max-width: 1200px; /* limits width on large screens */
-  margin: auto;
-  padding: 15px;
-}
+    /* ✅ 4. Flexible Images & Videos */
+    img, video {
+      max-width: 100%;
+      height: auto;
+    }
 
-/* ✅ Text and elements scale well */
-body {
-  font-family: Arial, sans-serif;
-  line-height: 1.6;
-}
-
-/* ✅ Responsive grid system */
-.row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-}
-
-.col {
-  flex: 1;
-  min-width: 250px; /* stacks below this width */
-}
-
-/* ✅ Navigation responsive */
-nav {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  background: #333;
-}
-
-nav a {
-  color: white;
-  padding: 10px 15px;
-  text-decoration: none;
-}
-
-nav a:hover {
-  background: #444;
-}
-
-/* ✅ Media Queries */
-@media (max-width: 992px) {
-  .container {
-    padding: 10px;
-  }
-}
-
-@media (max-width: 768px) {
-  .row {
-    flex-direction: column; /* stack items */
-  }
-
-  nav {
-    flex-direction: column;
-    align-items: center;
-  }
-}
-
-@media (max-width: 480px) {
-  body {
-    font-size: 14px; /* smaller text for small devices */
-  }
-  nav a {
-    padding: 8px 10px;
-  }
-}
-</style>
+    /* ✅ 5. Flexbox/Grid Layout */
+    .flex-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .flex-item {
+      flex: 1 1 300px;   /* grow shrink basis */
+      background: #f4f4f4;
+      padding: 20px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="flex-container">
+      <div class="flex-item">Box 1</div>
+      <div class="flex-item">Box 2</div>
+      <div class="flex-item">Box 3</div>
+    </div>
+  </div>
+</body>
   
 <!-- JavaScript for toggle -->
 <script>
