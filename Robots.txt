@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mayank-shekhar-dot.github.io/QwickGen/sitemap.xml
