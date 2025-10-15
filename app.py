@@ -34,7 +34,7 @@ IMAGE_STYLES = {
 
 @app.route('/')
 def serve_frontend():
-    return send_from_directory('templates', 'index.html')
+    return send_from_directory('pages', 'index.html')
 
     
 @app.route('/api/generate-text', methods=['POST'])
@@ -231,6 +231,7 @@ def health_check():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
+
 
 
 
