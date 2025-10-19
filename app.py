@@ -125,22 +125,28 @@ def chat():
 @app.route('/api/generate-code', methods=['POST'])
 def generate_code():
     try:
-        data = request.get_json(force=True)
-        prompt = data.get('prompt', '')
-        language = data.get('language', 'python')
+        data = request.json
+        prompt = data.get('prompt','')
+        language = data.get('language','python')
+        history = data.get('history', [])
 
-        system_prompt = f"You are Ghostwriter, an expert {language} developer. Return only production-ready code, without extra explanation."
+        system_prompt = (
+            f"You are Ghostwriter, an expert {language} developer and web designer. "
+            "Always return only code in the best possible format without extra explanation. "
+            "Provide production-ready websites with modern UI, animations, responsive design, or "
+            "clean, well-commented Python/other code."
+        )
 
-        generated_code = call_together_ai(prompt, model=TOGETHER_MODELS["code"], system_message=system_prompt)
+        conversation = f"System: {system_prompt}\n\n"
+        for turn in history[-10:]:
+            conversation += f"User: {turn.get('user','')}\nAssistant: {turn.get('assistant','')}\n"
+        conversation += f"User: {prompt}\nAssistant:"
 
-        return jsonify({
-            "success": True,
-            "content": generated_code,
-            "language": language
-        })
+        generated_code = call_together_ai(conversation, model="mistralai/Mixtral-8x7B-Instruct-v0.1", system_message=system_prompt)
 
+        return jsonify({"success": True, "content": generated_code, "language": language})
     except Exception as e:
-        logging.exception("Code generation failed")
+        logging.error(f"Code generation error: {str(e)}")
         return jsonify({"success": False, "error": str(e)}), 500
 
 # ----------------------------
@@ -204,4 +210,5 @@ def health_check():
 # ----------------------------
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
+
 
