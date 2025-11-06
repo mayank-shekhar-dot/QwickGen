@@ -1,63 +1,46 @@
 import os
 import logging
-import json
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import requests
 
-# Configure logging
 logging.basicConfig(level=logging.DEBUG)
 
-# Initialize Flask app
-app = Flask(__name__)
+app = Flask(__name__, static_folder='pages')
 app.secret_key = os.environ.get("SESSION_SECRET", "qwikgen-secret-key-2025")
 CORS(app)
 
-# Together AI API configuration
-TOGETHER_API_KEY = os.environ.get("TOGETHER_API_KEY", "21c340b3fdc58cf97d62c7c111a4b599c0824e335b5f7a9268460581cb719ba1")
+TOGETHER_API_KEY = os.environ.get("TOGETHER_API_KEY", "<YOUR_KEY>")
 TOGETHER_API_URL = "https://api.together.xyz/v1/chat/completions"
 
-# AI Models
 TOGETHER_MODELS = {
     "text": "mistralai/Mixtral-8x7B-Instruct-v0.1",
     "code": "meta-llama/Llama-3-8b-chat-hf",
     "chat": "mistralai/Mixtral-8x7B-Instruct-v0.1"
 }
 
-# ----------------------------
-# Helper function to call Together AI API
-# ----------------------------
 def call_together_ai(prompt, model="mistralai/Mixtral-8x7B-Instruct-v0.1", system_message="You are a helpful AI assistant."):
     try:
-        headers = {
-            "Authorization": f"Bearer {TOGETHER_API_KEY}",
-            "Content-Type": "application/json",
-        }
-        data = {
-            "model": model,
-            "messages": [
-                {"role": "system", "content": system_message},
-                {"role": "user", "content": prompt}
-            ],
-            "max_tokens": 1000,
-            "temperature": 0.7,
-            "top_p": 0.7
-        }
+        headers = {"Authorization": f"Bearer {TOGETHER_API_KEY}", "Content-Type": "application/json"}
+        data = {"model": model, "messages":[{"role":"system","content":system_message},{"role":"user","content":prompt}],
+                "max_tokens":1000,"temperature":0.7,"top_p":0.7}
         response = requests.post(TOGETHER_API_URL, headers=headers, json=data)
         response.raise_for_status()
-        result = response.json()
-        return result["choices"][0]["message"]["content"]
+        return response.json()["choices"][0]["message"]["content"]
     except Exception as e:
         logging.error(f"Together AI API error: {str(e)}")
         return f"AI service temporarily unavailable: {str(e)}"
 
-# ----------------------------
-# Frontend
-# ----------------------------
-@app.route('/')
-def serve_index():
-    return send_from_directory('pages', 'index.html')
+# Serve frontend
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def serve_pages(path):
+    if path != "" and os.path.exists(os.path.join(app.static_folder, path)):
+        return send_from_directory(app.static_folder, path)
+    else:
+        return send_from_directory(app.static_folder, 'index.html')
 
+# ---------------- API ROUTES ----------------
 # ----------------------------
 # Text Generation
 # ----------------------------
@@ -210,4 +193,5 @@ def health_check():
 # ----------------------------
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
+
 
