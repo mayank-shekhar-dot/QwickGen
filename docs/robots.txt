@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://mayank-shekhar-dot.github.io/QwickGen/sitemap.xml
+Sitemap: https://quickgenai.in/sitemap.xml
