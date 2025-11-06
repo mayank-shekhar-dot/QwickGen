@@ -1,7 +1,7 @@
 import os
 import logging
 import json
-from flask import Flask, request, jsonify, send_file, abort
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import requests
 
@@ -55,12 +55,8 @@ def call_together_ai(prompt, model="mistralai/Mixtral-8x7B-Instruct-v0.1", syste
 # Frontend
 # ----------------------------
 @app.route('/')
-def home():
-    index_path = os.path.join(BASE_DIR, 'index.html')
-    if os.path.exists(index_path):
-        return send_file(index_path)
-    else:
-        abort(404)
+def serve_index():
+    return send_from_directory('.', 'index.html')
 
 
 # ----------------------------
@@ -203,3 +199,4 @@ def health_check():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
+
