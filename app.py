@@ -10,7 +10,7 @@ app = Flask(__name__, static_folder='pages')
 app.secret_key = os.environ.get("SESSION_SECRET", "qwikgen-secret-key-2025")
 CORS(app)
 
-TOGETHER_API_KEY = os.environ.get("TOGETHER_API_KEY", "<YOUR_KEY>")
+TOGETHER_API_KEY = os.environ.get("TOGETHER_API_KEY", "21c340b3fdc58cf97d62c7c111a4b599c0824e335b5f7a9268460581cb719ba1")
 TOGETHER_API_URL = "https://api.together.xyz/v1/chat/completions"
 
 TOGETHER_MODELS = {
@@ -193,5 +193,6 @@ def health_check():
 # ----------------------------
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
+
 
 
