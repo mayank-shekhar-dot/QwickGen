@@ -1,12 +1,15 @@
 import os
 import logging
 import json
-from flask import Flask, send_file, abort
+from flask import Flask, request, jsonify, send_file, abort
 from flask_cors import CORS
 import requests
 
 # Configure logging
 logging.basicConfig(level=logging.DEBUG)
+
+# Define BASE_DIR so Flask can find files in root
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -17,16 +20,12 @@ CORS(app)
 TOGETHER_API_KEY = os.environ.get("TOGETHER_API_KEY", "21c340b3fdc58cf97d62c7c111a4b599c0824e335b5f7a9268460581cb719ba1")
 TOGETHER_API_URL = "https://api.together.xyz/v1/chat/completions"
 
-# AI Models
 TOGETHER_MODELS = {
     "text": "mistralai/Mixtral-8x7B-Instruct-v0.1",
     "code": "meta-llama/Llama-3-8b-chat-hf",
     "chat": "mistralai/Mixtral-8x7B-Instruct-v0.1"
 }
 
-# ----------------------------
-# Helper function to call Together AI API
-# ----------------------------
 def call_together_ai(prompt, model="mistralai/Mixtral-8x7B-Instruct-v0.1", system_message="You are a helpful AI assistant."):
     try:
         headers = {
@@ -51,10 +50,10 @@ def call_together_ai(prompt, model="mistralai/Mixtral-8x7B-Instruct-v0.1", syste
         logging.error(f"Together AI API error: {str(e)}")
         return f"AI service temporarily unavailable: {str(e)}"
 
+
 # ----------------------------
 # Frontend
 # ----------------------------
-# Serve index.html
 @app.route('/')
 def home():
     index_path = os.path.join(BASE_DIR, 'index.html')
@@ -62,6 +61,7 @@ def home():
         return send_file(index_path)
     else:
         abort(404)
+
 
 # ----------------------------
 # Text Generation
@@ -82,19 +82,14 @@ def generate_text():
         else:
             system_prompt = "You are a helpful AI assistant. Give accurate, concise responses."
 
-        full_prompt = f"{prompt}"
+        generated_text = call_together_ai(prompt, model=TOGETHER_MODELS["text"], system_message=system_prompt)
 
-        generated_text = call_together_ai(full_prompt, model=TOGETHER_MODELS["text"], system_message=system_prompt)
-
-        return jsonify({
-            'success': True,
-            'content': generated_text,
-            'type': tool_type
-        })
+        return jsonify({'success': True, 'content': generated_text, 'type': tool_type})
 
     except Exception as e:
         logging.exception("Text generation failed")
         return jsonify({'success': False, 'error': str(e)}), 500
+
 
 # ----------------------------
 # Chat
@@ -124,6 +119,7 @@ def chat():
         logging.exception("Chat failed")
         return jsonify({"success": False, 'error': str(e)}), 500
 
+
 # ----------------------------
 # Code Generation
 # ----------------------------
@@ -137,9 +133,7 @@ def generate_code():
 
         system_prompt = (
             f"You are Ghostwriter, an expert {language} developer and web designer. "
-            "Always return only code in the best possible format without extra explanation. "
-            "Provide production-ready websites with modern UI, animations, responsive design, or "
-            "clean, well-commented Python/other code."
+            "Always return only code in the best possible format without extra explanation."
         )
 
         conversation = f"System: {system_prompt}\n\n"
@@ -154,6 +148,7 @@ def generate_code():
         logging.error(f"Code generation error: {str(e)}")
         return jsonify({"success": False, "error": str(e)}), 500
 
+
 # ----------------------------
 # Summarization
 # ----------------------------
@@ -164,14 +159,13 @@ def summarize():
         text = data.get('text', '')
 
         prompt = f"Please summarize the following text:\n\n{text}\n\nSummary:"
-
         summary = call_together_ai(prompt, model=TOGETHER_MODELS["text"], system_message="You are an expert at summarizing text.")
-
         return jsonify({'success': True, 'summary': summary})
 
     except Exception as e:
         logging.exception("Summarization failed")
         return jsonify({'success': False, 'error': str(e)}), 500
+
 
 # ----------------------------
 # Translation
@@ -185,7 +179,6 @@ def translate():
         source_language = data.get('source_language', 'English')
 
         prompt = f"Translate from {source_language} to {target_language}:\n\n{text}\n\nTranslation:"
-
         translation = call_together_ai(prompt, model=TOGETHER_MODELS["text"], system_message="You are a professional translator.")
 
         return jsonify({
@@ -199,27 +192,14 @@ def translate():
         logging.exception("Translation failed")
         return jsonify({'success': False, 'error': str(e)}), 500
 
+
 # ----------------------------
 # Health Check
 # ----------------------------
 @app.route('/api/health', methods=['GET'])
 def health_check():
-    return jsonify({
-        'status': 'healthy',
-        'service': 'QwikGen API',
-        'version': '1.0.0'
-    })
+    return jsonify({'status': 'healthy', 'service': 'QwikGen API', 'version': '1.0.0'})
 
-# ----------------------------
-# Run App
-# ----------------------------
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
-
-
-
-
-
-
-
-
