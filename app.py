@@ -56,7 +56,7 @@ def call_together_ai(prompt, model="mistralai/Mixtral-8x7B-Instruct-v0.1", syste
 # ----------------------------
 @app.route('/')
 def serve_index():
-    return send_from_directory('.', 'index.html')
+    return send_from_directory('docs', 'index.html')
 
 # ----------------------------
 # Text Generation
@@ -210,3 +210,4 @@ def health_check():
 # ----------------------------
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
+
