@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -94,8 +95,8 @@
         [data-theme="dark"] {
             --text-primary: #f9fafb;
             --text-secondary: #d1d5db;
-            --bg-primary: #111827;
-            --bg-secondary: #1f2937;
+            --bg-primary: #161616;
+            --bg-secondary: #000000;
             --bg-tertiary: #374151;
             --border-color: #374151;
         }
@@ -104,6 +105,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            border-radius: 10px;
         }
 
         body {
@@ -743,6 +745,62 @@
 
         <!-- Main Content -->
         <main class="main-content" id="mainContent">
+            <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      padding-top: 70px; /* space so content does not hide under fixed header */
+    }
+
+    /* FIXED NAVBAR */
+    .navbar {
+      background: #222;
+      color: white;
+      padding: 27px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      position: left;
+      top: 0;
+      left: 230;
+      width: 100%;
+      z-index: 1000;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+    }
+
+    .nav-links li a {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+    }
+
+    .nav-links li a:hover {
+      color: #00aaff;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <nav class="navbar">
+    
+
+      <ul class="nav-links">
+        <li><a href="#" id="home-btn">Home</a></li>
+      <li><a href="https://quickgenai.in/privacy-policy.html">Privacy Policy</a></li>
+      <li><a href="https://quickgenai.in/about-us.html">About Us</a></li>
+      <li><a href="https://quickgenai.in/contact-us.html">Contact us</a></li>
+        <li><a href="https://quickgenai.in/blogs.html">Blogs</a></li>
+      </ul>
+    </nav>
+  </header>
             <!-- Header -->
             <header class="header">
                 <button class="mobile-menu-toggle" onclick="toggleMobileSidebar()">
@@ -793,7 +851,7 @@
     }
   </style>
 </head>
-
+<img src="mayank.jpg" alt="Description of the image">
 <body>
   <div class="welcome-section">
     <!-- Centered main greeting -->
@@ -814,16 +872,58 @@
     <h1>Have fun creating, learning, and innovating!</h1>
     <h2>Dive in and start exploring QwickGen today!</h2>
   </div>
-  <P><h2>Welcome to QwickGen, a place where creative meets innovation! We are so glad you are here, no matter what race you are an artist, developer, designer, entrepreneur or even just somebody with a spruced up thought. We believe that every great idea needs to see the light of day, and we are here to do just that, as fast, easy and beautiful as possible. 
+    <img src="shekhar.jpg" alt="Description of the image">
+    <!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caprasimo&family=Parisienne&family=Science+Gothic:wght@600&display=swap" rel="stylesheet">
 
-Our mission is simple: to provide you with tools that can turn your thoughts into outcomes. From concept through creation, we want to become your trusted friend along the whole creative process. Explore our sleek tools, clever features, and hands-on resources, designed to free up your time while you ideas sit on the right platform to achieve greatness. 
+<style>
+  .custom-text {
+    font-family: 'Science Gothic', sans-serif;
+    font-size: 20px;
+    line-height: 1.8;
+    color: #ffffff;
+    padding: 30px;
+    border-radius: 20px;
+    backdrop-filter: blur(14px);
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    animation: fadeIn 1.2s ease;
+  }
 
-Don't hold back, create, test, and explore what is possible. QwickGen has been created for creators like you. For those curious minds who love to create, discover and continue to learn. If you are working on your project, you simply have an idea you want to test, or you just want to have fun and see what is possible, you will find whatever you need here.
+  .custom-text strong {
+    font-family: 'Caprasimo', serif;
+    font-size: 32px;
+    color: #ffd700;
+  }
 
-We are always curious to see what you create, and are happy to help you no matter where you are in the creative process. Your imagination has no limits- and with</h2></P>
-</body>
+  .custom-text span {
+    font-family: 'Parisienne', cursive;
+    font-size: 28px;
+  }
 
-                <!-- Text Generator -->
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+
+<div class="custom-text">
+    to QwickGen, a place where creative meets innovation! We are so glad you are here, no matter what race you are an artist, developer, designer, entrepreneur or even just somebody with a spruced up thought.</strong>
+    <br><br>
+    We believe that every great idea needs to see the light of day, and we are here to do just that, as fast, easy and beautiful as possible. Our mission is simple: to provide you with tools that can turn your thoughts into outcomes.
+    <br><br>
+    From concept through creation, we want to become your trusted friend along the whole creative process. Explore our sleek tools, clever features, and hands-on resources, designed to free up your time while your ideas sit on the right platform to achieve greatness.
+    <br><br>
+    Don't hold back — create, test, and explore what is possible. QwickGen has been created for creators like you. For those curious minds who love to create, discover, and continue to learn.
+    <br><br>
+    If you are working on your project, you simply have an idea you want to test, or you just want to have fun and see what is possible, you will find whatever you need here.
+    <br><br>
+    We are always curious to see what you create, and are happy to help you no matter where you are in the creative process. Your imagination has no limits — and with QwickGen AI, get a better experience.
+</div>
+
+
                 <section class="tool-section active" id="text-generator">
                     <div class="tool-card">
                         <div class="tool-header">
@@ -1085,14 +1185,14 @@ We are always curious to see what you create, and are happy to help you no matte
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
       padding: 0;
-      background: #fdfdfd;
-      color: #333;
+      background: linear-gradient(rgb(255, 255, 255),rgb(102, 102, 102),rgb(0, 0, 0),rgb(0, 0, 0),white,white);
+      color: linear-gradient(black,white);
     }
     header {
       background: linear-gradient(135deg, #ffffff, hsl(0, 0%, 74%));
       color: rgb(0, 0, 0);
       text-align: center;
-      padding: 50px 20px;
+      padding: -1px 10px;
     }
     header h1 { margin: 0; font-size: 2.5rem; }
     header p { font-size: 1.2rem; margin-top: 10px; }
@@ -1151,7 +1251,7 @@ We are always curious to see what you create, and are happy to help you no matte
       <div class="blog-item">
         <h2>The Role of AI in Education: Helping Students Learn Smarter</h2>
         <p>Explore how AI is revolutionizing education and helping students learn more effectively.</p>
-        <a href="https://quickgenai.in//4.html">Read More</a>
+        <a href="https://quickgenai.in/4.html">Read More</a>
       </div>
 
       <div class="blog-item">
@@ -1955,5 +2055,9 @@ function toggleContent(id) {
 }
 </script
 
+
 </body>
+
 </html>
+
+
