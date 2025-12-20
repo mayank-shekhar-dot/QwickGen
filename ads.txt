@@ -1,0 +1,6 @@
+google.com	pub-3467938689807252	DIRECT	f08c47fec0942fa0
+
+#Ads.txt quickgenai.in
+managerdomain=ezoic.ai
+contact=directsales@ezoic.com
+ezoic.ai, 6ce1c776beb559047eee4c9dba9aa951, DIRECT
