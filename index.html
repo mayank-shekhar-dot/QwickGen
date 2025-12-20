@@ -1831,6 +1831,54 @@
             </div>
         </aside>
     </div>
+      <script>
+// Ensure Ezoic standalone object exists
+window.ezstandalone = window.ezstandalone || {};
+ezstandalone.cmd = ezstandalone.cmd || [];
+
+// Refresh ads when page content changes dynamically
+function refreshAds(placeholders = []) {
+    ezstandalone.cmd.push(function () {
+        if(placeholders.length > 0){
+            ezstandalone.showAds(...placeholders); // show specific placeholders
+        } else {
+            ezstandalone.showAds(); // show all placeholders
+        }
+    });
+}
+
+// Destroy specific placeholders
+function destroyAds(placeholders = []) {
+    ezstandalone.cmd.push(function () {
+        ezstandalone.destroyPlaceholders(...placeholders);
+    });
+}
+
+// Destroy all placeholders
+function destroyAllAds() {
+    ezstandalone.cmd.push(function () {
+        ezstandalone.destroyAll();
+    });
+}
+
+// Example usage:
+
+// 1️⃣ On page load, show initial placeholders
+refreshAds([102, 103, 104]);
+
+// 2️⃣ When user scrolls or new content is loaded dynamically
+refreshAds([105, 106]);
+
+// 3️⃣ Reuse initial placeholders after some content is removed
+destroyAds([102, 103, 104]);
+refreshAds([102, 103, 104]);
+
+// 4️⃣ Show all placeholders (optional)
+refreshAds();
+
+// 5️⃣ Remove all placeholders (optional)
+destroyAllAds();
+      </script>
 
     <script>
         // Global variables
@@ -2450,6 +2498,7 @@ function toggleContent(id) {
 </body>
 
 </html>
+
 
 
 
