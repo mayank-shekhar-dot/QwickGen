@@ -72,10 +72,10 @@ import os
 def serve(path):
     # Serve static files if they exist
     if path and os.path.isfile(path):
-        return send_from_directory('.', path)
+        return send_from_directory('docs', path)
 
     # Always fallback to root index.html
-    return send_from_directory('.', 'index.html')
+    return send_from_directory('docs', 'index.html')
 
     
 # ----------------------------
@@ -230,6 +230,7 @@ def health_check():
 # ----------------------------
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
+
 
 
 
