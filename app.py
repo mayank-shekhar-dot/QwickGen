@@ -64,33 +64,19 @@ def call_together_ai(prompt, model="mistralai/Mixtral-8x7B-Instruct-v0.1",
 # ----------------------------
 # Serve static files / index.html
 # ----------------------------
+from flask import send_from_directory
+import os
+
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def serve(path):
-    # Serve root index.html
-    if path == '' or path == 'index.html':
-        return send_from_directory('.', 'index.html')
-
-    # Serve docs/index.html
-    if path.startswith('docs'):
-        file_path = path.replace('docs/', '')
-        if file_path == '' or file_path.endswith('/'):
-            file_path = 'index.html'
-        return send_from_directory('docs', file_path)
-
-    # Serve pages/index.html
-    if path.startswith('pages'):
-        file_path = path.replace('pages/', '')
-        if file_path == '' or file_path.endswith('/'):
-            file_path = 'index.html'
-        return send_from_directory('pages', file_path)
-
-    # Serve static files in root
-    if os.path.isfile(path):
+    # Serve static files if they exist
+    if path and os.path.isfile(path):
         return send_from_directory('.', path)
 
-    # Fallback to root index.html for SPA routing
+    # Always fallback to root index.html
     return send_from_directory('.', 'index.html')
+
     
 # ----------------------------
 # Text Generation
@@ -244,6 +230,7 @@ def health_check():
 # ----------------------------
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
+
 
 
 
