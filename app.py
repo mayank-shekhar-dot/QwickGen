@@ -1,7 +1,7 @@
 import os
 import logging
 import json
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, request, jsonify, send_from_directory, redirect
 from flask_cors import CORS
 import requests
 
@@ -77,7 +77,10 @@ def serve(path):
     # Always fallback to root index.html
     return send_from_directory('docs', 'index.html')
 
-    
+    @app.before_request
+def force_www():
+    if request.host == "quickgenai.in":
+        return redirect("https://www.quickgenai.in" + request.full_path, code=301)
 # ----------------------------
 # Text Generation
 # ----------------------------
@@ -230,6 +233,7 @@ def health_check():
 # ----------------------------
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
+
 
 
 
