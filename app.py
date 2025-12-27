@@ -78,12 +78,17 @@ import os
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def serve(path):
-    # Serve static files if they exist
+    # ❌ NEVER handle API routes here
+    if path.startswith("api/"):
+        return jsonify({"error": "API route not found"}), 404
+
+    # Serve static files
     if path and os.path.isfile(path):
         return send_from_directory('.', path)
 
-    # Always fallback to root index.html
+    # SPA fallback
     return send_from_directory('.', 'index.html')
+
 
 
 # ----------------------------
@@ -238,6 +243,7 @@ def health_check():
 # ----------------------------
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
+
 
 
 
