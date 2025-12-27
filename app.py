@@ -5,14 +5,6 @@ from flask import Flask, request, jsonify, send_from_directory, redirect
 from flask_cors import CORS
 import requests
 
-@app.before_request
-def force_www():
-    if request.host == "quickgenai.in":
-        return redirect(
-            "https://www.quickgenai.in" + request.full_path,
-            code=301
-        )
-
 # ----------------------------
 # Configure logging
 # ----------------------------
@@ -40,6 +32,14 @@ TOGETHER_MODELS = {
     "code": "meta-llama/Llama-3-8b-chat-hf",
     "chat": "mistralai/Mixtral-8x7B-Instruct-v0.1"
 }
+
+@app.before_request
+def force_www():
+    if request.host == "quickgenai.in":
+        return redirect(
+            "https://www.quickgenai.in" + request.full_path,
+            code=301
+        )
 
 # ----------------------------
 # Helper function to call Together AI API
@@ -238,6 +238,7 @@ def health_check():
 # ----------------------------
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
+
 
 
 
