@@ -1748,33 +1748,6 @@ async function callAPI(endpoint, data) {
             }
         );
 
-        // 🔴 HTTP error check
-        if (!response.ok) {
-            const text = await response.text();
-            throw new Error(`HTTP ${response.status}: ${text}`);
-        }
-
-        // 🔴 JSON check
-        const contentType = response.headers.get("content-type") || "";
-        if (!contentType.includes("application/json")) {
-            const text = await response.text();
-            throw new Error("Server returned non-JSON: " + text);
-        }
-
-        const result = await response.json();
-
-        // 🔴 API-level error
-        if (result.success === false) {
-            throw new Error(result.error || "API error");
-        }
-
-        return result;
-
-    } catch (error) {
-        console.error("❌ API call failed:", error.message);
-        throw error;
-    }
-}
 
 
         // ✅ prevent "Unexpected token <"
@@ -2173,6 +2146,7 @@ function toggleContent(id) {
 </body>
 
 </html>
+
 
 
 
