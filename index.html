@@ -487,8 +487,14 @@ body.dark .footer-bottom {
         font-size: 16px;
     }
 
-    .hero {
-        height: 50vh;
+    .hero video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;     /* force edge-to-edge */
+    height: 100%;
+    object-fit: cover;
+    display: block;   /* removes inline gaps */
     }
 
     .hero-text h1 {
