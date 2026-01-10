@@ -3,16 +3,7 @@
 <html lang="en">
 <head>
 
-  <!-- ================== EZOIC PRIVACY SCRIPTS (MUST BE FIRST) ================== -->
-<script data-cfasync="false" src="https://cmp.gatekeeperconsent.com/min.js"></script>
-<script data-cfasync="false" src="https://the.gatekeeperconsent.com/cmp.min.js"></script>
 
-<!-- ================== EZOIC HEADER SCRIPT ================== -->
-<script async src="//www.ezojs.com/ezoic/sa.min.js"></script>
-<script>
-    window.ezstandalone = window.ezstandalone || {};
-    ezstandalone.cmd = ezstandalone.cmd || [];
-</script>
 
   
   <!-- ✅ Basic SEO -->
@@ -23,62 +14,9 @@
   <meta name="keywords" content="Quick Gen ai, AI Website Generator, AI Tools, Website Builder, Artificial Intelligence, Smart Solutions, Automation, Productivity" />
   <meta name="author" content="Quick Gen ai" />
 
-  <!-- ✅ Canonical -->
-  <link rel="canonical" href="http://Quickgenai.in/" />
 
-  <!-- ✅ Open Graph / Facebook -->
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="http://Quickgenai.in/" />
-  <meta property="og:title" content="Quick Gen ai | AI Website Generator & Smart Solutions" />
-  <meta property="og:description" content="Quick Gen ai instantly creates AI-powered websites with modern design and automation features." />
-  <meta property="og:image" content="http://Quickgenai.in/assets/logo.png" />
 
-  <!-- ✅ Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:url" content="http://Quickgenai.in/" />
-  <meta name="twitter:title" content="Quick Gen ai | AI Website Generator & Smart Solutions" />
-  <meta name="twitter:description" content="Quick Gen ai helps you build AI-powered websites with smart, automated, and future-ready features." />
-  <meta name="twitter:image" content="http://Quickgenai.in/assets/logo.png" />
 
-  <!-- ✅ Favicon -->
-  <link rel="icon" href="https://quickgenai.in/logo.png.png" type="assets/x-icon" />
-  <link rel="shortcut icon" href="https://quickgenai.in/logo.png.png" type="image/x-icon">
-
-  <!-- ✅ Structured Data (JSON-LD for Google Rich Snippets) -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "Quick Gen",
-    "url": "http://Quickgenai.in",
-    "logo": "http://Quickgenai.in/assets/logo.png",
-    "sameAs": [
-      "https://www.facebook.com/quickgen",
-      "https://twitter.com/quickgenai",
-      "https://www.linkedin.com/company/quickgen"
-    ],
-    "description": "Quick Gen ai is an AI-powered website generator that builds smart, fast, and optimized websites instantly."
-  }
-  </script>
-
-  <!-- ✅ Performance & SEO Enhancements -->
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="robots" content="index, follow" />
-  <meta name="language" content="English" />
-  <meta name="revisit-after" content="7 days" />
-
-  <!-- Ezoic Site Verification -->
- <meta name="ezoic-site-verification" content="5aXqqeLRIJhOYnqJL3SkEQFyITmZ7w" />
-  
-  <!-- ✅ Google AdSense Meta Tag Verification -->
-<meta name="google-adsense-account" content="ca-pub-3467938689807252">
-
-  <!-- ✅ Google AdSense Script (Recommended for Ads) -->
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3467938689807252"
-     crossorigin="anonymous"></script>
-
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
 
 </html>
 
@@ -1800,15 +1738,44 @@ destroyAllAds();
 async function callAPI(endpoint, data) {
     try {
         const response = await fetch(
-            `https://www.quickgenai.in/api/${endpoint}`, // ✅ absolute URL
+            `https://quickgenai.onrender.com/api/${endpoint}`,
             {
-                method: 'POST',
+                method: "POST",
                 headers: {
-                    'Content-Type': 'application/json',
+                    "Content-Type": "application/json"
                 },
-                body: JSON.stringify(data),
+                body: JSON.stringify(data)
             }
         );
+
+        // 🔴 HTTP error check
+        if (!response.ok) {
+            const text = await response.text();
+            throw new Error(`HTTP ${response.status}: ${text}`);
+        }
+
+        // 🔴 JSON check
+        const contentType = response.headers.get("content-type") || "";
+        if (!contentType.includes("application/json")) {
+            const text = await response.text();
+            throw new Error("Server returned non-JSON: " + text);
+        }
+
+        const result = await response.json();
+
+        // 🔴 API-level error
+        if (result.success === false) {
+            throw new Error(result.error || "API error");
+        }
+
+        return result;
+
+    } catch (error) {
+        console.error("❌ API call failed:", error.message);
+        throw error;
+    }
+}
+
 
         // ✅ prevent "Unexpected token <"
         const contentType = response.headers.get("content-type") || "";
@@ -2206,6 +2173,7 @@ function toggleContent(id) {
 </body>
 
 </html>
+
 
 
 
