@@ -232,12 +232,6 @@
     <priority>0.8</priority>
   </url>
 
-  <url>
-    <loc>https://quickgenai.in/docs</loc>
-    <lastmod>2025-09-30</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
 
   <url>
     <loc>https://quickgenai.in/sitemap.xml</loc>
@@ -389,5 +383,20 @@
     <priority>0.8</priority>
 </url>
 
+<url>
+    <loc>https://quickgenai.in/blog.html</loc>
+    <lastmod>2025-09-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+</url>
+
+<url>
+    <loc>https://quickgenai.in/tools.html</loc>
+    <lastmod>2025-09-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+</url>
+    
 </urlset>
+
 
