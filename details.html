@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickGenAI site more details</title>
+
+    <style>
+        /* Import a font similar to Apple's SF Pro */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f5f5f7;
+            color: #1d1d1f;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ================== ADDED HEADER NAV (NEW) ================== */
+        .site-nav{
+            width:100%;
+            background:#ffffff;
+            border-bottom:1px solid #e5e7eb;
+        }
+
+        .site-nav-inner{
+            max-width:1200px;
+            margin:auto;
+            padding:14px 20px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+        }
+
+        .site-logo{
+            font-size:18px;
+            font-weight:600;
+        }
+
+        .site-links{
+            display:flex;
+            gap:22px;
+        }
+
+        .site-links a{
+            text-decoration:none;
+            color:#1d1d1f;
+            font-size:15px;
+        }
+
+        .site-links a:hover{
+            color:#007aff;
+        }
+
+        @media(max-width:768px){
+            .site-links{
+                overflow-x:auto;
+                white-space:nowrap;
+            }
+        }
+        /* ================== END HEADER NAV ================== */
+
+        header {
+            text-align: center;
+            padding: 4rem 2rem;
+            background-color: #fff;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            font-weight: 300;
+            letter-spacing: -0.02em;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease-out 0.5s forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .item {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 6rem;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .item img {
+            width: 80%;
+            max-width: 600px;
+            height: auto;
+            border-radius: 20px;
+            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.6s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            margin: 0 auto;
+        }
+
+        .item img:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .text {
+            margin-top: 2rem;
+            padding: 2rem;
+            background-color: #fff;
+            border-radius: 20px;
+            transform: translateX(-30px);
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.3s;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .item:hover .text {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .text h2 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #007aff;
+        }
+
+        .text p {
+            font-size: 1.1rem;
+            color: #86868b;
+        }
+
+        @media (max-width: 768px) {
+            header h1 { font-size: 2rem; }
+            .item { margin-bottom: 4rem; }
+            .text { padding: 1.5rem; }
+            .text h2 { font-size: 1.5rem; }
+            .item img { width: 90%; }
+        }
+
+        /* ================== ADDED FOOTER (NEW) ================== */
+        footer{
+            background:#ffffff;
+            border-top:1px solid #e5e7eb;
+            text-align:center;
+            padding:2rem;
+            color:#6e6e73;
+        }
+
+        footer a{
+            color:#007aff;
+            text-decoration:none;
+        }
+        /* ================== END FOOTER ================== */
+    </style>
+</head>
+
+<body>
+
+<!-- NEW TOP NAV HEADER -->
+<div class="site-nav">
+    <div class="site-nav-inner">
+        <div class="site-logo">QuickGenAI</div>
+        <div class="site-links">
+            <a href="index.html">Home</a>
+            <a href="blog.html">Blog</a>
+            <a href="about-us.html">About</a>
+            <a href="contact-us.html">Contact</a>
+        </div>
+    </div>
+</div>
+
+<!-- YOUR ORIGINAL HEADER (UNCHANGED) -->
+<header>
+    <h1>Details</h1>
+</header>
+
+<main>
+    <!-- Section 1 -->
+    <section class="item">
+        <img src="100.jpg" alt="All-in-One AI Platform">
+        <div class="text">
+            <h2>All-in-One AI Platform</h2>
+            <p>Our website brings multiple AI tools together in one place, eliminating the need to switch between different platforms.</p>
+        </div>
+    </section>
+
+    <!-- Section 2 -->
+    <section class="item">
+        <img src="99.jpg" alt="AI Code Generator">
+        <div class="text">
+            <h2>AI Code Generator</h2>
+            <p>Generate clean, readable, and efficient code snippets for multiple programming languages to speed up development and learning.</p>
+        </div>
+    </section>
+
+    <!-- Section 3 -->
+    <section class="item">
+        <img src="98.jpg" alt="AI Text Generator">
+        <div class="text">
+            <h2>AI Text Generator</h2>
+            <p>Create high-quality text content for blogs, descriptions, ideas, and creative writing with human-like clarity.</p>
+        </div>
+    </section>
+
+    <!-- Section 4 -->
+    <section class="item">
+        <img src="97.jpg" alt="AI Chatbot">
+        <div class="text">
+            <h2>AI Chatbot</h2>
+            <p>An intelligent chatbot that helps users ask questions, solve problems, and get instant responses in natural language.</p>
+        </div>
+    </section>
+
+    <!-- Section 5 -->
+    <section class="item">
+        <img src="96.jpg" alt="AI Text Summarizer">
+        <div class="text">
+            <h2>AI Text Summarizer</h2>
+            <p>Summarize long articles, documents, or notes into short, meaningful insights without losing key information.</p>
+        </div>
+    </section>
+
+    <!-- Section 6 -->
+    <section class="item">
+        <img src="95.jpg" alt="AI Translator">
+        <div class="text">
+            <h2>AI Translator</h2>
+            <p>Translate text between multiple languages accurately while maintaining natural sentence structure.</p>
+        </div>
+    </section>
+
+    <!-- Section 7 -->
+    <section class="item">
+        <img src="94.jpg" alt="40+ AI Blogs">
+        <div class="text">
+            <h2>40+ AI Blogs</h2>
+            <p>Our platform hosts 40+ in-depth AI blogs covering tools, trends, tutorials, and real-world applications.</p>
+        </div>
+    </section>
+
+    <!-- Section 8 -->
+    <section class="item">
+        <img src="93.jpg" alt="100% Human-Written Content">
+        <div class="text">
+            <h2>100% Human-Written Content</h2>
+            <p>All blog articles are fully human-written, not auto-generated, ensuring originality, trust, and readability.</p>
+        </div>
+    </section>
+
+    <!-- Section 9 -->
+    <section class="item">
+        <img src="92.jpg" alt="Beginner-Friendly Explanations">
+        <div class="text">
+            <h2>Beginner-Friendly Explanations</h2>
+            <p>Complex AI topics are explained in simple language so beginners and non-technical users can understand easily.</p>
+        </div>
+    </section>
+
+    <!-- Section 10 -->
+    <section class="item">
+        <img src="91.jpg" alt="Developer-Focused Insights">
+        <div class="text">
+            <h2>Developer-Focused Insights</h2>
+            <p>Advanced blogs and tools designed specifically for developers, creators, and tech enthusiasts.</p>
+        </div>
+    </section>
+
+    <!-- Section 11 -->
+    <section class="item">
+        <img src="90.jpg" alt="Regular Content Updates">
+        <div class="text">
+            <h2>Regular Content Updates</h2>
+            <p>We continuously update tools and blogs to stay aligned with the latest AI advancements.</p>
+        </div>
+    </section>
+
+    <!-- Section 12 -->
+    <section class="item">
+        <img src="89.jpg" alt="Clean & Distraction-Free Design">
+        <div class="text">
+            <h2>Clean & Distraction-Free Design</h2>
+            <p>Minimal, Apple-inspired UI focused on content clarity and smooth user experience.</p>
+        </div>
+    </section>
+
+    <!-- Section 13 -->
+    <section class="item">
+        <img src="85.jpg" alt="SEO-Optimized Blogs">
+        <div class="text">
+            <h2>SEO-Optimized Blogs</h2>
+            <p>All articles are written with SEO best practices to ensure better visibility on search engines.</p>
+        </div>
+    </section>
+
+    <!-- Section 14 -->
+    <section class="item">
+        <img src="87.jpg" alt="Privacy-First Approach">
+        <div class="text">
+            <h2>Privacy-First Approach</h2>
+            <p>User data and inputs are handled responsibly with a focus on privacy and transparency.</p>
+        </div>
+    </section>
+
+    <!-- Section 15 -->
+    <section class="item">
+        <img src="86.jpg" alt="Learning + Productivity Combined">
+        <div class="text">
+            <h2>Learning + Productivity Combined</h2>
+            <p>Our platform is built to help users learn AI concepts while also boosting daily productivity using practical tools.</p>
+        </div>
+    </section>
+</main>
+
+<!-- NEW FOOTER -->
+<!-- FOOTER -->
+<footer>
+    <div class="footer-inner">
+        <!-- Brand Info -->
+        <div class="footer-brand">
+            <h3>QuickGenAI</h3>
+            <p>Independent research and analysis on artificial intelligence systems, ethics, and human-centered design.</p>
+        </div>
+
+        <!-- Footer Links -->
+        <div class="footer-links">
+            <div>
+                <h4>Explore</h4>
+                <a href="index.html">Home</a>
+                <a href="blog.html">Blogs</a>
+                <a href="tools.html">AI Tools</a>
+            </div>
+            <div>
+                <h4>Company</h4>
+                <a href="about-us.html">About</a>
+                <a href="contact-us.html">Contact</a>
+                <a href="privacy-policy.html">Privacy Policy</a>
+                <a href="terms.html">Terms and condition</a>
+                <a href="disclaimer.html">Disclaimer</a>
+            </div>
+            <div>
+                <h4>Company</h4>
+                <a href="blog20.html">AI Research</a>
+                <a href="blog21.html">AI Ethics</a>
+                <a href="blog22.html">Future AI</a>
+                <a href="blog23.html">AI UX</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Note -->
+    <div class="footer-bottom">
+        &copy; 2026 QuickGenAI. All rights reserved.
+    </div>
+</footer>
+
+<style>
+/* FOOTER STYLES */
+footer {
+    background-color: #fff;
+    border-top: 1px solid #e5e7eb;
+    padding: 50px 30px 20px;
+    font-family: 'Inter', sans-serif;
+    color: #1d1d1f;
+}
+
+.footer-inner {
+    max-width: 1200px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1.5fr 2fr;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.footer-brand h3 {
+    font-size: 1.8rem;
+    margin-bottom: 12px;
+}
+
+.footer-brand p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #6b7280;
+}
+
+.footer-links {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 30px;
+}
+
+.footer-links h4 {
+    margin-bottom: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1d1d1f;
+}
+
+.footer-links a {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+    text-decoration: none;
+    color: #6b7280;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: #007aff;
+}
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 40px;
+    font-size: 0.85rem;
+    color: #6b7280;
+}
+
+/* Responsive Footer */
+@media (max-width: 768px) {
+    .footer-inner {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 30px;
+    }
+
+    .footer-links {
+        grid-template-columns: 1fr 1fr;
+        justify-items: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-links {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
+</style>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const items = document.querySelectorAll('.item');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+    items.forEach(item => observer.observe(item));
+});
+</script>
+
+</body>
+</html>
