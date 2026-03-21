@@ -39,42 +39,36 @@ def force_www():
 def call_nvidia_ai(messages, model="google/gemma-2-2b-it", temperature=0.2, max_tokens=1024):
     """
     NVIDIA Gemma 2.x rules:
-    - Roles must alternate: user → assistant → user → assistant
+    - Roles must alternate: user -> assistant -> user -> assistant ...
     - Last message must be 'user'
     """
     try:
-        # Remove empty contents
+        # Remove empty messages
         msgs = [m for m in messages if m.get("content")]
 
-        # Fix alternation
+        # Ensure alternation and last message is 'user'
         fixed_msgs = []
         last_role = None
         for m in msgs:
             role = m["role"]
             content = m["content"]
 
+            # First message can be system
             if last_role is None:
-                # First message can be system or user
                 fixed_msgs.append({"role": role, "content": content})
                 last_role = role
                 continue
 
-            # Alternate roles
+            # Skip consecutive duplicate roles
             if role == last_role:
-                # Skip duplicate role or convert system->user
-                if role == "system":
-                    fixed_msgs.append({"role": "user", "content": content})
-                    last_role = "user"
-                else:
-                    # skip duplicate user/user or assistant/assistant
-                    continue
-            else:
-                fixed_msgs.append({"role": role, "content": content})
-                last_role = role
+                # Only skip assistant/assistant or user/user
+                continue
+            fixed_msgs.append({"role": role, "content": content})
+            last_role = role
 
-        # Ensure last message is 'user'
+        # Ensure last message is user
         if fixed_msgs[-1]["role"] != "user":
-            fixed_msgs.append({"role": "user", "content": "..."})
+            raise ValueError("Last message role must be 'user'.")
 
         completion = client.chat.completions.create(
             model=model,
@@ -123,27 +117,27 @@ def generate_text():
 def chat():
     try:
         data = request.get_json(force=True)
-        message = data.get('message', '')
-        history = data.get('history', [])
+        message = data.get("message", "")
+        history = data.get("history", [])
 
-        # Start with system instruction
-        messages = [{"role": "system", "content": "You are ChatGPT, a helpful, friendly, conversational AI assistant."}]
+        # System instruction
+        messages = [{"role": "system", "content": "You are ChatGPT, a helpful AI assistant."}]
 
-        # Add previous conversation alternating roles
+        # Alternate previous conversation
         for turn in history[-10:]:
             if turn.get("user"):
                 messages.append({"role": "user", "content": turn["user"]})
             if turn.get("assistant"):
                 messages.append({"role": "assistant", "content": turn["assistant"]})
 
-        # Add latest user message
+        # Last message must be user
         messages.append({"role": "user", "content": message})
 
         ai_response = call_nvidia_ai(messages)
         return jsonify({"success": True, "response": ai_response})
     except Exception as e:
         logging.exception("Chat failed")
-        return jsonify({"success": False, 'error': str(e)}), 500
+        return jsonify({"success": False, "error": str(e)}), 500
 
 # ----------------------------
 # Code Generation
@@ -152,9 +146,9 @@ def chat():
 def generate_code():
     try:
         data = request.get_json(force=True)
-        prompt = data.get('prompt', '')
-        language = data.get('language', 'python')
-        history = data.get('history', [])
+        prompt = data.get("prompt", "")
+        language = data.get("language", "python")
+        history = data.get("history", [])
 
         messages = [{"role": "system", "content": f"You are Ghostwriter, an expert {language} developer. Return only code without extra explanation."}]
         for turn in history[-10:]:
@@ -177,16 +171,16 @@ def generate_code():
 def summarize():
     try:
         data = request.get_json(force=True)
-        text = data.get('text', '')
+        text = data.get("text", "")
         messages = [
             {"role": "system", "content": "You are an expert summarizer."},
             {"role": "user", "content": f"Summarize the following text:\n{text}"}
         ]
         summary = call_nvidia_ai(messages)
-        return jsonify({'success': True, 'summary': summary})
+        return jsonify({"success": True, "summary": summary})
     except Exception as e:
         logging.exception("Summarization failed")
-        return jsonify({'success': False, 'error': str(e)}), 500
+        return jsonify({"success": False, "error": str(e)}), 500
 
 # ----------------------------
 # Translation
@@ -195,9 +189,9 @@ def summarize():
 def translate():
     try:
         data = request.get_json(force=True)
-        text = data.get('text', '')
-        source_language = data.get('source_language', 'English')
-        target_language = data.get('target_language', 'Hindi')
+        text = data.get("text", "")
+        source_language = data.get("source_language", "English")
+        target_language = data.get("target_language", "Hindi")
 
         messages = [
             {"role": "system", "content": "You are a professional translator."},
@@ -205,14 +199,14 @@ def translate():
         ]
         translation = call_nvidia_ai(messages)
         return jsonify({
-            'success': True,
-            'translation': translation,
-            'source_language': source_language,
-            'target_language': target_language
+            "success": True,
+            "translation": translation,
+            "source_language": source_language,
+            "target_language": target_language
         })
     except Exception as e:
         logging.exception("Translation failed")
-        return jsonify({'success': False, 'error': str(e)}), 500
+        return jsonify({"success": False, "error": str(e)}), 500
 
 # ----------------------------
 # Health Check
@@ -220,13 +214,13 @@ def translate():
 @app.route('/api/health', methods=['GET'])
 def health_check():
     return jsonify({
-        'status': 'healthy',
-        'service': 'QwikGen API',
-        'version': '3.0.0'
+        "status": "healthy",
+        "service": "QwikGen API",
+        "version": "3.0.0"
     })
 
 # ----------------------------
 # Run App
 # ----------------------------
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000, debug=True)
