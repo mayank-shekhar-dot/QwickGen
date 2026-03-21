@@ -3,7 +3,7 @@ import logging
 import json
 from flask import Flask, request, jsonify, redirect
 from flask_cors import CORS
-import requests
+import requestsn
 
 # ----------------------------
 # Configure logging
@@ -18,12 +18,20 @@ app.secret_key = os.environ.get("SESSION_SECRET", "qwikgen-secret-key-2025")
 CORS(app)
 
 # ----------------------------
-# GEMINI AI API configuration
+# Together AI API configuration
 # ----------------------------
-GEMINI_API_KEY = os.environ.get("AIzaSyCkIDmZCMSnL6ecJR1SDyaslk0n0MBcgYM")
+TOGETHER_API_KEY = os.environ.get(
+    "TOGETHER_API_KEY",
+    "tgp_v1_ZwtfDHAtFLu9U6k1aegS5y6oivU25CUbaCGhYvlmM0M"
+)
+TOGETHER_API_URL = "https://api.together.xyz/v1/chat/completions"
 
-GEMINI_API_URL = f"https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key={GEMINI_API_KEY}"
-
+# AI Models
+TOGETHER_MODELS = {
+    "text": "mistralai/Mixtral-8x7B-Instruct-v0.1",
+    "code": "meta-llama/Llama-3-8b-chat-hf",
+    "chat": "mistralai/Mixtral-8x7B-Instruct-v0.1"
+}
 
 @app.before_request
 def force_www():
@@ -36,49 +44,31 @@ def force_www():
 # ----------------------------
 # Helper function to call Together AI API
 # ----------------------------
-def call_gemini(prompt, system_message="You are a helpful AI assistant."):
+def call_together_ai(prompt, model="mistralai/Mixtral-8x7B-Instruct-v0.1",
+                     system_message="You are a helpful AI assistant."):
     try:
         headers = {
-            "Content-Type": "application/json"
+            "Authorization": f"Bearer {TOGETHER_API_KEY}",
+            "Content-Type": "application/json",
         }
-
         data = {
-            "contents": [
-                {
-                    "parts": [
-                        {"text": f"{system_message}\n\n{prompt}"}
-                    ]
-                }
-            ]
+            "model": model,
+            "messages": [
+                {"role": "system", "content": system_message},
+                {"role": "user", "content": prompt}
+            ],
+            "max_tokens": 1000,
+            "temperature": 0.7,
+            "top_p": 0.7
         }
-
-        response = requests.post(
-            GEMINI_API_URL,
-            headers=headers,
-            json=data,
-            timeout=15
-        )
-
-        # 🔥 DEBUG (VERY IMPORTANT)
-        print("STATUS:", response.status_code)
-        print("RESPONSE:", response.text)
-
-        if response.status_code != 200:
-            return f"API ERROR: {response.text}"
-
+        response = requests.post(TOGETHER_API_URL, headers=headers, json=data)
+        response.raise_for_status()
         result = response.json()
-
-        if "candidates" in result and result["candidates"]:
-            parts = result["candidates"][0].get("content", {}).get("parts", [])
-            for part in parts:
-                if "text" in part:
-                    return part["text"]
-
-        return "No response from AI"
-
+        return result["choices"][0]["message"]["content"]
     except Exception as e:
-        print("ERROR:", str(e))
-        return "AI service unavailable"
+        logging.error(f"Together AI API error: {str(e)}")
+        return f"AI service temporarily unavailable: {str(e)}"
+
 # ----------------------------
 # Serve static files / index.html
 # ----------------------------
@@ -92,31 +82,32 @@ def call_gemini(prompt, system_message="You are a helpful AI assistant."):
 @app.route('/api/generate-text', methods=['POST'])
 def generate_text():
     try:
-        data = request.get_json(force=True) or {}
-        prompt = data.get('prompt', '').strip()
+        data = request.get_json(force=True)
+        prompt = data.get('prompt', '')
         tool_type = data.get('type', 'general')
 
-        if not prompt:
-            return jsonify({'success': False, 'error': 'Prompt is required'}), 400
+        if tool_type == 'blog':
+            system_prompt = "You are a professional blog writer. Write clear, engaging blogs."
+        elif tool_type == 'email':
+            system_prompt = "You are an expert at writing professional emails."
+        elif tool_type == 'startup':
+            system_prompt = "You are a startup advisor. Give practical startup ideas."
+        else:
+            system_prompt = "You are a helpful AI assistant. Give accurate, concise responses."
 
-        system_prompt = {
-            'blog': "You are a professional blog writer. Write clear, engaging blogs.",
-            'email': "You are an expert at writing professional emails.",
-            'startup': "You are a startup advisor. Give practical startup ideas."
-        }.get(tool_type, "You are a helpful AI assistant. Give accurate, concise responses.")
+        full_prompt = f"{prompt}"
 
-        result = call_gemini(prompt, system_message=system_prompt)
+        generated_text = call_together_ai(full_prompt, model=TOGETHER_MODELS["text"], system_message=system_prompt)
 
         return jsonify({
             'success': True,
-            'content': result,
+            'content': generated_text,
             'type': tool_type
         })
 
     except Exception as e:
         logging.exception("Text generation failed")
-        return jsonify({'success': False, 'error': 'Internal server error'}), 500
-
+        return jsonify({'success': False, 'error': str(e)}), 500
 
 # ----------------------------
 # Chat
@@ -124,31 +115,27 @@ def generate_text():
 @app.route('/api/chat', methods=['POST'])
 def chat():
     try:
-        data = request.get_json(force=True) or {}
-        message = data.get('message', '').strip()
+        data = request.get_json(force=True)
+        message = data.get('message', '')
         history = data.get('history', [])
 
-        if not message:
-            return jsonify({'success': False, 'error': 'Message is required'}), 400
-
         system_prompt = (
-            "You are a helpful, friendly AI assistant. "
-            "Give clear and useful responses."
+            "You are ChatGPT, a helpful, friendly, and conversational AI assistant. "
+            "Answer clearly, explain step by step if useful."
         )
 
-        conversation = f"{system_prompt}\n\n"
+        conversation = f"System: {system_prompt}\n\n"
         for turn in history[-10:]:
-            conversation += f"User: {turn.get('user','')}\nAssistant: {turn.get('assistant','')}\n"
+            conversation += f"User: {turn.get('user', '')}\nAssistant: {turn.get('assistant', '')}\n"
         conversation += f"User: {message}\nAssistant:"
 
-        result = call_gemini(conversation)
+        ai_response = call_together_ai(conversation, model=TOGETHER_MODELS["chat"], system_message=system_prompt)
 
-        return jsonify({"success": True, "response": result})
+        return jsonify({"success": True, "response": ai_response})
 
     except Exception as e:
         logging.exception("Chat failed")
-        return jsonify({"success": False, 'error': 'Internal server error'}), 500
-
+        return jsonify({"success": False, 'error': str(e)}), 500
 
 # ----------------------------
 # Code Generation
@@ -156,32 +143,29 @@ def chat():
 @app.route('/api/generate-code', methods=['POST'])
 def generate_code():
     try:
-        data = request.get_json(force=True) or {}
-        prompt = data.get('prompt','').strip()
+        data = request.json
+        prompt = data.get('prompt','')
         language = data.get('language','python')
         history = data.get('history', [])
 
-        if not prompt:
-            return jsonify({'success': False, 'error': 'Prompt is required'}), 400
-
         system_prompt = (
-            f"You are an expert {language} developer. "
-            "Return only clean, production-ready code without explanation."
+            f"You are Ghostwriter, an expert {language} developer and web designer. "
+            "Always return only code in the best possible format without extra explanation. "
+            "Provide production-ready websites with modern UI, animations, responsive design, or "
+            "clean, well-commented Python/other code."
         )
 
-        conversation = f"{system_prompt}\n\n"
+        conversation = f"System: {system_prompt}\n\n"
         for turn in history[-10:]:
             conversation += f"User: {turn.get('user','')}\nAssistant: {turn.get('assistant','')}\n"
         conversation += f"User: {prompt}\nAssistant:"
 
-        result = call_gemini(conversation)
+        generated_code = call_together_ai(conversation, model="mistralai/Mixtral-8x7B-Instruct-v0.1", system_message=system_prompt)
 
-        return jsonify({"success": True, "content": result, "language": language})
-
+        return jsonify({"success": True, "content": generated_code, "language": language})
     except Exception as e:
         logging.error(f"Code generation error: {str(e)}")
-        return jsonify({"success": False, "error": 'Internal server error'}), 500
-
+        return jsonify({"success": False, "error": str(e)}), 500
 
 # ----------------------------
 # Summarization
@@ -189,22 +173,18 @@ def generate_code():
 @app.route('/api/summarize', methods=['POST'])
 def summarize():
     try:
-        data = request.get_json(force=True) or {}
-        text = data.get('text', '').strip()
+        data = request.get_json(force=True)
+        text = data.get('text', '')
 
-        if not text:
-            return jsonify({'success': False, 'error': 'Text is required'}), 400
+        prompt = f"Please summarize the following text:\n\n{text}\n\nSummary:"
 
-        prompt = f"Summarize this:\n\n{text}"
+        summary = call_together_ai(prompt, model=TOGETHER_MODELS["text"], system_message="You are an expert at summarizing text.")
 
-        result = call_gemini(prompt)
-
-        return jsonify({'success': True, 'summary': result})
+        return jsonify({'success': True, 'summary': summary})
 
     except Exception as e:
         logging.exception("Summarization failed")
-        return jsonify({'success': False, 'error': 'Internal server error'}), 500
-
+        return jsonify({'success': False, 'error': str(e)}), 500
 
 # ----------------------------
 # Translation
@@ -212,28 +192,36 @@ def summarize():
 @app.route('/api/translate', methods=['POST'])
 def translate():
     try:
-        data = request.get_json(force=True) or {}
-        text = data.get('text', '').strip()
+        data = request.get_json(force=True)
+        text = data.get('text', '')
         target_language = data.get('target_language', 'Hindi')
         source_language = data.get('source_language', 'English')
 
-        if not text:
-            return jsonify({'success': False, 'error': 'Text is required'}), 400
+        prompt = f"Translate from {source_language} to {target_language}:\n\n{text}\n\nTranslation:"
 
-        prompt = f"Translate from {source_language} to {target_language}:\n\n{text}"
-
-        result = call_gemini(prompt)
+        translation = call_together_ai(prompt, model=TOGETHER_MODELS["text"], system_message="You are a professional translator.")
 
         return jsonify({
             'success': True,
-            'translation': result,
+            'translation': translation,
             'source_language': source_language,
             'target_language': target_language
         })
 
     except Exception as e:
         logging.exception("Translation failed")
-        return jsonify({'success': False, 'error': 'Internal server error'}), 500
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+# ----------------------------
+# Health Check
+# ----------------------------
+@app.route('/api/health', methods=['GET'])
+def health_check():
+    return jsonify({
+        'status': 'healthy',
+        'service': 'QwikGen API',
+        'version': '1.0.0'
+    })
 
 # ----------------------------
 # Run App
