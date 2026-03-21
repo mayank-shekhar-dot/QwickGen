@@ -38,11 +38,10 @@ def force_www():
 # ----------------------------
 def call_nvidia_ai(messages, model="google/gemma-2-27b-it", temperature=0.2, max_tokens=1024):
     try:
-        # Ensure all messages use role "user"
-        sanitized_messages = [{"role": "user", "content": m["content"]} for m in messages if m.get("content")]
+        # Messages must alternate user/assistant
         completion = client.chat.completions.create(
             model=model,
-            messages=sanitized_messages,
+            messages=messages,
             temperature=temperature,
             top_p=0.7,
             max_tokens=max_tokens
@@ -71,7 +70,10 @@ def generate_text():
         else:
             instruction = f"You are a helpful AI assistant. Respond accurately to:\n{prompt}"
 
-        messages = [{"role": "user", "content": instruction}]
+        messages = [
+            {"role": "user", "content": instruction}
+        ]
+
         generated_text = call_nvidia_ai(messages)
         return jsonify({'success': True, 'content': generated_text, 'type': tool_type})
     except Exception as e:
@@ -88,12 +90,16 @@ def chat():
         message = data.get('message', '')
         history = data.get('history', [])
 
+        # Always start with system instruction as user for Gemma
         messages = [{"role": "user", "content": "You are ChatGPT, a helpful, friendly, conversational AI assistant."}]
+
+        # Append previous chat with alternating roles
         for turn in history[-10:]:
             if turn.get('user'):
                 messages.append({"role": "user", "content": turn.get('user')})
             if turn.get('assistant'):
-                messages.append({"role": "user", "content": turn.get('assistant')})
+                messages.append({"role": "assistant", "content": turn.get('assistant')})
+
         messages.append({"role": "user", "content": message})
 
         ai_response = call_nvidia_ai(messages)
@@ -113,12 +119,15 @@ def generate_code():
         language = data.get('language', 'python')
         history = data.get('history', [])
 
-        messages = [{"role": "user", "content": f"You are Ghostwriter, an expert {language} developer. Return only code in the best possible format without extra explanation. Prompt:\n{prompt}"}]
+        messages = [
+            {"role": "user", "content": f"You are Ghostwriter, an expert {language} developer. Return only code in the best possible format without extra explanation. Prompt:\n{prompt}"}
+        ]
+
         for turn in history[-10:]:
             if turn.get('user'):
                 messages.append({"role": "user", "content": turn.get('user')})
             if turn.get('assistant'):
-                messages.append({"role": "user", "content": turn.get('assistant')})
+                messages.append({"role": "assistant", "content": turn.get('assistant')})
 
         generated_code = call_nvidia_ai(messages)
         return jsonify({"success": True, "content": generated_code, "language": language})
@@ -134,7 +143,11 @@ def summarize():
     try:
         data = request.get_json(force=True)
         text = data.get('text', '')
-        messages = [{"role": "user", "content": f"You are an expert summarizer. Summarize the following text:\n{text}"}]
+
+        messages = [
+            {"role": "user", "content": f"You are an expert summarizer. Summarize the following text:\n{text}"}
+        ]
+
         summary = call_nvidia_ai(messages)
         return jsonify({'success': True, 'summary': summary})
     except Exception as e:
@@ -152,7 +165,10 @@ def translate():
         source_language = data.get('source_language', 'English')
         target_language = data.get('target_language', 'Hindi')
 
-        messages = [{"role": "user", "content": f"You are a professional translator. Translate the following text from {source_language} to {target_language}:\n{text}"}]
+        messages = [
+            {"role": "user", "content": f"You are a professional translator. Translate the following text from {source_language} to {target_language}:\n{text}"}
+        ]
+
         translation = call_nvidia_ai(messages)
         return jsonify({
             'success': True,
