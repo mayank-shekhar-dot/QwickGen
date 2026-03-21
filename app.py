@@ -20,9 +20,9 @@ CORS(app)
 # ----------------------------
 # GEMINI AI API configuration
 # ----------------------------
-GEMINI_API_KEY = "AIzaSyCkIDmZCMSnL6ecJR1SDyaslk0n0MBcgYM"
+GEMINI_API_KEY = os.environ.get("AIzaSyCkIDmZCMSnL6ecJR1SDyaslk0n0MBcgYM")
 
-GEMINI_API_URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key={GEMINI_API_KEY}"
+GEMINI_API_URL = f"https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key={GEMINI_API_KEY}"
 
 
 @app.before_request
@@ -45,11 +45,8 @@ def call_gemini(prompt, system_message="You are a helpful AI assistant."):
         data = {
             "contents": [
                 {
-                    "role": "user",
                     "parts": [
-                        {
-                            "text": f"{system_message}\n\n{prompt}"
-                        }
+                        {"text": f"{system_message}\n\n{prompt}"}
                     ]
                 }
             ]
@@ -62,23 +59,25 @@ def call_gemini(prompt, system_message="You are a helpful AI assistant."):
             timeout=15
         )
 
+        # 🔥 DEBUG (VERY IMPORTANT)
+        print("STATUS:", response.status_code)
+        print("RESPONSE:", response.text)
+
         if response.status_code != 200:
-            logging.error(f"API ERROR {response.status_code}: {response.text}")
-            return "AI service unavailable"
+            return f"API ERROR: {response.text}"
 
         result = response.json()
 
-        # ✅ safe extraction
         if "candidates" in result and result["candidates"]:
             parts = result["candidates"][0].get("content", {}).get("parts", [])
-            if parts and "text" in parts[0]:
-                return parts[0]["text"]
+            for part in parts:
+                if "text" in part:
+                    return part["text"]
 
-        logging.warning(f"Unexpected response: {result}")
-        return "AI response error"
+        return "No response from AI"
 
     except Exception as e:
-        logging.error(f"Gemini error: {str(e)}")
+        print("ERROR:", str(e))
         return "AI service unavailable"
 # ----------------------------
 # Serve static files / index.html
@@ -142,7 +141,7 @@ def chat():
             conversation += f"User: {turn.get('user','')}\nAssistant: {turn.get('assistant','')}\n"
         conversation += f"User: {message}\nAssistant:"
 
-        result = call_gemini(conversation, system_message=system_prompt)
+        result = call_gemini(conversation)
 
         return jsonify({"success": True, "response": result})
 
