@@ -1,7 +1,7 @@
 import logging
 from flask import Flask, request, jsonify, redirect
 from flask_cors import CORS
-from nvidia_genai import Client  # NVIDIA SDK
+from openai import OpenAI
 
 # ----------------------------
 # Configure logging
@@ -16,10 +16,12 @@ app.secret_key = "qwikgen-secret-key-2025"
 CORS(app)
 
 # ----------------------------
-# NVIDIA API configuration
+# NVIDIA Gemma API configuration (OpenAI-compatible client)
 # ----------------------------
 NV_API_KEY = "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"
-client = Client(api_key=NV_API_KEY)
+NV_API_URL = "https://integrate.api.nvidia.com/v1"
+
+client = OpenAI(base_url=NV_API_URL, api_key=NV_API_KEY)
 
 # ----------------------------
 # Redirect to www (optional)
@@ -37,13 +39,14 @@ def force_www():
 # ----------------------------
 def call_nvidia_ai(messages, model="google/gemma-2-27b-it", temperature=0.2, max_tokens=1024):
     try:
-        completion = client.chat(
+        completion = client.chat.completions.create(
             model=model,
             messages=messages,
             temperature=temperature,
-            max_output_tokens=max_tokens
+            top_p=0.7,
+            max_tokens=max_tokens
         )
-        return completion.output_text
+        return completion.choices[0].message.content
     except Exception as e:
         logging.error(f"NVIDIA API error: {str(e)}")
         return f"AI service temporarily unavailable: {str(e)}"
