@@ -18,7 +18,7 @@ app.secret_key = os.environ.get("SESSION_SECRET", "qwikgen-secret-key-2025")
 CORS(app)
 
 # ----------------------------
-# Together AI API configuration
+# GEMINI AI API configuration
 # ----------------------------
 GEMINI_API_KEY = "AIzaSyCkIDmZCMSnL6ecJR1SDyaslk0n0MBcgYM"
 
@@ -41,7 +41,6 @@ def call_gemini(prompt, system_message="You are a helpful AI assistant."):
             "Content-Type": "application/json",
         }
 
-        # Cleaner prompt format
         full_prompt = f"{system_message}\n\n{prompt}"
 
         data = {
@@ -58,46 +57,32 @@ def call_gemini(prompt, system_message="You are a helpful AI assistant."):
             GEMINI_API_URL,
             headers=headers,
             json=data,
-            timeout=10  # prevents hanging
+            timeout=10
         )
 
-        response.raise_for_status()
+        # 🔥 DEBUG (important)
+        if response.status_code != 200:
+            logging.error(f"Status Code: {response.status_code}")
+            logging.error(f"Response: {response.text}")
+            return f"API Error: {response.text}"
+
         result = response.json()
 
-        # ✅ Safe response extraction
-        if "candidates" in result and len(result["candidates"]) > 0:
-            parts = result["candidates"][0].get("content", {}).get("parts", [])
-            if parts and "text" in parts[0]:
-                return parts[0]["text"]
+        if "candidates" in result:
+            return result["candidates"][0]["content"]["parts"][0]["text"]
 
-        # fallback if structure is unexpected
-        logging.warning(f"Unexpected Gemini response: {result}")
-        return "AI response not available right now."
-
-    except requests.exceptions.Timeout:
-        logging.error("Gemini API timeout")
-        return "AI service is slow right now. Try again."
-
-    except requests.exceptions.RequestException as e:
-        logging.error(f"Gemini API request error: {str(e)}")
-        return "AI service temporarily unavailable."
+        return "No response from AI."
 
     except Exception as e:
-        logging.error(f"Unexpected error: {str(e)}")
-        return "Something went wrong. Please try again."
-
+        logging.error(f"Gemini error: {str(e)}")
+        return f"Error: {str(e)}"
 # ----------------------------
 # Serve static files / index.html
 # ----------------------------
 
 
 
-# ----------------------------
-# Text Generation
-# ----------------------------
-# ----------------------------
-# Text Generation
-# ----------------------------
+
 # ----------------------------
 # Text Generation
 # ----------------------------
