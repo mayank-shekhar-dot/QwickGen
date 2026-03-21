@@ -1,9 +1,7 @@
-import os
 import logging
-import json
 from flask import Flask, request, jsonify, redirect
 from flask_cors import CORS
-import requests
+import openai
 
 # ----------------------------
 # Configure logging
@@ -14,75 +12,44 @@ logging.basicConfig(level=logging.DEBUG)
 # Initialize Flask app
 # ----------------------------
 app = Flask(__name__, static_folder='.')
-app.secret_key = os.environ.get("SESSION_SECRET", "qwikgen-secret-key-2025")
+app.secret_key = "qwikgen-secret-key-2025"
 CORS(app)
 
 # ----------------------------
-# Gemini API configuration
+# OpenAI API configuration
 # ----------------------------
-GEMINI_API_KEY = "AIzaSyCkIDmZCMSnL6ecJR1SDyaslk0n0MBcgYM"
-GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateText"
+OPENAI_API_KEY = "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"
+openai.api_key = OPENAI_API_KEY
 
 # ----------------------------
-# WWW redirect for GET requests
+# Redirect to www (optional)
 # ----------------------------
 @app.before_request
 def force_www():
-    if request.method == "GET" and request.host == "quickgenai.in":
+    if request.host == "quickgenai.in":
         return redirect(
             "https://www.quickgenai.in" + request.full_path,
-            code=302  # temporary redirect, keeps POST safe
+            code=301
         )
 
 # ----------------------------
-# Helper function to call Gemini API
+# Helper function to call OpenAI ChatGPT API
 # ----------------------------
-def call_gemini(prompt, system_message="You are a helpful AI assistant.", max_tokens=512):
+def call_openai_api(prompt, model="gpt-3.5-turbo", system_message="You are a helpful AI assistant.", max_tokens=1000, temperature=0.7):
     try:
-        headers = {"Content-Type": "application/json"}
-        full_prompt = f"{system_message}\n\n{prompt}"
-
-        data = {
-            "prompt": {"text": full_prompt},
-            "temperature": 0.7,
-            "maxOutputTokens": max_tokens
-        }
-
-        response = requests.post(
-            f"{GEMINI_API_URL}?key={GEMINI_API_KEY}",
-            headers=headers,
-            json=data,
-            timeout=20
+        response = openai.ChatCompletion.create(
+            model=model,
+            messages=[
+                {"role": "system", "content": system_message},
+                {"role": "user", "content": prompt}
+            ],
+            max_tokens=max_tokens,
+            temperature=temperature
         )
-
-        response.raise_for_status()
-        result = response.json()
-
-        # Extract text safely
-        if "candidates" in result and len(result["candidates"]) > 0:
-            return result["candidates"][0].get("output", "")
-        
-        logging.warning(f"Unexpected Gemini response: {result}")
-        return "AI response not available right now."
-
-    except requests.exceptions.Timeout:
-        logging.error("Gemini API timeout")
-        return "AI service is slow right now. Try again."
-
-    except requests.exceptions.RequestException as e:
-        logging.error(f"Gemini API request error: {str(e)}")
-        return "AI service temporarily unavailable."
-
+        return response.choices[0].message.content.strip()
     except Exception as e:
-        logging.error(f"Unexpected error: {str(e)}")
-        return "Something went wrong. Please try again."
-
-# ----------------------------
-# Serve index.html
-# ----------------------------
-@app.route('/')
-def index():
-    return app.send_static_file('index.html')
+        logging.error(f"OpenAI API error: {str(e)}")
+        return f"AI service temporarily unavailable: {str(e)}"
 
 # ----------------------------
 # Text Generation
@@ -90,26 +57,30 @@ def index():
 @app.route('/api/generate-text', methods=['POST'])
 def generate_text():
     try:
-        data = request.get_json(force=True) or {}
-        prompt = data.get('prompt', '').strip()
+        data = request.get_json(force=True)
+        prompt = data.get('prompt', '')
         tool_type = data.get('type', 'general')
 
-        if not prompt:
-            return jsonify({'success': False, 'error': 'Prompt is required'}), 400
+        if tool_type == 'blog':
+            system_prompt = "You are a professional blog writer. Write clear, engaging blogs."
+        elif tool_type == 'email':
+            system_prompt = "You are an expert at writing professional emails."
+        elif tool_type == 'startup':
+            system_prompt = "You are a startup advisor. Give practical startup ideas."
+        else:
+            system_prompt = "You are a helpful AI assistant. Give accurate, concise responses."
 
-        system_prompt = {
-            'blog': "You are a professional blog writer. Write clear, engaging blogs.",
-            'email': "You are an expert at writing professional emails.",
-            'startup': "You are a startup advisor. Give practical startup ideas."
-        }.get(tool_type, "You are a helpful AI assistant. Give accurate, concise responses.")
+        generated_text = call_openai_api(prompt, model="gpt-3.5-turbo", system_message=system_prompt)
 
-        result = call_gemini(prompt, system_message=system_prompt)
-
-        return jsonify({'success': True, 'content': result, 'type': tool_type})
+        return jsonify({
+            'success': True,
+            'content': generated_text,
+            'type': tool_type
+        })
 
     except Exception as e:
         logging.exception("Text generation failed")
-        return jsonify({'success': False, 'error': 'Internal server error'}), 500
+        return jsonify({'success': False, 'error': str(e)}), 500
 
 # ----------------------------
 # Chat
@@ -117,27 +88,34 @@ def generate_text():
 @app.route('/api/chat', methods=['POST'])
 def chat():
     try:
-        data = request.get_json(force=True) or {}
-        message = data.get('message', '').strip()
+        data = request.get_json(force=True)
+        message = data.get('message', '')
         history = data.get('history', [])
 
-        if not message:
-            return jsonify({'success': False, 'error': 'Message is required'}), 400
+        system_prompt = "You are ChatGPT, a helpful, friendly, and conversational AI assistant."
 
-        system_prompt = "You are a helpful, friendly AI assistant. Give clear and useful responses."
-
-        conversation = f"{system_prompt}\n\n"
+        messages = [{"role": "system", "content": system_prompt}]
+        # Include last 10 messages from history
         for turn in history[-10:]:
-            conversation += f"User: {turn.get('user','')}\nAssistant: {turn.get('assistant','')}\n"
-        conversation += f"User: {message}\nAssistant:"
+            if "user" in turn:
+                messages.append({"role": "user", "content": turn["user"]})
+            if "assistant" in turn:
+                messages.append({"role": "assistant", "content": turn["assistant"]})
+        messages.append({"role": "user", "content": message})
 
-        result = call_gemini(conversation)
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=messages,
+            max_tokens=1000,
+            temperature=0.7
+        )
 
-        return jsonify({"success": True, "response": result})
+        ai_response = response.choices[0].message.content.strip()
+        return jsonify({"success": True, "response": ai_response})
 
     except Exception as e:
         logging.exception("Chat failed")
-        return jsonify({"success": False, 'error': 'Internal server error'}), 500
+        return jsonify({"success": False, 'error': str(e)}), 500
 
 # ----------------------------
 # Code Generation
@@ -145,28 +123,36 @@ def chat():
 @app.route('/api/generate-code', methods=['POST'])
 def generate_code():
     try:
-        data = request.get_json(force=True) or {}
-        prompt = data.get('prompt','').strip()
+        data = request.get_json(force=True)
+        prompt = data.get('prompt','')
         language = data.get('language','python')
         history = data.get('history', [])
 
-        if not prompt:
-            return jsonify({'success': False, 'error': 'Prompt is required'}), 400
+        system_prompt = (
+            f"You are Ghostwriter, an expert {language} developer and web designer. "
+            "Always return only code in the best possible format without extra explanation."
+        )
 
-        system_prompt = f"You are an expert {language} developer. Return only clean, production-ready code without explanation."
-
-        conversation = f"{system_prompt}\n\n"
+        messages = [{"role": "system", "content": system_prompt}]
         for turn in history[-10:]:
-            conversation += f"User: {turn.get('user','')}\nAssistant: {turn.get('assistant','')}\n"
-        conversation += f"User: {prompt}\nAssistant:"
+            if "user" in turn:
+                messages.append({"role": "user", "content": turn["user"]})
+            if "assistant" in turn:
+                messages.append({"role": "assistant", "content": turn["assistant"]})
+        messages.append({"role": "user", "content": prompt})
 
-        result = call_gemini(conversation, max_tokens=1024)
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=messages,
+            max_tokens=1000,
+            temperature=0.7
+        )
 
-        return jsonify({"success": True, "content": result, "language": language})
-
+        generated_code = response.choices[0].message.content.strip()
+        return jsonify({"success": True, "content": generated_code, "language": language})
     except Exception as e:
         logging.error(f"Code generation error: {str(e)}")
-        return jsonify({"success": False, "error": 'Internal server error'}), 500
+        return jsonify({"success": False, "error": str(e)}), 500
 
 # ----------------------------
 # Summarization
@@ -174,21 +160,17 @@ def generate_code():
 @app.route('/api/summarize', methods=['POST'])
 def summarize():
     try:
-        data = request.get_json(force=True) or {}
-        text = data.get('text', '').strip()
+        data = request.get_json(force=True)
+        text = data.get('text', '')
 
-        if not text:
-            return jsonify({'success': False, 'error': 'Text is required'}), 400
+        prompt = f"Please summarize the following text:\n\n{text}\n\nSummary:"
+        summary = call_openai_api(prompt, model="gpt-3.5-turbo", system_message="You are an expert at summarizing text.")
 
-        prompt = f"Summarize this:\n\n{text}"
-
-        result = call_gemini(prompt)
-
-        return jsonify({'success': True, 'summary': result})
+        return jsonify({'success': True, 'summary': summary})
 
     except Exception as e:
         logging.exception("Summarization failed")
-        return jsonify({'success': False, 'error': 'Internal server error'}), 500
+        return jsonify({'success': False, 'error': str(e)}), 500
 
 # ----------------------------
 # Translation
@@ -196,28 +178,35 @@ def summarize():
 @app.route('/api/translate', methods=['POST'])
 def translate():
     try:
-        data = request.get_json(force=True) or {}
-        text = data.get('text', '').strip()
+        data = request.get_json(force=True)
+        text = data.get('text', '')
         target_language = data.get('target_language', 'Hindi')
         source_language = data.get('source_language', 'English')
 
-        if not text:
-            return jsonify({'success': False, 'error': 'Text is required'}), 400
-
-        prompt = f"Translate from {source_language} to {target_language}:\n\n{text}"
-
-        result = call_gemini(prompt)
+        prompt = f"Translate from {source_language} to {target_language}:\n\n{text}\n\nTranslation:"
+        translation = call_openai_api(prompt, model="gpt-3.5-turbo", system_message="You are a professional translator.")
 
         return jsonify({
             'success': True,
-            'translation': result,
+            'translation': translation,
             'source_language': source_language,
             'target_language': target_language
         })
 
     except Exception as e:
         logging.exception("Translation failed")
-        return jsonify({'success': False, 'error': 'Internal server error'}), 500
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+# ----------------------------
+# Health Check
+# ----------------------------
+@app.route('/api/health', methods=['GET'])
+def health_check():
+    return jsonify({
+        'status': 'healthy',
+        'service': 'QwikGen API (OpenAI)',
+        'version': '1.0.0'
+    })
 
 # ----------------------------
 # Run App
