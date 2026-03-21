@@ -3,7 +3,7 @@ import logging
 import json
 from flask import Flask, request, jsonify, redirect
 from flask_cors import CORS
-import requestsn
+import requests
 
 # ----------------------------
 # Configure logging
@@ -226,9 +226,8 @@ def health_check():
 # ----------------------------
 # Run App
 # ----------------------------
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
-
+port = int(os.environ.get("PORT", 5000))
+app.run(host='0.0.0.0', port=port)
 
 
 
