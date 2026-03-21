@@ -1,7 +1,7 @@
 import logging
 from flask import Flask, request, jsonify, redirect
 from flask_cors import CORS
-import openai
+from openai import OpenAI
 
 # ----------------------------
 # Configure logging
@@ -16,29 +16,29 @@ app.secret_key = "qwikgen-secret-key-2025"
 CORS(app)
 
 # ----------------------------
-# OpenAI API configuration
+# OpenAI API configuration (new SDK >=1.0.0)
 # ----------------------------
-OPENAI_API_KEY = "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"
-openai.api_key = OPENAI_API_KEY
+OPENAI_API_KEY = "sk-proj-YOUR_API_KEY_HERE"
+client = OpenAI(api_key=OPENAI_API_KEY)
 
 # ----------------------------
 # Redirect to www (optional)
 # ----------------------------
 @app.before_request
 def force_www():
-    if request.host == "quickgenai.in":
+    if request.method == "GET" and request.host == "quickgenai.in":
         return redirect(
             "https://www.quickgenai.in" + request.full_path,
-            code=301
+            code=302
         )
 
 # ----------------------------
-# Helper function to call OpenAI ChatGPT API
+# Helper function to call OpenAI Chat API
 # ----------------------------
-def call_openai_api(prompt, model="gpt-3.5-turbo", system_message="You are a helpful AI assistant.", max_tokens=1000, temperature=0.7):
+def call_openai_api(prompt, system_message="You are a helpful AI assistant.", max_tokens=1000, temperature=0.7):
     try:
-        response = openai.ChatCompletion.create(
-            model=model,
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
             messages=[
                 {"role": "system", "content": system_message},
                 {"role": "user", "content": prompt}
@@ -49,7 +49,14 @@ def call_openai_api(prompt, model="gpt-3.5-turbo", system_message="You are a hel
         return response.choices[0].message.content.strip()
     except Exception as e:
         logging.error(f"OpenAI API error: {str(e)}")
-        return f"AI service temporarily unavailable: {str(e)}"
+        return "AI service temporarily unavailable."
+
+# ----------------------------
+# Serve index.html
+# ----------------------------
+@app.route('/')
+def index():
+    return app.send_static_file('index.html')
 
 # ----------------------------
 # Text Generation
@@ -70,7 +77,7 @@ def generate_text():
         else:
             system_prompt = "You are a helpful AI assistant. Give accurate, concise responses."
 
-        generated_text = call_openai_api(prompt, model="gpt-3.5-turbo", system_message=system_prompt)
+        generated_text = call_openai_api(prompt, system_message=system_prompt)
 
         return jsonify({
             'success': True,
@@ -92,10 +99,9 @@ def chat():
         message = data.get('message', '')
         history = data.get('history', [])
 
-        system_prompt = "You are ChatGPT, a helpful, friendly, and conversational AI assistant."
+        system_prompt = "You are ChatGPT, a helpful, friendly AI assistant."
 
         messages = [{"role": "system", "content": system_prompt}]
-        # Include last 10 messages from history
         for turn in history[-10:]:
             if "user" in turn:
                 messages.append({"role": "user", "content": turn["user"]})
@@ -103,13 +109,12 @@ def chat():
                 messages.append({"role": "assistant", "content": turn["assistant"]})
         messages.append({"role": "user", "content": message})
 
-        response = openai.ChatCompletion.create(
+        response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=messages,
             max_tokens=1000,
             temperature=0.7
         )
-
         ai_response = response.choices[0].message.content.strip()
         return jsonify({"success": True, "response": ai_response})
 
@@ -128,10 +133,7 @@ def generate_code():
         language = data.get('language','python')
         history = data.get('history', [])
 
-        system_prompt = (
-            f"You are Ghostwriter, an expert {language} developer and web designer. "
-            "Always return only code in the best possible format without extra explanation."
-        )
+        system_prompt = f"You are Ghostwriter, an expert {language} developer. Always return only code, no explanations."
 
         messages = [{"role": "system", "content": system_prompt}]
         for turn in history[-10:]:
@@ -141,10 +143,10 @@ def generate_code():
                 messages.append({"role": "assistant", "content": turn["assistant"]})
         messages.append({"role": "user", "content": prompt})
 
-        response = openai.ChatCompletion.create(
+        response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=messages,
-            max_tokens=1000,
+            max_tokens=1500,
             temperature=0.7
         )
 
@@ -164,7 +166,7 @@ def summarize():
         text = data.get('text', '')
 
         prompt = f"Please summarize the following text:\n\n{text}\n\nSummary:"
-        summary = call_openai_api(prompt, model="gpt-3.5-turbo", system_message="You are an expert at summarizing text.")
+        summary = call_openai_api(prompt, system_message="You are an expert at summarizing text.")
 
         return jsonify({'success': True, 'summary': summary})
 
@@ -184,7 +186,7 @@ def translate():
         source_language = data.get('source_language', 'English')
 
         prompt = f"Translate from {source_language} to {target_language}:\n\n{text}\n\nTranslation:"
-        translation = call_openai_api(prompt, model="gpt-3.5-turbo", system_message="You are a professional translator.")
+        translation = call_openai_api(prompt, system_message="You are a professional translator.")
 
         return jsonify({
             'success': True,
