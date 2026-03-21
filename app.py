@@ -38,14 +38,23 @@ def force_www():
 # ----------------------------
 def call_nvidia_ai(messages, model="google/gemma-2-2b-it", temperature=0.2, max_tokens=1024):
     """
-    All messages must have proper roles:
-    - first can be system
-    - then alternate user/assistant
+    Automatically fix roles for NVIDIA Gemma:
+    - Remove system role
+    - Ensure alternation user -> assistant -> user -> assistant
     """
+    fixed_messages = []
+    role = "user"
+    for m in messages:
+        content = m.get("content")
+        if not content:
+            continue
+        fixed_messages.append({"role": role, "content": content})
+        role = "assistant" if role == "user" else "user"
+
     try:
         completion = client.chat.completions.create(
             model=model,
-            messages=messages,
+            messages=fixed_messages,
             temperature=temperature,
             top_p=0.7,
             max_tokens=max_tokens
