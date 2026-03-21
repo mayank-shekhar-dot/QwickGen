@@ -2,7 +2,6 @@ import logging
 import os
 from flask import Flask, request, jsonify, redirect
 from flask_cors import CORS
-from dotenv import load_dotenv
 from openai import OpenAI
 
 # ----------------------------
