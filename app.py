@@ -22,7 +22,8 @@ CORS(app)
 # ----------------------------
 GEMINI_API_KEY = "AIzaSyCkIDmZCMSnL6ecJR1SDyaslk0n0MBcgYM"
 
-GEMINI_API_URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={GEMINI_API_KEY}"
+GEMINI_API_URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key={GEMINI_API_KEY}"
+
 
 @app.before_request
 def force_www():
@@ -37,8 +38,6 @@ def force_www():
 # ----------------------------
 def call_gemini(prompt, system_message="You are a helpful AI assistant."):
     try:
-        url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={GEMINI_API_KEY}"
-
         headers = {
             "Content-Type": "application/json"
         }
@@ -56,26 +55,31 @@ def call_gemini(prompt, system_message="You are a helpful AI assistant."):
             ]
         }
 
-        response = requests.post(url, headers=headers, json=data, timeout=15)
+        response = requests.post(
+            GEMINI_API_URL,
+            headers=headers,
+            json=data,
+            timeout=15
+        )
 
-        # 🔥 PRINT ERROR IF ANY
         if response.status_code != 200:
-            print("❌ API ERROR:", response.status_code)
-            print(response.text)
-            return "AI service unavailable (API error)"
+            logging.error(f"API ERROR {response.status_code}: {response.text}")
+            return "AI service unavailable"
 
         result = response.json()
 
-        # ✅ SAFE PARSING
-        try:
-            return result["candidates"][0]["content"]["parts"][0]["text"]
-        except:
-            print("⚠️ Unexpected response:", result)
-            return "AI response format error"
+        # ✅ safe extraction
+        if "candidates" in result and result["candidates"]:
+            parts = result["candidates"][0].get("content", {}).get("parts", [])
+            if parts and "text" in parts[0]:
+                return parts[0]["text"]
+
+        logging.warning(f"Unexpected response: {result}")
+        return "AI response error"
 
     except Exception as e:
-        print("❌ EXCEPTION:", str(e))
-        return "AI service unavailable (exception)"
+        logging.error(f"Gemini error: {str(e)}")
+        return "AI service unavailable"
 # ----------------------------
 # Serve static files / index.html
 # ----------------------------
@@ -138,7 +142,7 @@ def chat():
             conversation += f"User: {turn.get('user','')}\nAssistant: {turn.get('assistant','')}\n"
         conversation += f"User: {message}\nAssistant:"
 
-        result = call_gemini(conversation)
+        result = call_gemini(conversation, system_message=system_prompt)
 
         return jsonify({"success": True, "response": result})
 
