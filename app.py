@@ -22,7 +22,7 @@ CORS(app)
 # ----------------------------
 TOGETHER_API_KEY = os.environ.get(
     "TOGETHER_API_KEY",
-    "tgp_v1_ZwtfDHAtFLu9U6k1aegS5y6oivU25CUbaCGhYvlmM0M"
+    "21c340b3fdc58cf97d62c7c111a4b599c0824e335b5f7a9268460581cb719ba1"
 )
 TOGETHER_API_URL = "https://api.together.xyz/v1/chat/completions"
 
