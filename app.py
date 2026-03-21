@@ -12,19 +12,20 @@ logging.basicConfig(level=logging.DEBUG)
 # Initialize Flask app
 # ----------------------------
 app = Flask(__name__, static_folder='.')
-app.secret_key = "qwikgen-secret-key-2025"
+app.secret_key = "qwikgen-secret-key-2025"  # Hardcoded secret key
 CORS(app)
 
 # ----------------------------
-# Hugging Face API configuration (hardcoded key)
+# Together AI API configuration (hardcoded key)
 # ----------------------------
-HF_API_KEY = "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"
+TOGETHER_API_KEY = "21c340b3fdc58cf97d62c7c111a4b599c0824e335b5f7a9268460581cb719ba1"
+TOGETHER_API_URL = "https://api.together.xyz/v1/chat/completions"
 
-# Default models
-HF_MODELS = {
-    "text": "gpt2",
-    "chat": "gpt2",
-    "code": "codeparrot/codeparrot-small",
+# AI Models
+TOGETHER_MODELS = {
+    "text": "mistralai/Mixtral-8x7B-Instruct-v0.1",
+    "code": "meta-llama/Llama-3-8b-chat-hf",
+    "chat": "mistralai/Mixtral-8x7B-Instruct-v0.1"
 }
 
 # ----------------------------
@@ -39,25 +40,31 @@ def force_www():
         )
 
 # ----------------------------
-# Helper function to call Hugging Face API
+# Helper function to call Together AI API
 # ----------------------------
-def call_huggingface(prompt, model="gpt2"):
+def call_together_ai(prompt, model="mistralai/Mixtral-8x7B-Instruct-v0.1",
+                     system_message="You are a helpful AI assistant."):
     try:
-        headers = {"Authorization": f"Bearer {HF_API_KEY}"}
-        data = {"inputs": prompt}
-        url = f"https://api-inference.huggingface.co/models/{model}"
-
-        response = requests.post(url, headers=headers, json=data)
+        headers = {
+            "Authorization": f"Bearer {TOGETHER_API_KEY}",
+            "Content-Type": "application/json",
+        }
+        data = {
+            "model": model,
+            "messages": [
+                {"role": "system", "content": system_message},
+                {"role": "user", "content": prompt}
+            ],
+            "max_tokens": 1000,
+            "temperature": 0.7,
+            "top_p": 0.7
+        }
+        response = requests.post(TOGETHER_API_URL, headers=headers, json=data)
         response.raise_for_status()
         result = response.json()
-
-        # Most models return a list with generated_text
-        if isinstance(result, list) and "generated_text" in result[0]:
-            return result[0]["generated_text"]
-        return str(result)
-
+        return result["choices"][0]["message"]["content"]
     except Exception as e:
-        logging.error(f"Hugging Face API error: {str(e)}")
+        logging.error(f"Together AI API error: {str(e)}")
         return f"AI service temporarily unavailable: {str(e)}"
 
 # ----------------------------
@@ -70,7 +77,16 @@ def generate_text():
         prompt = data.get('prompt', '')
         tool_type = data.get('type', 'general')
 
-        generated_text = call_huggingface(prompt, model=HF_MODELS["text"])
+        if tool_type == 'blog':
+            system_prompt = "You are a professional blog writer. Write clear, engaging blogs."
+        elif tool_type == 'email':
+            system_prompt = "You are an expert at writing professional emails."
+        elif tool_type == 'startup':
+            system_prompt = "You are a startup advisor. Give practical startup ideas."
+        else:
+            system_prompt = "You are a helpful AI assistant. Give accurate, concise responses."
+
+        generated_text = call_together_ai(prompt, model=TOGETHER_MODELS["text"], system_message=system_prompt)
 
         return jsonify({
             'success': True,
@@ -92,12 +108,14 @@ def chat():
         message = data.get('message', '')
         history = data.get('history', [])
 
-        conversation = ""
+        system_prompt = "You are ChatGPT, a helpful, friendly, and conversational AI assistant."
+
+        conversation = f"System: {system_prompt}\n\n"
         for turn in history[-10:]:
-            conversation += f"User: {turn.get('user','')}\nAssistant: {turn.get('assistant','')}\n"
+            conversation += f"User: {turn.get('user', '')}\nAssistant: {turn.get('assistant', '')}\n"
         conversation += f"User: {message}\nAssistant:"
 
-        ai_response = call_huggingface(conversation, model=HF_MODELS["chat"])
+        ai_response = call_together_ai(conversation, model=TOGETHER_MODELS["chat"], system_message=system_prompt)
 
         return jsonify({"success": True, "response": ai_response})
 
@@ -116,12 +134,17 @@ def generate_code():
         language = data.get('language','python')
         history = data.get('history', [])
 
-        conversation = ""
+        system_prompt = (
+            f"You are Ghostwriter, an expert {language} developer and web designer. "
+            "Always return only code in the best possible format without extra explanation."
+        )
+
+        conversation = f"System: {system_prompt}\n\n"
         for turn in history[-10:]:
             conversation += f"User: {turn.get('user','')}\nAssistant: {turn.get('assistant','')}\n"
         conversation += f"User: {prompt}\nAssistant:"
 
-        generated_code = call_huggingface(conversation, model=HF_MODELS["code"])
+        generated_code = call_together_ai(conversation, model="mistralai/Mixtral-8x7B-Instruct-v0.1", system_message=system_prompt)
 
         return jsonify({"success": True, "content": generated_code, "language": language})
     except Exception as e:
@@ -136,8 +159,12 @@ def summarize():
     try:
         data = request.get_json(force=True)
         text = data.get('text', '')
-        summary = call_huggingface(f"Summarize this:\n{text}", model=HF_MODELS["text"])
+
+        prompt = f"Please summarize the following text:\n\n{text}\n\nSummary:"
+        summary = call_together_ai(prompt, model=TOGETHER_MODELS["text"], system_message="You are an expert at summarizing text.")
+
         return jsonify({'success': True, 'summary': summary})
+
     except Exception as e:
         logging.exception("Summarization failed")
         return jsonify({'success': False, 'error': str(e)}), 500
@@ -153,7 +180,8 @@ def translate():
         target_language = data.get('target_language', 'Hindi')
         source_language = data.get('source_language', 'English')
 
-        translation = call_huggingface(f"Translate from {source_language} to {target_language}:\n{text}", model=HF_MODELS["text"])
+        prompt = f"Translate from {source_language} to {target_language}:\n\n{text}\n\nTranslation:"
+        translation = call_together_ai(prompt, model=TOGETHER_MODELS["text"], system_message="You are a professional translator.")
 
         return jsonify({
             'success': True,
@@ -161,6 +189,7 @@ def translate():
             'source_language': source_language,
             'target_language': target_language
         })
+
     except Exception as e:
         logging.exception("Translation failed")
         return jsonify({'success': False, 'error': str(e)}), 500
@@ -170,7 +199,11 @@ def translate():
 # ----------------------------
 @app.route('/api/health', methods=['GET'])
 def health_check():
-    return jsonify({'status': 'healthy', 'service': 'QwikGen API', 'version': '1.0.0'})
+    return jsonify({
+        'status': 'healthy',
+        'service': 'QwikGen API',
+        'version': '1.0.0'
+    })
 
 # ----------------------------
 # Run App
