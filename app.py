@@ -18,7 +18,7 @@ CORS(app)
 # ----------------------------
 # OpenAI API configuration (new SDK >=1.0.0)
 # ----------------------------
-OPENAI_API_KEY = "sk-proj-YOUR_API_KEY_HERE"
+OPENAI_API_KEY = "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"
 client = OpenAI(api_key=OPENAI_API_KEY)
 
 # ----------------------------
