@@ -1,4 +1,3 @@
-
 import os
 import logging
 import json
@@ -19,59 +18,50 @@ app.secret_key = os.environ.get("SESSION_SECRET", "qwikgen-secret-key-2025")
 CORS(app)
 
 # ----------------------------
-# Together AI API configuration
+# Gemini API configuration
 # ----------------------------
 GEMINI_API_KEY = "AIzaSyCkIDmZCMSnL6ecJR1SDyaslk0n0MBcgYM"
+GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateText"
 
-GEMINI_API_URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={GEMINI_API_KEY}"
-
+# ----------------------------
+# WWW redirect for GET requests
+# ----------------------------
 @app.before_request
 def force_www():
-    if request.host == "quickgenai.in":
+    if request.method == "GET" and request.host == "quickgenai.in":
         return redirect(
             "https://www.quickgenai.in" + request.full_path,
-            code=301
+            code=302  # temporary redirect, keeps POST safe
         )
 
 # ----------------------------
-# Helper function to call Together AI API
+# Helper function to call Gemini API
 # ----------------------------
-def call_gemini(prompt, system_message="You are a helpful AI assistant."):
+def call_gemini(prompt, system_message="You are a helpful AI assistant.", max_tokens=512):
     try:
-        headers = {
-            "Content-Type": "application/json",
-        }
-
-        # Cleaner prompt format
+        headers = {"Content-Type": "application/json"}
         full_prompt = f"{system_message}\n\n{prompt}"
 
         data = {
-            "contents": [
-                {
-                    "parts": [
-                        {"text": full_prompt}
-                    ]
-                }
-            ]
+            "prompt": {"text": full_prompt},
+            "temperature": 0.7,
+            "maxOutputTokens": max_tokens
         }
 
         response = requests.post(
-            GEMINI_API_URL,
+            f"{GEMINI_API_URL}?key={GEMINI_API_KEY}",
             headers=headers,
             json=data,
-            timeout=10  # prevents hanging
+            timeout=20
         )
 
         response.raise_for_status()
         result = response.json()
 
-        # ✅ Safe response extraction
+        # Extract text safely
         if "candidates" in result and len(result["candidates"]) > 0:
-            parts = result["candidates"][0].get("content", {}).get("parts", [])
-            if parts and "text" in parts[0]:
-                return parts[0]["text"]
-
-        # fallback if structure is unexpected
+            return result["candidates"][0].get("output", "")
+        
         logging.warning(f"Unexpected Gemini response: {result}")
         return "AI response not available right now."
 
@@ -88,17 +78,12 @@ def call_gemini(prompt, system_message="You are a helpful AI assistant."):
         return "Something went wrong. Please try again."
 
 # ----------------------------
-# Serve static files / index.html
+# Serve index.html
 # ----------------------------
+@app.route('/')
+def index():
+    return app.send_static_file('index.html')
 
-
-
-# ----------------------------
-# Text Generation
-# ----------------------------
-# ----------------------------
-# Text Generation
-# ----------------------------
 # ----------------------------
 # Text Generation
 # ----------------------------
@@ -120,16 +105,11 @@ def generate_text():
 
         result = call_gemini(prompt, system_message=system_prompt)
 
-        return jsonify({
-            'success': True,
-            'content': result,
-            'type': tool_type
-        })
+        return jsonify({'success': True, 'content': result, 'type': tool_type})
 
     except Exception as e:
         logging.exception("Text generation failed")
         return jsonify({'success': False, 'error': 'Internal server error'}), 500
-
 
 # ----------------------------
 # Chat
@@ -144,10 +124,7 @@ def chat():
         if not message:
             return jsonify({'success': False, 'error': 'Message is required'}), 400
 
-        system_prompt = (
-            "You are a helpful, friendly AI assistant. "
-            "Give clear and useful responses."
-        )
+        system_prompt = "You are a helpful, friendly AI assistant. Give clear and useful responses."
 
         conversation = f"{system_prompt}\n\n"
         for turn in history[-10:]:
@@ -161,7 +138,6 @@ def chat():
     except Exception as e:
         logging.exception("Chat failed")
         return jsonify({"success": False, 'error': 'Internal server error'}), 500
-
 
 # ----------------------------
 # Code Generation
@@ -177,24 +153,20 @@ def generate_code():
         if not prompt:
             return jsonify({'success': False, 'error': 'Prompt is required'}), 400
 
-        system_prompt = (
-            f"You are an expert {language} developer. "
-            "Return only clean, production-ready code without explanation."
-        )
+        system_prompt = f"You are an expert {language} developer. Return only clean, production-ready code without explanation."
 
         conversation = f"{system_prompt}\n\n"
         for turn in history[-10:]:
             conversation += f"User: {turn.get('user','')}\nAssistant: {turn.get('assistant','')}\n"
         conversation += f"User: {prompt}\nAssistant:"
 
-        result = call_gemini(conversation)
+        result = call_gemini(conversation, max_tokens=1024)
 
         return jsonify({"success": True, "content": result, "language": language})
 
     except Exception as e:
         logging.error(f"Code generation error: {str(e)}")
         return jsonify({"success": False, "error": 'Internal server error'}), 500
-
 
 # ----------------------------
 # Summarization
@@ -217,7 +189,6 @@ def summarize():
     except Exception as e:
         logging.exception("Summarization failed")
         return jsonify({'success': False, 'error': 'Internal server error'}), 500
-
 
 # ----------------------------
 # Translation
@@ -253,19 +224,3 @@ def translate():
 # ----------------------------
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
