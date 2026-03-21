@@ -39,9 +39,11 @@ def force_www():
 # ----------------------------
 def call_nvidia_ai(messages, model="google/gemma-2-27b-it", temperature=0.2, max_tokens=1024):
     try:
+        # All messages must have role "user" for Gemma
+        sanitized_messages = [{"role": "user", "content": m["content"]} for m in messages]
         completion = client.chat.completions.create(
             model=model,
-            messages=messages,
+            messages=sanitized_messages,
             temperature=temperature,
             top_p=0.7,
             max_tokens=max_tokens
@@ -62,16 +64,16 @@ def generate_text():
         tool_type = data.get('type', 'general')
 
         if tool_type == 'blog':
-            system_prompt = "You are a professional blog writer. Write clear, engaging blogs."
+            instruction = "You are a professional blog writer. Write clear, engaging blogs."
         elif tool_type == 'email':
-            system_prompt = "You are an expert at writing professional emails."
+            instruction = "You are an expert at writing professional emails."
         elif tool_type == 'startup':
-            system_prompt = "You are a startup advisor. Give practical startup ideas."
+            instruction = "You are a startup advisor. Give practical startup ideas."
         else:
-            system_prompt = "You are a helpful AI assistant. Give accurate, concise responses."
+            instruction = "You are a helpful AI assistant. Give accurate, concise responses."
 
         messages = [
-            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": instruction},
             {"role": "user", "content": prompt}
         ]
 
@@ -91,12 +93,11 @@ def chat():
         message = data.get('message', '')
         history = data.get('history', [])
 
-        system_prompt = "You are ChatGPT, a helpful, friendly, and conversational AI assistant."
-
-        messages = [{"role": "system", "content": system_prompt}]
+        # Use user role for all instructions
+        messages = [{"role": "user", "content": "You are ChatGPT, a helpful, friendly, conversational AI assistant."}]
         for turn in history[-10:]:
             messages.append({"role": "user", "content": turn.get('user', '')})
-            messages.append({"role": "assistant", "content": turn.get('assistant', '')})
+            messages.append({"role": "user", "content": turn.get('assistant', '')})
         messages.append({"role": "user", "content": message})
 
         ai_response = call_nvidia_ai(messages)
@@ -116,15 +117,10 @@ def generate_code():
         language = data.get('language', 'python')
         history = data.get('history', [])
 
-        system_prompt = (
-            f"You are Ghostwriter, an expert {language} developer. "
-            "Always return only code in the best possible format without extra explanation."
-        )
-
-        messages = [{"role": "system", "content": system_prompt}]
+        messages = [{"role": "user", "content": f"You are Ghostwriter, an expert {language} developer. Always return only code in the best possible format without extra explanation."}]
         for turn in history[-10:]:
             messages.append({"role": "user", "content": turn.get('user', '')})
-            messages.append({"role": "assistant", "content": turn.get('assistant', '')})
+            messages.append({"role": "user", "content": turn.get('assistant', '')})
         messages.append({"role": "user", "content": prompt})
 
         generated_code = call_nvidia_ai(messages)
@@ -143,7 +139,7 @@ def summarize():
         text = data.get('text', '')
 
         messages = [
-            {"role": "system", "content": "You are an expert at summarizing text."},
+            {"role": "user", "content": "You are an expert at summarizing text."},
             {"role": "user", "content": f"Please summarize the following text:\n\n{text}\n\nSummary:"}
         ]
 
@@ -165,7 +161,7 @@ def translate():
         source_language = data.get('source_language', 'English')
 
         messages = [
-            {"role": "system", "content": "You are a professional translator."},
+            {"role": "user", "content": "You are a professional translator."},
             {"role": "user", "content": f"Translate from {source_language} to {target_language}:\n\n{text}\n\nTranslation:"}
         ]
 
