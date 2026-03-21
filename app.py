@@ -6,69 +6,62 @@ import requests
 # ----------------------------
 # Configure logging
 # ----------------------------
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 
 # ----------------------------
 # Initialize Flask app
 # ----------------------------
 app = Flask(__name__, static_folder='.')
-app.secret_key = "qwikgen-secret-key-2025"  # Hardcoded secret key
+app.secret_key = "qwikgen-secret-key-2025"
 CORS(app)
 
 # ----------------------------
-# Together AI API configuration (hardcoded key)
+# Botpress API configuration (hardcoded for production)
 # ----------------------------
-TOGETHER_API_KEY = "21c340b3fdc58cf97d62c7c111a4b599c0824e335b5f7a9268460581cb719ba1"
-TOGETHER_API_URL = "https://api.together.xyz/v1/chat/completions"
-
-# AI Models
-TOGETHER_MODELS = {
-    "text": "mistralai/Mixtral-8x7B-Instruct-v0.1",
-    "code": "meta-llama/Llama-3-8b-chat-hf",
-    "chat": "mistralai/Mixtral-8x7B-Instruct-v0.1"
-}
+BOTPRESS_API_URL = "https://your-production-botpress.com/api/v1/bots/your-bot-id/mod/chat"
+BOTPRESS_API_KEY = "bp_pat_CkuvqQU3TGW0jySfj4zW1UhkGNbzoKvc5sXB"
 
 # ----------------------------
-# Redirect to www (optional)
+# Force HTTPS and www redirect
 # ----------------------------
 @app.before_request
-def force_www():
+def force_https_and_www():
+    url = request.url
+    if not url.startswith("https://"):
+        url = url.replace("http://", "https://", 1)
+        return redirect(url, code=301)
     if request.host == "quickgenai.in":
-        return redirect(
-            "https://www.quickgenai.in" + request.full_path,
-            code=301
-        )
+        return redirect("https://www.quickgenai.in" + request.full_path, code=301)
 
 # ----------------------------
-# Helper function to call Together AI API
+# Botpress API helper
 # ----------------------------
-def call_together_ai(prompt, model="mistralai/Mixtral-8x7B-Instruct-v0.1",
-                     system_message="You are a helpful AI assistant."):
+def call_botpress_ai(message, session_id=None):
     try:
+        payload = {
+            "text": message,
+            "sessionId": session_id or "default-session"
+        }
         headers = {
-            "Authorization": f"Bearer {TOGETHER_API_KEY}",
-            "Content-Type": "application/json",
+            "Authorization": f"Bearer {BOTPRESS_API_KEY}",
+            "Content-Type": "application/json"
         }
-        data = {
-            "model": model,
-            "messages": [
-                {"role": "system", "content": system_message},
-                {"role": "user", "content": prompt}
-            ],
-            "max_tokens": 1000,
-            "temperature": 0.7,
-            "top_p": 0.7
-        }
-        response = requests.post(TOGETHER_API_URL, headers=headers, json=data)
+
+        response = requests.post(BOTPRESS_API_URL, json=payload, headers=headers, timeout=10)
         response.raise_for_status()
         result = response.json()
-        return result["choices"][0]["message"]["content"]
+        if "responses" in result and len(result["responses"]) > 0:
+            return result["responses"][0].get("text", "")
+        return "Botpress did not return a response."
+    except requests.exceptions.Timeout:
+        logging.error("Botpress API timed out")
+        return "AI service timed out. Please try again."
     except Exception as e:
-        logging.error(f"Together AI API error: {str(e)}")
+        logging.error(f"Botpress API error: {str(e)}")
         return f"AI service temporarily unavailable: {str(e)}"
 
 # ----------------------------
-# Text Generation
+# Text generation
 # ----------------------------
 @app.route('/api/generate-text', methods=['POST'])
 def generate_text():
@@ -77,75 +70,46 @@ def generate_text():
         prompt = data.get('prompt', '')
         tool_type = data.get('type', 'general')
 
+        # Optional system prompts
         if tool_type == 'blog':
-            system_prompt = "You are a professional blog writer. Write clear, engaging blogs."
+            prompt = f"You are a professional blog writer. {prompt}"
         elif tool_type == 'email':
-            system_prompt = "You are an expert at writing professional emails."
+            prompt = f"You are an expert at writing professional emails. {prompt}"
         elif tool_type == 'startup':
-            system_prompt = "You are a startup advisor. Give practical startup ideas."
-        else:
-            system_prompt = "You are a helpful AI assistant. Give accurate, concise responses."
+            prompt = f"You are a startup advisor. {prompt}"
 
-        generated_text = call_together_ai(prompt, model=TOGETHER_MODELS["text"], system_message=system_prompt)
-
-        return jsonify({
-            'success': True,
-            'content': generated_text,
-            'type': tool_type
-        })
-
+        generated_text = call_botpress_ai(prompt)
+        return jsonify({'success': True, 'content': generated_text, 'type': tool_type})
     except Exception as e:
         logging.exception("Text generation failed")
         return jsonify({'success': False, 'error': str(e)}), 500
 
 # ----------------------------
-# Chat
+# Chat endpoint
 # ----------------------------
 @app.route('/api/chat', methods=['POST'])
 def chat():
     try:
         data = request.get_json(force=True)
         message = data.get('message', '')
-        history = data.get('history', [])
-
-        system_prompt = "You are ChatGPT, a helpful, friendly, and conversational AI assistant."
-
-        conversation = f"System: {system_prompt}\n\n"
-        for turn in history[-10:]:
-            conversation += f"User: {turn.get('user', '')}\nAssistant: {turn.get('assistant', '')}\n"
-        conversation += f"User: {message}\nAssistant:"
-
-        ai_response = call_together_ai(conversation, model=TOGETHER_MODELS["chat"], system_message=system_prompt)
-
+        session_id = data.get('session_id', None)
+        ai_response = call_botpress_ai(message, session_id=session_id)
         return jsonify({"success": True, "response": ai_response})
-
     except Exception as e:
         logging.exception("Chat failed")
         return jsonify({"success": False, 'error': str(e)}), 500
 
 # ----------------------------
-# Code Generation
+# Code generation
 # ----------------------------
 @app.route('/api/generate-code', methods=['POST'])
 def generate_code():
     try:
         data = request.get_json(force=True)
-        prompt = data.get('prompt','')
-        language = data.get('language','python')
-        history = data.get('history', [])
-
-        system_prompt = (
-            f"You are Ghostwriter, an expert {language} developer and web designer. "
-            "Always return only code in the best possible format without extra explanation."
-        )
-
-        conversation = f"System: {system_prompt}\n\n"
-        for turn in history[-10:]:
-            conversation += f"User: {turn.get('user','')}\nAssistant: {turn.get('assistant','')}\n"
-        conversation += f"User: {prompt}\nAssistant:"
-
-        generated_code = call_together_ai(conversation, model="mistralai/Mixtral-8x7B-Instruct-v0.1", system_message=system_prompt)
-
+        prompt = data.get('prompt', '')
+        language = data.get('language', 'python')
+        full_prompt = f"You are an expert {language} developer. Only return code: {prompt}"
+        generated_code = call_botpress_ai(full_prompt)
         return jsonify({"success": True, "content": generated_code, "language": language})
     except Exception as e:
         logging.error(f"Code generation error: {str(e)}")
@@ -159,12 +123,9 @@ def summarize():
     try:
         data = request.get_json(force=True)
         text = data.get('text', '')
-
-        prompt = f"Please summarize the following text:\n\n{text}\n\nSummary:"
-        summary = call_together_ai(prompt, model=TOGETHER_MODELS["text"], system_message="You are an expert at summarizing text.")
-
+        prompt = f"Summarize the following text:\n{text}"
+        summary = call_botpress_ai(prompt)
         return jsonify({'success': True, 'summary': summary})
-
     except Exception as e:
         logging.exception("Summarization failed")
         return jsonify({'success': False, 'error': str(e)}), 500
@@ -179,34 +140,27 @@ def translate():
         text = data.get('text', '')
         target_language = data.get('target_language', 'Hindi')
         source_language = data.get('source_language', 'English')
-
-        prompt = f"Translate from {source_language} to {target_language}:\n\n{text}\n\nTranslation:"
-        translation = call_together_ai(prompt, model=TOGETHER_MODELS["text"], system_message="You are a professional translator.")
-
+        prompt = f"Translate from {source_language} to {target_language}:\n{text}"
+        translation = call_botpress_ai(prompt)
         return jsonify({
             'success': True,
             'translation': translation,
             'source_language': source_language,
             'target_language': target_language
         })
-
     except Exception as e:
         logging.exception("Translation failed")
         return jsonify({'success': False, 'error': str(e)}), 500
 
 # ----------------------------
-# Health Check
+# Health check
 # ----------------------------
 @app.route('/api/health', methods=['GET'])
 def health_check():
-    return jsonify({
-        'status': 'healthy',
-        'service': 'QwikGen API',
-        'version': '1.0.0'
-    })
+    return jsonify({'status': 'healthy', 'service': 'QwikGen API (Botpress)', 'version': '1.0.0'})
 
 # ----------------------------
-# Run App
+# Run app (production-ready, no debug)
 # ----------------------------
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5000)
