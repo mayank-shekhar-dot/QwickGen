@@ -1,7 +1,10 @@
+
+import os
 import logging
+import json
 from flask import Flask, request, jsonify, redirect
 from flask_cors import CORS
-from openai import OpenAI
+import requests
 
 # ----------------------------
 # Configure logging
@@ -12,19 +15,16 @@ logging.basicConfig(level=logging.DEBUG)
 # Initialize Flask app
 # ----------------------------
 app = Flask(__name__, static_folder='.')
-app.secret_key = "qwikgen-secret-key-2026"
+app.secret_key = os.environ.get("SESSION_SECRET", "qwikgen-secret-key-2025")
 CORS(app)
 
 # ----------------------------
-# NVIDIA Gemma API configuration
+# Together AI API configuration
 # ----------------------------
-NV_API_KEY = "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"
-NV_API_URL = "https://integrate.api.nvidia.com/v1"
-client = OpenAI(base_url=NV_API_URL, api_key=NV_API_KEY)
+GEMINI_API_KEY = "AIzaSyCkIDmZCMSnL6ecJR1SDyaslk0n0MBcgYM"
 
-# ----------------------------
-# Redirect to www (optional)
-# ----------------------------
+GEMINI_API_URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={GEMINI_API_KEY}"
+
 @app.before_request
 def force_www():
     if request.host == "quickgenai.in":
@@ -34,81 +34,102 @@ def force_www():
         )
 
 # ----------------------------
-# Helper function to call NVIDIA AI
+# Helper function to call Together AI API
 # ----------------------------
-def call_nvidia_ai(messages, model="google/gemma-2-2b-it", temperature=0.2, max_tokens=1024):
-    """
-    NVIDIA Gemma 2.x rules:
-    - Roles must alternate: user -> assistant -> user -> assistant ...
-    - Last message must be 'user'
-    """
+def call_gemini(prompt, system_message="You are a helpful AI assistant."):
     try:
-        # Remove empty messages
-        msgs = [m for m in messages if m.get("content")]
+        headers = {
+            "Content-Type": "application/json",
+        }
 
-        # Ensure alternation and last message is 'user'
-        fixed_msgs = []
-        last_role = None
-        for m in msgs:
-            role = m["role"]
-            content = m["content"]
+        # Cleaner prompt format
+        full_prompt = f"{system_message}\n\n{prompt}"
 
-            # First message can be system
-            if last_role is None:
-                fixed_msgs.append({"role": role, "content": content})
-                last_role = role
-                continue
+        data = {
+            "contents": [
+                {
+                    "parts": [
+                        {"text": full_prompt}
+                    ]
+                }
+            ]
+        }
 
-            # Skip consecutive duplicate roles
-            if role == last_role:
-                # Only skip assistant/assistant or user/user
-                continue
-            fixed_msgs.append({"role": role, "content": content})
-            last_role = role
-
-        # Ensure last message is user
-        if fixed_msgs[-1]["role"] != "user":
-            raise ValueError("Last message role must be 'user'.")
-
-        completion = client.chat.completions.create(
-            model=model,
-            messages=fixed_msgs,
-            temperature=temperature,
-            top_p=0.7,
-            max_tokens=max_tokens
+        response = requests.post(
+            GEMINI_API_URL,
+            headers=headers,
+            json=data,
+            timeout=10  # prevents hanging
         )
-        return completion.choices[0].message.content
-    except Exception as e:
-        logging.error(f"NVIDIA API error: {str(e)}")
-        return f"AI service temporarily unavailable: {str(e)}"
 
+        response.raise_for_status()
+        result = response.json()
+
+        # ✅ Safe response extraction
+        if "candidates" in result and len(result["candidates"]) > 0:
+            parts = result["candidates"][0].get("content", {}).get("parts", [])
+            if parts and "text" in parts[0]:
+                return parts[0]["text"]
+
+        # fallback if structure is unexpected
+        logging.warning(f"Unexpected Gemini response: {result}")
+        return "AI response not available right now."
+
+    except requests.exceptions.Timeout:
+        logging.error("Gemini API timeout")
+        return "AI service is slow right now. Try again."
+
+    except requests.exceptions.RequestException as e:
+        logging.error(f"Gemini API request error: {str(e)}")
+        return "AI service temporarily unavailable."
+
+    except Exception as e:
+        logging.error(f"Unexpected error: {str(e)}")
+        return "Something went wrong. Please try again."
+
+# ----------------------------
+# Serve static files / index.html
+# ----------------------------
+
+
+
+# ----------------------------
+# Text Generation
+# ----------------------------
+# ----------------------------
+# Text Generation
+# ----------------------------
 # ----------------------------
 # Text Generation
 # ----------------------------
 @app.route('/api/generate-text', methods=['POST'])
 def generate_text():
     try:
-        data = request.get_json(force=True)
-        prompt = data.get('prompt', '')
+        data = request.get_json(force=True) or {}
+        prompt = data.get('prompt', '').strip()
         tool_type = data.get('type', 'general')
 
-        system_instruction = {
-            "blog": "You are a professional blog writer. Write clear, engaging blogs.",
-            "email": "You are an expert email writer. Compose professional emails.",
-            "startup": "You are a startup advisor. Give practical startup ideas.",
-            "general": "You are a helpful AI assistant. Respond accurately."
-        }.get(tool_type, "You are a helpful AI assistant. Respond accurately.")
+        if not prompt:
+            return jsonify({'success': False, 'error': 'Prompt is required'}), 400
 
-        messages = [
-            {"role": "system", "content": system_instruction},
-            {"role": "user", "content": prompt}
-        ]
+        system_prompt = {
+            'blog': "You are a professional blog writer. Write clear, engaging blogs.",
+            'email': "You are an expert at writing professional emails.",
+            'startup': "You are a startup advisor. Give practical startup ideas."
+        }.get(tool_type, "You are a helpful AI assistant. Give accurate, concise responses.")
 
-        generated_text = call_nvidia_ai(messages)
-        return jsonify({'success': True, 'content': generated_text, 'type': tool_type})
+        result = call_gemini(prompt, system_message=system_prompt)
+
+        return jsonify({
+            'success': True,
+            'content': result,
+            'type': tool_type
+        })
+
     except Exception as e:
         logging.exception("Text generation failed")
-        return jsonify({'success': False, 'error': str(e)}), 500
+        return jsonify({'success': False, 'error': 'Internal server error'}), 500
+
 
 # ----------------------------
 # Chat
@@ -116,28 +137,31 @@ def generate_text():
 @app.route('/api/chat', methods=['POST'])
 def chat():
     try:
-        data = request.get_json(force=True)
-        message = data.get("message", "")
-        history = data.get("history", [])
+        data = request.get_json(force=True) or {}
+        message = data.get('message', '').strip()
+        history = data.get('history', [])
 
-        # System instruction
-        messages = [{"role": "system", "content": "You are ChatGPT, a helpful AI assistant."}]
+        if not message:
+            return jsonify({'success': False, 'error': 'Message is required'}), 400
 
-        # Alternate previous conversation
+        system_prompt = (
+            "You are a helpful, friendly AI assistant. "
+            "Give clear and useful responses."
+        )
+
+        conversation = f"{system_prompt}\n\n"
         for turn in history[-10:]:
-            if turn.get("user"):
-                messages.append({"role": "user", "content": turn["user"]})
-            if turn.get("assistant"):
-                messages.append({"role": "assistant", "content": turn["assistant"]})
+            conversation += f"User: {turn.get('user','')}\nAssistant: {turn.get('assistant','')}\n"
+        conversation += f"User: {message}\nAssistant:"
 
-        # Last message must be user
-        messages.append({"role": "user", "content": message})
+        result = call_gemini(conversation)
 
-        ai_response = call_nvidia_ai(messages)
-        return jsonify({"success": True, "response": ai_response})
+        return jsonify({"success": True, "response": result})
+
     except Exception as e:
         logging.exception("Chat failed")
-        return jsonify({"success": False, "error": str(e)}), 500
+        return jsonify({"success": False, 'error': 'Internal server error'}), 500
+
 
 # ----------------------------
 # Code Generation
@@ -145,24 +169,32 @@ def chat():
 @app.route('/api/generate-code', methods=['POST'])
 def generate_code():
     try:
-        data = request.get_json(force=True)
-        prompt = data.get("prompt", "")
-        language = data.get("language", "python")
-        history = data.get("history", [])
+        data = request.get_json(force=True) or {}
+        prompt = data.get('prompt','').strip()
+        language = data.get('language','python')
+        history = data.get('history', [])
 
-        messages = [{"role": "system", "content": f"You are Ghostwriter, an expert {language} developer. Return only code without extra explanation."}]
+        if not prompt:
+            return jsonify({'success': False, 'error': 'Prompt is required'}), 400
+
+        system_prompt = (
+            f"You are an expert {language} developer. "
+            "Return only clean, production-ready code without explanation."
+        )
+
+        conversation = f"{system_prompt}\n\n"
         for turn in history[-10:]:
-            if turn.get("user"):
-                messages.append({"role": "user", "content": turn["user"]})
-            if turn.get("assistant"):
-                messages.append({"role": "assistant", "content": turn["assistant"]})
+            conversation += f"User: {turn.get('user','')}\nAssistant: {turn.get('assistant','')}\n"
+        conversation += f"User: {prompt}\nAssistant:"
 
-        messages.append({"role": "user", "content": prompt})
-        generated_code = call_nvidia_ai(messages)
-        return jsonify({"success": True, "content": generated_code, "language": language})
+        result = call_gemini(conversation)
+
+        return jsonify({"success": True, "content": result, "language": language})
+
     except Exception as e:
         logging.error(f"Code generation error: {str(e)}")
-        return jsonify({"success": False, "error": str(e)}), 500
+        return jsonify({"success": False, "error": 'Internal server error'}), 500
+
 
 # ----------------------------
 # Summarization
@@ -170,17 +202,22 @@ def generate_code():
 @app.route('/api/summarize', methods=['POST'])
 def summarize():
     try:
-        data = request.get_json(force=True)
-        text = data.get("text", "")
-        messages = [
-            {"role": "system", "content": "You are an expert summarizer."},
-            {"role": "user", "content": f"Summarize the following text:\n{text}"}
-        ]
-        summary = call_nvidia_ai(messages)
-        return jsonify({"success": True, "summary": summary})
+        data = request.get_json(force=True) or {}
+        text = data.get('text', '').strip()
+
+        if not text:
+            return jsonify({'success': False, 'error': 'Text is required'}), 400
+
+        prompt = f"Summarize this:\n\n{text}"
+
+        result = call_gemini(prompt)
+
+        return jsonify({'success': True, 'summary': result})
+
     except Exception as e:
         logging.exception("Summarization failed")
-        return jsonify({"success": False, "error": str(e)}), 500
+        return jsonify({'success': False, 'error': 'Internal server error'}), 500
+
 
 # ----------------------------
 # Translation
@@ -188,39 +225,47 @@ def summarize():
 @app.route('/api/translate', methods=['POST'])
 def translate():
     try:
-        data = request.get_json(force=True)
-        text = data.get("text", "")
-        source_language = data.get("source_language", "English")
-        target_language = data.get("target_language", "Hindi")
+        data = request.get_json(force=True) or {}
+        text = data.get('text', '').strip()
+        target_language = data.get('target_language', 'Hindi')
+        source_language = data.get('source_language', 'English')
 
-        messages = [
-            {"role": "system", "content": "You are a professional translator."},
-            {"role": "user", "content": f"Translate from {source_language} to {target_language}:\n{text}"}
-        ]
-        translation = call_nvidia_ai(messages)
+        if not text:
+            return jsonify({'success': False, 'error': 'Text is required'}), 400
+
+        prompt = f"Translate from {source_language} to {target_language}:\n\n{text}"
+
+        result = call_gemini(prompt)
+
         return jsonify({
-            "success": True,
-            "translation": translation,
-            "source_language": source_language,
-            "target_language": target_language
+            'success': True,
+            'translation': result,
+            'source_language': source_language,
+            'target_language': target_language
         })
+
     except Exception as e:
         logging.exception("Translation failed")
-        return jsonify({"success": False, "error": str(e)}), 500
-
-# ----------------------------
-# Health Check
-# ----------------------------
-@app.route('/api/health', methods=['GET'])
-def health_check():
-    return jsonify({
-        "status": "healthy",
-        "service": "QwikGen API",
-        "version": "3.0.0"
-    })
+        return jsonify({'success': False, 'error': 'Internal server error'}), 500
 
 # ----------------------------
 # Run App
 # ----------------------------
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000, debug=True)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
