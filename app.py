@@ -1,7 +1,7 @@
 import logging
-from flask import Flask, request, jsonify, redirect, Response
+from flask import Flask, request, jsonify, redirect
 from flask_cors import CORS
-from openai import OpenAI
+from nvidia_genai import Client  # NVIDIA SDK
 
 # ----------------------------
 # Configure logging
@@ -19,9 +19,7 @@ CORS(app)
 # NVIDIA API configuration
 # ----------------------------
 NV_API_KEY = "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"
-NV_API_URL = "https://integrate.api.nvidia.com/v1"
-
-client = OpenAI(base_url=NV_API_URL, api_key=NV_API_KEY)
+client = Client(api_key=NV_API_KEY)
 
 # ----------------------------
 # Redirect to www (optional)
@@ -35,19 +33,17 @@ def force_www():
         )
 
 # ----------------------------
-# Helper function to call NVIDIA API
+# Helper function to call NVIDIA AI
 # ----------------------------
 def call_nvidia_ai(messages, model="google/gemma-2-27b-it", temperature=0.2, max_tokens=1024):
     try:
-        completion = client.chat.completions.create(
+        completion = client.chat(
             model=model,
             messages=messages,
             temperature=temperature,
-            top_p=0.7,
-            max_tokens=max_tokens,
-            stream=False  # Change to True if you want streaming
+            max_output_tokens=max_tokens
         )
-        return completion.choices[0].message.content
+        return completion.output_text
     except Exception as e:
         logging.error(f"NVIDIA API error: {str(e)}")
         return f"AI service temporarily unavailable: {str(e)}"
@@ -77,9 +73,7 @@ def generate_text():
         ]
 
         generated_text = call_nvidia_ai(messages)
-
         return jsonify({'success': True, 'content': generated_text, 'type': tool_type})
-
     except Exception as e:
         logging.exception("Text generation failed")
         return jsonify({'success': False, 'error': str(e)}), 500
@@ -103,9 +97,7 @@ def chat():
         messages.append({"role": "user", "content": message})
 
         ai_response = call_nvidia_ai(messages)
-
         return jsonify({"success": True, "response": ai_response})
-
     except Exception as e:
         logging.exception("Chat failed")
         return jsonify({"success": False, 'error': str(e)}), 500
@@ -133,9 +125,7 @@ def generate_code():
         messages.append({"role": "user", "content": prompt})
 
         generated_code = call_nvidia_ai(messages)
-
         return jsonify({"success": True, "content": generated_code, "language": language})
-
     except Exception as e:
         logging.error(f"Code generation error: {str(e)}")
         return jsonify({"success": False, "error": str(e)}), 500
@@ -155,9 +145,7 @@ def summarize():
         ]
 
         summary = call_nvidia_ai(messages)
-
         return jsonify({'success': True, 'summary': summary})
-
     except Exception as e:
         logging.exception("Summarization failed")
         return jsonify({'success': False, 'error': str(e)}), 500
@@ -179,14 +167,12 @@ def translate():
         ]
 
         translation = call_nvidia_ai(messages)
-
         return jsonify({
             'success': True,
             'translation': translation,
             'source_language': source_language,
             'target_language': target_language
         })
-
     except Exception as e:
         logging.exception("Translation failed")
         return jsonify({'success': False, 'error': str(e)}), 500
