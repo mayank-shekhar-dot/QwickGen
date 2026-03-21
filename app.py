@@ -1,6 +1,4 @@
-import os
 import logging
-import json
 from flask import Flask, request, jsonify, redirect
 from flask_cors import CORS
 import requests
@@ -14,16 +12,13 @@ logging.basicConfig(level=logging.DEBUG)
 # Initialize Flask app
 # ----------------------------
 app = Flask(__name__, static_folder='.')
-app.secret_key = os.environ.get("SESSION_SECRET", "qwikgen-secret-key-2025")
+app.secret_key = "qwikgen-secret-key-2025"  # Hardcoded secret key
 CORS(app)
 
 # ----------------------------
-# Together AI API configuration
+# Together AI API configuration (hardcoded key)
 # ----------------------------
-TOGETHER_API_KEY = os.environ.get(
-    "TOGETHER_API_KEY",
-    "tgp_v1_ZML2D2wPR-QuwMQ3mFO45wX5WP2MnBleMIULzHgXgos"
-)
+TOGETHER_API_KEY = "tgp_v1_ZML2D2wPR-QuwMQ3mFO45wX5WP2MnBleMIULzHgXgos"
 TOGETHER_API_URL = "https://api.together.xyz/v1/chat/completions"
 
 # AI Models
@@ -33,6 +28,9 @@ TOGETHER_MODELS = {
     "chat": "mistralai/Mixtral-8x7B-Instruct-v0.1"
 }
 
+# ----------------------------
+# Redirect to www (optional)
+# ----------------------------
 @app.before_request
 def force_www():
     if request.host == "quickgenai.in":
@@ -70,13 +68,6 @@ def call_together_ai(prompt, model="mistralai/Mixtral-8x7B-Instruct-v0.1",
         return f"AI service temporarily unavailable: {str(e)}"
 
 # ----------------------------
-# Serve static files / index.html
-# ----------------------------
-
-
-
-
-# ----------------------------
 # Text Generation
 # ----------------------------
 @app.route('/api/generate-text', methods=['POST'])
@@ -95,9 +86,7 @@ def generate_text():
         else:
             system_prompt = "You are a helpful AI assistant. Give accurate, concise responses."
 
-        full_prompt = f"{prompt}"
-
-        generated_text = call_together_ai(full_prompt, model=TOGETHER_MODELS["text"], system_message=system_prompt)
+        generated_text = call_together_ai(prompt, model=TOGETHER_MODELS["text"], system_message=system_prompt)
 
         return jsonify({
             'success': True,
@@ -119,10 +108,7 @@ def chat():
         message = data.get('message', '')
         history = data.get('history', [])
 
-        system_prompt = (
-            "You are ChatGPT, a helpful, friendly, and conversational AI assistant. "
-            "Answer clearly, explain step by step if useful."
-        )
+        system_prompt = "You are ChatGPT, a helpful, friendly, and conversational AI assistant."
 
         conversation = f"System: {system_prompt}\n\n"
         for turn in history[-10:]:
@@ -143,16 +129,14 @@ def chat():
 @app.route('/api/generate-code', methods=['POST'])
 def generate_code():
     try:
-        data = request.json
+        data = request.get_json(force=True)
         prompt = data.get('prompt','')
         language = data.get('language','python')
         history = data.get('history', [])
 
         system_prompt = (
             f"You are Ghostwriter, an expert {language} developer and web designer. "
-            "Always return only code in the best possible format without extra explanation. "
-            "Provide production-ready websites with modern UI, animations, responsive design, or "
-            "clean, well-commented Python/other code."
+            "Always return only code in the best possible format without extra explanation."
         )
 
         conversation = f"System: {system_prompt}\n\n"
@@ -177,7 +161,6 @@ def summarize():
         text = data.get('text', '')
 
         prompt = f"Please summarize the following text:\n\n{text}\n\nSummary:"
-
         summary = call_together_ai(prompt, model=TOGETHER_MODELS["text"], system_message="You are an expert at summarizing text.")
 
         return jsonify({'success': True, 'summary': summary})
@@ -198,7 +181,6 @@ def translate():
         source_language = data.get('source_language', 'English')
 
         prompt = f"Translate from {source_language} to {target_language}:\n\n{text}\n\nTranslation:"
-
         translation = call_together_ai(prompt, model=TOGETHER_MODELS["text"], system_message="You are a professional translator.")
 
         return jsonify({
