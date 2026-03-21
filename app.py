@@ -18,7 +18,7 @@ CORS(app)
 # ----------------------------
 # Hugging Face API configuration (hardcoded key)
 # ----------------------------
-HF_API_KEY = "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"
+HF_API_KEY = "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"
 
 # Default models
 HF_MODELS = {
