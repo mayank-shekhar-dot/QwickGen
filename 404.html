@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 - Page Not Found</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      color: white;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .container {
+      max-width: 600px;
+    }
+
+    h1 {
+      font-size: 120px;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    p {
+      margin: 15px 0 25px;
+      font-size: 18px;
+      color: #cbd5f5;
+    }
+
+    .buttons a {
+      display: inline-block;
+      margin: 8px;
+      padding: 12px 20px;
+      border-radius: 25px;
+      text-decoration: none;
+      background: #6366f1;
+      color: white;
+      transition: 0.3s ease;
+      font-weight: bold;
+    }
+
+    .buttons a:hover {
+      background: #4f46e5;
+      transform: scale(1.1);
+    }
+
+    .links {
+      margin-top: 30px;
+    }
+
+    .links a {
+      display: block;
+      color: #94a3b8;
+      text-decoration: none;
+      margin: 5px 0;
+      transition: 0.3s;
+    }
+
+    .links a:hover {
+      color: #fff;
+      transform: translateX(5px);
+    }
+
+    /* Floating Animation */
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+
+    /* Background particles */
+    .particle {
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      background: white;
+      border-radius: 50%;
+      opacity: 0.5;
+      animation: move 10s linear infinite;
+    }
+
+    @keyframes move {
+      from { transform: translateY(100vh); }
+      to { transform: translateY(-10vh); }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>404</h1>
+  <p>Oops! The page you're looking for doesn't exist.</p>
+
+  <div class="buttons">
+    <a href="/">🏠 Home</a>
+    <a href="/blog">📝 Blog</a>
+    <a href="/tools">🛠 Tools</a>
+  </div>
+
+  <div class="links">
+    <h3>Important Pages</h3>
+    <a href="/about">About Us</a>
+    <a href="/contact">Contact</a>
+    <a href="/privacy-policy">Privacy Policy</a>
+    <a href="/terms">Terms & Conditions</a>
+  </div>
+</div>
+
+<script>
+  // Create particles
+  for (let i = 0; i < 50; i++) {
+    const p = document.createElement('div');
+    p.classList.add('particle');
+    p.style.left = Math.random() * 100 + 'vw';
+    p.style.animationDuration = (5 + Math.random() * 10) + 's';
+    p.style.opacity = Math.random();
+    document.body.appendChild(p);
+  }
+
+  // Auto redirect logic
+  let timeLeft = 5;
+  let redirectCancelled = false;
+
+  const msg = document.createElement("p");
+  msg.style.marginTop = "15px";
+  msg.style.color = "#94a3b8";
+  document.querySelector(".container").appendChild(msg);
+
+  const updateMessage = () => {
+    msg.innerText = `Redirecting to homepage in ${timeLeft}s...`;
+  };
+
+  updateMessage();
+
+  const countdown = setInterval(() => {
+    if (redirectCancelled) {
+      clearInterval(countdown);
+      msg.innerText = "Redirect cancelled.";
+      return;
+    }
+
+    timeLeft--;
+    updateMessage();
+
+    if (timeLeft <= 0) {
+      clearInterval(countdown);
+      window.location.href = "/";
+    }
+  }, 1000);
+
+  // Cancel redirect if user interacts
+  document.addEventListener("click", () => redirectCancelled = true);
+  document.addEventListener("keydown", () => redirectCancelled = true);
+</script>
+</body>
+</html>
