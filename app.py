@@ -1,12 +1,12 @@
 import logging
-from flask import Flask, request, jsonify, redirect
+from flask import Flask, request, jsonify, redirect, Response
 from flask_cors import CORS
-import requests
+from openai import OpenAI
 
 # ----------------------------
 # Configure logging
 # ----------------------------
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG)
 
 # ----------------------------
 # Initialize Flask app
@@ -16,52 +16,44 @@ app.secret_key = "qwikgen-secret-key-2025"
 CORS(app)
 
 # ----------------------------
-# Botpress API configuration (hardcoded for production)
+# NVIDIA API configuration
 # ----------------------------
-BOTPRESS_API_URL = "https://your-production-botpress.com/api/v1/bots/your-bot-id/mod/chat"
-BOTPRESS_API_KEY = "bp_pat_CkuvqQU3TGW0jySfj4zW1UhkGNbzoKvc5sXB"
+NV_API_KEY = "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"
+NV_API_URL = "https://integrate.api.nvidia.com/v1"
+
+client = OpenAI(base_url=NV_API_URL, api_key=NV_API_KEY)
 
 # ----------------------------
-# Force HTTPS and www redirect
+# Redirect to www (optional)
 # ----------------------------
 @app.before_request
-def force_https_and_www():
-    url = request.url
-    if not url.startswith("https://"):
-        url = url.replace("http://", "https://", 1)
-        return redirect(url, code=301)
+def force_www():
     if request.host == "quickgenai.in":
-        return redirect("https://www.quickgenai.in" + request.full_path, code=301)
+        return redirect(
+            "https://www.quickgenai.in" + request.full_path,
+            code=301
+        )
 
 # ----------------------------
-# Botpress API helper
+# Helper function to call NVIDIA API
 # ----------------------------
-def call_botpress_ai(message, session_id=None):
+def call_nvidia_ai(messages, model="google/gemma-2-27b-it", temperature=0.2, max_tokens=1024):
     try:
-        payload = {
-            "text": message,
-            "sessionId": session_id or "default-session"
-        }
-        headers = {
-            "Authorization": f"Bearer {BOTPRESS_API_KEY}",
-            "Content-Type": "application/json"
-        }
-
-        response = requests.post(BOTPRESS_API_URL, json=payload, headers=headers, timeout=10)
-        response.raise_for_status()
-        result = response.json()
-        if "responses" in result and len(result["responses"]) > 0:
-            return result["responses"][0].get("text", "")
-        return "Botpress did not return a response."
-    except requests.exceptions.Timeout:
-        logging.error("Botpress API timed out")
-        return "AI service timed out. Please try again."
+        completion = client.chat.completions.create(
+            model=model,
+            messages=messages,
+            temperature=temperature,
+            top_p=0.7,
+            max_tokens=max_tokens,
+            stream=False  # Change to True if you want streaming
+        )
+        return completion.choices[0].message.content
     except Exception as e:
-        logging.error(f"Botpress API error: {str(e)}")
+        logging.error(f"NVIDIA API error: {str(e)}")
         return f"AI service temporarily unavailable: {str(e)}"
 
 # ----------------------------
-# Text generation
+# Text Generation
 # ----------------------------
 @app.route('/api/generate-text', methods=['POST'])
 def generate_text():
@@ -70,37 +62,56 @@ def generate_text():
         prompt = data.get('prompt', '')
         tool_type = data.get('type', 'general')
 
-        # Optional system prompts
         if tool_type == 'blog':
-            prompt = f"You are a professional blog writer. {prompt}"
+            system_prompt = "You are a professional blog writer. Write clear, engaging blogs."
         elif tool_type == 'email':
-            prompt = f"You are an expert at writing professional emails. {prompt}"
+            system_prompt = "You are an expert at writing professional emails."
         elif tool_type == 'startup':
-            prompt = f"You are a startup advisor. {prompt}"
+            system_prompt = "You are a startup advisor. Give practical startup ideas."
+        else:
+            system_prompt = "You are a helpful AI assistant. Give accurate, concise responses."
 
-        generated_text = call_botpress_ai(prompt)
+        messages = [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": prompt}
+        ]
+
+        generated_text = call_nvidia_ai(messages)
+
         return jsonify({'success': True, 'content': generated_text, 'type': tool_type})
+
     except Exception as e:
         logging.exception("Text generation failed")
         return jsonify({'success': False, 'error': str(e)}), 500
 
 # ----------------------------
-# Chat endpoint
+# Chat
 # ----------------------------
 @app.route('/api/chat', methods=['POST'])
 def chat():
     try:
         data = request.get_json(force=True)
         message = data.get('message', '')
-        session_id = data.get('session_id', None)
-        ai_response = call_botpress_ai(message, session_id=session_id)
+        history = data.get('history', [])
+
+        system_prompt = "You are ChatGPT, a helpful, friendly, and conversational AI assistant."
+
+        messages = [{"role": "system", "content": system_prompt}]
+        for turn in history[-10:]:
+            messages.append({"role": "user", "content": turn.get('user', '')})
+            messages.append({"role": "assistant", "content": turn.get('assistant', '')})
+        messages.append({"role": "user", "content": message})
+
+        ai_response = call_nvidia_ai(messages)
+
         return jsonify({"success": True, "response": ai_response})
+
     except Exception as e:
         logging.exception("Chat failed")
         return jsonify({"success": False, 'error': str(e)}), 500
 
 # ----------------------------
-# Code generation
+# Code Generation
 # ----------------------------
 @app.route('/api/generate-code', methods=['POST'])
 def generate_code():
@@ -108,9 +119,23 @@ def generate_code():
         data = request.get_json(force=True)
         prompt = data.get('prompt', '')
         language = data.get('language', 'python')
-        full_prompt = f"You are an expert {language} developer. Only return code: {prompt}"
-        generated_code = call_botpress_ai(full_prompt)
+        history = data.get('history', [])
+
+        system_prompt = (
+            f"You are Ghostwriter, an expert {language} developer. "
+            "Always return only code in the best possible format without extra explanation."
+        )
+
+        messages = [{"role": "system", "content": system_prompt}]
+        for turn in history[-10:]:
+            messages.append({"role": "user", "content": turn.get('user', '')})
+            messages.append({"role": "assistant", "content": turn.get('assistant', '')})
+        messages.append({"role": "user", "content": prompt})
+
+        generated_code = call_nvidia_ai(messages)
+
         return jsonify({"success": True, "content": generated_code, "language": language})
+
     except Exception as e:
         logging.error(f"Code generation error: {str(e)}")
         return jsonify({"success": False, "error": str(e)}), 500
@@ -123,9 +148,16 @@ def summarize():
     try:
         data = request.get_json(force=True)
         text = data.get('text', '')
-        prompt = f"Summarize the following text:\n{text}"
-        summary = call_botpress_ai(prompt)
+
+        messages = [
+            {"role": "system", "content": "You are an expert at summarizing text."},
+            {"role": "user", "content": f"Please summarize the following text:\n\n{text}\n\nSummary:"}
+        ]
+
+        summary = call_nvidia_ai(messages)
+
         return jsonify({'success': True, 'summary': summary})
+
     except Exception as e:
         logging.exception("Summarization failed")
         return jsonify({'success': False, 'error': str(e)}), 500
@@ -140,27 +172,38 @@ def translate():
         text = data.get('text', '')
         target_language = data.get('target_language', 'Hindi')
         source_language = data.get('source_language', 'English')
-        prompt = f"Translate from {source_language} to {target_language}:\n{text}"
-        translation = call_botpress_ai(prompt)
+
+        messages = [
+            {"role": "system", "content": "You are a professional translator."},
+            {"role": "user", "content": f"Translate from {source_language} to {target_language}:\n\n{text}\n\nTranslation:"}
+        ]
+
+        translation = call_nvidia_ai(messages)
+
         return jsonify({
             'success': True,
             'translation': translation,
             'source_language': source_language,
             'target_language': target_language
         })
+
     except Exception as e:
         logging.exception("Translation failed")
         return jsonify({'success': False, 'error': str(e)}), 500
 
 # ----------------------------
-# Health check
+# Health Check
 # ----------------------------
 @app.route('/api/health', methods=['GET'])
 def health_check():
-    return jsonify({'status': 'healthy', 'service': 'QwikGen API (Botpress)', 'version': '1.0.0'})
+    return jsonify({
+        'status': 'healthy',
+        'service': 'QwikGen API',
+        'version': '2.0.0'
+    })
 
 # ----------------------------
-# Run app (production-ready, no debug)
+# Run App
 # ----------------------------
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5000, debug=True)
