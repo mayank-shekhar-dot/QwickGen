@@ -12,13 +12,13 @@ logging.basicConfig(level=logging.DEBUG)
 # Initialize Flask app
 # ----------------------------
 app = Flask(__name__, static_folder='.')
-app.secret_key = "qwikgen-secret-key-2025"
+app.secret_key = "qwikgen-secret-key-2026"
 CORS(app)
 
 # ----------------------------
 # NVIDIA Gemma API configuration
 # ----------------------------
-NV_API_KEY = "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"
+NV_API_KEY = "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"
 NV_API_URL = "https://integrate.api.nvidia.com/v1"
 client = OpenAI(base_url=NV_API_URL, api_key=NV_API_KEY)
 
@@ -36,9 +36,13 @@ def force_www():
 # ----------------------------
 # Helper function to call NVIDIA AI
 # ----------------------------
-def call_nvidia_ai(messages, model="google/gemma-2-27b-it", temperature=0.2, max_tokens=1024):
+def call_nvidia_ai(messages, model="google/gemma-2-2b-it", temperature=0.2, max_tokens=1024):
+    """
+    All messages must have proper roles:
+    - first can be system
+    - then alternate user/assistant
+    """
     try:
-        # Messages must alternate user/assistant
         completion = client.chat.completions.create(
             model=model,
             messages=messages,
@@ -61,17 +65,16 @@ def generate_text():
         prompt = data.get('prompt', '')
         tool_type = data.get('type', 'general')
 
-        if tool_type == 'blog':
-            instruction = f"You are a professional blog writer. Write a clear, engaging blog based on:\n{prompt}"
-        elif tool_type == 'email':
-            instruction = f"You are an expert email writer. Compose a professional email based on:\n{prompt}"
-        elif tool_type == 'startup':
-            instruction = f"You are a startup advisor. Give practical startup ideas based on:\n{prompt}"
-        else:
-            instruction = f"You are a helpful AI assistant. Respond accurately to:\n{prompt}"
+        system_instruction = {
+            "blog": "You are a professional blog writer. Write clear, engaging blogs.",
+            "email": "You are an expert email writer. Compose professional emails.",
+            "startup": "You are a startup advisor. Give practical startup ideas.",
+            "general": "You are a helpful AI assistant. Respond accurately."
+        }.get(tool_type, "You are a helpful AI assistant. Respond accurately.")
 
         messages = [
-            {"role": "user", "content": instruction}
+            {"role": "system", "content": system_instruction},
+            {"role": "user", "content": prompt}
         ]
 
         generated_text = call_nvidia_ai(messages)
@@ -90,16 +93,17 @@ def chat():
         message = data.get('message', '')
         history = data.get('history', [])
 
-        # Always start with system instruction as user for Gemma
-        messages = [{"role": "user", "content": "You are ChatGPT, a helpful, friendly, conversational AI assistant."}]
+        # Start with system instruction
+        messages = [{"role": "system", "content": "You are ChatGPT, a helpful, friendly, conversational AI assistant."}]
 
-        # Append previous chat with alternating roles
+        # Add previous conversation alternating roles
         for turn in history[-10:]:
-            if turn.get('user'):
-                messages.append({"role": "user", "content": turn.get('user')})
-            if turn.get('assistant'):
-                messages.append({"role": "assistant", "content": turn.get('assistant')})
+            if turn.get("user"):
+                messages.append({"role": "user", "content": turn["user"]})
+            if turn.get("assistant"):
+                messages.append({"role": "assistant", "content": turn["assistant"]})
 
+        # Add latest user message
         messages.append({"role": "user", "content": message})
 
         ai_response = call_nvidia_ai(messages)
@@ -119,16 +123,14 @@ def generate_code():
         language = data.get('language', 'python')
         history = data.get('history', [])
 
-        messages = [
-            {"role": "user", "content": f"You are Ghostwriter, an expert {language} developer. Return only code in the best possible format without extra explanation. Prompt:\n{prompt}"}
-        ]
-
+        messages = [{"role": "system", "content": f"You are Ghostwriter, an expert {language} developer. Return only code without extra explanation."}]
         for turn in history[-10:]:
-            if turn.get('user'):
-                messages.append({"role": "user", "content": turn.get('user')})
-            if turn.get('assistant'):
-                messages.append({"role": "assistant", "content": turn.get('assistant')})
+            if turn.get("user"):
+                messages.append({"role": "user", "content": turn["user"]})
+            if turn.get("assistant"):
+                messages.append({"role": "assistant", "content": turn["assistant"]})
 
+        messages.append({"role": "user", "content": prompt})
         generated_code = call_nvidia_ai(messages)
         return jsonify({"success": True, "content": generated_code, "language": language})
     except Exception as e:
@@ -143,11 +145,10 @@ def summarize():
     try:
         data = request.get_json(force=True)
         text = data.get('text', '')
-
         messages = [
-            {"role": "user", "content": f"You are an expert summarizer. Summarize the following text:\n{text}"}
+            {"role": "system", "content": "You are an expert summarizer."},
+            {"role": "user", "content": f"Summarize the following text:\n{text}"}
         ]
-
         summary = call_nvidia_ai(messages)
         return jsonify({'success': True, 'summary': summary})
     except Exception as e:
@@ -166,9 +167,9 @@ def translate():
         target_language = data.get('target_language', 'Hindi')
 
         messages = [
-            {"role": "user", "content": f"You are a professional translator. Translate the following text from {source_language} to {target_language}:\n{text}"}
+            {"role": "system", "content": "You are a professional translator."},
+            {"role": "user", "content": f"Translate from {source_language} to {target_language}:\n{text}"}
         ]
-
         translation = call_nvidia_ai(messages)
         return jsonify({
             'success': True,
@@ -188,7 +189,7 @@ def health_check():
     return jsonify({
         'status': 'healthy',
         'service': 'QwikGen API',
-        'version': '2.0.0'
+        'version': '3.0.0'
     })
 
 # ----------------------------
