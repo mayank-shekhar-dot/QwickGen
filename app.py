@@ -5,13 +5,6 @@ from flask_cors import CORS
 from openai import OpenAI
 
 # ----------------------------
-# Load environment variables
-# ----------------------------
-load_dotenv()
-OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
-client = OpenAI(api_key=OPENAI_API_KEY)
-
-# ----------------------------
 # Configure logging
 # ----------------------------
 logging.basicConfig(level=logging.DEBUG)
@@ -22,6 +15,12 @@ logging.basicConfig(level=logging.DEBUG)
 app = Flask(__name__, static_folder='.')
 app.secret_key = "qwikgen-secret-key-2025"
 CORS(app)
+
+# ----------------------------
+# OpenAI client (Render environment variable)
+# ----------------------------
+OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
+client = OpenAI(api_key=OPENAI_API_KEY)
 
 # ----------------------------
 # Redirect to www (optional)
@@ -111,15 +110,72 @@ def chat():
         logging.exception("Chat failed")
         return jsonify({"success": False, 'error': str(e)}), 500
 
-# ----------------------------
-# Add other endpoints: generate-code, summarize, translate
-# ----------------------------
-# Code, Summarization, Translation endpoints can use same `call_openai_api` logic
-# Just adjust system_prompt and max_tokens
+@app.route('/api/generate-code', methods=['POST'])
+def generate_code():
+    try:
+        data = request.get_json(force=True)
+        prompt = data.get('prompt','')
+        language = data.get('language','python')
+        history = data.get('history', [])
 
-# ----------------------------
-# Health check
-# ----------------------------
+        system_prompt = f"You are Ghostwriter, an expert {language} developer. Return only clean, production-ready code, no explanations."
+
+        messages = [{"role": "system", "content": system_prompt}]
+        for turn in history[-10:]:
+            if "user" in turn:
+                messages.append({"role": "user", "content": turn["user"]})
+            if "assistant" in turn:
+                messages.append({"role": "assistant", "content": turn["assistant"]})
+        messages.append({"role": "user", "content": prompt})
+
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=messages,
+            max_tokens=1500,
+            temperature=0.7
+        )
+
+        generated_code = response.choices[0].message.content.strip()
+        return jsonify({"success": True, "content": generated_code, "language": language})
+    except Exception as e:
+        logging.error(f"Code generation error: {str(e)}")
+        return jsonify({"success": False, "error": str(e)}), 500
+
+@app.route('/api/summarize', methods=['POST'])
+def summarize():
+    try:
+        data = request.get_json(force=True)
+        text = data.get('text', '')
+
+        prompt = f"Please summarize the following text:\n\n{text}\n\nSummary:"
+        summary = call_openai_api(prompt, system_message="You are an expert at summarizing text.")
+
+        return jsonify({'success': True, 'summary': summary})
+    except Exception as e:
+        logging.exception("Summarization failed")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+@app.route('/api/translate', methods=['POST'])
+def translate():
+    try:
+        data = request.get_json(force=True)
+        text = data.get('text', '')
+        target_language = data.get('target_language', 'Hindi')
+        source_language = data.get('source_language', 'English')
+
+        prompt = f"Translate from {source_language} to {target_language}:\n\n{text}\n\nTranslation:"
+        translation = call_openai_api(prompt, system_message="You are a professional translator.")
+
+        return jsonify({
+            'success': True,
+            'translation': translation,
+            'source_language': source_language,
+            'target_language': target_language
+        })
+    except Exception as e:
+        logging.exception("Translation failed")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
 @app.route('/api/health', methods=['GET'])
 def health_check():
     return jsonify({
