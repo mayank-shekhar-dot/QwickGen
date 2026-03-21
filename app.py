@@ -38,23 +38,47 @@ def force_www():
 # ----------------------------
 def call_nvidia_ai(messages, model="google/gemma-2-2b-it", temperature=0.2, max_tokens=1024):
     """
-    Automatically fix roles for NVIDIA Gemma:
-    - Remove system role
-    - Ensure alternation user -> assistant -> user -> assistant
+    NVIDIA Gemma 2.x rules:
+    - Roles must alternate: user → assistant → user → assistant
+    - Last message must be 'user'
     """
-    fixed_messages = []
-    role = "user"
-    for m in messages:
-        content = m.get("content")
-        if not content:
-            continue
-        fixed_messages.append({"role": role, "content": content})
-        role = "assistant" if role == "user" else "user"
-
     try:
+        # Remove empty contents
+        msgs = [m for m in messages if m.get("content")]
+
+        # Fix alternation
+        fixed_msgs = []
+        last_role = None
+        for m in msgs:
+            role = m["role"]
+            content = m["content"]
+
+            if last_role is None:
+                # First message can be system or user
+                fixed_msgs.append({"role": role, "content": content})
+                last_role = role
+                continue
+
+            # Alternate roles
+            if role == last_role:
+                # Skip duplicate role or convert system->user
+                if role == "system":
+                    fixed_msgs.append({"role": "user", "content": content})
+                    last_role = "user"
+                else:
+                    # skip duplicate user/user or assistant/assistant
+                    continue
+            else:
+                fixed_msgs.append({"role": role, "content": content})
+                last_role = role
+
+        # Ensure last message is 'user'
+        if fixed_msgs[-1]["role"] != "user":
+            fixed_msgs.append({"role": "user", "content": "..."})
+
         completion = client.chat.completions.create(
             model=model,
-            messages=fixed_messages,
+            messages=fixed_msgs,
             temperature=temperature,
             top_p=0.7,
             max_tokens=max_tokens
