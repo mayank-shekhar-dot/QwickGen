@@ -37,45 +37,45 @@ def force_www():
 # ----------------------------
 def call_gemini(prompt, system_message="You are a helpful AI assistant."):
     try:
-        headers = {
-            "Content-Type": "application/json",
-        }
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={GEMINI_API_KEY}"
 
-        full_prompt = f"{system_message}\n\n{prompt}"
+        headers = {
+            "Content-Type": "application/json"
+        }
 
         data = {
             "contents": [
                 {
+                    "role": "user",
                     "parts": [
-                        {"text": full_prompt}
+                        {
+                            "text": f"{system_message}\n\n{prompt}"
+                        }
                     ]
                 }
             ]
         }
 
-        response = requests.post(
-            GEMINI_API_URL,
-            headers=headers,
-            json=data,
-            timeout=10
-        )
+        response = requests.post(url, headers=headers, json=data, timeout=15)
 
-        # 🔥 DEBUG (important)
+        # 🔥 PRINT ERROR IF ANY
         if response.status_code != 200:
-            logging.error(f"Status Code: {response.status_code}")
-            logging.error(f"Response: {response.text}")
-            return f"API Error: {response.text}"
+            print("❌ API ERROR:", response.status_code)
+            print(response.text)
+            return "AI service unavailable (API error)"
 
         result = response.json()
 
-        if "candidates" in result:
+        # ✅ SAFE PARSING
+        try:
             return result["candidates"][0]["content"]["parts"][0]["text"]
-
-        return "No response from AI."
+        except:
+            print("⚠️ Unexpected response:", result)
+            return "AI response format error"
 
     except Exception as e:
-        logging.error(f"Gemini error: {str(e)}")
-        return f"Error: {str(e)}"
+        print("❌ EXCEPTION:", str(e))
+        return "AI service unavailable (exception)"
 # ----------------------------
 # Serve static files / index.html
 # ----------------------------
