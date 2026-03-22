@@ -1,8 +1,8 @@
 import logging
+import os
+import requests
 from flask import Flask, request, jsonify, redirect
 from flask_cors import CORS
-import requests
-import os
 
 # ----------------------------
 # Configure logging
@@ -13,53 +13,60 @@ logging.basicConfig(level=logging.DEBUG)
 # Initialize Flask app
 # ----------------------------
 app = Flask(__name__, static_folder='.')
-app.secret_key = os.environ.get("FLASK_SECRET_KEY", "default-secret-key")
+app.secret_key = "qwikgen-secret-key-2025"
 CORS(app)
 
 # ----------------------------
-# Google AI Studio API config (Gemini)
+# Load API Key (SECURE)
 # ----------------------------
-GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY")
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
+
 if not GOOGLE_API_KEY:
-    raise ValueError("GOOGLE_API_KEY not set!")
-
-GOOGLE_API_URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={GOOGLE_API_KEY}"
+    raise ValueError("❌ GOOGLE_API_KEY not found in environment variables")
 
 # ----------------------------
-# Redirect to www (optional)
+# Gemini API URL
+# ----------------------------
+GEMINI_URL = f"https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key={GOOGLE_API_KEY}"
+
+# ----------------------------
+# Redirect to www
 # ----------------------------
 @app.before_request
 def force_www():
     if request.host == "quickgenai.in":
-        return redirect(
-            "https://www.quickgenai.in" + request.full_path,
-            code=301
-        )
+        return redirect("https://www.quickgenai.in" + request.full_path, code=301)
 
 # ----------------------------
-# Helper function (Google AI)
+# Helper function (Gemini)
 # ----------------------------
-def call_google_ai(prompt):
+def call_gemini(prompt, system_message="You are a helpful AI assistant."):
     try:
         payload = {
             "contents": [
                 {
+                    "role": "user",
                     "parts": [
-                        {"text": prompt}
+                        {"text": f"{system_message}\n\nUser: {prompt}"}
                     ]
                 }
             ]
         }
 
-        response = requests.post(GOOGLE_API_URL, json=payload, timeout=30)
-        response.raise_for_status()
+        response = requests.post(GEMINI_URL, json=payload)
         data = response.json()
 
-        return data["candidates"][0]["content"]["parts"][0]["text"].strip()
+        # Debug log
+        logging.debug(f"Gemini Response: {data}")
+
+        if "candidates" in data:
+            return data["candidates"][0]["content"]["parts"][0]["text"]
+        else:
+            return str(data)
 
     except Exception as e:
-        logging.error(f"Google AI error: {str(e)}")
-        return "AI service temporarily unavailable."
+        logging.error(f"Gemini API error: {str(e)}")
+        return f"AI service temporarily unavailable: {str(e)}"
 
 # ----------------------------
 # Text Generation
@@ -72,18 +79,21 @@ def generate_text():
         tool_type = data.get('type', 'general')
 
         if tool_type == 'blog':
-            system_prompt = "Write a high-quality blog."
+            system_prompt = "Write a professional blog post."
         elif tool_type == 'email':
             system_prompt = "Write a professional email."
         elif tool_type == 'startup':
-            system_prompt = "Give startup ideas."
+            system_prompt = "Give practical startup ideas."
         else:
-            system_prompt = "Give helpful and accurate response."
+            system_prompt = "Give accurate and helpful responses."
 
-        final_prompt = f"{system_prompt}\n\n{prompt}"
-        generated_text = call_google_ai(final_prompt)
+        result = call_gemini(prompt, system_prompt)
 
-        return jsonify({'success': True, 'content': generated_text, 'type': tool_type})
+        return jsonify({
+            'success': True,
+            'content': result,
+            'type': tool_type
+        })
 
     except Exception as e:
         logging.exception("Text generation failed")
@@ -99,16 +109,20 @@ def chat():
         message = data.get('message', '')
         history = data.get('history', [])
 
-        conversation = "You are a helpful AI assistant.\n\n"
+        system_prompt = "You are a helpful and friendly chatbot."
 
+        conversation = ""
         for turn in history[-10:]:
             conversation += f"User: {turn.get('user','')}\nAssistant: {turn.get('assistant','')}\n"
 
-        conversation += f"User: {message}\nAssistant:"
+        conversation += f"User: {message}"
 
-        ai_response = call_google_ai(conversation)
+        result = call_gemini(conversation, system_prompt)
 
-        return jsonify({"success": True, "response": ai_response})
+        return jsonify({
+            "success": True,
+            "response": result
+        })
 
     except Exception as e:
         logging.exception("Chat failed")
@@ -121,15 +135,18 @@ def chat():
 def generate_code():
     try:
         data = request.get_json(force=True)
-        prompt = data.get('prompt','')
-        language = data.get('language','python')
+        prompt = data.get('prompt', '')
+        language = data.get('language', 'python')
 
-        system_prompt = f"Write clean {language} code only. No explanation."
+        system_prompt = f"You are an expert {language} developer. Return only code."
 
-        final_prompt = f"{system_prompt}\n\n{prompt}"
-        generated_code = call_google_ai(final_prompt)
+        result = call_gemini(prompt, system_prompt)
 
-        return jsonify({"success": True, "content": generated_code, "language": language})
+        return jsonify({
+            "success": True,
+            "content": result,
+            "language": language
+        })
 
     except Exception as e:
         logging.error(f"Code generation error: {str(e)}")
@@ -141,12 +158,14 @@ def generate_code():
 @app.route('/api/summarize', methods=['POST'])
 def summarize():
     try:
-        text = request.get_json(force=True).get('text', '')
+        data = request.get_json(force=True)
+        text = data.get('text', '')
 
         prompt = f"Summarize this:\n\n{text}"
-        summary = call_google_ai(prompt)
 
-        return jsonify({'success': True, 'summary': summary})
+        result = call_gemini(prompt, "You are an expert summarizer.")
+
+        return jsonify({'success': True, 'summary': result})
 
     except Exception as e:
         logging.exception("Summarization failed")
@@ -160,17 +179,16 @@ def translate():
     try:
         data = request.get_json(force=True)
         text = data.get('text', '')
-        source = data.get('source_language', 'English')
-        target = data.get('target_language', 'Hindi')
+        target_language = data.get('target_language', 'Hindi')
+        source_language = data.get('source_language', 'English')
 
-        prompt = f"Translate from {source} to {target}:\n\n{text}"
-        translation = call_google_ai(prompt)
+        prompt = f"Translate from {source_language} to {target_language}:\n\n{text}"
+
+        result = call_gemini(prompt, "You are a professional translator.")
 
         return jsonify({
             'success': True,
-            'translation': translation,
-            'source_language': source,
-            'target_language': target
+            'translation': result
         })
 
     except Exception as e:
@@ -184,8 +202,8 @@ def translate():
 def health_check():
     return jsonify({
         'status': 'healthy',
-        'service': 'QwikGen API (Google AI)',
-        'version': '2.0.0'
+        'service': 'QwikGen API',
+        'version': '2.0.0 (Gemini)'
     })
 
 # ----------------------------
