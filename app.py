@@ -2,7 +2,7 @@ import logging
 from flask import Flask, request, jsonify, redirect
 from flask_cors import CORS
 import requests
-import os  # for environment variables
+import os
 
 # ----------------------------
 # Configure logging
@@ -13,24 +13,17 @@ logging.basicConfig(level=logging.DEBUG)
 # Initialize Flask app
 # ----------------------------
 app = Flask(__name__, static_folder='.')
-app.secret_key = os.environ.get("FLASK_SECRET_KEY", "default-secret-key")  # Use env variable
+app.secret_key = os.environ.get("FLASK_SECRET_KEY", "default-secret-key")
 CORS(app)
 
 # ----------------------------
-# Together AI API configuration (use environment variable for key)
+# Google AI Studio API config (Gemini)
 # ----------------------------
-TOGETHER_API_KEY = os.environ.get("TOGETHER_API_KEY")  # now private
-if not TOGETHER_API_KEY:
-    raise ValueError("TOGETHER_API_KEY environment variable not set!")
+GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY")
+if not GOOGLE_API_KEY:
+    raise ValueError("GOOGLE_API_KEY not set!")
 
-TOGETHER_API_URL = "https://api.together.xyz/v1/chat/completions"
-
-# AI Models
-TOGETHER_MODELS = {
-    "text": "mistralai/Mixtral-8x7B-Instruct-v0.1",
-    "code": "meta-llama/Llama-3-8b-chat-hf",
-    "chat": "mistralai/Mixtral-8x7B-Instruct-v0.1"
-}
+GOOGLE_API_URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={GOOGLE_API_KEY}"
 
 # ----------------------------
 # Redirect to www (optional)
@@ -44,33 +37,32 @@ def force_www():
         )
 
 # ----------------------------
-# Helper function to call Together AI API
+# Helper function (Google AI)
 # ----------------------------
-def call_together_ai(prompt, model="mistralai/Mixtral-8x7B-Instruct-v0.1",
-                     system_message="You are a helpful AI assistant.", max_tokens=500):
+def call_google_ai(prompt):
     try:
-        headers = {
-            "Authorization": f"Bearer {TOGETHER_API_KEY}",
-            "Content-Type": "application/json",
+        payload = {
+            "contents": [
+                {
+                    "parts": [
+                        {"text": prompt}
+                    ]
+                }
+            ]
         }
-        data = {
-            "model": model,
-            "messages": [
-                {"role": "system", "content": system_message},
-                {"role": "user", "content": prompt}
-            ],
-            "max_tokens": max_tokens,
-            "temperature": 0.7,
-            "top_p": 0.7
-        }
-        response = requests.post(TOGETHER_API_URL, headers=headers, json=data)
+
+        response = requests.post(GOOGLE_API_URL, json=payload, timeout=30)
         response.raise_for_status()
-        result = response.json()
-        return result["choices"][0]["message"]["content"].strip()
+        data = response.json()
+
+        return data["candidates"][0]["content"]["parts"][0]["text"].strip()
+
     except Exception as e:
-        logging.error(f"Together AI API error: {str(e)}")
+        logging.error(f"Google AI error: {str(e)}")
         return "AI service temporarily unavailable."
 
+# ----------------------------
+# Text Generation
 # ----------------------------
 @app.route('/api/generate-text', methods=['POST'])
 def generate_text():
@@ -80,21 +72,18 @@ def generate_text():
         tool_type = data.get('type', 'general')
 
         if tool_type == 'blog':
-            system_prompt = "You are a professional blog writer. Write clear, engaging blogs."
+            system_prompt = "Write a high-quality blog."
         elif tool_type == 'email':
-            system_prompt = "You are an expert at writing professional emails."
+            system_prompt = "Write a professional email."
         elif tool_type == 'startup':
-            system_prompt = "You are a startup advisor. Give practical startup ideas."
+            system_prompt = "Give startup ideas."
         else:
-            system_prompt = "You are a helpful AI assistant. Give accurate, concise responses."
+            system_prompt = "Give helpful and accurate response."
 
-        generated_text = call_together_ai(prompt, model=TOGETHER_MODELS["text"], system_message=system_prompt)
+        final_prompt = f"{system_prompt}\n\n{prompt}"
+        generated_text = call_google_ai(final_prompt)
 
-        return jsonify({
-            'success': True,
-            'content': generated_text,
-            'type': tool_type
-        })
+        return jsonify({'success': True, 'content': generated_text, 'type': tool_type})
 
     except Exception as e:
         logging.exception("Text generation failed")
@@ -110,14 +99,14 @@ def chat():
         message = data.get('message', '')
         history = data.get('history', [])
 
-        system_prompt = "You are ChatGPT, a helpful, friendly, and conversational AI assistant."
+        conversation = "You are a helpful AI assistant.\n\n"
 
-        conversation = f"System: {system_prompt}\n\n"
         for turn in history[-10:]:
-            conversation += f"User: {turn.get('user', '')}\nAssistant: {turn.get('assistant', '')}\n"
+            conversation += f"User: {turn.get('user','')}\nAssistant: {turn.get('assistant','')}\n"
+
         conversation += f"User: {message}\nAssistant:"
 
-        ai_response = call_together_ai(conversation, model=TOGETHER_MODELS["chat"], system_message=system_prompt)
+        ai_response = call_google_ai(conversation)
 
         return jsonify({"success": True, "response": ai_response})
 
@@ -134,21 +123,14 @@ def generate_code():
         data = request.get_json(force=True)
         prompt = data.get('prompt','')
         language = data.get('language','python')
-        history = data.get('history', [])
 
-        system_prompt = (
-            f"You are Ghostwriter, an expert {language} developer and web designer. "
-            "Always return only code in the best possible format without extra explanation."
-        )
+        system_prompt = f"Write clean {language} code only. No explanation."
 
-        conversation = f"System: {system_prompt}\n\n"
-        for turn in history[-10:]:
-            conversation += f"User: {turn.get('user','')}\nAssistant: {turn.get('assistant','')}\n"
-        conversation += f"User: {prompt}\nAssistant:"
-
-        generated_code = call_together_ai(conversation, model="mistralai/Mixtral-8x7B-Instruct-v0.1", system_message=system_prompt)
+        final_prompt = f"{system_prompt}\n\n{prompt}"
+        generated_code = call_google_ai(final_prompt)
 
         return jsonify({"success": True, "content": generated_code, "language": language})
+
     except Exception as e:
         logging.error(f"Code generation error: {str(e)}")
         return jsonify({"success": False, "error": str(e)}), 500
@@ -159,11 +141,10 @@ def generate_code():
 @app.route('/api/summarize', methods=['POST'])
 def summarize():
     try:
-        data = request.get_json(force=True)
-        text = data.get('text', '')
+        text = request.get_json(force=True).get('text', '')
 
-        prompt = f"Please summarize the following text:\n\n{text}\n\nSummary:"
-        summary = call_together_ai(prompt, model=TOGETHER_MODELS["text"], system_message="You are an expert at summarizing text.")
+        prompt = f"Summarize this:\n\n{text}"
+        summary = call_google_ai(prompt)
 
         return jsonify({'success': True, 'summary': summary})
 
@@ -179,17 +160,17 @@ def translate():
     try:
         data = request.get_json(force=True)
         text = data.get('text', '')
-        target_language = data.get('target_language', 'Hindi')
-        source_language = data.get('source_language', 'English')
+        source = data.get('source_language', 'English')
+        target = data.get('target_language', 'Hindi')
 
-        prompt = f"Translate from {source_language} to {target_language}:\n\n{text}\n\nTranslation:"
-        translation = call_together_ai(prompt, model=TOGETHER_MODELS["text"], system_message="You are a professional translator.")
+        prompt = f"Translate from {source} to {target}:\n\n{text}"
+        translation = call_google_ai(prompt)
 
         return jsonify({
             'success': True,
             'translation': translation,
-            'source_language': source_language,
-            'target_language': target_language
+            'source_language': source,
+            'target_language': target
         })
 
     except Exception as e:
@@ -203,8 +184,8 @@ def translate():
 def health_check():
     return jsonify({
         'status': 'healthy',
-        'service': 'QwikGen API',
-        'version': '1.0.0'
+        'service': 'QwikGen API (Google AI)',
+        'version': '2.0.0'
     })
 
 # ----------------------------
