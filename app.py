@@ -1,8 +1,8 @@
 import logging
 import os
+import requests
 from flask import Flask, request, jsonify, redirect
 from flask_cors import CORS
-from openai import OpenAI
 
 # ----------------------------
 # Configure logging
@@ -17,10 +17,10 @@ app.secret_key = "qwikgen-secret-key-2025"
 CORS(app)
 
 # ----------------------------
-# OpenAI client (Render environment variable)
+# Together AI API Key (from environment variable)
 # ----------------------------
-OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
-client = OpenAI(api_key=OPENAI_API_KEY)
+TOGETHER_API_KEY = os.environ.get("TOGETHER_API_KEY")
+TOGETHER_API_URL = "https://api.together.ai/v1/generate"  # Example endpoint
 
 # ----------------------------
 # Redirect to www (optional)
@@ -36,20 +36,22 @@ def force_www():
 # ----------------------------
 # Helper function
 # ----------------------------
-def call_openai_api(prompt, system_message="You are a helpful AI assistant.", max_tokens=1000, temperature=0.7):
+def call_together_ai(prompt, system_message="You are a helpful AI assistant.", max_tokens=1000):
+    headers = {
+        "Authorization": f"Bearer {TOGETHER_API_KEY}",
+        "Content-Type": "application/json"
+    }
+    payload = {
+        "prompt": f"{system_message}\n\n{prompt}",
+        "max_tokens": max_tokens
+    }
     try:
-        response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {"role": "system", "content": system_message},
-                {"role": "user", "content": prompt}
-            ],
-            max_tokens=max_tokens,
-            temperature=temperature
-        )
-        return response.choices[0].message.content.strip()
-    except Exception as e:
-        logging.error(f"OpenAI API error: {str(e)}")
+        response = requests.post(TOGETHER_API_URL, headers=headers, json=payload, timeout=15)
+        response.raise_for_status()
+        data = response.json()
+        return data.get("output", "AI response not available")
+    except requests.exceptions.RequestException as e:
+        logging.error(f"Together AI API error: {e}")
         return "AI service temporarily unavailable."
 
 # ----------------------------
@@ -75,8 +77,7 @@ def generate_text():
         else:
             system_prompt = "You are a helpful AI assistant. Give accurate, concise responses."
 
-        generated_text = call_openai_api(prompt, system_message=system_prompt)
-
+        generated_text = call_together_ai(prompt, system_message=system_prompt)
         return jsonify({'success': True, 'content': generated_text, 'type': tool_type})
     except Exception as e:
         logging.exception("Text generation failed")
@@ -90,22 +91,13 @@ def chat():
         history = data.get('history', [])
 
         system_prompt = "You are ChatGPT, a helpful, friendly AI assistant."
-        messages = [{"role": "system", "content": system_prompt}]
+        conversation = ""
         for turn in history[-10:]:
-            if "user" in turn:
-                messages.append({"role": "user", "content": turn["user"]})
-            if "assistant" in turn:
-                messages.append({"role": "assistant", "content": turn["assistant"]})
-        messages.append({"role": "user", "content": message})
+            conversation += f"User: {turn.get('user','')}\nAssistant: {turn.get('assistant','')}\n"
+        conversation += f"User: {message}\nAssistant:"
 
-        response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=messages,
-            max_tokens=1000,
-            temperature=0.7
-        )
-        ai_response = response.choices[0].message.content.strip()
-        return jsonify({"success": True, "response": ai_response})
+        response = call_together_ai(conversation, system_message=system_prompt)
+        return jsonify({"success": True, "response": response})
     except Exception as e:
         logging.exception("Chat failed")
         return jsonify({"success": False, 'error': str(e)}), 500
@@ -118,24 +110,13 @@ def generate_code():
         language = data.get('language','python')
         history = data.get('history', [])
 
-        system_prompt = f"You are Ghostwriter, an expert {language} developer. Return only clean, production-ready code, no explanations."
-
-        messages = [{"role": "system", "content": system_prompt}]
+        system_prompt = f"You are Ghostwriter, an expert {language} developer. Return only clean code, no explanations."
+        conversation = ""
         for turn in history[-10:]:
-            if "user" in turn:
-                messages.append({"role": "user", "content": turn["user"]})
-            if "assistant" in turn:
-                messages.append({"role": "assistant", "content": turn["assistant"]})
-        messages.append({"role": "user", "content": prompt})
+            conversation += f"User: {turn.get('user','')}\nAssistant: {turn.get('assistant','')}\n"
+        conversation += f"User: {prompt}\nAssistant:"
 
-        response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=messages,
-            max_tokens=1500,
-            temperature=0.7
-        )
-
-        generated_code = response.choices[0].message.content.strip()
+        generated_code = call_together_ai(conversation, system_message=system_prompt)
         return jsonify({"success": True, "content": generated_code, "language": language})
     except Exception as e:
         logging.error(f"Code generation error: {str(e)}")
@@ -146,10 +127,8 @@ def summarize():
     try:
         data = request.get_json(force=True)
         text = data.get('text', '')
-
         prompt = f"Please summarize the following text:\n\n{text}\n\nSummary:"
-        summary = call_openai_api(prompt, system_message="You are an expert at summarizing text.")
-
+        summary = call_together_ai(prompt, system_message="You are an expert at summarizing text.")
         return jsonify({'success': True, 'summary': summary})
     except Exception as e:
         logging.exception("Summarization failed")
@@ -164,8 +143,7 @@ def translate():
         source_language = data.get('source_language', 'English')
 
         prompt = f"Translate from {source_language} to {target_language}:\n\n{text}\n\nTranslation:"
-        translation = call_openai_api(prompt, system_message="You are a professional translator.")
-
+        translation = call_together_ai(prompt, system_message="You are a professional translator.")
         return jsonify({
             'success': True,
             'translation': translation,
@@ -178,11 +156,7 @@ def translate():
 
 @app.route('/api/health', methods=['GET'])
 def health_check():
-    return jsonify({
-        'status': 'healthy',
-        'service': 'QwikGen API (OpenAI)',
-        'version': '1.0.0'
-    })
+    return jsonify({'status': 'healthy', 'service': 'QwikGen API (Together AI)', 'version': '1.0.0'})
 
 # ----------------------------
 # Run app
