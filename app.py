@@ -72,10 +72,140 @@ def call_together_ai(prompt, model="mistralai/Mixtral-8x7B-Instruct-v0.1",
         return "AI service temporarily unavailable."
 
 # ----------------------------
-# Routes (Text, Chat, Code, Summarize, Translate)
+@app.route('/api/generate-text', methods=['POST'])
+def generate_text():
+    try:
+        data = request.get_json(force=True)
+        prompt = data.get('prompt', '')
+        tool_type = data.get('type', 'general')
+
+        if tool_type == 'blog':
+            system_prompt = "You are a professional blog writer. Write clear, engaging blogs."
+        elif tool_type == 'email':
+            system_prompt = "You are an expert at writing professional emails."
+        elif tool_type == 'startup':
+            system_prompt = "You are a startup advisor. Give practical startup ideas."
+        else:
+            system_prompt = "You are a helpful AI assistant. Give accurate, concise responses."
+
+        generated_text = call_together_ai(prompt, model=TOGETHER_MODELS["text"], system_message=system_prompt)
+
+        return jsonify({
+            'success': True,
+            'content': generated_text,
+            'type': tool_type
+        })
+
+    except Exception as e:
+        logging.exception("Text generation failed")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
 # ----------------------------
-# [Keep all route definitions the same as your current code]
-# Just remove the hardcoded key reference and use the helper above
+# Chat
+# ----------------------------
+@app.route('/api/chat', methods=['POST'])
+def chat():
+    try:
+        data = request.get_json(force=True)
+        message = data.get('message', '')
+        history = data.get('history', [])
+
+        system_prompt = "You are ChatGPT, a helpful, friendly, and conversational AI assistant."
+
+        conversation = f"System: {system_prompt}\n\n"
+        for turn in history[-10:]:
+            conversation += f"User: {turn.get('user', '')}\nAssistant: {turn.get('assistant', '')}\n"
+        conversation += f"User: {message}\nAssistant:"
+
+        ai_response = call_together_ai(conversation, model=TOGETHER_MODELS["chat"], system_message=system_prompt)
+
+        return jsonify({"success": True, "response": ai_response})
+
+    except Exception as e:
+        logging.exception("Chat failed")
+        return jsonify({"success": False, 'error': str(e)}), 500
+
+# ----------------------------
+# Code Generation
+# ----------------------------
+@app.route('/api/generate-code', methods=['POST'])
+def generate_code():
+    try:
+        data = request.get_json(force=True)
+        prompt = data.get('prompt','')
+        language = data.get('language','python')
+        history = data.get('history', [])
+
+        system_prompt = (
+            f"You are Ghostwriter, an expert {language} developer and web designer. "
+            "Always return only code in the best possible format without extra explanation."
+        )
+
+        conversation = f"System: {system_prompt}\n\n"
+        for turn in history[-10:]:
+            conversation += f"User: {turn.get('user','')}\nAssistant: {turn.get('assistant','')}\n"
+        conversation += f"User: {prompt}\nAssistant:"
+
+        generated_code = call_together_ai(conversation, model="mistralai/Mixtral-8x7B-Instruct-v0.1", system_message=system_prompt)
+
+        return jsonify({"success": True, "content": generated_code, "language": language})
+    except Exception as e:
+        logging.error(f"Code generation error: {str(e)}")
+        return jsonify({"success": False, "error": str(e)}), 500
+
+# ----------------------------
+# Summarization
+# ----------------------------
+@app.route('/api/summarize', methods=['POST'])
+def summarize():
+    try:
+        data = request.get_json(force=True)
+        text = data.get('text', '')
+
+        prompt = f"Please summarize the following text:\n\n{text}\n\nSummary:"
+        summary = call_together_ai(prompt, model=TOGETHER_MODELS["text"], system_message="You are an expert at summarizing text.")
+
+        return jsonify({'success': True, 'summary': summary})
+
+    except Exception as e:
+        logging.exception("Summarization failed")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+# ----------------------------
+# Translation
+# ----------------------------
+@app.route('/api/translate', methods=['POST'])
+def translate():
+    try:
+        data = request.get_json(force=True)
+        text = data.get('text', '')
+        target_language = data.get('target_language', 'Hindi')
+        source_language = data.get('source_language', 'English')
+
+        prompt = f"Translate from {source_language} to {target_language}:\n\n{text}\n\nTranslation:"
+        translation = call_together_ai(prompt, model=TOGETHER_MODELS["text"], system_message="You are a professional translator.")
+
+        return jsonify({
+            'success': True,
+            'translation': translation,
+            'source_language': source_language,
+            'target_language': target_language
+        })
+
+    except Exception as e:
+        logging.exception("Translation failed")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+# ----------------------------
+# Health Check
+# ----------------------------
+@app.route('/api/health', methods=['GET'])
+def health_check():
+    return jsonify({
+        'status': 'healthy',
+        'service': 'QwikGen API',
+        'version': '1.0.0'
+    })
 
 # ----------------------------
 # Run App
