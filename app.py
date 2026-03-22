@@ -20,8 +20,8 @@ CORS(app)
 # Together AI API Key (from environment variable)
 # ----------------------------
 TOGETHER_API_KEY = os.environ.get("TOGETHER_API_KEY")
-TOGETHER_API_URL = "https://api.together.xyz/v1/chat/completions"  # Together AI chat endpoint
-TOGETHER_MODEL = "mistralai/Mistral-7B-Instruct-v0.1"  # Suitable Mistral model
+TOGETHER_API_URL = "https://api.together.ai/v1/generate"
+TOGETHER_MODEL = "mixtral"  # Mixtral model
 
 # ----------------------------
 # Redirect to www (optional)
@@ -37,14 +37,14 @@ def force_www():
 # ----------------------------
 # Helper function for Together AI
 # ----------------------------
-def call_together_ai(messages, max_tokens=1000, temperature=0.7):
+def call_together_ai(prompt, max_tokens=1000, temperature=0.7):
     headers = {
         "Authorization": f"Bearer {TOGETHER_API_KEY}",
         "Content-Type": "application/json"
     }
     payload = {
         "model": TOGETHER_MODEL,
-        "messages": messages,
+        "prompt": prompt,
         "max_tokens": max_tokens,
         "temperature": temperature
     }
@@ -52,8 +52,8 @@ def call_together_ai(messages, max_tokens=1000, temperature=0.7):
         response = requests.post(TOGETHER_API_URL, headers=headers, json=payload, timeout=30)
         response.raise_for_status()
         data = response.json()
-        # Together AI returns messages in data['choices'][0]['message']['content']
-        return data['choices'][0]['message']['content'].strip()
+        # Together AI response format: data['output']
+        return data.get("output", "AI response not available").strip()
     except requests.exceptions.RequestException as e:
         logging.error(f"Together AI API error: {e}")
         return "AI service temporarily unavailable."
@@ -81,12 +81,8 @@ def generate_text():
         else:
             system_prompt = "You are a helpful AI assistant. Give accurate, concise responses."
 
-        messages = [
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": prompt}
-        ]
-
-        generated_text = call_together_ai(messages)
+        full_prompt = f"{system_prompt}\n\n{prompt}"
+        generated_text = call_together_ai(full_prompt)
         return jsonify({'success': True, 'content': generated_text, 'type': tool_type})
     except Exception as e:
         logging.exception("Text generation failed")
@@ -99,15 +95,12 @@ def chat():
         message = data.get('message', '')
         history = data.get('history', [])
 
-        messages = [{"role": "system", "content": "You are a helpful, friendly AI assistant."}]
+        conversation = "You are a helpful, friendly AI assistant.\n"
         for turn in history[-10:]:
-            if "user" in turn:
-                messages.append({"role": "user", "content": turn["user"]})
-            if "assistant" in turn:
-                messages.append({"role": "assistant", "content": turn["assistant"]})
-        messages.append({"role": "user", "content": message})
+            conversation += f"User: {turn.get('user','')}\nAssistant: {turn.get('assistant','')}\n"
+        conversation += f"User: {message}\nAssistant:"
 
-        ai_response = call_together_ai(messages)
+        ai_response = call_together_ai(conversation)
         return jsonify({"success": True, "response": ai_response})
     except Exception as e:
         logging.exception("Chat failed")
@@ -121,15 +114,12 @@ def generate_code():
         language = data.get('language','python')
         history = data.get('history', [])
 
-        messages = [{"role": "system", "content": f"You are Ghostwriter, an expert {language} developer. Return only clean, production-ready code, no explanations."}]
+        conversation = f"You are Ghostwriter, an expert {language} developer. Return only clean, production-ready code, no explanations.\n"
         for turn in history[-10:]:
-            if "user" in turn:
-                messages.append({"role": "user", "content": turn["user"]})
-            if "assistant" in turn:
-                messages.append({"role": "assistant", "content": turn["assistant"]})
-        messages.append({"role": "user", "content": prompt})
+            conversation += f"User: {turn.get('user','')}\nAssistant: {turn.get('assistant','')}\n"
+        conversation += f"User: {prompt}\nAssistant:"
 
-        generated_code = call_together_ai(messages)
+        generated_code = call_together_ai(conversation)
         return jsonify({"success": True, "content": generated_code, "language": language})
     except Exception as e:
         logging.error(f"Code generation error: {str(e)}")
@@ -140,11 +130,8 @@ def summarize():
     try:
         data = request.get_json(force=True)
         text = data.get('text', '')
-        messages = [
-            {"role": "system", "content": "You are an expert at summarizing text."},
-            {"role": "user", "content": text}
-        ]
-        summary = call_together_ai(messages)
+        prompt = f"You are an expert at summarizing text.\n\n{text}\n\nSummary:"
+        summary = call_together_ai(prompt)
         return jsonify({'success': True, 'summary': summary})
     except Exception as e:
         logging.exception("Summarization failed")
@@ -157,11 +144,8 @@ def translate():
         text = data.get('text', '')
         source_language = data.get('source_language', 'English')
         target_language = data.get('target_language', 'Hindi')
-        messages = [
-            {"role": "system", "content": f"You are a professional translator. Translate from {source_language} to {target_language}."},
-            {"role": "user", "content": text}
-        ]
-        translation = call_together_ai(messages)
+        prompt = f"You are a professional translator. Translate from {source_language} to {target_language}.\n\n{text}\n\nTranslation:"
+        translation = call_together_ai(prompt)
         return jsonify({
             'success': True,
             'translation': translation,
