@@ -1,17 +1,7 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-  <!-- ================== EZOIC PRIVACY SCRIPTS (MUST BE FIRST) ================== -->
-<script data-cfasync="false" src="https://cmp.gatekeeperconsent.com/min.js"></script>
-<script data-cfasync="false" src="https://the.gatekeeperconsent.com/cmp.min.js"></script>
-
-<!-- ================== EZOIC HEADER SCRIPT ================== -->
-<script async src="//www.ezojs.com/ezoic/sa.min.js"></script>
-<script>
-    window.ezstandalone = window.ezstandalone || {};
-    ezstandalone.cmd = ezstandalone.cmd || [];
-</script>
 
   
   <!-- ✅ Basic SEO -->
@@ -71,9 +61,6 @@
   <meta name="robots" content="index, follow" />
   <meta name="language" content="English" />
   <meta name="revisit-after" content="7 days" />
-
-  <!-- Ezoic Site Verification -->
- <meta name="ezoic-site-verification" content="5aXqqeLRIJhOYnqJL3SkEQFyITmZ7w" />
   
   <!-- ✅ Google AdSense Meta Tag Verification -->
 <meta name="google-adsense-account" content="ca-pub-3467938689807252">
@@ -85,12 +72,11 @@
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
-</html>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-    /* DARK MODE */
+/* DARK MODE */
 body.dark {
     background: #000000;
     color: #e5e7eb;
@@ -99,8 +85,7 @@ body.dark {
 body.dark header,
 body.dark footer,
 body.dark .article-card,
-body.dark .tool-box,
-body.dark details {
+details {
     background: #000000;
     border-color: #000000;
 }
@@ -133,65 +118,102 @@ body {
 }
 
 /* HEADER */
+/* HEADER - compact & fixed */
 header {
     position: fixed;
     top: 0;
-    left: 10;
+    left: 0;
     width: 100%;
     background: #ffffff;
     border-bottom: 1px solid #e5e7eb;
-    padding: 14px 40px;
+    padding: 10px 20px;      /* smaller header */
     display: flex;
     align-items: center;
     justify-content: space-between;
     z-index: 1000;
+    box-sizing: border-box;
 }
 
+header strong {
+    font-size: 18px;         /* brand smaller */
+}
+
+header nav {
+    display: flex;
+    align-items: center;
+    gap: 15px;               /* spacing between links */
+}
 
 header nav a {
-    margin-left: 190px;
-    text-decoration: none;
-    color: #374151;
+    margin: 0;
+    font-size: 14px;         /* compact font */
+    color: #374151;          /* default dark link color */
     font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
 }
 
 header nav a:hover {
-    color: #2563eb;
+    color: #2563eb;          /* hover color stays blue */
+}
+
+/* Dark mode links in header */
+body.dark header nav a {
+    color: #cbd5f5;          /* light blue in dark mode */
+}
+
+body.dark header nav a:hover {
+    color: #60a5fa;          /* hover in dark mode */
 }
 
 .theme-toggle {
-    margin-right: 45px;
+    font-size: 16px;
     cursor: pointer;
-    font-size: 18px;
+    margin-left: 10px;
 }
+
 /* HERO IMAGE */
 .hero {
     position: relative;
-    height: 70vh;
-    background: url("hero.jpg") center/cover no-repeat;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 100%;
+    height: 420px;
+    overflow: hidden;
+}
+
+.hero img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .hero::after {
     content: "";
     position: absolute;
     inset: 0;
-    background: rgba(0,0,0,0.55);
+    background: rgba(0, 0, 0, 0.45); /* dark overlay for readability */
 }
 
 .hero-text {
-    position: relative;
-    color: #ffffff;
+    position: absolute;
+    z-index: 2;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     text-align: center;
-    max-width: 800px;
-    padding: 20px;
+    color: #ffffff;
+    max-width: 720px;
+    padding: 0 20px;
 }
 
 .hero-text h1 {
-    font-size: 42px;
-    margin-bottom: 10px;
+    font-size: 2.8rem;
+    margin-bottom: 12px;
+    font-weight: 700;
+}
+
+.hero-text p {
+    font-size: 1.2rem;
+    opacity: 0.95;
 }
 
 /* MAIN CONTENT */
@@ -272,30 +294,22 @@ main {
     line-height: 1.7;
 }
 
-/* TOOLS */
-.tools {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
-    gap: 20px;
-    margin-top: 30px;
-}
-
-.tool-box {
-    background: #ffffff;
-    padding: 22px;
-    border-radius: 14px;
-    text-align: center;
-    font-weight: 600;
-}
-
-/* FAQ */
+/* FAQ - adaptive to dark mode */
 details {
-    background: #ffffff;
+    background: #ffffff;       /* default light mode */
+    color: #000000;            /* text color in light mode */
     padding: 16px;
     border-radius: 12px;
     margin-top: 15px;
+    transition: background 0.3s, color 0.3s;
 }
 
+/* Dark mode FAQ */
+body.dark details {
+    background: #1e293b;       /* dark background */
+    color: #e5e7eb;            /* light text */
+    border-color: #1e293b;     /* match background */
+}
 /* FEEDBACK */
 .feedback {
     background: #f1f5f9;
@@ -312,69 +326,6 @@ footer {
     text-align: center;
     font-size: 14px;
     color: #6b7280;
-}
-
-.try-tools-btn {
-    display: inline-block;
-    padding: 14px 28px;
-    background: #2563eb;
-    color: #ffffff;
-    font-weight: 600;
-    border-radius: 30px;
-    text-decoration: none;
-    transition: 0.3s ease;
-}
-
-.try-tools-btn:hover {
-    background: #1e40af;
-}
-.hero {
-    position: relative;
-    width: 100%;
-    height: 420px;
-    overflow: hidden;
-}
-
-.hero img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.hero::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.45); /* dark overlay for readability */
-}
-
-.hero-text {
-    position: absolute;
-    z-index: 2;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    color: #ffffff;
-    max-width: 720px;
-    padding: 0 20px;
-}
-
-.hero-text h1 {
-    font-size: 2.8rem;
-    margin-bottom: 12px;
-    font-weight: 700;
-}
-
-.hero-text p {
-    font-size: 1.2rem;
-    opacity: 0.95;
-}
-.site-footer {
-    background: #ffffff;
-    border-top: 1px solid #e5e7eb;
-    padding: 50px 30px 20px;
-    margin-top: 80px;
 }
 
 .footer-inner {
@@ -436,6 +387,7 @@ body.dark .footer-brand p {
 body.dark .footer-bottom {
     color: #94a3b8;
 }
+
 /* =========================
    RESPONSIVE DESIGN
 ========================= */
@@ -485,16 +437,6 @@ body.dark .footer-bottom {
     .theme-toggle {
         margin-left: 10px;
         font-size: 16px;
-    }
-
-    .hero video {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100vw;     /* force edge-to-edge */
-    height: 100%;
-    object-fit: cover;
-    display: block;   /* removes inline gaps */
     }
 
     .hero-text h1 {
@@ -553,13 +495,7 @@ body.dark .footer-bottom {
     .article-card div h3 {
         font-size: 16px;
     }
-
-    .tool-box {
-        padding: 18px;
-        font-size: 14px;
-    }
 }
-
 </style>
 </head>
 
@@ -579,12 +515,9 @@ body.dark .footer-bottom {
 </header>
 
 <!-- HERO -->
+<!-- HERO -->
 <section class="hero">
-    <video autoplay muted loop playsinline>
-        <source src="Grey and White Minimalist Welcome Welcome to My Channel Video  (4).mp4" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
-
+    <img src="Purple and Pink Gradient Simple Neon Futuristic Technology Desktop Wallpaper.png" alt="Welcome to QuickGenAI">
     <div class="hero-text">
         <h1>Welcome to QuickGenAI</h1>
         <p>Human-centered research on artificial intelligence systems</p>
@@ -592,7 +525,6 @@ body.dark .footer-bottom {
 </section>
 
 <main>
-
 
 <!-- INTRO -->
 <section class="intro">
@@ -637,44 +569,7 @@ body.dark .footer-bottom {
 
 <p><a href="blog.html" class="read-more">View all articles →</a></p>
 
-<img src="home.png" alt="SEO mistakes new bloggers" style="max-width:100%; height:auto;border-radius: 10px; float: left; max-width: 40%; height: auto;  margin: 10px 35px 10px 20px;">
 
- <article>
-
-        <h1>Mistakes Made by New Bloggers On SEO Within The First Month of Blogging</h1>
-
-        <p>
-            Starting a new blog can be exciting, however, many inexperienced bloggers make mistakes within the first month that will slow down the growth of their new blog that they do not know. These mistakes happen frequently and can be prevented.
-        </p>
-
-        <h2>Targeting Competitive Keywords</h2>
-
-        <p>
-            A popular mistake made by inexperienced bloggers is targeting competitive keywords. New bloggers often go after broad searches, i.e., "best AI tools" or "make money on the internet." Those types of searches are primarily owned and managed by giant websites. Rather than this, new bloggers should use long-tail keywords which are specific and easier to rank for.
-        </p>
-
-        <h2>Neglecting On-Page SEO</h2>
-
-        <p>
-            Another mistake made by inexperienced bloggers is neglecting proper on-page search engine optimization. Many new bloggers are not doing any type of optimization with their title tags, descriptions, heading tags (H1, H2), or alt text. Even great content could have difficulty ranking if the page is not clear in what it is about.
-        </p>
-
-        <h2>Poor Internal Linking</h2>
-
-        <p>
-            Furthermore, poor internal linking is a popular mistake made by many new bloggers. New bloggers will create and publish their post but fail to link their other posts together. Internal links will help Google crawl your website more easily and allow users to spend more time on your website.
-        </p>
-
-        <h2>Expecting Immediate SEO Results</h2>
-
-        <p>
-            New bloggers will often make the mistake of changing the content of their websites too frequently because they are looking for immediate success. However, SEO is a long process. Making changes frequently, i.e., changing URLs, deleting posts, concentrating on other areas will confuse search engines and slow you down.
-        </p>
-
-    </article>
-
-</body>
-</html>
 <!-- CATEGORIES -->
 <h2 class="section-title">Categories</h2>
 <div class="categories">
@@ -692,7 +587,7 @@ body.dark .footer-bottom {
         At QuickGenAI, we believe that the true potential of Artificial Intelligence cannot be fulfilled by the hype surrounding automation.
          The objective of QuickGenAI is to analyze in-depth how AI tools, systems and interfaces will impact individual lives, 
          decisions made and future design methods. We are mostly focued on new and fresh articles which no one is covering our article is highly 
-         researched and pure written by humans 
+         researched and pure written by our team.
          <br>
          <br>Special thanks.
          <br>
@@ -701,22 +596,6 @@ body.dark .footer-bottom {
          <br>WEB DEVLOPER & MANAGED BY:- MAYANK SHEKHAR
     </p>
 </section>
-
-<!-- TOOLS -->
-<h2 class="section-title">AI Tools</h2>
-
-<div class="tools">
-    <div class="tool-box">Text Generator</div>
-    <div class="tool-box">Code Helper</div>
-    <div class="tool-box">QuickChat</div>
-    <div class="tool-box">Summarizer</div>
-    <div class="tool-box">Translator</div>
-</div>
-
-<div style="text-align:center; margin-top:30px;">
-    <a href="tools" class="try-tools-btn">Try Our Tools →</a>
-</div>
-
 
 <!-- LATEST ARTICLES -->
 <h2 class="section-title">Latest Articles</h2>
@@ -767,54 +646,20 @@ body.dark .footer-bottom {
 
 <!-- FAQ -->
 <h2 class="section-title">FAQ</h2>
-<details><summary>What is QuickGenAI?</summary><p>A blog website with some tools.</p></details>
+<details><summary>What is QuickGenAI?</summary><p> blog website on the topic AI</p></details>
 
-<details><summary>Are the tools free?</summary><p>Yes, with no login required.</p></details>
+<details><summary>is this all blogs are free to read?</summary><p>Yes, with no login required.</p></details>
 
 <details><summary>Is this blogs are human written?</summary><p>Yes, with research</p></details>
 
-<img src="home1.png" alt="SEO mistakes new bloggers" style="max-width:100%; height:auto;border-radius: 10px; float: right; max-width: 40%; height: auto;  margin: 10px 0 10px 20px;">
 
-<article>
-
-    <h1>How Small Businesses can Leverage AI Tools Without Coding Skills</h1>
-
-    <p> 
-        Small websites often believe that only large corporations or developers have access to AI technology; this perception is outdated. Today’s technology allows many AI tools to be created specifically for nontechnical users, allowing small website owners to leverage this technology without writing a line of code.
-    </p>
-
-    <h2>AI Writing and Content Tools</h2>
-
-    <p>
-        A great example of how small website owners can leverage AI technology is through AI Writing and Content tools. These types of tools provide users with ideas for blog posts, grammar checks on written material, long-form content summaries, and Meta description creation. All of which requires no technical understanding from the user, but nonetheless saves them time and allows them to maintain high levels of content quality.
-    </p>
-
-    <h2>AI for SEO and Website Optimization</h2>
-
-    <p>
-        AI is also a fantastic way to help small website owners with their website’s SEO and optimization as well. Most AI-assisted SEO tools will analyse keywords as well as provide title suggestions and point out any possible on-page SEO problems. All small website owners need to do to get their page ranked higher is to follow the suggestions presented via their dashboards.
-    </p>
-
-    <h2>AI-Powered Customer Support</h2>
-
-    <p>
-        Another area where AI tools can be beneficial is customer support. No-code chatbot platforms now give users the ability to create and incorporate a chatbot onto their, or other peoples’, websites utilizing a very simple script or plugin. Chatbots provide visitors with immediate answers to their queries, enhancing the overall user experience, and are active 24 hours a day, 7 days a week.
-    </p>
-
-    <h2>AI Image Creation and Graphic Design</h2>
-
-    <p>
-        Lastly, more generalised image creation / graphic design tools created using AI technology equate to being able to produce images, thumbnails and other design components that do not necessitate any artwork or graphic design experience on the part of the small business owner.
-    </p>
-
-</article>
 
 <!-- FEEDBACK -->
 <section class="feedback">
     <h2>Feedback</h2>
     <p>
         Share feedback or suggestions:
-      <a href="contactmayankproduction@gmail.com">contactmayankproduction@gmail.com</a>
+      <a href="mailto:contactmayankproduction@gmail.com">contactmayankproduction@gmail.com</a>
     </p>
 </section>
 
@@ -835,7 +680,6 @@ body.dark .footer-bottom {
                 <h4>Explore</h4>
                 <a href="index">Home</a>
                 <a href="blog">Blog</a>
-                <a href="tools">AI Tools</a>
             </div>
 
             <div>
@@ -884,8 +728,5 @@ toggle.addEventListener("click", () => {
     }
 });
 </script>
-
-
-
 </body>
 </html>
