@@ -141,9 +141,9 @@ def call_gemini(prompt: str, system_message: str = "You are a helpful AI assista
 # ----------------------------
 # Routes
 # ----------------------------
-@app.route("/")
-def index():
-    return send_from_directory(".", "index.html")
+@app.route("/ai-tools")
+def ai_tools():
+    return redirect("https://quickgenai.in/ai-tools")
 
 
 @app.route("/api/generate", methods=["POST"])
