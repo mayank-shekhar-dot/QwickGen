@@ -416,6 +416,9 @@ body {
 </div>
 
 <script>
+// ---------- API Base ----------
+const API_BASE = "https://qwickgen22.onrender.com";
+
 // ---------- Tool registry ----------
 const TOOLS = {
   // Creator Tools
@@ -545,7 +548,7 @@ async function runGenerate(id) {
   result.innerHTML = `<div class="result-empty">Thinking…</div>`;
 
   try {
-    const r = await fetch("/api/generate", {
+    const r = await fetch(`${API_BASE}/api/generate`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ tool: id, input, target }),
@@ -630,7 +633,7 @@ async function sendChat(id) {
   const aiBubble = appendMessage("ai", "…");
 
   try {
-    const r = await fetch("/api/chat", {
+    const r = await fetch(`${API_BASE}/api/chat`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ tool: id, message, history: chatHistory }),
