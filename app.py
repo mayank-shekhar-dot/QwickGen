@@ -1,12 +1,12 @@
 import logging
 import os
 import requests
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, request, jsonify, send_from_directory, redirect
 from flask_cors import CORS
 
 logging.basicConfig(level=logging.INFO)
 
-app = Flask(__name__, static_folder=".")
+app = Flask(__name__, static_folder='.')
 app.secret_key = os.getenv("SESSION_SECRET", "dev-secret-key")
 CORS(app)
 
@@ -49,6 +49,7 @@ PROMPT_TEMPLATES = {
         "system": "You are a Twitter/X growth expert known for viral tweet hooks.",
         "template": "Write 10 viral tweet hooks (under 280 characters each) about: {input}\n\nMix formats: bold claims, contrarian takes, listicles, questions, and stories. Number each one.",
     },
+
     # SEO Tools
     "keyword": {
         "system": "You are an SEO expert specializing in keyword research.",
@@ -70,6 +71,7 @@ PROMPT_TEMPLATES = {
         "system": "You are a YouTube growth expert who crafts high-CTR video titles.",
         "template": "Generate 10 high-CTR YouTube video titles for content about: {input}\n\nEach title should be under 70 characters, use power words, and trigger curiosity. Mix listicles, how-tos, and bold claims. Number the list.",
     },
+
     # Developer Tools
     "debug": {
         "system": "You are a senior software engineer and expert code debugger.",
@@ -91,6 +93,7 @@ PROMPT_TEMPLATES = {
         "system": "You are a database expert who writes efficient, well-structured SQL queries.",
         "template": "Write an SQL query for the following request:\n\n{input}\n\nReturn the query in a code block, then briefly explain what it does.",
     },
+
     # Chatbots
     "chat_general": {
         "system": "You are a helpful, friendly, and knowledgeable AI assistant. Give clear, accurate, and concise responses.",
@@ -114,9 +117,7 @@ PROMPT_TEMPLATES = {
 # ----------------------------
 # Gemini helper
 # ----------------------------
-def call_gemini(
-    prompt: str, system_message: str = "You are a helpful AI assistant."
-) -> str:
+def call_gemini(prompt: str, system_message: str = "You are a helpful AI assistant.") -> str:
     try:
         payload = {
             "contents": [
@@ -128,8 +129,18 @@ def call_gemini(
         }
         response = requests.post(GEMINI_URL, json=payload, timeout=60)
         data = response.json()
+        
+        # Debug: Log full response
+        logging.error("Gemini response status: %s", response.status_code)
+        logging.error("Gemini response body: %s", data)
+        
         if "candidates" in data:
             return data["candidates"][0]["content"]["parts"][0]["text"]
+        
+        # Check for specific error fields
+        if "error" in data:
+            return f"API Error: {data['error'].get('message', 'Unknown error')}"
+            
         logging.error("Unexpected Gemini response: %s", data)
         return "Sorry, I couldn't generate a response. Please try again."
     except Exception as e:
@@ -142,7 +153,12 @@ def call_gemini(
 # ----------------------------
 @app.route("/")
 def index():
-    return send_from_directory(".", "ai-tools.html")
+    return send_from_directory(".", "tool10.html")
+
+
+@app.route("/ai-tools")
+def ai_tools():
+    return redirect("https://quickgenai.in/ai-tools")
 
 
 @app.route("/api/generate", methods=["POST"])
@@ -156,9 +172,7 @@ def generate():
         if tool_id not in PROMPT_TEMPLATES:
             return jsonify({"success": False, "error": "Unknown tool"}), 400
         if not user_input:
-            return jsonify(
-                {"success": False, "error": "Please provide some input."}
-            ), 400
+            return jsonify({"success": False, "error": "Please provide some input."}), 400
 
         tpl = PROMPT_TEMPLATES[tool_id]
         prompt = tpl["template"].format(input=user_input, target=target)
