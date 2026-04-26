@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Technology – The Daily Read</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary: #1a1a2e;
+      --accent: #4f46e5;
+      --accent-light: #6366f1;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --bg: #f9fafb;
+      --card-bg: #ffffff;
+      --radius: 12px;
+    }
+
+    body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--bg); line-height: 1.6; }
+
+    a { text-decoration: none; color: inherit; }
+
+    /* ===== HEADER ===== */
+    header {
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo { font-size: 1.4rem; font-weight: 800; color: var(--primary); letter-spacing: -0.5px; }
+    .logo span { color: var(--accent); }
+
+    nav { display: flex; align-items: center; gap: 8px; }
+    .nav-item { position: relative; }
+    .nav-item > a, .nav-btn {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: var(--text);
+      transition: background 0.2s, color 0.2s;
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+    .nav-item > a:hover, .nav-btn:hover { background: var(--bg); color: var(--accent); }
+    .nav-item > a.active { color: var(--accent); }
+
+    .dropdown {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+      min-width: 180px;
+      padding: 8px;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-8px);
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .nav-item:hover .dropdown {
+      opacity: 1;
+      pointer-events: all;
+      transform: translateY(0);
+    }
+    .dropdown a {
+      display: block;
+      padding: 9px 12px;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--text);
+      transition: background 0.15s, color 0.15s;
+    }
+    .dropdown a:hover { background: var(--bg); color: var(--accent); }
+    .dropdown a.current { color: var(--accent); background: #eef2ff; }
+
+    .chevron { font-size: 0.7rem; transition: transform 0.2s; }
+    .nav-item:hover .chevron { transform: rotate(180deg); }
+
+    .hamburger { display: none; background: none; border: none; cursor: pointer; padding: 8px; flex-direction: column; gap: 5px; }
+    .hamburger span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; transition: 0.3s; }
+
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 68px; left: 0; right: 0; bottom: 0;
+      background: #fff;
+      padding: 24px;
+      overflow-y: auto;
+      z-index: 99;
+    }
+    .mobile-menu.open { display: block; }
+    .mobile-menu a { display: block; padding: 12px 0; font-size: 1rem; font-weight: 500; border-bottom: 1px solid var(--border); }
+    .mobile-menu a:last-child { border-bottom: none; }
+    .mobile-menu a:hover { color: var(--accent); }
+
+    /* ===== BREADCRUMB ===== */
+    .breadcrumb {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 16px 24px 0;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--accent); }
+    .breadcrumb span { margin: 0 6px; }
+
+    /* ===== CATEGORY LABEL ===== */
+    .category-label {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px 24px 0;
+    }
+    .category-label h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--primary);
+      letter-spacing: -0.5px;
+    }
+    .category-label p { color: var(--muted); margin-top: 6px; font-size: 0.95rem; }
+
+    /* ===== HERO ===== */
+    .hero {
+      max-width: 1200px;
+      margin: 32px auto 0;
+      padding: 0 24px;
+    }
+    .hero-card {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      border-radius: 16px;
+      overflow: hidden;
+      background: var(--primary);
+      box-shadow: 0 4px 32px rgba(0,0,0,0.12);
+    }
+    .hero-image { position: relative; min-height: 380px; overflow: hidden; }
+    .hero-image img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s; }
+    .hero-card:hover .hero-image img { transform: scale(1.03); }
+    .hero-badge {
+      position: absolute;
+      top: 20px; left: 20px;
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 5px 12px;
+      border-radius: 20px;
+    }
+    .hero-content {
+      padding: 48px 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      color: #fff;
+    }
+    .hero-meta { font-size: 0.8rem; color: rgba(255,255,255,0.6); margin-bottom: 16px; }
+    .hero-meta span { margin: 0 8px; }
+    .hero-content h2 { font-size: 1.7rem; font-weight: 800; line-height: 1.3; letter-spacing: -0.3px; margin-bottom: 16px; }
+    .hero-content p { font-size: 0.95rem; color: rgba(255,255,255,0.75); line-height: 1.7; margin-bottom: 28px; }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent);
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      transition: background 0.2s, transform 0.2s;
+      align-self: flex-start;
+    }
+    .btn-primary:hover { background: var(--accent-light); transform: translateY(-1px); }
+
+    /* ===== MAIN LAYOUT ===== */
+    .main-layout {
+      max-width: 1200px;
+      margin: 48px auto 64px;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 48px;
+    }
+
+    /* ===== BLOG GRID ===== */
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 24px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-title::before { content: ''; display: block; width: 4px; height: 18px; background: var(--accent); border-radius: 2px; }
+
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .blog-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .blog-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.1); }
+    .blog-card-img { overflow: hidden; aspect-ratio: 16/10; }
+    .blog-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.35s; }
+    .blog-card:hover .blog-card-img img { transform: scale(1.06); }
+    .blog-card-body { padding: 18px; }
+    .blog-card-category {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .blog-card-body h3 { font-size: 0.98rem; font-weight: 700; line-height: 1.4; margin-bottom: 8px; color: var(--primary); }
+    .blog-card-body p { font-size: 0.83rem; color: var(--muted); line-height: 1.6; margin-bottom: 14px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+    .read-more {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--accent);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: gap 0.2s;
+    }
+    .read-more:hover { gap: 8px; }
+
+    /* ===== SIDEBAR ===== */
+    .sidebar { display: flex; flex-direction: column; gap: 32px; }
+
+    .widget {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+    }
+    .widget-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--primary);
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* Categories */
+    .cat-list { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+    .cat-list li a {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 9px 12px;
+      border-radius: 8px;
+      font-size: 0.87rem;
+      font-weight: 500;
+      color: var(--text);
+      transition: background 0.15s, color 0.15s;
+    }
+    .cat-list li a:hover { background: var(--bg); color: var(--accent); }
+    .cat-list li a.active { background: #eef2ff; color: var(--accent); font-weight: 600; }
+    .cat-count {
+      background: var(--bg);
+      color: var(--muted);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 20px;
+    }
+    .cat-list li a.active .cat-count { background: #ddd6fe; color: var(--accent); }
+
+    /* Popular Posts */
+    .popular-post { display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+    .popular-post:last-child { border-bottom: none; padding-bottom: 0; }
+    .popular-post img { width: 64px; height: 64px; object-fit: cover; border-radius: 8px; flex-shrink: 0; }
+    .popular-post-info { flex: 1; }
+    .popular-post-info h4 { font-size: 0.83rem; font-weight: 600; color: var(--primary); line-height: 1.4; margin-bottom: 4px; }
+    .popular-post-info span { font-size: 0.75rem; color: var(--muted); }
+
+    /* Author */
+    .author-card { text-align: center; }
+    .author-avatar { width: 72px; height: 72px; border-radius: 50%; object-fit: cover; margin: 0 auto 12px; display: block; border: 3px solid #eef2ff; }
+    .author-name { font-size: 0.95rem; font-weight: 700; color: var(--primary); margin-bottom: 4px; }
+    .author-bio { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
+
+    /* ===== PAGINATION ===== */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      margin-top: 40px;
+    }
+    .page-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      border: 1.5px solid var(--border);
+      background: #fff;
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .page-btn:hover { border-color: var(--accent); color: var(--accent); background: #eef2ff; }
+    .page-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .page-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      border: 1.5px solid var(--border);
+      background: #fff;
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .page-num:hover { border-color: var(--accent); color: var(--accent); }
+    .page-num.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+    /* ===== FOOTER ===== */
+    #footer { background: #111827; color: #9ca3af; }
+    #footer .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .footer-top { padding: 68px 0; display: grid; grid-template-columns: 1fr repeat(4,auto); gap: 40px; }
+    .footer-brand {}
+    .footer-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; cursor: pointer; }
+    .footer-logo-icon {
+      width: 36px; height: 36px;
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .footer-logo-icon svg { width: 18px; height: 18px; fill: white; }
+    .footer-logo-text {
+      font-family: 'Poppins', sans-serif;
+      font-size: 20px; font-weight: 700; color: white;
+    }
+    .footer-logo-text span { color: #60a5fa; }
+    .footer-tagline { font-size: 13.5px; line-height: 1.65; margin-bottom: 22px; max-width: 220px; }
+    .footer-socials { display: flex; flex-wrap: wrap; gap: 8px; }
+    .footer-social {
+      width: 36px; height: 36px;
+      background: #1f2937;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+    }
+    .footer-social:hover { background: #2563eb; }
+    .footer-social svg { width: 15px; height: 15px; fill: #9ca3af; transition: fill 0.2s; }
+    .footer-social:hover svg { fill: white; }
+    .footer-col h5 {
+      font-size: 13px; font-weight: 600; color: white;
+      text-transform: uppercase; letter-spacing: 0.5px;
+      margin-bottom: 18px;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col a, .footer-col button {
+      font-size: 13px; color: #9ca3af; text-decoration: none;
+      background: none; border: none; cursor: pointer;
+      font-family: inherit; transition: color 0.15s;
+    }
+    .footer-col a:hover, .footer-col button:hover { color: white; }
+    .footer-bottom {
+      border-top: 1px solid #1f2937;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 14px; padding: 24px 0;
+    }
+    .footer-copyright { font-size: 13px; }
+    .footer-legal { display: flex; gap: 22px; }
+    .footer-legal a, .footer-legal button {
+      font-size: 13px; color: #6b7280;
+      background: none; border: none; cursor: pointer;
+      font-family: inherit; transition: color 0.15s;
+    }
+    .footer-legal a:hover, .footer-legal button:hover { color: white; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1024px) {
+      .main-layout { grid-template-columns: 1fr; }
+      .blog-grid { grid-template-columns: repeat(2, 1fr); }
+      .sidebar { flex-direction: row; flex-wrap: wrap; }
+      .widget { flex: 1 1 280px; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+      .footer-brand { grid-column: 1 / -1; }
+    }
+    @media (max-width: 768px) {
+      nav { display: none; }
+      .hamburger { display: flex; }
+      .hero-card { grid-template-columns: 1fr; }
+      .hero-image { min-height: 220px; }
+      .hero-content { padding: 28px 24px; }
+      .hero-content h2 { font-size: 1.3rem; }
+      .blog-grid { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; }
+      .sidebar { flex-direction: column; }
+    }
+    @media (max-width: 480px) {
+      .category-label h1 { font-size: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-inner">
+      <a href="#" class="logo">QuickGen<span>AI</span></a>
+      <nav>
+        <div class="nav-item">
+          <a href="#" class="nav-btn">Blog <span class="chevron">▾</span></a>
+          <div class="dropdown">
+            <a href="cat1.html" class="current">AI Learning, Basics & Education</a>
+            <a href="category2.html">AI Tools, Productivity & Business Use</a>
+            <a href="category3.html">Future AI, Trends & Advanced Concepts</a>
+            <a href="category4.html">AI News, Risks & Industry Updates</a>
+          </div>
+        </div>
+        <div class="nav-item"><a href="tools.html">Tools</a></div>
+        <div class="nav-item"><a href="about.html">About</a></div>
+        <div class="nav-item"><a href="contact.html">Contact</a></div>
+        <div class="nav-item"><a href="index.html">Home</a></div>
+      </nav>
+      <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="index.html">Home</a>
+      <a href="cat1.html">AI Learning, Basics & Education</a>
+      <a href="category2.html">AI Tools, Productivity & Business Use</a>
+      <a href="category3.html">Future AI, Trends & Advanced Concepts</a>
+      <a href="category4.html">AI News, Risks & Industry Updates</a>
+      <a href="tools.html">Tools</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="index.html">Home</a>
+    </div>
+  </header>
+
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span><strong>AI Learning, Basics & Education</strong>
+  </div>
+
+  <!-- CATEGORY LABEL -->
+  <div class="category-label">
+    <h1>AI Learning, Basics & Education</h1>
+    <p>An educational blogs dedicated to explaining AI fundamentals and making intelligent technology easy to learn.</p>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-card">
+      <div class="hero-image">
+        <span class="hero-badge">Most loved</span>
+        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80" alt="AI chip technology" />
+      </div>
+      <div class="hero-content">
+        <div class="hero-meta">AI Learning, Basics & Education <span>·</span> April 15, 2026 <span>·</span> 8 min read</div>
+        <h2>AI mistakes beginners make & how to avoid them.</h2>
+        <p>A practical guide to the most common AI mistakes beginners make—and how to avoid them with clarity and confidence.</p>
+        <a href="#" class="btn-primary">Read More →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN LAYOUT -->
+  <div class="main-layout">
+    <!-- BLOG GRID -->
+    <main>
+      <div class="section-title">Latest Articles</div>
+      <div class="blog-grid">
+
+        <article class="blog-card">
+          <div class="blog-card-img"><img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600&q=75" alt="Robotics" /></div>
+          <div class="blog-card-body">
+            <div class="blog-card-category">AI Safety & Ethics</div>
+            <h3>How to Stay Safe and Responsible While Using AI</h3>
+            <p>Stay smart with AI—understand the risks, avoid misuse, and use technology responsibly.</p>
+            <a href="#" class="read-more">Read More →</a>
+          </div>
+        </article>
+
+        <article class="blog-card">
+          <div class="blog-card-img"><img src="https://images.unsplash.com/photo-1563206767-5b18f218e8de?w=600&q=75" alt="Cybersecurity" /></div>
+          <div class="blog-card-body">
+            <div class="blog-card-category">AI for Students</div>
+            <h3>How Indian students can use AI safely for study</h3>
+            <p>Learn how Indian students can use AI tools wisely while protecting privacy and maintaining academic integrity.</p>
+            <a href="#" class="read-more">Read More →</a>
+          </div>
+        </article>
+
+        <article class="blog-card">
+          <div class="blog-card-img"><img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&q=75" alt="AI Language Models" /></div>
+          <div class="blog-card-body">
+            <div class="blog-card-category">AI in Education</div>
+            <h3>The Role of AI in Education: Helping Students Learn Smarter</h3>
+            <p>Exploring how artificial intelligence is transforming education and helping students learn smarter, faster, and more effectively.</p>
+            <a href="#" class="read-more">Read More →</a>
+          </div>
+        </article>
+
+        <article class="blog-card">
+          <div class="blog-card-img"><img src="https://quickgenai.in/favicon.ico" alt="Blockchain" /></div>
+          <div class="blog-card-body">
+            <div class="blog-card-category">AI Tools for Learning</div>
+            <h3>How QuickGen AI Can Help Beginners Learn HTML, CSS, and JavaScript</h3>
+            <p>Discover how QuickGen AI can help beginners learn HTML, CSS, and JavaScript faster with guided support and practical examples.</p>
+            <a href="#" class="read-more">Read More →</a>
+          </div>
+        </article>
+
+        <article class="blog-card">
+          <div class="blog-card-img"><img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=600&q=75" alt="Remote Work" /></div>
+          <div class="blog-card-body">
+            <div class="blog-card-category">Productivity</div>
+            <h3>The Best Productivity Apps of 2026 for Remote Teams</h3>
+            <p>From AI-assisted project management to async video tools, we tested 40+ apps and found the ones actually worth your subscription.</p>
+            <a href="#" class="read-more">Read More →</a>
+          </div>
+        </article>
+
+        <article class="blog-card">
+          <div class="blog-card-img"><img src="https://images.unsplash.com/photo-1511447333015-45b65e60f6d5?w=600&q=75" alt="VR Headset" /></div>
+          <div class="blog-card-body">
+            <div class="blog-card-category">Coding Projects for Beginners</div>
+            <h3>Top 5 Python Projects You Can Build with AI Assistance</h3>
+            <p>Discover top beginner-friendly Python projects you can create using AI assistance to speed up learning.</p>
+            <a href="#" class="read-more">Read More →</a>
+          </div>
+        </article>
+      </div>
+    </main>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="widget">
+        <div class="widget-title">Categories</div>
+        <ul class="cat-list">
+          <li><a href="category1.html" class="active">AI mistakes beginners make & how to avoid them <span class="cat-count">7</span></a></li>
+          <li><a href="category2.html">AI Tools, Productivity & Business Use <span class="cat-count">10</span></a></li>
+          <li><a href="category3.html">Future AI, Trends & Advanced Concepts <span class="cat-count">10</span></a></li>
+          <li><a href="category4.html">AI News, Risks & Industry Updates <span class="cat-count">15</span></a></li>
+        </ul>
+      </div>
+
+      <div class="widget">
+        <div class="widget-title">Trending Topics</div>
+        <div class="popular-post">
+          <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=120&q=70" alt="AI Chips" />
+          <div class="popular-post-info">
+            <h4>OpenAI GPT 5.5 update</h4>
+            <span>April 15, 2026</span>
+          </div>
+        </div>
+        <div class="popular-post">
+          <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=120&q=70" alt="GPT-6" />
+          <div class="popular-post-info">
+            <h4>Microsoft layoffs</h4>
+            <span>April 12, 2026</span>
+          </div>
+        </div>
+        <div class="popular-post">
+          <img src="https://images.unsplash.com/photo-1563206767-5b18f218e8de?w=120&q=70" alt="Cybersecurity" />
+          <div class="popular-post-info">
+            <h4>Meta layoffs</h4>
+            <span>April 9, 2026</span>
+          </div>
+        </div>
+        <div class="popular-post">
+          <img src="https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?w=120&q=70" alt="Supplements" />
+          <div class="popular-post-info">
+            <h4>Meta AI shift</h4>
+            <span>April 7, 2026</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="widget">
+        <div class="widget-title">About the Author</div>
+        <div class="author-card">
+          <img src="aut.jpg" alt="Author" class="author-avatar" />
+          <div class="author-name">Mayank</div>
+          <p class="author-bio">Digital professional with 3+ years of experience building and scaling high-performing online platforms. I’ve developed 50+ websites, trained 10+ AI systems, and solved 1500+ debugging challenges, combining technical expertise with strategic and creative problem-solving.</p>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+<!-- ========================= FOOTER ========================= -->
+<footer id="footer">
+  <div class="container">
+    <div class="footer-top">
+      <!-- Brand -->
+      <div class="footer-brand">
+        <div class="footer-logo" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+          <div class="footer-logo-icon"><svg viewBox="0 0 24 24" fill="white"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+          <span class="footer-logo-text">QuickGen<span>AI</span></span>
+        </div>
+        <p class="footer-tagline">Empowering creators and professionals with expert content and powerful AI tools.</p>
+        <div class="footer-socials">
+          <a href="#" class="footer-social" aria-label="Twitter"><svg viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg></a>
+          <a href="#" class="footer-social" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+          <a href="#" class="footer-social" aria-label="GitHub"><svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+          <a href="#" class="footer-social" aria-label="YouTube"><svg viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-1.96C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.4 19.54C5.12 20 12 20 12 20s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#111827"/></svg></a>
+          <a href="#" class="footer-social" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" fill="none" stroke="#9ca3af" stroke-width="1.5"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke="#9ca3af" stroke-width="2"/></svg></a>
+        </div>
+      </div>
+      <!-- Nav -->
+      <div class="footer-col">
+        <h5>Navigation</h5>
+        <ul>
+         <li><button onclick="window.scrollTo(0,0)">Home</button></li>
+         <li><button onclick="location.href='#blog'">Blog</button></li>
+         <li><button onclick="location.href='tools.html'">Tools</button></li>
+         <li><button onclick="location.href='about-us.html'">About</button></li>
+         <li><button onclick="location.href='contact-us.html'">Contact</button></li>
+       </ul>
+      </div>
+      <!-- Categories -->
+      <div class="footer-col">
+        <h5>Categories</h5>
+       <ul>
+          <li><a href="cat1.html">AI &amp; Technology</a></li>
+          <li><a href="cat2.html">Productivity</a></li>
+          <li><a href="cat3.html">Web Development</a></li>
+          <li><a href="cat4.html">Marketing</a></li>
+          <li><a href="cat5.html">SEO &amp; Content</a></li>
+        </ul>
+      </div>
+      <!-- Tools -->
+      <div class="footer-col">
+        <h5>AI Tools</h5>
+        <ul>
+          <li><a href="tools.html#chatbots">Chatbots</a></li>
+          <li><a href="tools.html#seo-tools">SEO Tools</a></li>
+          <li><a href="tools.html#developer-tools">Developer Tools</a></li>
+          <li><a href="tools.html#creator-tools">Creator Tools</a></li>
+          <li><a href="tools.html#image-generation">Image Generation</a></li>
+        </ul>
+      </div>
+      <!-- Legal -->
+      <div class="footer-col">
+        <h5>Legal</h5>
+        <ul>
+          <li><a href="privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="terms-of-service.html">Terms of Service</a></li>
+          <li><a href="disclaimer.html">Disclaimer</a></li>
+          <li><a href="terms.html">Terms</a></li>
+          <li><a href="about-us.html">About us</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copyright">© <span id="year"></span> QuickGenAI. All rights reserved.</span>
+      <div class="footer-legal">
+        <a href="privacy-policy.html">Privacy Policy</a>
+        <a href="terms.html">Terms</a>
+        <a href="disclaimer.html">Disclaimer</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById('mobileMenu').classList.toggle('open');
+    }
+  </script>
+</body>
+</html>
