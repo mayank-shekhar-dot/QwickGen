@@ -749,9 +749,12 @@ crossorigin="anonymous"></script>
       border-radius: 14px; font-weight: 700; font-size: 16px;
       box-shadow: 0 6px 20px rgba(0,0,0,0.18);
       transition: all 0.2s;
+      flex-wrap: wrap;
+      justify-content: center;
+      text-align: center;
     }
     .feedback-email:hover { background: #eff6ff; transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,0,0,0.22); }
-    .feedback-email svg { width: 20px; height: 20px; fill: var(--primary); }
+    .feedback-email svg { width: 20px; height: 20px; fill: var(--primary); flex-shrink: 0; }
     .feedback-note {
       display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap;
       margin-top: 24px;
@@ -759,6 +762,16 @@ crossorigin="anonymous"></script>
     }
     .feedback-note span { display: flex; align-items: center; gap: 6px; }
     .feedback-note svg { width: 14px; height: 14px; fill: rgba(147,197,253,0.9); }
+
+    @media (max-width: 480px) {
+      .feedback-email {
+        padding: 14px 24px;
+        font-size: 14px;
+        gap: 8px;
+      }
+      .feedback-email svg { width: 18px; height: 18px; }
+      .feedback-note { gap: 12px; font-size: 12px; }
+    }
 
     /* ===================== AUTHOR ===================== */
     #author { padding: 88px 0; background: #f9fafb; }
@@ -1144,7 +1157,7 @@ crossorigin="anonymous"></script>
           <h3 class="card-title">Machine Learning for Non-Programmers: A Visual Guide</h3>
           <p class="card-excerpt">Understand the fundamentals of machine learning without writing a single line of code.</p>
           <div class="card-meta">
-            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Mayank</span>
+            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Alex Turner</span>
             <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>10 min read</span>
           </div>
           <div class="card-read-more">Read More <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
@@ -1536,7 +1549,7 @@ crossorigin="anonymous"></script>
     <div class="author-card">
       <div class="author-left">
         <div class="author-avatar-wrap">
-          <img class="author-avatar" src="aut.jpg" alt="Author Mayank"/>
+          <img class="author-avatar" src="aut.jpg" alt="Author Alex Johnson"/>
           <div class="author-online"></div>
         </div>
         <div>
