@@ -56,7 +56,7 @@ def get_next_id():
 
 @app.route("/")
 def home():
-    return "PixelForge AI Running 🚀"
+    return send_from_directory(".", "imgpro.html")
 
 
 @app.route("/health")
