@@ -22,8 +22,7 @@ from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 
 # NEW GOOGLE SDK
-from google import genai
-from google.genai import types
+import google.generativeai as genai
 
 # ─────────────────────────────────────────────────────────────
 # Logging
