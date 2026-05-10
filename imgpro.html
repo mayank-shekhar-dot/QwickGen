@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="PixelForge AI - Transform your words into stunning AI-generated imagery in seconds using Google Gemini." />
+  <meta name="keywords" content="AI image generator, text to image, Gemini AI, generative AI, art generation" />
+  <meta property="og:title" content="PixelForge AI - AI Image Generator" />
+  <meta property="og:description" content="Transform your imagination into stunning visuals with Gemini AI." />
+  <meta property="og:type" content="website" />
+  <title>PixelForge AI - AI Image Generator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Reset & Base ───────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg-primary: #06060f;
+      --bg-secondary: #0d0d1f;
+      --bg-card: rgba(255,255,255,0.04);
+      --border: rgba(255,255,255,0.08);
+      --border-glow: rgba(139,92,246,0.4);
+      --purple: #8b5cf6;
+      --purple-light: #a78bfa;
+      --pink: #ec4899;
+      --blue: #3b82f6;
+      --cyan: #06b6d4;
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-muted: #475569;
+      --gradient-hero: linear-gradient(135deg, #06060f 0%, #0d0d2e 50%, #1a0a2e 100%);
+      --gradient-purple: linear-gradient(135deg, #8b5cf6, #ec4899);
+      --gradient-glow: radial-gradient(ellipse at center, rgba(139,92,246,0.15) 0%, transparent 70%);
+      --shadow-glow: 0 0 40px rgba(139,92,246,0.3);
+      --shadow-card: 0 8px 32px rgba(0,0,0,0.4);
+      --radius: 16px;
+      --radius-sm: 8px;
+      --radius-lg: 24px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ── Custom Cursor ──────────────────────────────────────────────── */
+    #cursor {
+      width: 12px; height: 12px;
+      background: var(--purple);
+      border-radius: 50%;
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s ease, width 0.2s, height 0.2s, background 0.2s;
+      mix-blend-mode: screen;
+    }
+    #cursor-ring {
+      width: 40px; height: 40px;
+      border: 1px solid rgba(139,92,246,0.5);
+      border-radius: 50%;
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: transform 0.12s ease, width 0.2s, height 0.2s;
+    }
+    body:hover #cursor { opacity: 1; }
+
+    /* ── Custom Scrollbar ───────────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg-primary); }
+    ::-webkit-scrollbar-thumb { background: var(--purple); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--purple-light); }
+
+    /* ── Utility ────────────────────────────────────────────────────── */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .gradient-text {
+      background: var(--gradient-purple);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .glass {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+    .section { padding: 100px 0; }
+
+    /* ── Animated Background Grid ───────────────────────────────────── */
+    .bg-grid {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(139,92,246,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(139,92,246,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      animation: gridMove 20s linear infinite;
+    }
+    @keyframes gridMove {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(60px); }
+    }
+
+    /* ── Navbar ─────────────────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 20px 0;
+      background: linear-gradient(to bottom, rgba(6,6,15,0.9), transparent);
+      backdrop-filter: blur(12px);
+      transition: background 0.3s;
+    }
+    nav.scrolled { background: rgba(6,6,15,0.95); border-bottom: 1px solid var(--border); }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo {
+      font-size: 1.25rem; font-weight: 800;
+      text-decoration: none; color: var(--text-primary);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .logo-icon {
+      width: 32px; height: 32px;
+      background: var(--gradient-purple);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+    }
+    .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
+    .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text-primary); }
+    .btn-nav {
+      padding: 8px 20px;
+      background: var(--gradient-purple);
+      color: white; border: none; border-radius: 40px;
+      font-size: 0.875rem; font-weight: 600;
+      cursor: pointer; text-decoration: none;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .btn-nav:hover { opacity: 0.9; transform: translateY(-1px); }
+
+    /* ── Hero Section ───────────────────────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center; position: relative;
+      padding: 120px 24px 80px;
+      overflow: hidden;
+    }
+    .hero-glow {
+      position: absolute; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 40%, rgba(139,92,246,0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 20% 80%, rgba(236,72,153,0.06) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 40% at 80% 20%, rgba(59,130,246,0.06) 0%, transparent 60%);
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(139,92,246,0.1);
+      border: 1px solid rgba(139,92,246,0.3);
+      color: var(--purple-light);
+      padding: 6px 16px; border-radius: 40px;
+      font-size: 0.8rem; font-weight: 600;
+      margin-bottom: 32px;
+      animation: fadeInDown 0.8s ease both;
+    }
+    .badge-dot {
+      width: 6px; height: 6px;
+      background: var(--purple);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.4); }
+    }
+    .hero h1 {
+      font-size: clamp(3rem, 8vw, 6rem);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin-bottom: 24px;
+      animation: fadeInUp 0.9s ease 0.1s both;
+    }
+    .hero p {
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      color: var(--text-secondary);
+      max-width: 600px; margin: 0 auto 40px;
+      animation: fadeInUp 0.9s ease 0.2s both;
+    }
+    .hero-cta {
+      display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+      animation: fadeInUp 0.9s ease 0.3s both;
+    }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 32px;
+      background: var(--gradient-purple);
+      color: white; border: none; border-radius: 50px;
+      font-size: 1rem; font-weight: 700;
+      cursor: pointer; text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 0 30px rgba(139,92,246,0.3);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 50px rgba(139,92,246,0.5); }
+    .btn-secondary {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 32px;
+      background: transparent;
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      font-size: 1rem; font-weight: 600;
+      cursor: pointer; text-decoration: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .btn-secondary:hover { border-color: var(--purple); background: rgba(139,92,246,0.08); }
+
+    /* Floating orb */
+    .hero-orb {
+      position: absolute; bottom: -100px; left: 50%; transform: translateX(-50%);
+      width: 600px; height: 300px;
+      background: radial-gradient(ellipse, rgba(139,92,246,0.2) 0%, transparent 70%);
+      border-radius: 50%; filter: blur(40px);
+      animation: orbFloat 8s ease-in-out infinite;
+    }
+    @keyframes orbFloat {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(-20px); }
+    }
+
+    /* Floating cards */
+    .hero-cards {
+      position: absolute; inset: 0; pointer-events: none; z-index: 0;
+    }
+    .float-card {
+      position: absolute;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-size: 0.75rem; font-weight: 500;
+      display: flex; align-items: center; gap: 8px;
+      color: var(--text-secondary);
+      backdrop-filter: blur(12px);
+    }
+    .float-card.a {
+      top: 25%; left: 8%;
+      animation: floatA 6s ease-in-out infinite;
+    }
+    .float-card.b {
+      top: 35%; right: 8%;
+      animation: floatB 7s ease-in-out infinite;
+    }
+    .float-card.c {
+      bottom: 30%; left: 12%;
+      animation: floatC 8s ease-in-out infinite;
+    }
+    @keyframes floatA {
+      0%, 100% { transform: translateY(0) rotate(-2deg); }
+      50% { transform: translateY(-12px) rotate(2deg); }
+    }
+    @keyframes floatB {
+      0%, 100% { transform: translateY(0) rotate(2deg); }
+      50% { transform: translateY(-16px) rotate(-1deg); }
+    }
+    @keyframes floatC {
+      0%, 100% { transform: translateY(0) rotate(1deg); }
+      50% { transform: translateY(-10px) rotate(-2deg); }
+    }
+    .card-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+    /* ── Generator Section ──────────────────────────────────────────── */
+    #generator {
+      padding: 80px 0 100px;
+      position: relative;
+    }
+    .section-header { text-align: center; margin-bottom: 60px; }
+    .section-label {
+      display: inline-block;
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--purple);
+      margin-bottom: 12px;
+    }
+    .section-header h2 {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 800; letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+    .section-header p { font-size: 1.1rem; color: var(--text-secondary); max-width: 600px; margin: 0 auto; }
+
+    .generator-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px; align-items: start;
+    }
+
+    .generator-panel {
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+    .generator-panel::before {
+      content: '';
+      position: absolute; inset: 0;
+      border-radius: inherit;
+      background: linear-gradient(135deg, rgba(139,92,246,0.08), rgba(236,72,153,0.04));
+      pointer-events: none;
+    }
+
+    .input-group { margin-bottom: 24px; }
+    .input-group label {
+      display: block; font-size: 0.875rem; font-weight: 600;
+      color: var(--text-secondary); margin-bottom: 10px;
+      text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    textarea, select {
+      width: 100%;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      border-radius: var(--radius-sm);
+      font-family: inherit; font-size: 0.95rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+    }
+    textarea {
+      padding: 16px; resize: vertical; min-height: 130px; line-height: 1.6;
+    }
+    select { padding: 12px 16px; cursor: pointer; appearance: none; }
+    textarea:focus, select:focus {
+      border-color: var(--purple);
+      box-shadow: 0 0 0 3px rgba(139,92,246,0.15);
+    }
+    textarea::placeholder { color: var(--text-muted); }
+
+    .controls-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+    .select-wrapper { position: relative; }
+    .select-arrow {
+      position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+      color: var(--text-muted); pointer-events: none; font-size: 0.75rem;
+    }
+
+    .btn-generate {
+      width: 100%;
+      padding: 16px;
+      background: var(--gradient-purple);
+      color: white; border: none; border-radius: var(--radius-sm);
+      font-size: 1rem; font-weight: 700; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      transition: opacity 0.2s, transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 20px rgba(139,92,246,0.3);
+    }
+    .btn-generate:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 8px 30px rgba(139,92,246,0.5); }
+    .btn-generate:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    /* Spinner */
+    .spinner {
+      width: 18px; height: 18px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Image output */
+    .image-output {
+      border-radius: var(--radius-lg);
+      min-height: 400px;
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .image-placeholder {
+      display: flex; flex-direction: column; align-items: center; gap: 16px;
+      color: var(--text-muted);
+    }
+    .placeholder-icon {
+      width: 80px; height: 80px;
+      border: 2px dashed var(--border);
+      border-radius: 16px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem;
+      animation: pulseBorder 3s ease-in-out infinite;
+    }
+    @keyframes pulseBorder {
+      0%, 100% { border-color: var(--border); }
+      50% { border-color: rgba(139,92,246,0.4); }
+    }
+    .image-placeholder p { font-size: 0.9rem; }
+
+    #generated-image {
+      width: 100%; height: 100%; object-fit: contain;
+      border-radius: var(--radius-lg);
+      display: none;
+    }
+    .image-actions {
+      position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%);
+      display: none; gap: 12px;
+    }
+    .btn-action {
+      padding: 8px 20px; border-radius: 40px;
+      font-size: 0.85rem; font-weight: 600; cursor: pointer;
+      border: none; display: flex; align-items: center; gap: 6px;
+      transition: transform 0.2s, opacity 0.2s;
+    }
+    .btn-action:hover { transform: translateY(-1px); opacity: 0.9; }
+    .btn-download { background: var(--gradient-purple); color: white; }
+    .btn-save { background: rgba(255,255,255,0.1); color: var(--text-primary); border: 1px solid var(--border); }
+
+    /* Skeleton loading */
+    .skeleton-container {
+      position: absolute; inset: 0;
+      display: none; flex-direction: column; gap: 12px; padding: 24px;
+      justify-content: flex-end;
+    }
+    .skeleton {
+      background: linear-gradient(90deg, rgba(255,255,255,0.04) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.04) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border-radius: 6px;
+    }
+    @keyframes shimmer { to { background-position: -200% 0; } }
+
+    /* Toast */
+    #toast {
+      position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(100px);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      padding: 12px 24px; border-radius: 40px;
+      font-size: 0.875rem; font-weight: 500;
+      backdrop-filter: blur(20px);
+      z-index: 1000;
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      white-space: nowrap;
+      display: flex; align-items: center; gap: 8px;
+    }
+    #toast.show { transform: translateX(-50%) translateY(0); }
+    #toast.success { border-color: rgba(16,185,129,0.4); }
+    #toast.error { border-color: rgba(239,68,68,0.4); }
+
+    /* ── Features Section ───────────────────────────────────────────── */
+    #features { padding: 100px 0; }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+    .feature-card {
+      padding: 32px;
+      border-radius: var(--radius);
+      transition: transform 0.3s, border-color 0.3s;
+      position: relative; overflow: hidden;
+    }
+    .feature-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: var(--gradient-purple);
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .feature-card:hover { transform: translateY(-4px); border-color: var(--border-glow); }
+    .feature-card:hover::before { opacity: 1; }
+    .feature-icon {
+      width: 52px; height: 52px;
+      background: rgba(139,92,246,0.1);
+      border: 1px solid rgba(139,92,246,0.2);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; margin-bottom: 20px;
+    }
+    .feature-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; }
+    .feature-card p { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.7; }
+
+    /* ── How It Works ───────────────────────────────────────────────── */
+    #how-it-works { padding: 100px 0; }
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 32px; position: relative;
+    }
+    .step {
+      text-align: center; padding: 40px 32px;
+      border-radius: var(--radius);
+      position: relative;
+    }
+    .step-number {
+      width: 60px; height: 60px;
+      background: var(--gradient-purple);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; font-weight: 900;
+      margin: 0 auto 24px;
+      box-shadow: 0 0 30px rgba(139,92,246,0.4);
+    }
+    .step h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 12px; }
+    .step p { color: var(--text-secondary); font-size: 0.925rem; line-height: 1.7; }
+
+    /* ── Gallery Section ────────────────────────────────────────────── */
+    #gallery { padding: 100px 0; }
+    .gallery-stats {
+      display: flex; gap: 24px; justify-content: center;
+      margin-bottom: 48px; flex-wrap: wrap;
+    }
+    .stat-chip {
+      padding: 8px 20px; border-radius: 40px;
+      font-size: 0.85rem; font-weight: 600;
+      background: rgba(139,92,246,0.1);
+      border: 1px solid rgba(139,92,246,0.2);
+      color: var(--purple-light);
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .gallery-card {
+      border-radius: var(--radius);
+      overflow: hidden; position: relative;
+      aspect-ratio: 1; cursor: zoom-in;
+      transition: transform 0.3s;
+    }
+    .gallery-card:hover { transform: scale(1.02); }
+    .gallery-card img {
+      width: 100%; height: 100%; object-fit: cover;
+      display: block;
+    }
+    .gallery-card-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 50%);
+      opacity: 0; transition: opacity 0.3s;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 16px;
+    }
+    .gallery-card:hover .gallery-card-overlay { opacity: 1; }
+    .gallery-card-prompt { font-size: 0.8rem; color: white; line-height: 1.4; margin-bottom: 8px; }
+    .gallery-card-meta { font-size: 0.75rem; color: rgba(255,255,255,0.6); }
+    .btn-delete-card {
+      position: absolute; top: 10px; right: 10px;
+      width: 30px; height: 30px;
+      background: rgba(0,0,0,0.7);
+      border: none; border-radius: 50%;
+      color: rgba(255,255,255,0.7); cursor: pointer;
+      display: none; align-items: center; justify-content: center;
+      font-size: 0.75rem;
+      transition: background 0.2s, color 0.2s;
+    }
+    .gallery-card:hover .btn-delete-card { display: flex; }
+    .btn-delete-card:hover { background: rgba(239,68,68,0.8); color: white; }
+
+    .gallery-empty {
+      text-align: center; padding: 80px 0;
+      color: var(--text-muted);
+      grid-column: 1/-1;
+    }
+    .gallery-empty .empty-icon {
+      font-size: 3rem; margin-bottom: 16px; opacity: 0.3;
+    }
+
+    /* Lightbox */
+    #lightbox {
+      position: fixed; inset: 0; z-index: 500;
+      background: rgba(0,0,0,0.9);
+      display: none; align-items: center; justify-content: center;
+      backdrop-filter: blur(8px);
+      cursor: zoom-out;
+      animation: fadeIn 0.2s ease;
+    }
+    #lightbox.open { display: flex; }
+    #lightbox img {
+      max-width: 90vw; max-height: 90vh;
+      object-fit: contain; border-radius: var(--radius);
+      box-shadow: 0 0 80px rgba(139,92,246,0.2);
+    }
+    .lightbox-close {
+      position: absolute; top: 24px; right: 24px;
+      background: rgba(255,255,255,0.1);
+      border: none; color: white; cursor: pointer;
+      width: 40px; height: 40px; border-radius: 50%;
+      font-size: 1.2rem; display: flex; align-items: center; justify-content: center;
+    }
+
+    /* ── FAQ ────────────────────────────────────────────────────────── */
+    #faq { padding: 100px 0; }
+    .faq-list { max-width: 760px; margin: 0 auto; }
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .faq-item:first-child { border-top: 1px solid var(--border); }
+    .faq-question {
+      width: 100%; background: none; border: none; color: var(--text-primary);
+      padding: 24px 0; text-align: left; cursor: pointer;
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 1rem; font-weight: 600; font-family: inherit;
+      transition: color 0.2s;
+    }
+    .faq-question:hover { color: var(--purple-light); }
+    .faq-icon {
+      width: 28px; height: 28px; flex-shrink: 0;
+      border: 1px solid var(--border); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; transition: transform 0.3s, border-color 0.3s;
+      color: var(--text-muted);
+    }
+    .faq-item.open .faq-icon { transform: rotate(45deg); border-color: var(--purple); color: var(--purple); }
+    .faq-answer {
+      color: var(--text-secondary); font-size: 0.95rem; line-height: 1.8;
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.3s;
+      padding-bottom: 0;
+    }
+    .faq-item.open .faq-answer { max-height: 300px; padding-bottom: 24px; }
+
+    /* ── Footer ─────────────────────────────────────────────────────── */
+    footer {
+      padding: 60px 0 40px;
+      border-top: 1px solid var(--border);
+    }
+    .footer-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 24px;
+    }
+    .footer-copy { color: var(--text-muted); font-size: 0.875rem; }
+
+    /* ── Reveal Animations ──────────────────────────────────────────── */
+    .reveal {
+      opacity: 0; transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; } to { opacity: 1; }
+    }
+
+    /* ── Responsive ─────────────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .generator-layout { grid-template-columns: 1fr; }
+      .controls-row { grid-template-columns: 1fr; }
+      .float-card { display: none; }
+      .nav-links { display: none; }
+    }
+    @media (max-width: 600px) {
+      .container { padding: 0 16px; }
+      .section { padding: 70px 0; }
+      .hero-cta { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Custom cursor -->
+  <div id="cursor"></div>
+  <div id="cursor-ring"></div>
+
+  <!-- Background grid -->
+  <div class="bg-grid"></div>
+
+  <!-- Toast notification -->
+  <div id="toast"></div>
+
+  <!-- Lightbox -->
+  <div id="lightbox" onclick="closeLightbox()">
+    <button class="lightbox-close" onclick="closeLightbox()">&#x2715;</button>
+    <img id="lightbox-img" src="" alt="Gallery image" onclick="event.stopPropagation()" />
+  </div>
+
+  <!-- ── Navigation ──────────────────────────────────────────────────── -->
+  <nav id="navbar">
+    <div class="container">
+      <div class="nav-inner">
+        <a href="#" class="nav-logo">
+          <div class="logo-icon">&#9670;</div>
+          QuickGenAI
+        </a>
+        <ul class="nav-links">
+          <li><a href="#generator">Generator</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#gallery">Gallery</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#generator" class="btn-nav">Start Creating</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── Hero ──────────────────────────────────────────────────────────── -->
+  <section id="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-cards">
+      <div class="float-card a">
+        <div class="card-dot" style="background:#8b5cf6;"></div>
+        Generating your vision...
+      </div>
+      <div class="float-card b">
+        <div class="card-dot" style="background:#ec4899;"></div>
+        Photorealistic &bull; 1:1
+      </div>
+      <div class="float-card c">
+        <div class="card-dot" style="background:#06b6d4;"></div>
+        Image ready in 3s
+      </div>
+    </div>
+    <div class="hero-orb"></div>
+    <div class="container" style="position:relative;z-index:1;">
+      <div class="hero-badge">
+        <div class="badge-dot"></div>
+        Powered by QuickGenAI img-flash v0.1
+      </div>
+      <h1>
+        Imagine it.<br />
+        <span class="gradient-text">We'll create it.</span>
+      </h1>
+      <p>Step into the future of visual creation. PixelForge transforms your words into stunning, cinematic imagery in seconds using advanced generative AI.</p>
+      <div class="hero-cta">
+        <a href="#generator" class="btn-primary">
+          &#9889; Start Creating
+        </a>
+        <a href="#gallery" class="btn-secondary">
+          View Gallery
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Generator ─────────────────────────────────────────────────────── -->
+  <section id="generator">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label">Create</div>
+        <h2>Generate Your <span class="gradient-text">Masterpiece</span></h2>
+        <p>Describe any scene, style, or mood — our AI translates your vision into breathtaking visuals.</p>
+      </div>
+
+      <div class="generator-layout">
+        <!-- Input panel -->
+        <div class="generator-panel glass reveal">
+          <div class="input-group">
+            <label for="prompt-input">Your prompt</label>
+            <textarea
+              id="prompt-input"
+              placeholder="A futuristic cyberpunk cityscape at night, neon lights reflecting off rain-slicked streets, ultra-detailed..."
+              maxlength="1000"
+            ></textarea>
+          </div>
+
+          <div class="controls-row">
+            <div class="input-group" style="margin-bottom:0;">
+              <label>Art style</label>
+              <div class="select-wrapper">
+                <select id="style-select">
+                  <option value="">Default</option>
+                  <option value="Photorealistic">Photorealistic</option>
+                  <option value="Digital Art">Digital Art</option>
+                  <option value="Anime">Anime</option>
+                  <option value="Oil Painting">Oil Painting</option>
+                  <option value="Cyberpunk">Cyberpunk</option>
+                  <option value="Watercolor">Watercolor</option>
+                  <option value="3D Render">3D Render</option>
+                  <option value="Sketch">Sketch</option>
+                </select>
+                <div class="select-arrow">&#9660;</div>
+              </div>
+            </div>
+            <div class="input-group" style="margin-bottom:0;">
+              <label>Aspect ratio</label>
+              <div class="select-wrapper">
+                <select id="ratio-select">
+                  <option value="1:1">1:1 Square</option>
+                  <option value="16:9">16:9 Landscape</option>
+                  <option value="9:16">9:16 Portrait</option>
+                  <option value="4:3">4:3 Classic</option>
+                </select>
+                <div class="select-arrow">&#9660;</div>
+              </div>
+            </div>
+          </div>
+
+          <button class="btn-generate" id="generate-btn" onclick="generateImage()">
+            <span id="btn-icon">&#9889;</span>
+            <span id="btn-text">Generate Image</span>
+          </button>
+        </div>
+
+        <!-- Output panel -->
+        <div class="image-output glass reveal reveal-delay-1" id="image-output">
+          <div class="image-placeholder" id="placeholder">
+            <div class="placeholder-icon">&#128444;</div>
+            <p>Your generated image will appear here</p>
+          </div>
+          <div class="skeleton-container" id="skeleton">
+            <div class="skeleton" style="height:60%;border-radius:12px;"></div>
+            <div class="skeleton" style="height:12px;width:70%;border-radius:6px;"></div>
+            <div class="skeleton" style="height:12px;width:40%;border-radius:6px;"></div>
+          </div>
+          <img id="generated-image" alt="Generated image" />
+          <div class="image-actions" id="image-actions">
+            <button class="btn-action btn-download" onclick="downloadImage()">&#11123; Download</button>
+            <button class="btn-action btn-save" onclick="saveToGallery()">&#128190; Saved</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Features ──────────────────────────────────────────────────────── -->
+  <section id="features" class="section">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label">Why PixelForge</div>
+        <h2>Everything you need to <span class="gradient-text">create</span></h2>
+        <p>Professional-grade AI image generation with the tools and flexibility to bring any vision to life.</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card glass reveal">
+          <div class="feature-icon">&#9889;</div>
+          <h3>QuickGenAI img-flash v.01 Model</h3>
+          <p>Powered by QuickGenAI's latest image model, delivering stunning results in seconds with exceptional prompt understanding.</p>
+        </div>
+        <div class="feature-card glass reveal reveal-delay-1">
+          <div class="feature-icon">&#127912;</div>
+          <h3>8 Art Style Presets</h3>
+          <p>Choose from Photorealistic, Digital Art, Anime, Oil Painting, Cyberpunk, Watercolor, 3D Render, and Sketch styles.</p>
+        </div>
+        <div class="feature-card glass reveal reveal-delay-2">
+          <div class="feature-icon">&#128247;</div>
+          <h3>Multiple Aspect Ratios</h3>
+          <p>Generate images in 1:1 square, 16:9 landscape, 9:16 portrait, or 4:3 classic — perfect for any use case.</p>
+        </div>
+        <div class="feature-card glass reveal reveal-delay-3">
+          <div class="feature-icon">&#11123;</div>
+          <h3>Instant Download</h3>
+          <p>Download your generated images instantly in full quality. No watermarks, no restrictions — yours to keep forever.</p>
+        </div>
+        <div class="feature-card glass reveal">
+          <div class="feature-icon">&#128190;</div>
+          <h3>Auto-Saved Gallery</h3>
+          <p>Every image you generate is automatically saved to your personal gallery for easy access and management.</p>
+        </div>
+        <div class="feature-card glass reveal reveal-delay-1">
+          <div class="feature-icon">&#128274;</div>
+          <h3>Secure Generation</h3>
+          <p>QuickGenAI does not store or share your prompt or generated images.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── How It Works ───────────────────────────────────────────────────── -->
+  <section id="how-it-works" class="section">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label">Process</div>
+        <h2>Three steps to <span class="gradient-text">extraordinary</span></h2>
+        <p>From idea to image in seconds — no design skills required.</p>
+      </div>
+      <div class="steps-grid">
+        <div class="step glass reveal">
+          <div class="step-number">1</div>
+          <h3>Describe</h3>
+          <p>Type any description, scene, or mood in plain language. The more detail you provide, the more precise your image will be.</p>
+        </div>
+        <div class="step glass reveal reveal-delay-1">
+          <div class="step-number">2</div>
+          <h3>Generate</h3>
+          <p>Click Generate and watch Gemini AI transform your words into a stunning visual in just a few seconds.</p>
+        </div>
+        <div class="step glass reveal reveal-delay-2">
+          <div class="step-number">3</div>
+          <h3>Download &amp; Save</h3>
+          <p>Your image is automatically saved to your gallery. Download it instantly or revisit it anytime from the gallery.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Gallery ────────────────────────────────────────────────────────── -->
+  <section id="gallery" class="section">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label">Gallery</div>
+        <h2>Your <span class="gradient-text">Creations</span></h2>
+        <p>Every image you generate lives here — browse, download, and manage your collection.</p>
+      </div>
+      <div class="gallery-stats reveal" id="gallery-stats"></div>
+      <div class="gallery-grid" id="gallery-grid">
+        <div class="gallery-empty">
+          <div class="empty-icon">&#127912;</div>
+          <p>No images yet. Generate your first masterpiece above!</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FAQ ───────────────────────────────────────────────────────────── -->
+  <section id="faq" class="section">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label">FAQ</div>
+        <h2>Common <span class="gradient-text">Questions</span></h2>
+      </div>
+      <div class="faq-list reveal">
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            What AI model powers PixelForge?
+            <div class="faq-icon">+</div>
+          </button>
+          <div class="faq-answer">PixelForge uses Google's Gemini image generation model, one of the most advanced multimodal AI systems available today. It excels at understanding nuanced prompts and generating high-quality imagery across a wide range of styles.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            Do I need a Google account to use this?
+            <div class="faq-icon">+</div>
+          </button>
+          <div class="faq-answer">No Google account is required to use PixelForge. The Gemini API key is configured by the site operator on the backend. Simply visit the site, enter your prompt, and generate images immediately.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            How long does image generation take?
+            <div class="faq-icon">+</div>
+          </button>
+          <div class="faq-answer">Most images generate within 5–15 seconds depending on the complexity of your prompt and current server load. Simpler prompts tend to generate faster, while detailed scenes with specific styles may take a bit longer.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            Are the generated images saved automatically?
+            <div class="faq-icon">+</div>
+          </button>
+          <div class="faq-answer">Yes — every successfully generated image is automatically saved to your gallery. You can view, download, or delete images from the gallery section at any time. The gallery persists as long as the server is running.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            Can I use the generated images commercially?
+            <div class="faq-icon">+</div>
+          </button>
+          <div class="faq-answer">Usage rights depend on Google's Gemini API terms of service. Generally, images generated via the API are yours to use, but review the latest Gemini API usage policies for commercial use guidelines and any restrictions that may apply.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            What image formats and sizes are supported?
+            <div class="faq-icon">+</div>
+          </button>
+          <div class="faq-answer">Images are returned in PNG format by default. You can request different aspect ratios (1:1, 16:9, 9:16, 4:3) via the ratio selector. The AI will compose the scene to fit the selected proportions as closely as possible.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Footer ─────────────────────────────────────────────────────────── -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <a href="#" class="nav-logo">
+          <div class="logo-icon">&#9670;</div>
+          PixelForge AI
+        </a>
+        <p class="footer-copy">&copy; 2025 PixelForge AI. Powered by Google Gemini.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    /* ── State ─────────────────────────────────────────────────────── */
+    let currentImage = null; // { b64_json, mimeType, prompt, style, aspectRatio }
+    let autoSaved = false;
+
+    /* ── Custom Cursor ──────────────────────────────────────────────── */
+    const cursor = document.getElementById('cursor');
+    const cursorRing = document.getElementById('cursor-ring');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+
+    document.addEventListener('mousemove', (e) => {
+      mx = e.clientX; my = e.clientY;
+      cursor.style.left = mx + 'px';
+      cursor.style.top = my + 'px';
+    });
+
+    (function animateCursorRing() {
+      rx += (mx - rx) * 0.15;
+      ry += (my - ry) * 0.15;
+      cursorRing.style.left = rx + 'px';
+      cursorRing.style.top = ry + 'px';
+      requestAnimationFrame(animateCursorRing);
+    })();
+
+    document.querySelectorAll('button, a, select, textarea').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        cursor.style.width = '20px';
+        cursor.style.height = '20px';
+        cursorRing.style.width = '56px';
+        cursorRing.style.height = '56px';
+      });
+      el.addEventListener('mouseleave', () => {
+        cursor.style.width = '12px';
+        cursor.style.height = '12px';
+        cursorRing.style.width = '40px';
+        cursorRing.style.height = '40px';
+      });
+    });
+
+    /* ── Navbar scroll effect ───────────────────────────────────────── */
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    /* ── Reveal on scroll ───────────────────────────────────────────── */
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) e.target.classList.add('visible');
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    /* ── Toast ──────────────────────────────────────────────────────── */
+    function showToast(msg, type = 'success') {
+      const t = document.getElementById('toast');
+      t.textContent = type === 'success' ? '✓  ' + msg : '✕  ' + msg;
+      t.className = 'show ' + type;
+      clearTimeout(t._timer);
+      t._timer = setTimeout(() => t.classList.remove('show'), 3500);
+    }
+
+    /* ── Image Generation ───────────────────────────────────────────── */
+    async function generateImage() {
+
+  const prompt =
+    document.getElementById('prompt-input').value.trim();
+
+  if (!prompt) {
+
+    showToast(
+      'Please enter a prompt first.',
+      'error'
+    );
+
+    document
+      .getElementById('prompt-input')
+      .focus();
+
+    return;
+  }
+
+  const style =
+    document.getElementById('style-select').value;
+
+  const aspectRatio =
+    document.getElementById('ratio-select').value;
+
+  const btn =
+    document.getElementById('generate-btn');
+
+  const icon =
+    document.getElementById('btn-icon');
+
+  const text =
+    document.getElementById('btn-text');
+
+  const placeholder =
+    document.getElementById('placeholder');
+
+  const skeleton =
+    document.getElementById('skeleton');
+
+  const imageEl =
+    document.getElementById('generated-image');
+
+  const actions =
+    document.getElementById('image-actions');
+
+  // =========================================
+  // Loading State
+  // =========================================
+
+  btn.disabled = true;
+
+  icon.innerHTML =
+    '<div class="spinner"></div>';
+
+  text.textContent = 'Generating...';
+
+  placeholder.style.display = 'none';
+
+  imageEl.style.display = 'none';
+
+  actions.style.display = 'none';
+
+  skeleton.style.display = 'flex';
+
+  currentImage = null;
+
+  autoSaved = false;
+
+  try {
+
+    // =======================================
+    // API Request
+    // =======================================
+
+    const res = await fetch('/generate', {
+
+      method: 'POST',
+
+      headers: {
+        'Content-Type': 'application/json'
+      },
+
+      body: JSON.stringify({
+        prompt,
+        style,
+        aspectRatio
+      })
+    });
+
+    const data = await res.json();
+
+    console.log(data);
+
+    // =======================================
+    // Error Handling
+    // =======================================
+
+    if (!res.ok || !data.success) {
+
+      throw new Error(
+        data.error || 'Generation failed.'
+      );
+    }
+
+    // =======================================
+    // Save Current Image Data
+    // =======================================
+
+    currentImage = {
+      ...data,
+      prompt,
+      style,
+      aspectRatio
+    };
+
+    // =======================================
+    // Show Result
+    // =======================================
+
+    skeleton.style.display = 'none';
+
+    // IMPORTANT FIX
+    imageEl.src = data.imageUrl;
+
+    imageEl.style.display = 'block';
+
+    actions.style.display = 'flex';
+
+    // =======================================
+    // Success Toast
+    // =======================================
+
+    showToast('Image generated!');
+
+    // =======================================
+    // Auto Save
+    // =======================================
+
+    autoSaveImage();
+
+  } catch (err) {
+
+    console.error(err);
+
+    skeleton.style.display = 'none';
+
+    placeholder.style.display = 'flex';
+
+    showToast(
+      err.message ||
+      'Generation failed. Try again.',
+      'error'
+    );
+
+  } finally {
+
+    // =======================================
+    // Reset Button
+    // =======================================
+
+    btn.disabled = false;
+
+    icon.textContent = '⚡';
+
+    text.textContent = 'Generate Image';
+  }
+}
+
+    /* ── Auto-Save ──────────────────────────────────────────────────── */
+    async function autoSaveImage() {
+      if (!currentImage || autoSaved) return;
+      try {
+        await fetch('/gallery', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(currentImage)
+        });
+        autoSaved = true;
+        loadGallery();
+        loadStats();
+        const saveBtn = document.querySelector('.btn-save');
+        if (saveBtn) saveBtn.textContent = '✓ Saved';
+      } catch (e) {
+        console.warn('Auto-save failed:', e.message);
+      }
+    }
+
+    async function saveToGallery() {
+      if (!currentImage) return;
+      if (autoSaved) { showToast('Already saved to gallery.'); return; }
+      await autoSaveImage();
+      showToast('Saved to gallery!');
+    }
+
+    /* ── Download ───────────────────────────────────────────────────── */
+    function downloadImage() {
+      if (!currentImage) return;
+      const a = document.createElement('a');
+      a.href = `data:${currentImage.mimeType};base64,${currentImage.b64_json}`;
+      a.download = `pixelforge-${Date.now()}.png`;
+      a.click();
+      showToast('Downloading...');
+    }
+
+    /* ── Gallery ────────────────────────────────────────────────────── */
+    async function loadGallery() {
+      try {
+        const res = await fetch('/gallery');
+        const images = await res.json();
+        renderGallery(images);
+      } catch (e) {
+        console.warn('Could not load gallery:', e.message);
+      }
+    }
+
+    function renderGallery(images) {
+      const grid = document.getElementById('gallery-grid');
+      if (!images || images.length === 0) {
+        grid.innerHTML = `<div class="gallery-empty">
+          <div class="empty-icon">🎨</div>
+          <p>No images yet. Generate your first masterpiece above!</p>
+        </div>`;
+        return;
+      }
+
+      grid.innerHTML = images.map(img => `
+        <div class="gallery-card" data-id="${img.id}">
+          <img
+            src="data:${img.mimeType};base64,${img.b64_json}"
+            alt="${escapeHtml(img.prompt)}"
+            loading="lazy"
+            onclick="openLightbox('data:${img.mimeType};base64,${img.b64_json}')"
+          />
+          <div class="gallery-card-overlay">
+            <p class="gallery-card-prompt">${escapeHtml(img.prompt.slice(0, 80))}${img.prompt.length > 80 ? '...' : ''}</p>
+            <p class="gallery-card-meta">${img.style || 'Default'} &bull; ${img.aspectRatio || '1:1'}</p>
+          </div>
+          <button class="btn-delete-card" onclick="deleteImage(event, ${img.id})" title="Delete">&#x2715;</button>
+        </div>
+      `).join('');
+    }
+
+    async function deleteImage(event, id) {
+      event.stopPropagation();
+      if (!confirm('Delete this image?')) return;
+      try {
+        await fetch(`/gallery/${id}`, { method: 'DELETE' });
+        showToast('Image deleted.');
+        loadGallery();
+        loadStats();
+      } catch (e) {
+        showToast('Failed to delete.', 'error');
+      }
+    }
+
+    async function loadStats() {
+      try {
+        const res = await fetch('/gallery/stats');
+        const stats = await res.json();
+        renderStats(stats);
+      } catch (e) {}
+    }
+
+    function renderStats(stats) {
+      const el = document.getElementById('gallery-stats');
+      if (!stats || stats.totalImages === 0) { el.innerHTML = ''; return; }
+      const chips = [`<div class="stat-chip">${stats.totalImages} image${stats.totalImages !== 1 ? 's' : ''} created</div>`];
+      stats.styleBreakdown.slice(0, 3).forEach(s => {
+        chips.push(`<div class="stat-chip">${s.style || 'Default'}: ${s.count}</div>`);
+      });
+      el.innerHTML = chips.join('');
+    }
+
+    /* ── Lightbox ───────────────────────────────────────────────────── */
+    function openLightbox(src) {
+      document.getElementById('lightbox-img').src = src;
+      document.getElementById('lightbox').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+    /* ── FAQ ────────────────────────────────────────────────────────── */
+    function toggleFaq(btn) {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    }
+
+    /* ── Enter key on textarea ──────────────────────────────────────── */
+    document.getElementById('prompt-input').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) generateImage();
+    });
+
+    /* ── Helpers ────────────────────────────────────────────────────── */
+    function escapeHtml(str) {
+      return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    /* ── Init ───────────────────────────────────────────────────────── */
+    loadGallery();
+    loadStats();
+  </script>
+</body>
+</html>
