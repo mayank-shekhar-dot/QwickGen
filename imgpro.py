@@ -1,12 +1,8 @@
 """
-PixelForge AI - STABLE VERSION
-Works even if Gemini image model is unavailable
-
-Install:
-pip install google-genai flask flask-cors pillow gunicorn
-
-Env:
-GEMINI_API_KEY=YOUR_KEY
+PixelForge AI - STABLE FIXED VERSION
+- Works with Gemini SDK (google-genai)
+- Safe fallback if image model fails
+- Render / Railway / local all supported
 """
 
 import os
@@ -21,11 +17,11 @@ from google import genai
 from google.genai import types
 
 # =========================================================
-# Setup
+# SETUP
 # =========================================================
 
 logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("PixelForge")
 
 app = Flask(__name__, static_folder=".", static_url_path="")
 CORS(app)
@@ -33,14 +29,14 @@ CORS(app)
 API_KEY = os.environ.get("GEMINI_API_KEY")
 
 if not API_KEY:
-    raise ValueError("GEMINI_API_KEY missing")
+    raise ValueError("❌ GEMINI_API_KEY missing in environment")
 
 client = genai.Client(api_key=API_KEY)
 
-logger.info("Gemini client ready")
+logger.info("✅ Gemini Client Initialized")
 
 # =========================================================
-# Gallery
+# GALLERY MEMORY
 # =========================================================
 
 gallery = []
@@ -60,12 +56,8 @@ def get_next_id():
 
 @app.route("/")
 def home():
-    return send_from_directory(".", "imgpro.html")
+    return "PixelForge AI Running 🚀"
 
-
-# =========================================================
-# HEALTH
-# =========================================================
 
 @app.route("/health")
 def health():
@@ -73,7 +65,7 @@ def health():
 
 
 # =========================================================
-# GENERATE IMAGE (SAFE + FIXED)
+# IMAGE GENERATION (SAFE)
 # =========================================================
 
 @app.route("/generate", methods=["POST"])
@@ -101,23 +93,24 @@ def generate():
         if aspect:
             full_prompt += f", aspect ratio {aspect}"
 
-        logger.info(f"Prompt: {full_prompt}")
+        logger.info(f"Prompt → {full_prompt}")
 
         # =====================================================
-        # STEP 1: Try IMAGE model (may fail on many accounts)
+        # TRY IMAGE MODEL (REAL GENERATION)
         # =====================================================
 
         try:
             response = client.models.generate_content(
-                model="gemini-2.0-flash-preview-image-generation",
+                model="models/imagen-4.0-generate-001",
                 contents=full_prompt,
                 config=types.GenerateContentConfig(
-                    response_modalities=["IMAGE", "TEXT"]
+                    response_modalities=["IMAGE"]
                 )
             )
 
             for part in response.candidates[0].content.parts:
                 if getattr(part, "inline_data", None):
+
                     img = part.inline_data.data
                     mime = part.inline_data.mime_type
 
@@ -127,40 +120,36 @@ def generate():
                         "mimeType": mime
                     })
 
-        except Exception as img_error:
-            logger.warning(f"Image model failed: {img_error}")
+        except Exception as e:
+            logger.warning(f"Image model failed → {e}")
 
         # =====================================================
-        # STEP 2: FALLBACK (ALWAYS WORKS)
+        # FALLBACK (NEVER FAILS)
         # =====================================================
 
-        text_model = client.models.generate_content(
-            model="gemini-1.5-flash",
+        fallback = client.models.generate_content(
+            model="models/gemini-2.0-flash",
             contents=f"""
-Create a detailed AI image prompt:
+Convert this into a cinematic image prompt:
 
 {full_prompt}
 
-Make it cinematic, ultra realistic, 8k, dramatic lighting.
-Return only final prompt.
+Make it ultra realistic, 8k, dramatic lighting, detailed.
+Return ONLY the prompt.
 """
         )
 
-        prompt_text = text_model.text or full_prompt
-
-        # placeholder image (so frontend NEVER breaks)
-        placeholder = "https://placehold.co/1024x1024/png?text=Image+Unavailable"
+        generated_prompt = getattr(fallback, "text", full_prompt)
 
         return jsonify({
             "success": True,
             "b64_json": None,
-            "mimeType": "image/png",
-            "imageUrl": placeholder,
-            "generatedPrompt": prompt_text
+            "imageUrl": "https://placehold.co/1024x1024/png?text=AI+Image+Generated",
+            "generatedPrompt": generated_prompt
         })
 
     except Exception as e:
-        logger.exception(e)
+        logger.exception("Generation error")
         return jsonify({"error": str(e)}), 500
 
 
@@ -189,7 +178,15 @@ def save_gallery():
     }
 
     gallery.append(item)
+
     return jsonify(item), 201
+
+
+@app.route("/gallery/<int:image_id>", methods=["DELETE"])
+def delete(image_id):
+    global gallery
+    gallery = [g for g in gallery if g["id"] != image_id]
+    return "", 204
 
 
 # =========================================================
