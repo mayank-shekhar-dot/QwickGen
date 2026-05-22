@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
@@ -408,7 +409,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);-webk
 .api-status.offline .api-status-dot{background:#f87171}
 
 /* Content */
-.content{flex:1;overflow-y:auto;padding:2rem 1.75rem 1rem;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+.scroll-wrap{flex:1;overflow-y:auto;min-height:0;display:flex;flex-direction:column}
+.content{padding:2rem 1.75rem 1rem;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
 .content::-webkit-scrollbar{width:5px}
 .content::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
 
@@ -697,28 +699,9 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);-webk
   height: 100%;
 }
 
-/* MAIN WRAPPER CONTROLS FULL PAGE FLOW */
-.page-wrapper {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-/* THIS IS WHAT RESTORES SCROLL */
-.content {
-  flex: 1;
-  min-height: 0;
-}
-
 /* FOOTER STAYS AT BOTTOM NATURALLY */
 .site-footer {
   margin-top: auto;
-}
-
-/* SAFETY FOR LAYOUT BREAKS */
-.footer-top {
-  display: flex;
-  flex-wrap: wrap;
 }
 
 /* Overlay */
@@ -813,20 +796,10 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);-webk
         </div>
       </div>
 
-<!-- PAGE WRAPPER (IMPORTANT FOR LAYOUT CONTROL) -->
-<div class="page-wrapper">
+<div class="scroll-wrap">
 
   <!-- MAIN CONTENT -->
-  <div class="content" id="content">
-    <!-- Your page content goes here -->
-  </div>
-
-<div class="page-wrapper">
-
-  <!-- MAIN CONTENT AREA -->
-  <main class="content" id="content">
-    <!-- Your dynamic content / homepage content goes here -->
-  </main>
+  <div class="content" id="content"></div>
 
   <!-- FOOTER -->
   <footer class="site-footer">
@@ -891,7 +864,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);-webk
 
   </footer>
 
-</div>
 </div>
 
 <script>
