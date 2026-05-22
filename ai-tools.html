@@ -424,15 +424,16 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);-webk
 
 /* ═══════════ FOOTER ═══════════ */
 .site-footer{
-  flex-shrink:0;
   background:var(--bg-alt);
   border-top:1px solid var(--border);
+  margin-top:3rem;
+  border-radius:var(--radius) var(--radius) 0 0;
+
 }
 .footer-top{
   display:grid;
   grid-template-columns:2fr 1fr 1fr 1fr 1fr;
   gap:2rem;padding:2.5rem 2rem 2rem;
-  max-width:1400px;margin:0 auto;
 }
 .footer-brand-col{}
 .footer-brand{display:flex;align-items:center;gap:.65rem;margin-bottom:.75rem}
@@ -483,7 +484,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);-webk
   border-top:1px solid var(--border);
   padding:.9rem 2rem;
   display:flex;justify-content:space-between;align-items:center;
-  max-width:1400px;margin:0 auto;flex-wrap:wrap;gap:.5rem;
+  flex-wrap:wrap;gap:.5rem;
 }
 .footer-copy{font-size:.78rem;color:var(--text-muted)}
 .footer-copy strong{color:var(--text)}
@@ -617,100 +618,93 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);-webk
 
       <!-- Content -->
       <div class="content" id="content"></div>
+          <footer class="site-footer">
+      <div class="footer-top">
+        <div class="footer-brand-col">
+          <div class="footer-brand">
+            <div class="footer-brand-logo"><i class="fa-solid fa-robot"></i></div>
+            <span class="footer-brand-name">QuickGen<span>AI</span></span>
+          </div>
+          <p class="footer-tagline">Empowering creators and professionals with expert content and powerful AI tools.</p>
+          <div class="footer-socials">
+            <a class="footer-social" href="https://twitter.com/quickgenai" target="_blank" title="Twitter/X"><i class="fa-brands fa-x-twitter"></i></a>
+            <a class="footer-social" href="https://youtube.com/@quickgenai" target="_blank" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
+            <a class="footer-social" href="https://linkedin.com/company/quickgenai" target="_blank" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+            <a class="footer-social" href="https://instagram.com/quickgenai" target="_blank" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Navigation</h4>
+          <ul>
+            <li><a href="https://quickgenai.in" target="_blank"><i class="fa-solid fa-house"></i> Home</a></li>
+            <li><a href="https://quickgenai.in/blog" target="_blank"><i class="fa-solid fa-newspaper"></i> Blog</a></li>
+            <li><a onclick="showHome()" style="cursor:pointer"><i class="fa-solid fa-wrench"></i> Tools</a></li>
+            <li><a href="https://quickgenai.in/about" target="_blank"><i class="fa-solid fa-circle-info"></i> About</a></li>
+            <li><a href="https://quickgenai.in/contact" target="_blank"><i class="fa-solid fa-envelope"></i> Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Categories</h4>
+          <ul>
+            <li><a href="https://quickgenai.in/category/ai-learning" target="_blank">AI Learning, Basics &amp; Education</a></li>
+            <li><a href="https://quickgenai.in/category/ai-tools" target="_blank">AI Tools, Productivity &amp; Business Use</a></li>
+            <li><a href="https://quickgenai.in/category/future-ai" target="_blank">Future AI trends &amp; advanced concepts</a></li>
+            <li><a href="https://quickgenai.in/category/ai-news" target="_blank">AI news risks &amp; industry updates</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Latest Post</h4>
+          <div class="footer-latest">
+            <a class="footer-post" href="https://quickgenai.in/category/ai-tools" target="_blank">
+              <span class="footer-post-tag">AI Tools</span>
+              <span class="footer-post-title">Top AI tools you can use right now for free</span>
+            </a>
+            <a class="footer-post" href="https://quickgenai.in/category/chatbots" target="_blank">
+              <span class="footer-post-tag">Chatbots</span>
+              <span class="footer-post-title">Build your own AI chatbot in minutes</span>
+            </a>
+            <a class="footer-post" href="https://quickgenai.in/seo" target="_blank">
+              <span class="footer-post-tag">SEO Tools</span>
+              <span class="footer-post-title">SEO strategies powered by AI</span>
+            </a>
+            <a class="footer-post" href="https://quickgenai.in/category/developer-tools" target="_blank">
+              <span class="footer-post-tag">Developer Tools</span>
+              <span class="footer-post-title">AI coding tools for developers</span>
+            </a>
+            <a class="footer-post" href="https://quickgenai.in/category/creator-tools" target="_blank">
+              <span class="footer-post-tag">Creator Tools</span>
+              <span class="footer-post-title">Create content faster with AI</span>
+            </a>
+            <a class="footer-post" href="https://quickgenai.in/category/image-generation" target="_blank">
+              <span class="footer-post-tag">Image Generation</span>
+              <span class="footer-post-title">AI image generation tools</span>
+            </a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="https://quickgenai.in/privacy-policy" target="_blank"><i class="fa-solid fa-shield-halved"></i> Privacy Policy</a></li>
+            <li><a href="https://quickgenai.in/contact" target="_blank"><i class="fa-solid fa-envelope"></i> Contact us</a></li>
+            <li><a href="https://quickgenai.in/disclaimer" target="_blank"><i class="fa-solid fa-circle-exclamation"></i> Disclaimer</a></li>
+            <li><a href="https://quickgenai.in/terms" target="_blank"><i class="fa-solid fa-file-contract"></i> Terms</a></li>
+            <li><a href="https://quickgenai.in/about" target="_blank"><i class="fa-solid fa-id-card"></i> About us</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy">© 2026 <strong>QuickGenAI</strong>. All rights reserved.</p>
+        <div class="footer-bottom-links">
+          <a href="https://quickgenai.in/privacy-policy" target="_blank">Privacy Policy</a>
+          <a href="https://quickgenai.in/terms" target="_blank">Terms</a>
+          <a href="https://quickgenai.in/disclaimer" target="_blank">Disclaim</a>
+        </div>
+      </div>
+    </footer>
 
     </div>
   </div>
 
-  <!-- ═══════════ FOOTER ═══════════ -->
-  <footer class="site-footer">
-    <div class="footer-top">
-
-      <!-- Brand column -->
-      <div class="footer-brand-col">
-        <div class="footer-brand">
-          <div class="footer-brand-logo"><i class="fa-solid fa-robot"></i></div>
-          <span class="footer-brand-name">QuickGen<span>AI</span></span>
-        </div>
-        <p class="footer-tagline">Empowering creators and professionals with expert content and powerful AI tools.</p>
-        <div class="footer-socials">
-          <a class="footer-social" href="https://twitter.com/quickgenai" target="_blank" title="Twitter/X"><i class="fa-brands fa-x-twitter"></i></a>
-          <a class="footer-social" href="https://youtube.com/@quickgenai" target="_blank" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
-          <a class="footer-social" href="https://linkedin.com/company/quickgenai" target="_blank" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
-          <a class="footer-social" href="https://instagram.com/quickgenai" target="_blank" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
-        </div>
-      </div>
-
-      <!-- Navigation -->
-      <div class="footer-col">
-        <h4>Navigation</h4>
-        <ul>
-          <li><a href="https://quickgenai.in" target="_blank"><i class="fa-solid fa-house"></i> Home</a></li>
-          <li><a href="https://quickgenai.in/blog" target="_blank"><i class="fa-solid fa-newspaper"></i> Blog</a></li>
-          <li><a onclick="showHome()" style="cursor:pointer"><i class="fa-solid fa-wrench"></i> Tools</a></li>
-          <li><a href="https://quickgenai.in/about" target="_blank"><i class="fa-solid fa-circle-info"></i> About</a></li>
-          <li><a href="https://quickgenai.in/contact" target="_blank"><i class="fa-solid fa-envelope"></i> Contact</a></li>
-        </ul>
-      </div>
-
-      <!-- Categories -->
-      <div class="footer-col">
-        <h4>Categories</h4>
-        <ul>
-          <li><a href="https://quickgenai.in/category/ai-learning" target="_blank">AI Learning, Basics &amp; Education</a></li>
-          <li><a href="https://quickgenai.in/category/ai-tools" target="_blank">AI Tools, Productivity &amp; Business Use</a></li>
-          <li><a href="https://quickgenai.in/category/future-ai" target="_blank">Future AI trends &amp; advanced concepts</a></li>
-          <li><a href="https://quickgenai.in/category/ai-news" target="_blank">AI news risks &amp; industry updates</a></li>
-        </ul>
-      </div>
-
-      <!-- Latest post / AI Tools -->
-      <div class="footer-col">
-        <h4>Latest Post</h4>
-        <div class="footer-latest">
-          <a class="footer-post" href="https://quickgenai.in/category/ai-tools" target="_blank">
-            <span class="footer-post-tag">AI Tools</span>
-            <span class="footer-post-title">Top AI tools you can use right now for free</span>
-          </a>
-          <a class="footer-post" href="https://quickgenai.in/category/chatbots" target="_blank">
-            <span class="footer-post-tag">Chatbots</span>
-            <span class="footer-post-title">Build your own AI chatbot in minutes</span>
-          </a>
-          <a class="footer-post" href="https://quickgenai.in/seo" target="_blank">
-            <span class="footer-post-tag">SEO Tools</span>
-            <span class="footer-post-title">SEO strategies powered by AI</span>
-          </a>
-        </div>
-      </div>
-
-      <!-- Legal & Legal tools col -->
-      <div class="footer-col">
-        <h4>Legal</h4>
-        <ul>
-          <li><a href="https://quickgenai.in/privacy-policy" target="_blank"><i class="fa-solid fa-shield-halved"></i> Privacy Policy</a></li>
-          <li><a href="https://quickgenai.in/contact" target="_blank"><i class="fa-solid fa-envelope"></i> Contact us</a></li>
-          <li><a href="https://quickgenai.in/disclaimer" target="_blank"><i class="fa-solid fa-circle-exclamation"></i> Disclaimer</a></li>
-          <li><a href="https://quickgenai.in/terms" target="_blank"><i class="fa-solid fa-file-contract"></i> Terms</a></li>
-          <li><a href="https://quickgenai.in/about" target="_blank"><i class="fa-solid fa-id-card"></i> About us</a></li>
-        </ul>
-        <h4 style="margin-top:1rem">AI Tool Categories</h4>
-        <ul>
-          <li><a onclick="showHome()" style="cursor:pointer">Developer Tools</a></li>
-          <li><a onclick="showHome()" style="cursor:pointer">Creator Tools</a></li>
-          <li><a onclick="showHome()" style="cursor:pointer">Image Generation</a></li>
-        </ul>
-      </div>
-
-    </div>
-
-    <div class="footer-bottom">
-      <p class="footer-copy">© 2026 <strong>QuickGenAI</strong>. All rights reserved.</p>
-      <div class="footer-bottom-links">
-        <a href="https://quickgenai.in/privacy-policy" target="_blank">Privacy Policy</a>
-        <a href="https://quickgenai.in/terms" target="_blank">Terms</a>
-        <a href="https://quickgenai.in/disclaimer" target="_blank">Disclaim</a>
-      </div>
-    </div>
-  </footer>
 
 </div>
 
@@ -808,56 +802,46 @@ const TOOL_PROMPTS = {
   sql:          (i)       => `Generate SQL queries for the following requirement. Include a main query, an aggregation version, and performance optimization notes with recommended indexes.\n\nRequirement: ${i}`,
 };
 
-/* Call the generate API */
+/* Call the generate API — POST /api/generate {tool, input} → {content, success} */
 async function callGenerateAPI(toolId, userInput, extra) {
-  const promptFn = TOOL_PROMPTS[toolId];
-  const prompt = promptFn ? promptFn(userInput, extra) : `${toolId}: ${userInput}`;
 
-  const response = await fetch(`${API_BASE}/generate`, {
+  const response = await fetch(`${API_BASE}/api/generate`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ prompt, tool: toolId, input: userInput })
+    body: JSON.stringify({ tool: toolId, input: userInput, extra: extra || '' })
   });
 
-  if (!response.ok) throw new Error(`API error ${response.status}: ${response.statusText}`);
+  if (!response.ok) throw new Error(`Server error ${response.status}: ${response.statusText}`);
   const data = await response.json();
-  return data.result || data.output || data.text || data.content || data.response || JSON.stringify(data);
+  if (data.success === false) throw new Error(data.error || 'API returned an error');
+  return data.content || data.result || data.output || data.text || data.response || JSON.stringify(data);
 }
-
-/* Call the chat API */
+/* Call the chat API — POST /api/chat {tool, message, history} → {response, success} */
 async function callChatAPI(toolId, message, history, persona) {
-  const messages = [];
-  if (persona) messages.push({ role: 'system', content: persona });
-  history.forEach(h => {
-    messages.push({ role: 'user', content: h.user });
-    messages.push({ role: 'assistant', content: h.ai });
-  });
-  messages.push({ role: 'user', content: message });
-
-  const response = await fetch(`${API_BASE}/chat`, {
+  const response = await fetch(`${API_BASE}/api/chat`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ messages, tool: toolId, message, history })
+    body: JSON.stringify({ tool: toolId, message, history, persona })
   });
 
-  if (!response.ok) throw new Error(`API error ${response.status}: ${response.statusText}`);
+  if (!response.ok) throw new Error(`Server error ${response.status}: ${response.statusText}`);
   const data = await response.json();
-  return data.result || data.output || data.text || data.content || data.response || data.message || JSON.stringify(data);
+  if (data.success === false) throw new Error(data.error || 'API returned an error');
+  return data.response || data.content || data.result || data.output || data.text || JSON.stringify(data);
 }
 
 /* Check API health on load */
 async function checkAPIHealth() {
   try {
-    const res = await fetch(`${API_BASE}/health`, { method: 'GET', signal: AbortSignal.timeout(5000) });
-    if (!res.ok) throw new Error('not ok');
-    setAPIStatus(true);
+    const res = await fetch(`${API_BASE}/api/chat`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ tool: 'chat_general', message: 'ping', history: [] }),
+      signal: AbortSignal.timeout(8000)
+    });
+    setAPIStatus(res.ok || res.status < 500);
   } catch {
-    try {
-      const res2 = await fetch(`${API_BASE}/`, { method: 'GET', signal: AbortSignal.timeout(5000) });
-      setAPIStatus(res2.ok || res2.status < 500);
-    } catch {
-      setAPIStatus(false);
-    }
+    setAPIStatus(false);
   }
 }
 
