@@ -691,6 +691,36 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);-webk
   .tools-grid{grid-template-columns:repeat(2,1fr)}
 }
 
+  html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+/* MAIN WRAPPER CONTROLS FULL PAGE FLOW */
+.page-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* THIS IS WHAT RESTORES SCROLL */
+.content {
+  flex: 1;
+  min-height: 0;
+}
+
+/* FOOTER STAYS AT BOTTOM NATURALLY */
+.site-footer {
+  margin-top: auto;
+}
+
+/* SAFETY FOR LAYOUT BREAKS */
+.footer-top {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 /* Overlay */
 .sidebar-overlay{display:none;position:fixed;inset:0;z-index:49;background:rgba(0,0,0,.5);backdrop-filter:blur(4px)}
 .sidebar-overlay.active{display:block}
