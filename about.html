@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Us – QuickGenAI | Free AI Tools & AI Image Generation</title>
+  <meta name="description" content="Learn about QuickGenAI — our mission to empower creators and professionals with free AI tools, AI image generation, educational content, and productivity resources." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="QuickGenAI" />
+  <link rel="canonical" href="https://quickgenai.in/about-us" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="About Us – QuickGenAI | Free AI Tools & AI Image Generation" />
+  <meta property="og:description" content="Discover the mission, vision, and values behind QuickGenAI — your free platform for AI tools, AI image generation, and educational AI content." />
+  <meta property="og:url" content="https://quickgenai.in/about-us" />
+  <meta property="og:site_name" content="QuickGenAI" />
+  <meta property="og:image" content="https://quickgenai.in/og-image.jpg" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="About Us – QuickGenAI" />
+  <meta name="twitter:description" content="Free AI tools, image generation, and educational content. Learn about QuickGenAI's mission to empower creators worldwide." />
+  <meta name="twitter:image" content="https://quickgenai.in/og-image.jpg" />
+
+  <!-- Schema Markup -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "QuickGenAI",
+    "url": "https://quickgenai.in",
+    "description": "QuickGenAI provides free AI tools, AI image generation, educational content, and productivity resources for creators and professionals.",
+    "email": "contactmayankproduction@gmail.com",
+    "sameAs": []
+  }
+  </script>
+
+  <style>
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #0a0a0f;
+      color: #e2e8f0;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    ul { list-style: none; }
+    img { max-width: 100%; }
+    button { cursor: pointer; border: none; background: none; font-family: inherit; }
+
+    /* ===== SCROLLBAR ===== */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #0a0a0f; }
+    ::-webkit-scrollbar-thumb { background: #7c3aed; border-radius: 3px; }
+
+    /* ===== CONTAINER ===== */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+    /* ===== HEADER ===== */
+    #header {
+      position: sticky; top: 0; z-index: 1000;
+      background: rgba(10,10,15,0.92);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(124,58,237,0.2);
+      padding: 0;
+    }
+    .header-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 70px; gap: 32px;
+    }
+    .logo { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+    .logo-icon {
+      width: 36px; height: 36px;
+      background: linear-gradient(135deg, #7c3aed, #3b82f6);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .logo-icon svg { width: 18px; height: 18px; fill: white; }
+    .logo-text { font-size: 1.3rem; font-weight: 700; color: #f1f5f9; letter-spacing: -0.5px; }
+    .logo-text span { color: #7c3aed; }
+
+    .desktop-nav { display: flex; align-items: center; gap: 8px; }
+    .nav-item { position: relative; }
+    .nav-link {
+      display: flex; align-items: center; gap: 4px;
+      color: #cbd5e1; font-size: 0.9rem; font-weight: 500;
+      padding: 8px 14px; border-radius: 8px;
+      transition: all 0.2s;
+    }
+    .nav-link:hover { color: #f1f5f9; background: rgba(124,58,237,0.1); }
+    .nav-link svg { width: 14px; height: 14px; }
+    .dropdown {
+      display: none; position: absolute; top: calc(100% + 8px); left: 0;
+      background: rgba(15,15,25,0.97); border: 1px solid rgba(124,58,237,0.25);
+      border-radius: 12px; padding: 8px; min-width: 260px;
+      backdrop-filter: blur(20px); box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    }
+    .nav-item:hover .dropdown { display: block; }
+    .dropdown a {
+      display: block; padding: 10px 14px; color: #94a3b8; font-size: 0.875rem;
+      border-radius: 8px; transition: all 0.2s;
+    }
+    .dropdown a:hover { color: #f1f5f9; background: rgba(124,58,237,0.15); }
+    .nav-cta {
+      background: linear-gradient(135deg, #7c3aed, #3b82f6);
+      color: #fff; padding: 9px 20px; border-radius: 8px;
+      font-size: 0.875rem; font-weight: 600; transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .nav-cta:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 8px 20px rgba(124,58,237,0.3); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; padding: 6px; cursor: pointer; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: #cbd5e1; border-radius: 2px; transition: all 0.3s; }
+    .mobile-nav { display: none; flex-direction: column; gap: 4px; padding: 12px 0 16px; border-top: 1px solid rgba(124,58,237,0.15); }
+    .mobile-nav.active { display: flex; }
+    .mobile-nav-link {
+      display: flex; align-items: center; justify-content: space-between;
+      color: #cbd5e1; font-size: 0.9rem; padding: 12px 8px; border-radius: 8px; transition: all 0.2s;
+    }
+    .mobile-nav-link:hover, .mobile-nav-link.active { color: #f1f5f9; background: rgba(124,58,237,0.1); }
+    .mobile-nav-link svg { width: 14px; height: 14px; transition: transform 0.2s; }
+    .mobile-dropdown { display: none; flex-direction: column; padding-left: 16px; gap: 2px; }
+    .mobile-dropdown.open { display: flex; }
+    .mobile-dropdown a { color: #94a3b8; font-size: 0.85rem; padding: 8px 10px; border-radius: 6px; }
+    .mobile-dropdown a:hover { color: #f1f5f9; background: rgba(124,58,237,0.1); }
+    .mobile-cta {
+      margin-top: 8px; text-align: center;
+      background: linear-gradient(135deg, #7c3aed, #3b82f6);
+      color: #fff; padding: 12px; border-radius: 8px; font-weight: 600;
+    }
+
+    /* ===== BG PATTERN ===== */
+    .bg-pattern {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(124,58,237,0.12) 0%, transparent 60%),
+                  radial-gradient(ellipse 60% 40% at 80% 80%, rgba(59,130,246,0.06) 0%, transparent 60%);
+    }
+
+    /* ===== BREADCRUMB ===== */
+    .breadcrumb {
+      background: rgba(124,58,237,0.05); border-bottom: 1px solid rgba(124,58,237,0.1);
+      padding: 12px 0; position: relative; z-index: 1;
+    }
+    .breadcrumb-inner {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 0.82rem; color: #64748b;
+    }
+    .breadcrumb-inner a { color: #7c3aed; transition: color 0.2s; }
+    .breadcrumb-inner a:hover { color: #a78bfa; }
+    .breadcrumb-inner span { color: #475569; }
+
+    /* ===== HERO ===== */
+    .page-hero {
+      padding: 80px 0 60px; text-align: center; position: relative; z-index: 1;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(124,58,237,0.15); border: 1px solid rgba(124,58,237,0.3);
+      color: #a78bfa; padding: 6px 16px; border-radius: 50px;
+      font-size: 0.8rem; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .page-hero h1 {
+      font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; line-height: 1.2;
+      color: #f1f5f9; letter-spacing: -1px; margin-bottom: 20px;
+    }
+    .page-hero h1 span { background: linear-gradient(135deg, #7c3aed, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .page-hero p { font-size: 1.1rem; color: #94a3b8; max-width: 620px; margin: 0 auto; }
+    .last-updated {
+      display: inline-flex; align-items: center; gap: 6px;
+      margin-top: 20px; color: #475569; font-size: 0.82rem;
+    }
+    .last-updated svg { width: 14px; height: 14px; }
+
+    /* ===== CONTENT SECTIONS ===== */
+    .content-section { padding: 80px 0; position: relative; z-index: 1; }
+    .content-section + .content-section { padding-top: 0; }
+
+    /* ===== GLASS CARD ===== */
+    .glass-card {
+      background: rgba(15,15,25,0.7);
+      border: 1px solid rgba(124,58,237,0.15);
+      border-radius: 20px; padding: 40px;
+      backdrop-filter: blur(10px);
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .glass-card:hover { border-color: rgba(124,58,237,0.3); transform: translateY(-2px); }
+
+    /* ===== SECTION HEADINGS ===== */
+    .section-label {
+      font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px;
+      color: #7c3aed; margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 700; color: #f1f5f9;
+      letter-spacing: -0.5px; margin-bottom: 16px;
+    }
+    .section-title span { background: linear-gradient(135deg, #7c3aed, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .section-desc { color: #94a3b8; font-size: 1rem; max-width: 640px; }
+
+    /* ===== GRID LAYOUTS ===== */
+    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 24px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+
+    /* ===== MISSION / VISION ===== */
+    .mv-card {
+      background: rgba(15,15,25,0.7); border: 1px solid rgba(124,58,237,0.15);
+      border-radius: 20px; padding: 40px; backdrop-filter: blur(10px);
+      position: relative; overflow: hidden;
+    }
+    .mv-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, #7c3aed, #3b82f6);
+    }
+    .mv-icon {
+      width: 56px; height: 56px; border-radius: 16px;
+      background: linear-gradient(135deg, rgba(124,58,237,0.2), rgba(59,130,246,0.2));
+      border: 1px solid rgba(124,58,237,0.3);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 20px; font-size: 1.6rem;
+    }
+    .mv-card h3 { font-size: 1.3rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .mv-card p { color: #94a3b8; line-height: 1.8; }
+
+    /* ===== FEATURE LIST ===== */
+    .feature-item { display: flex; gap: 16px; margin-bottom: 20px; }
+    .feature-icon {
+      flex-shrink: 0; width: 40px; height: 40px; border-radius: 10px;
+      background: linear-gradient(135deg, rgba(124,58,237,0.2), rgba(59,130,246,0.2));
+      border: 1px solid rgba(124,58,237,0.25);
+      display: flex; align-items: center; justify-content: center; font-size: 1.1rem;
+    }
+    .feature-text h4 { font-size: 1rem; font-weight: 600; color: #f1f5f9; margin-bottom: 4px; }
+    .feature-text p { color: #94a3b8; font-size: 0.9rem; }
+
+    /* ===== STATS ===== */
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; margin-top: 40px; }
+    .stat-card {
+      background: rgba(124,58,237,0.08); border: 1px solid rgba(124,58,237,0.2);
+      border-radius: 16px; padding: 28px 24px; text-align: center;
+    }
+    .stat-number { font-size: 2.2rem; font-weight: 800; background: linear-gradient(135deg, #7c3aed, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .stat-label { color: #64748b; font-size: 0.85rem; margin-top: 4px; }
+
+    /* ===== TEAM / VALUES ===== */
+    .value-card {
+      background: rgba(15,15,25,0.7); border: 1px solid rgba(124,58,237,0.15);
+      border-radius: 16px; padding: 32px; transition: all 0.3s;
+    }
+    .value-card:hover { border-color: rgba(124,58,237,0.35); transform: translateY(-4px); box-shadow: 0 16px 40px rgba(124,58,237,0.1); }
+    .value-emoji { font-size: 2rem; margin-bottom: 16px; }
+    .value-card h3 { font-size: 1.05rem; font-weight: 700; color: #f1f5f9; margin-bottom: 10px; }
+    .value-card p { color: #94a3b8; font-size: 0.9rem; line-height: 1.7; }
+
+    /* ===== CTA BANNER ===== */
+    .cta-banner {
+      background: linear-gradient(135deg, rgba(124,58,237,0.15), rgba(59,130,246,0.1));
+      border: 1px solid rgba(124,58,237,0.25); border-radius: 24px;
+      padding: 60px 40px; text-align: center; margin: 60px 0;
+      position: relative; z-index: 1; overflow: hidden;
+    }
+    .cta-banner::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(124,58,237,0.08), transparent);
+    }
+    .cta-banner h2 { font-size: 1.8rem; font-weight: 700; color: #f1f5f9; margin-bottom: 16px; position: relative; }
+    .cta-banner p { color: #94a3b8; margin-bottom: 28px; position: relative; }
+    .cta-btn {
+      display: inline-block; background: linear-gradient(135deg, #7c3aed, #3b82f6);
+      color: #fff; padding: 14px 32px; border-radius: 10px; font-weight: 600;
+      font-size: 0.95rem; transition: all 0.2s; position: relative;
+    }
+    .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(124,58,237,0.35); }
+
+    /* ===== LEGAL NAV ===== */
+    .legal-nav {
+      background: rgba(124,58,237,0.06); border: 1px solid rgba(124,58,237,0.15);
+      border-radius: 16px; padding: 28px 32px; margin-bottom: 40px; position: relative; z-index: 1;
+    }
+    .legal-nav p { font-size: 0.85rem; color: #64748b; margin-bottom: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+    .legal-nav-links { display: flex; flex-wrap: wrap; gap: 10px; }
+    .legal-nav-links a {
+      background: rgba(124,58,237,0.12); border: 1px solid rgba(124,58,237,0.2);
+      color: #a78bfa; padding: 6px 14px; border-radius: 50px; font-size: 0.82rem;
+      font-weight: 500; transition: all 0.2s;
+    }
+    .legal-nav-links a:hover { background: rgba(124,58,237,0.25); color: #c4b5fd; }
+
+    /* ===== DIVIDER ===== */
+    .divider {
+      height: 1px; background: linear-gradient(90deg, transparent, rgba(124,58,237,0.2), transparent);
+      margin: 0 auto; max-width: 600px; position: relative; z-index: 1;
+    }
+
+    /* ===== FOOTER ===== */
+    #footer {
+      background: rgba(5,5,12,0.98); border-top: 1px solid rgba(124,58,237,0.2);
+      padding: 60px 0 0; position: relative; z-index: 1;
+    }
+    .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 48px; }
+    .footer-logo { display: flex; align-items: center; gap: 10px; cursor: pointer; margin-bottom: 16px; }
+    .footer-logo-icon {
+      width: 36px; height: 36px; background: linear-gradient(135deg, #7c3aed, #3b82f6);
+      border-radius: 10px; display: flex; align-items: center; justify-content: center;
+    }
+    .footer-logo-icon svg { width: 18px; height: 18px; }
+    .footer-logo-text { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; }
+    .footer-logo-text span { color: #7c3aed; }
+    .footer-tagline { color: #64748b; font-size: 0.875rem; line-height: 1.6; margin-bottom: 20px; }
+    .footer-socials { display: flex; gap: 10px; }
+    .footer-social {
+      width: 36px; height: 36px; background: rgba(124,58,237,0.1); border: 1px solid rgba(124,58,237,0.2);
+      border-radius: 8px; display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+    }
+    .footer-social:hover { background: rgba(124,58,237,0.25); border-color: rgba(124,58,237,0.4); transform: translateY(-2px); }
+    .footer-social svg { width: 16px; height: 16px; fill: none; stroke: #9ca3af; stroke-width: 1.5; }
+    .footer-col h5 { color: #f1f5f9; font-size: 0.9rem; font-weight: 600; margin-bottom: 16px; letter-spacing: 0.3px; }
+    .footer-col ul { display: flex; flex-direction: column; gap: 10px; }
+    .footer-col ul li a, .footer-col ul li button {
+      color: #64748b; font-size: 0.85rem; transition: color 0.2s;
+      background: none; border: none; cursor: pointer; font-family: inherit; text-align: left;
+    }
+    .footer-col ul li a:hover, .footer-col ul li button:hover { color: #a78bfa; }
+    .footer-bottom {
+      border-top: 1px solid rgba(124,58,237,0.1); padding: 20px 0;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+    }
+    .footer-copyright { color: #475569; font-size: 0.82rem; }
+    .footer-legal { display: flex; gap: 20px; }
+    .footer-legal a { color: #475569; font-size: 0.82rem; transition: color 0.2s; }
+    .footer-legal a:hover { color: #a78bfa; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 900px) {
+      .footer-top { grid-template-columns: 1fr 1fr; }
+      .footer-brand { grid-column: 1 / -1; }
+    }
+    @media (max-width: 768px) {
+      .desktop-nav { display: none; }
+      .hamburger { display: flex; }
+      .page-hero { padding: 50px 0 40px; }
+      .glass-card { padding: 28px 22px; }
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .footer-top { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; }
+      .cta-banner { padding: 40px 24px; }
+    }
+  </style>
+</head>
+<body>
+<div class="bg-pattern"></div>
+
+<!-- ========================= HEADER ========================= -->
+<header id="header">
+  <div class="container">
+    <div class="header-inner">
+      <div class="logo" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        </div>
+        <span class="logo-text">QuickGen<span>AI</span></span>
+      </div>
+      <nav class="desktop-nav">
+        <div class="nav-item">
+          <a class="nav-link" href="#">Blog <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></a>
+          <div class="dropdown">
+            <a href="https://quickgenai.in/categories/ai-learning-basics-&-education">AI Learning, Basics & Education</a>
+            <a href="https://quickgenai.in/categories/ai-tools-productivity-&-business-use">AI Tools, Productivity & Business Use</a>
+            <a href="https://quickgenai.in/categories/future-ai-trends-&-advanced-concepts">Future AI, Trends & Advanced Concepts</a>
+            <a href="https://quickgenai.in/categories/ai-news-risks-&-industry-updates">AI News, Risks & Industry Updates</a>
+          </div>
+        </div>
+        <div class="nav-item"><a class="nav-link" href="https://quickgenai.in/ai-tools">Tools</a></div>
+        <div class="nav-item"><a class="nav-link" href="https://quickgenai.in/about">About</a></div>
+        <div class="nav-item"><a class="nav-link" href="https://quickgenai.in/contact">Contact</a></div>
+        <a class="nav-cta" href="https://quickgenai.in/imgpro">Image Generation</a>
+      </nav>
+      <div class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <div class="mobile-nav" id="mobileNav">
+      <button class="mobile-nav-link" onclick="toggleMobileDropdown('blogDrop',this)">Blog <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>
+      <div class="mobile-dropdown" id="blogDrop">
+        <a href="https://quickgenai.in/categories/ai-learning-basics-&-education">AI Learning, Basics & Education</a>
+        <a href="https://quickgenai.in/categories/ai-tools-productivity-&-business-use">AI Tools, Productivity & Business Use</a>
+        <a href="https://quickgenai.in/categories/ai-tools-productivity-&-business-use">Future AI, Trends & Advanced Concepts</a>
+        <a href="https://quickgenai.in/categories/ai-news-risks-&-industry-updates">AI News, Risks & Industry Updates</a>
+      </div>
+      <a class="mobile-nav-link" href="https://quickgenai.in/ai-tools">Tools</a>
+      <a class="mobile-nav-link" href="https://quickgenai.in/about-us">About</a>
+      <a class="mobile-nav-link" href="https://quickgenai.in/contact-us">Contact</a>
+      <a class="mobile-cta" href="https://quickgenai.in/ai-tools">Try AI Tools</a>
+    </div>
+  </div>
+</header>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <div class="container">
+    <div class="breadcrumb-inner">
+      <a href="https://quickgenai.in">Home</a>
+      <span>›</span>
+      <span>About Us</span>
+    </div>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="page-hero">
+  <div class="container">
+    <div class="hero-badge">✦ Our Story</div>
+    <h1>About <span>QuickGenAI</span></h1>
+    <p>We believe AI should be accessible to everyone — free, powerful, and easy to use. Discover the mission and values that drive everything we build.</p>
+    <div class="last-updated">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      Last Updated: January 2026
+    </div>
+  </div>
+</section>
+
+<!-- LEGAL NAV -->
+<div class="container" style="position:relative;z-index:1;">
+  <div class="legal-nav">
+    <p>Legal Pages</p>
+    <div class="legal-nav-links">
+      <a href="https://quickgenai.in/about">About Us</a>
+      <a href="https://quickgenai.in/contact">Contact Us</a>
+      <a href="https://quickgenai.in/privacy-policy">Privacy Policy</a>
+      <a href="https://quickgenai.in/terms">Terms & Conditions</a>
+      <a href="https://quickgenai.in/disclaimer">Disclaimer</a>
+      <a href="https://quickgenai.in/cookie-policy">Cookie Policy</a>
+    </div>
+  </div>
+</div>
+
+<!-- MISSION & VISION -->
+<section class="content-section">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:48px;">
+      <div class="section-label">What We Stand For</div>
+      <h2 class="section-title">Our Mission & <span>Vision</span></h2>
+      <p class="section-desc" style="margin:0 auto;">Every decision we make is guided by a simple belief: powerful AI tools should be free and accessible to all.</p>
+    </div>
+    <div class="grid-2">
+      <div class="mv-card">
+        <div class="mv-icon">🎯</div>
+        <h3>Our Mission</h3>
+        <p>QuickGenAI's mission is to democratize artificial intelligence by providing free, high-quality AI tools, comprehensive educational content, and cutting-edge image generation capabilities to creators, students, entrepreneurs, and professionals worldwide. We believe that the power of AI should never be locked behind a paywall. Every creator deserves access to tools that can elevate their work, and every learner deserves access to knowledge that can expand their horizons.</p>
+        <br/>
+        <p>We are committed to building a platform where innovation meets accessibility — a space where anyone, regardless of background or budget, can harness the transformative potential of artificial intelligence to enhance their productivity, creativity, and impact.</p>
+      </div>
+      <div class="mv-card">
+        <div class="mv-icon">🔭</div>
+        <h3>Our Vision</h3>
+        <p>We envision a future where AI tools are as universally accessible as a search engine — a world where a student in a small town has the same AI-powered capabilities as a professional at a top-tier technology firm. QuickGenAI aims to be the go-to platform for AI education, creative tools, and intelligent productivity resources across the globe.</p>
+        <br/>
+        <p>Our long-term vision extends beyond just tools. We see QuickGenAI evolving into a comprehensive AI ecosystem — a community where creators, learners, and innovators come together to explore the frontiers of artificial intelligence, share knowledge, and build the future of human-AI collaboration.</p>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-number">100%</div>
+        <div class="stat-label">Free AI Tools</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">6+</div>
+        <div class="stat-label">AI Tool Categories</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">∞</div>
+        <div class="stat-label">Image Uses Allowed</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">0</div>
+        <div class="stat-label">Login Required</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- WHO WE ARE -->
+<section class="content-section">
+  <div class="container">
+    <div class="glass-card">
+      <div class="section-label">Who We Are</div>
+      <h2 class="section-title" style="margin-bottom:20px;">A Platform Built for <span>Creators & Learners</span></h2>
+      <p style="color:#94a3b8;line-height:1.9;margin-bottom:20px;">QuickGenAI was founded with a straightforward observation: the AI revolution was producing incredible technology, but much of it was locked behind expensive subscriptions, confusing interfaces, and steep learning curves. Creators, students, small business owners, and everyday professionals were being left behind.</p>
+      <p style="color:#94a3b8;line-height:1.9;margin-bottom:20px;">We set out to change that. QuickGenAI is a free AI platform that brings together a suite of practical AI tools, an extensive library of educational content, powerful image generation technology, and up-to-date industry insights — all in one place, completely free to use, and requiring no login for normal access.</p>
+      <p style="color:#94a3b8;line-height:1.9;">Our team is passionate about both AI and education. We are developers, writers, designers, and AI enthusiasts who believe that technology is most valuable when it empowers people to do more, create more, and learn more. Every tool we build, every article we write, and every feature we launch is driven by one question: <em style="color:#a78bfa;">"How does this help our users?"</em></p>
+    </div>
+  </div>
+</section>
+
+<!-- WHY CHOOSE US -->
+<section class="content-section">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:48px;">
+      <div class="section-label">Why QuickGenAI</div>
+      <h2 class="section-title">Why Choose <span>Us?</span></h2>
+    </div>
+    <div class="grid-3">
+      <div class="value-card">
+        <div class="value-emoji">🆓</div>
+        <h3>Always Free</h3>
+        <p>All of our core AI tools are completely free to use. No hidden fees, no credit card required, no freemium traps. We believe powerful AI should be accessible to everyone.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-emoji">🖼️</div>
+        <h3>Unrestricted Image Use</h3>
+        <p>AI-generated images created on QuickGenAI can be used for both personal and commercial purposes. Use them in your projects, social media, business, or creative work — no restrictions.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-emoji">📚</div>
+        <h3>Deep Educational Content</h3>
+        <p>Beyond tools, we offer comprehensive educational content covering AI fundamentals, advanced concepts, industry trends, and practical applications — written for real understanding.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-emoji">🔒</div>
+        <h3>Privacy Focused</h3>
+        <p>We do not intentionally collect sensitive personal data. No login is required for most features. We are transparent about our data practices and respect your privacy.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-emoji">⚡</div>
+        <h3>Fast & Reliable</h3>
+        <p>Our platform is optimized for speed and performance. We understand your time is valuable, so we work hard to ensure fast load times and reliable tool performance.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-emoji">🌍</div>
+        <h3>Global Community</h3>
+        <p>QuickGenAI serves users from across the globe. Our content and tools are designed to be universally accessible and useful regardless of your background or location.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- AI TOOLS SECTION -->
+<section class="content-section">
+  <div class="container">
+    <div style="max-width:800px;margin:0 auto;">
+      <div class="section-label">Our Offerings</div>
+      <h2 class="section-title">What We <span>Offer</span></h2>
+      <div class="feature-item">
+        <div class="feature-icon">🤖</div>
+        <div class="feature-text">
+          <h4>AI Chatbots & Assistants</h4>
+          <p>Access AI-powered conversational tools for writing, brainstorming, problem-solving, and general assistance. Our chatbot tools are designed for practical everyday use.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">🎨</div>
+        <div class="feature-text">
+          <h4>AI Image Generation</h4>
+          <p>Generate stunning, high-quality AI images for personal or commercial use. Our image generation tool supports a wide range of styles, subjects, and creative directions — completely free.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">📈</div>
+        <div class="feature-text">
+          <h4>SEO & Content Tools</h4>
+          <p>Boost your content strategy with AI-powered keyword research, content suggestions, meta description generators, and SEO optimization tools designed for bloggers and marketers.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">💻</div>
+        <div class="feature-text">
+          <h4>Developer Tools</h4>
+          <p>AI tools built for developers — code generation, debugging assistance, documentation helpers, and code explanation tools to accelerate your development workflow.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">✏️</div>
+        <div class="feature-text">
+          <h4>Creator Tools</h4>
+          <p>Tools for content creators, YouTubers, writers, and social media managers. Generate hooks, captions, scripts, story ideas, and more with AI-powered assistance.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">📖</div>
+        <div class="feature-text">
+          <h4>AI Educational Blog</h4>
+          <p>Our blog covers AI learning basics, productivity use cases, future AI trends, industry news, and risk assessments — keeping you informed and ahead of the curve.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST & TRANSPARENCY -->
+<section class="content-section">
+  <div class="container">
+    <div class="glass-card">
+      <div class="section-label">Trust & Transparency</div>
+      <h2 class="section-title" style="margin-bottom:20px;">Our Commitment to <span>Transparency</span></h2>
+      <p style="color:#94a3b8;line-height:1.9;margin-bottom:16px;">We understand that trust is earned, not given. At QuickGenAI, we are committed to being fully transparent about how our platform operates, how we generate revenue, and how we handle data.</p>
+      <p style="color:#94a3b8;line-height:1.9;margin-bottom:16px;"><strong style="color:#f1f5f9;">Advertising:</strong> QuickGenAI may display advertisements through Google AdSense and other third-party advertising networks. This is how we sustain our free services. These ads may use cookies and anonymous data to deliver relevant advertisements.</p>
+      <p style="color:#94a3b8;line-height:1.9;margin-bottom:16px;"><strong style="color:#f1f5f9;">Data Collection:</strong> We do not intentionally collect sensitive personal information. Anonymous analytics data may be collected to understand how users interact with our platform, helping us improve our services.</p>
+      <p style="color:#94a3b8;line-height:1.9;margin-bottom:16px;"><strong style="color:#f1f5f9;">AI Content:</strong> We are transparent about the nature of AI-generated content. AI tools can occasionally produce inaccurate or incomplete information. We always encourage users to verify important information independently.</p>
+      <p style="color:#94a3b8;line-height:1.9;"><strong style="color:#f1f5f9;">No Login Required:</strong> For the vast majority of our features, no account or login is required. We believe in reducing barriers to access.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="container">
+  <div class="cta-banner">
+    <h2>Ready to Explore QuickGenAI?</h2>
+    <p>Start using our free AI tools today — no signup required.</p>
+    <a href="https://quickgenai.in/ai-tools" class="cta-btn">Explore Free AI Tools</a>
+  </div>
+</div>
+
+<!-- ========================= FOOTER ========================= -->
+<footer id="footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-logo" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+          <div class="footer-logo-icon"><svg viewBox="0 0 24 24" fill="white"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+          <span class="footer-logo-text">QuickGen<span>AI</span></span>
+        </div>
+        <p class="footer-tagline">Empowering creators and professionals with expert content and powerful AI tools.</p>
+        <div class="footer-socials">
+          <a href="#" class="footer-social" aria-label="Twitter"><svg viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.5"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg></a>
+          <a href="#" class="footer-social" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.5"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+          <a href="#" class="footer-social" aria-label="GitHub"><svg viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.5"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+          <a href="#" class="footer-social" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.5"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-1.96C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.4 19.54C5.12 20 12 20 12 20s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#9ca3af"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>Navigation</h5>
+        <ul>
+          <li><button onclick="window.scrollTo(0,0)">Home</button></li>
+          <li><a href="https://quickgenai.in/#featured-blogs">Blog</a></li>
+          <li><a href="https://quickgenai.in/ai-tools">Tools</a></li>
+          <li><a href="https://quickgenai.in/about">About</a></li>
+          <li><a href="https://quickgenai.in/contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Categories</h5>
+        <ul>
+          <li><a href="https://quickgenai.in/categories/ai-learning-basics-&-education">AI Learning, Basics & Education</a></li>
+          <li><a href="https://quickgenai.in/categories/ai-tools-productivity-&-business-use">AI Tools, Productivity & Business Use</a></li>
+          <li><a href="https://quickgenai.in/future-ai-trends-&-advanced-concepts">Future AI trends & advanced concepts</a></li>
+          <li><a href="https://quickgenai.in/ai-news-risks-&-industry-updates">AI news risks & industry updates</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>AI Tools</h5>
+        <ul>
+          <li><a href="https://quickgenai.in/ai-tools#chat_general">Chatbots</a></li>
+          <li><a href="https://quickgenai.in/ai-tools#keyword">SEO Tools</a></li>
+          <li><a href="https://quickgenai.in/ai-tools#debug">Developer Tools</a></li>
+          <li><a href="https://quickgenai.in/ai-tools#hook">Creator Tools</a></li>
+          <li><a href="https://quickgenai.in/imgpro">Image Generation</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Legal</h5>
+        <ul>
+          <li><a href="https://quickgenai.in/privacy-policy">Privacy Policy</a></li>
+          <li><a href="https://quickgenai.in/contact">Contact Us</a></li>
+          <li><a href="https://quickgenai.in/disclaimer">Disclaimer</a></li>
+          <li><a href="https://quickgenai.in/terms">Terms</a></li>
+          <li><a href="https://quickgenai.in/about">About Us</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copyright">© <span id="year"></span> QuickGenAI. All rights reserved.</span>
+      <div class="footer-legal">
+        <a href="https://quickgenai.in/privacy-policy">Privacy Policy</a>
+        <a href="https://quickgenai.in/terms">Terms</a>
+        <a href="https://quickgenai.in/disclaimer">Disclaimer</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+  function toggleMenu() {
+    const nav = document.getElementById('mobileNav');
+    nav.classList.toggle('active');
+  }
+  function toggleMobileDropdown(id, btn) {
+    const drop = document.getElementById(id);
+    drop.classList.toggle('open');
+    btn.classList.toggle('active');
+  }
+  // Close mobile nav on outside click
+  document.addEventListener('click', function(e) {
+    const header = document.getElementById('header');
+    if (!header.contains(e.target)) {
+      document.getElementById('mobileNav').classList.remove('active');
+    }
+  });
+</script>
+</body>
+</html>
