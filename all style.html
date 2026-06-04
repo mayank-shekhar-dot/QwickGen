@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ALL STYLE LADIES SALOON – Premium Beauty & Makeover Studio</title>
+<meta name="description" content="Experience premium beauty, skincare, haircare, and makeover services at ALL STYLE LADIES SALOON. Book your appointment today.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Josefin+Sans:wght@200;300;400;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+<meta name="monetag" content="f2ee53a1423bcd457d500cabd6a933ea">
+<script src="https://quge5.com/88/tag.min.js" data-zone="245708" async data-cfasync="false"></script>
+<script>(function(s){s.dataset.zone='11093670',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+<style>
+  :root {
+    --black: #0a0804;
+    --deep: #100e0a;
+    --gold: #c9a84c;
+    --gold-light: #e8c97a;
+    --gold-pale: #f5e6b8;
+    --white: #faf8f3;
+    --pink: #f0d4d4;
+    --pink-deep: #c9a0a0;
+    --glass: rgba(255,255,255,0.04);
+    --glass-border: rgba(201,168,76,0.2);
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;overflow-x:hidden}
+  body{
+    background:var(--black);color:var(--white);
+    font-family:'Josefin Sans',sans-serif;
+    font-weight:300;letter-spacing:0.04em;
+    cursor:none;overflow-x:hidden;
+  }
+
+  /* CUSTOM CURSOR */
+  .cursor{position:fixed;width:8px;height:8px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transition:transform 0.1s;mix-blend-mode:difference}
+  .cursor-ring{position:fixed;width:36px;height:36px;border:1px solid var(--gold);border-radius:50%;pointer-events:none;z-index:9998;transition:all 0.15s ease;mix-blend-mode:difference}
+
+  /* LOADER */
+  #loader{position:fixed;inset:0;background:var(--black);z-index:10000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:24px}
+  .loader-logo{font-family:'Cormorant Garamond',serif;font-size:clamp(20px,4vw,36px);color:var(--gold);letter-spacing:0.3em;text-transform:uppercase}
+  .loader-bar{width:200px;height:1px;background:rgba(201,168,76,0.2);position:relative;overflow:hidden}
+  .loader-fill{position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,var(--gold),transparent);animation:loaderSlide 1.8s ease forwards}
+  @keyframes loaderSlide{to{left:100%}}
+
+  /* NAV */
+  nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:20px 6%;display:flex;align-items:center;justify-content:space-between;transition:all 0.5s;backdrop-filter:blur(0px)}
+  nav.scrolled{backdrop-filter:blur(20px);background:rgba(10,8,4,0.85);border-bottom:1px solid var(--glass-border);padding:14px 6%}
+  .nav-logo{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:500;color:var(--gold);letter-spacing:0.2em;text-decoration:none}
+  .nav-logo span{display:block;font-size:9px;font-family:'Josefin Sans',sans-serif;letter-spacing:0.5em;color:var(--gold-pale);font-weight:200;text-transform:uppercase}
+  .nav-links{display:flex;gap:36px;list-style:none}
+  .nav-links a{color:rgba(250,248,243,0.7);text-decoration:none;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;transition:color 0.3s;position:relative}
+  .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--gold);transition:width 0.3s}
+  .nav-links a:hover{color:var(--gold)}
+  .nav-links a:hover::after{width:100%}
+  .nav-cta{background:transparent;border:1px solid var(--gold);color:var(--gold);padding:10px 24px;font-family:'Josefin Sans',sans-serif;font-size:10px;letter-spacing:0.25em;text-transform:uppercase;cursor:none;transition:all 0.4s;position:relative;overflow:hidden}
+  .nav-cta::before{content:'';position:absolute;inset:0;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform 0.4s}
+  .nav-cta:hover::before{transform:scaleX(1)}
+  .nav-cta:hover{color:var(--black)}
+  .nav-cta span{position:relative;z-index:1}
+  .hamburger{display:none;flex-direction:column;gap:5px;cursor:none;padding:4px}
+  .hamburger span{width:24px;height:1px;background:var(--gold);transition:all 0.3s;display:block}
+
+  /* HERO */
+  #hero{position:relative;height:100vh;min-height:700px;display:flex;align-items:center;overflow:hidden}
+  #hero-canvas{position:absolute;inset:0;z-index:0}
+  .hero-overlay{position:absolute;inset:0;background:radial-gradient(ellipse at 60% 50%,rgba(201,168,76,0.06) 0%,transparent 60%),linear-gradient(180deg,rgba(10,8,4,0.3) 0%,rgba(10,8,4,0.85) 100%);z-index:1}
+  .hero-content{position:relative;z-index:2;padding:0 6%;max-width:780px}
+  .hero-tag{font-size:10px;letter-spacing:0.5em;color:var(--gold);text-transform:uppercase;margin-bottom:28px;display:flex;align-items:center;gap:16px;opacity:0;transform:translateY(20px)}
+  .hero-tag::before{content:'';width:40px;height:1px;background:var(--gold)}
+  .hero-h1{font-family:'Cormorant Garamond',serif;font-size:clamp(38px,7vw,90px);font-weight:300;line-height:1.05;color:var(--white);margin-bottom:28px;opacity:0;transform:translateY(30px)}
+  .hero-h1 em{font-style:italic;color:var(--gold-light)}
+  .hero-sub{font-size:13px;line-height:1.9;color:rgba(250,248,243,0.6);max-width:480px;margin-bottom:48px;opacity:0;transform:translateY(20px)}
+  .hero-btns{display:flex;gap:20px;flex-wrap:wrap;opacity:0;transform:translateY(20px)}
+  .btn-primary{background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--black);padding:16px 40px;font-family:'Josefin Sans',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.25em;text-transform:uppercase;border:none;cursor:none;transition:all 0.4s;text-decoration:none;display:inline-block;position:relative;overflow:hidden}
+  .btn-primary::after{content:'';position:absolute;inset:0;background:var(--white);transform:scaleX(0);transform-origin:left;transition:transform 0.4s;z-index:0}
+  .btn-primary:hover::after{transform:scaleX(1)}
+  .btn-primary span{position:relative;z-index:1}
+  .btn-secondary{background:transparent;border:1px solid rgba(250,248,243,0.3);color:var(--white);padding:16px 40px;font-family:'Josefin Sans',sans-serif;font-size:11px;letter-spacing:0.25em;text-transform:uppercase;cursor:none;transition:all 0.4s;text-decoration:none;display:inline-block}
+  .btn-secondary:hover{border-color:var(--gold);color:var(--gold)}
+  .hero-scroll{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);z-index:2;display:flex;flex-direction:column;align-items:center;gap:12px;cursor:none}
+  .hero-scroll span{font-size:9px;letter-spacing:0.4em;color:rgba(250,248,243,0.4);text-transform:uppercase}
+  .scroll-line{width:1px;height:60px;background:linear-gradient(180deg,var(--gold),transparent);animation:scrollPulse 2s ease infinite}
+  @keyframes scrollPulse{0%,100%{opacity:0.3;transform:scaleY(1)}50%{opacity:1;transform:scaleY(1.2)}}
+
+  /* FLOATING PARTICLES */
+  .particle{position:absolute;border-radius:50%;pointer-events:none;z-index:1}
+
+  /* SECTION STYLES */
+  section{padding:100px 6%}
+  .section-tag{font-size:9px;letter-spacing:0.6em;color:var(--gold);text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:16px}
+  .section-tag::before{content:'';width:30px;height:1px;background:var(--gold)}
+  .section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,5vw,64px);font-weight:300;line-height:1.1;color:var(--white);margin-bottom:20px}
+  .section-title em{color:var(--gold-light);font-style:italic}
+  .section-sub{font-size:13px;line-height:1.9;color:rgba(250,248,243,0.55);max-width:520px}
+  .divider{width:60px;height:1px;background:linear-gradient(90deg,var(--gold),transparent);margin:32px 0}
+
+  /* ABOUT */
+  #about{background:var(--deep);position:relative;overflow:hidden}
+  #about::before{content:'';position:absolute;top:-200px;right:-200px;width:600px;height:600px;background:radial-gradient(circle,rgba(201,168,76,0.05) 0%,transparent 70%);pointer-events:none}
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;margin-top:60px}
+  .about-stats{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:48px}
+  .stat-card{background:var(--glass);border:1px solid var(--glass-border);padding:28px 24px;position:relative;overflow:hidden;transition:all 0.5s}
+  .stat-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(201,168,76,0.08),transparent);opacity:0;transition:opacity 0.4s}
+  .stat-card:hover::before{opacity:1}
+  .stat-card:hover{transform:translateY(-4px);border-color:rgba(201,168,76,0.5)}
+  .stat-num{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;color:var(--gold);line-height:1}
+  .stat-label{font-size:10px;letter-spacing:0.3em;color:rgba(250,248,243,0.5);text-transform:uppercase;margin-top:8px}
+  .about-visual{position:relative}
+  .about-img-main{width:100%;aspect-ratio:3/4;background:linear-gradient(135deg,#1a1510,#0d0b08);border:1px solid var(--glass-border);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+  .about-img-main::after{content:'ALL STYLE';position:absolute;font-family:'Cormorant Garamond',serif;font-size:80px;color:rgba(201,168,76,0.04);font-weight:300;letter-spacing:0.3em;white-space:nowrap}
+  .about-img-float{position:absolute;bottom:-30px;right:-30px;width:55%;aspect-ratio:1;background:linear-gradient(135deg,#1e1812,#12100c);border:1px solid var(--glass-border);display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .about-badge{position:absolute;top:30px;left:-20px;background:var(--gold);padding:16px 20px;text-align:center}
+  .about-badge strong{display:block;font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:var(--black);line-height:1}
+  .about-badge span{font-size:9px;letter-spacing:0.3em;color:var(--black);text-transform:uppercase}
+  /* SVG decorative inside about cards */
+  .deco-flower{opacity:0.15;width:80%;height:80%}
+
+  /* SERVICES */
+  #services{background:var(--black);position:relative}
+  #services::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle at 20% 80%,rgba(201,168,76,0.04) 0%,transparent 50%),radial-gradient(circle at 80% 20%,rgba(201,168,76,0.03) 0%,transparent 50%);pointer-events:none}
+  .services-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:60px;flex-wrap:wrap;gap:24px}
+  .services-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+  .service-card{background:var(--glass);border:1px solid var(--glass-border);padding:32px 24px;position:relative;overflow:hidden;transition:all 0.5s;cursor:none}
+  .service-card::before{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold-light));transform:scaleX(0);transform-origin:left;transition:transform 0.5s}
+  .service-card:hover{transform:translateY(-8px);border-color:rgba(201,168,76,0.4);background:rgba(255,255,255,0.06)}
+  .service-card:hover::before{transform:scaleX(1)}
+  .service-icon{width:48px;height:48px;margin-bottom:20px;display:flex;align-items:center;justify-content:center}
+  .service-icon svg{width:100%;height:100%;fill:none;stroke:var(--gold);stroke-width:1;opacity:0.8;transition:all 0.3s}
+  .service-card:hover .service-icon svg{stroke:var(--gold-light);opacity:1;transform:scale(1.1)}
+  .service-name{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;color:var(--white);margin-bottom:12px}
+  .service-desc{font-size:11px;line-height:1.8;color:rgba(250,248,243,0.5)}
+  .service-arrow{position:absolute;bottom:24px;right:24px;width:28px;height:28px;border:1px solid rgba(201,168,76,0.3);display:flex;align-items:center;justify-content:center;transition:all 0.3s}
+  .service-card:hover .service-arrow{background:var(--gold);border-color:var(--gold)}
+  .service-arrow svg{width:12px;height:12px;fill:none;stroke:var(--gold);stroke-width:2;transition:stroke 0.3s}
+  .service-card:hover .service-arrow svg{stroke:var(--black)}
+
+  /* GALLERY */
+  #gallery{background:var(--deep);overflow:hidden}
+  .gallery-intro{max-width:500px;margin-bottom:60px}
+  .gallery-grid{columns:3;gap:16px}
+  .gallery-item{break-inside:avoid;margin-bottom:16px;position:relative;overflow:hidden;cursor:none}
+  .gallery-item img,.gallery-placeholder{width:100%;display:block;transition:transform 0.6s ease}
+  .gallery-placeholder{background:linear-gradient(135deg,#1a1510,#0e0c09);display:flex;align-items:center;justify-content:center;aspect-ratio:var(--ratio,1)}
+  .gallery-placeholder svg{width:40px;height:40px;fill:none;stroke:rgba(201,168,76,0.3);stroke-width:1}
+  .gallery-overlay{position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(10,8,4,0.9) 100%);opacity:0;transition:opacity 0.4s;display:flex;align-items:flex-end;padding:20px}
+  .gallery-overlay span{font-size:11px;letter-spacing:0.2em;color:var(--gold);text-transform:uppercase}
+  .gallery-item:hover .gallery-overlay{opacity:1}
+  .gallery-item:hover .gallery-placeholder{transform:scale(1.05)}
+  .gallery-label{position:absolute;top:12px;left:12px;background:var(--gold);padding:4px 10px;font-size:8px;letter-spacing:0.3em;text-transform:uppercase;color:var(--black);font-weight:600}
+
+  /* WHY US */
+  #why{background:var(--black);position:relative}
+  .why-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;margin-top:60px}
+  .features-list{display:flex;flex-direction:column;gap:24px}
+  .feature-item{display:flex;gap:20px;align-items:flex-start;padding:24px;background:var(--glass);border:1px solid var(--glass-border);transition:all 0.4s;position:relative;overflow:hidden}
+  .feature-item::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--gold);transform:scaleY(0);transition:transform 0.4s}
+  .feature-item:hover{background:rgba(255,255,255,0.05);border-color:rgba(201,168,76,0.35)}
+  .feature-item:hover::before{transform:scaleY(1)}
+  .feature-icon{width:40px;height:40px;flex-shrink:0;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.3);display:flex;align-items:center;justify-content:center;transition:all 0.4s}
+  .feature-item:hover .feature-icon{background:rgba(201,168,76,0.2);border-color:var(--gold)}
+  .feature-icon svg{width:20px;height:20px;fill:none;stroke:var(--gold);stroke-width:1.5}
+  .feature-text h4{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;color:var(--white);margin-bottom:6px}
+  .feature-text p{font-size:11px;line-height:1.8;color:rgba(250,248,243,0.5)}
+  .why-visual{position:relative;display:flex;flex-direction:column;gap:20px}
+  .why-big-stat{background:linear-gradient(135deg,rgba(201,168,76,0.12),rgba(201,168,76,0.04));border:1px solid rgba(201,168,76,0.3);padding:48px;text-align:center;position:relative;overflow:hidden}
+  .why-big-stat::before{content:'★';position:absolute;font-size:200px;color:rgba(201,168,76,0.04);top:-40px;left:-20px;line-height:1}
+  .why-big-num{font-family:'Cormorant Garamond',serif;font-size:96px;font-weight:300;color:var(--gold);line-height:1}
+  .why-big-label{font-size:11px;letter-spacing:0.4em;color:rgba(250,248,243,0.6);text-transform:uppercase;margin-top:8px}
+  .why-small-stats{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .mini-stat{background:var(--glass);border:1px solid var(--glass-border);padding:24px;text-align:center}
+  .mini-stat-num{font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:300;color:var(--gold-light);line-height:1}
+  .mini-stat-label{font-size:10px;letter-spacing:0.25em;color:rgba(250,248,243,0.5);text-transform:uppercase;margin-top:6px}
+
+  /* REVIEWS */
+  #reviews{background:var(--deep);position:relative;overflow:hidden}
+  #reviews::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:1px;height:100%;background:linear-gradient(180deg,transparent,rgba(201,168,76,0.2),transparent)}
+  .reviews-header{text-align:center;margin-bottom:60px}
+  .reviews-header .section-tag{justify-content:center}
+  .reviews-header .section-tag::before{display:none}
+  .carousel{position:relative;overflow:hidden}
+  .carousel-track{display:flex;transition:transform 0.6s cubic-bezier(0.4,0,0.2,1);gap:24px}
+  .review-card{flex:0 0 calc(33.333% - 16px);background:var(--glass);border:1px solid var(--glass-border);padding:40px 32px;position:relative;transition:all 0.4s}
+  .review-card::before{content:'\201C';font-family:'Cormorant Garamond',serif;font-size:120px;color:rgba(201,168,76,0.08);position:absolute;top:-10px;left:20px;line-height:1}
+  .review-stars{color:var(--gold);font-size:14px;margin-bottom:20px;letter-spacing:4px}
+  .review-text{font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;color:rgba(250,248,243,0.8);line-height:1.7;margin-bottom:28px}
+  .reviewer{display:flex;align-items:center;gap:16px}
+  .reviewer-avatar{width:48px;height:48px;background:linear-gradient(135deg,var(--gold),var(--gold-light));border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;color:var(--black)}
+  .reviewer-name{font-size:13px;font-weight:600;letter-spacing:0.1em;color:var(--white)}
+  .reviewer-service{font-size:10px;letter-spacing:0.2em;color:var(--gold);text-transform:uppercase;margin-top:2px}
+  .carousel-controls{display:flex;justify-content:center;gap:12px;margin-top:40px}
+  .carousel-btn{width:48px;height:48px;border:1px solid var(--glass-border);background:transparent;cursor:none;display:flex;align-items:center;justify-content:center;transition:all 0.3s}
+  .carousel-btn:hover{border-color:var(--gold);background:rgba(201,168,76,0.1)}
+  .carousel-btn svg{width:16px;height:16px;fill:none;stroke:var(--gold);stroke-width:2}
+  .carousel-dots{display:flex;gap:8px;align-items:center;margin-top:20px;justify-content:center}
+  .dot{width:6px;height:6px;border-radius:50%;background:rgba(201,168,76,0.3);transition:all 0.3s;cursor:none}
+  .dot.active{background:var(--gold);width:24px;border-radius:3px}
+
+  /* APPOINTMENT */
+  #appointment{background:var(--black);position:relative}
+  #appointment::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(201,168,76,0.04) 0%,transparent 50%,rgba(201,168,76,0.02) 100%);pointer-events:none}
+  .appt-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;margin-top:60px}
+  .appt-form{background:var(--glass);border:1px solid var(--glass-border);padding:48px}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .form-group{margin-bottom:24px;position:relative}
+  .form-group label{font-size:9px;letter-spacing:0.4em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:10px}
+  .form-group input,.form-group select,.form-group textarea{width:100%;background:rgba(255,255,255,0.03);border:1px solid rgba(201,168,76,0.2);color:var(--white);padding:14px 16px;font-family:'Josefin Sans',sans-serif;font-size:13px;font-weight:300;letter-spacing:0.05em;transition:all 0.3s;outline:none;appearance:none;cursor:none}
+  .form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--gold);background:rgba(201,168,76,0.04)}
+  .form-group select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' stroke='%23c9a84c' stroke-width='1' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center}
+  .form-group textarea{height:120px;resize:none}
+  .form-group input::placeholder,.form-group textarea::placeholder{color:rgba(250,248,243,0.3)}
+  .appt-info{display:flex;flex-direction:column;gap:32px}
+  .appt-info-card{background:var(--glass);border:1px solid var(--glass-border);padding:32px;transition:all 0.4s}
+  .appt-info-card:hover{border-color:rgba(201,168,76,0.4);transform:translateX(8px)}
+  .appt-info-card h4{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;color:var(--gold);margin-bottom:12px}
+  .appt-info-card p,.appt-info-card a{font-size:13px;line-height:1.8;color:rgba(250,248,243,0.6);text-decoration:none;display:block}
+  .appt-info-card a:hover{color:var(--gold)}
+  .whatsapp-btn{display:inline-flex;align-items:center;gap:12px;background:linear-gradient(135deg,#25d366,#128c7e);color:white;padding:14px 28px;font-family:'Josefin Sans',sans-serif;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;text-decoration:none;margin-top:8px;transition:all 0.3s}
+  .whatsapp-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(37,211,102,0.3)}
+  .whatsapp-btn svg{width:18px;height:18px}
+
+  /* CONTACT */
+  #contact{background:var(--deep)}
+  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;margin-top:60px;align-items:start}
+  .contact-map{background:linear-gradient(135deg,#1a1510,#0d0b08);border:1px solid var(--glass-border);height:320px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+  .contact-map::after{content:'MAP';font-family:'Cormorant Garamond',serif;font-size:60px;color:rgba(201,168,76,0.05);letter-spacing:0.4em}
+  .map-pin{position:absolute;text-align:center}
+  .map-pin svg{width:32px;height:32px;fill:var(--gold)}
+  .contact-details{display:flex;flex-direction:column;gap:20px}
+  .contact-item{display:flex;gap:20px;align-items:flex-start;padding:20px;border:1px solid var(--glass-border);transition:all 0.3s}
+  .contact-item:hover{border-color:rgba(201,168,76,0.4);background:var(--glass)}
+  .contact-icon{width:40px;height:40px;flex-shrink:0;background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);display:flex;align-items:center;justify-content:center}
+  .contact-icon svg{width:18px;height:18px;fill:none;stroke:var(--gold);stroke-width:1.5}
+  .contact-info-text{font-size:13px;line-height:1.8;color:rgba(250,248,243,0.6)}
+  .contact-info-text strong{display:block;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);font-weight:400;margin-bottom:4px}
+  .social-links{display:flex;gap:12px;margin-top:8px}
+  .social-link{width:40px;height:40px;border:1px solid var(--glass-border);display:flex;align-items:center;justify-content:center;transition:all 0.3s;cursor:none}
+  .social-link:hover{border-color:var(--gold);background:rgba(201,168,76,0.1)}
+  .social-link svg{width:16px;height:16px;fill:var(--gold)}
+
+  /* FOOTER */
+  footer{background:#060504;border-top:1px solid var(--glass-border);padding:60px 6% 30px}
+  .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1.5fr;gap:48px;margin-bottom:48px}
+  .footer-brand{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:400;color:var(--gold);letter-spacing:0.15em;margin-bottom:16px}
+  .footer-tagline{font-size:12px;line-height:1.8;color:rgba(250,248,243,0.4);margin-bottom:24px;max-width:260px}
+  .footer-heading{font-size:10px;letter-spacing:0.4em;text-transform:uppercase;color:var(--gold);margin-bottom:20px;font-weight:400}
+  .footer-links{list-style:none;display:flex;flex-direction:column;gap:10px}
+  .footer-links a{font-size:12px;color:rgba(250,248,243,0.4);text-decoration:none;letter-spacing:0.08em;transition:color 0.3s;display:flex;align-items:center;gap:8px}
+  .footer-links a::before{content:'';width:16px;height:1px;background:var(--gold);opacity:0;transition:opacity 0.3s}
+  .footer-links a:hover{color:var(--gold)}
+  .footer-links a:hover::before{opacity:1}
+  .footer-bottom{border-top:1px solid var(--glass-border);padding-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+  .footer-copy{font-size:11px;color:rgba(250,248,243,0.3);letter-spacing:0.1em}
+  .footer-copy span{color:var(--gold)}
+
+  /* SCROLL ANIMATIONS */
+  .reveal{opacity:0;transform:translateY(40px);transition:all 0.8s cubic-bezier(0.4,0,0.2,1)}
+  .reveal.visible{opacity:1;transform:none}
+  .reveal-left{opacity:0;transform:translateX(-40px);transition:all 0.8s cubic-bezier(0.4,0,0.2,1)}
+  .reveal-left.visible{opacity:1;transform:none}
+  .reveal-right{opacity:0;transform:translateX(40px);transition:all 0.8s cubic-bezier(0.4,0,0.2,1)}
+  .reveal-right.visible{opacity:1;transform:none}
+  .stagger-1{transition-delay:0.1s!important}
+  .stagger-2{transition-delay:0.2s!important}
+  .stagger-3{transition-delay:0.3s!important}
+  .stagger-4{transition-delay:0.4s!important}
+  .stagger-5{transition-delay:0.5s!important}
+  .stagger-6{transition-delay:0.6s!important}
+
+  /* MOBILE NAV */
+  .mobile-menu{position:fixed;inset:0;background:rgba(10,8,4,0.98);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:32px;transform:translateX(100%);transition:transform 0.5s cubic-bezier(0.4,0,0.2,1)}
+  .mobile-menu.open{transform:none}
+  .mobile-menu a{font-family:'Cormorant Garamond',serif;font-size:32px;color:var(--white);text-decoration:none;letter-spacing:0.1em;transition:color 0.3s}
+  .mobile-menu a:hover{color:var(--gold)}
+
+  /* LIGHTBOX */
+  .lightbox{position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:9000;display:none;align-items:center;justify-content:center;cursor:none}
+  .lightbox.open{display:flex}
+  .lightbox-close{position:absolute;top:24px;right:24px;width:40px;height:40px;border:1px solid var(--gold);display:flex;align-items:center;justify-content:center;cursor:none;font-size:20px;color:var(--gold)}
+  .lightbox-content{max-width:80vw;max-height:80vh;border:1px solid var(--glass-border)}
+
+  @media(max-width:1100px){
+    .services-grid{grid-template-columns:repeat(3,1fr)}
+    .footer-grid{grid-template-columns:1fr 1fr}
+  }
+  @media(max-width:900px){
+    .about-grid,.why-grid,.appt-grid,.contact-grid{grid-template-columns:1fr;gap:48px}
+    .gallery-grid{columns:2}
+    .services-grid{grid-template-columns:repeat(2,1fr)}
+    .review-card{flex:0 0 calc(50% - 12px)}
+  }
+  @media(max-width:680px){
+    nav{padding:16px 5%}
+    .nav-links,.nav-cta{display:none}
+    .hamburger{display:flex}
+    section{padding:72px 5%}
+    .services-grid{grid-template-columns:1fr 1fr}
+    .gallery-grid{columns:1}
+    .footer-grid{grid-template-columns:1fr}
+    .review-card{flex:0 0 100%}
+    .form-row{grid-template-columns:1fr}
+    .hero-btns{flex-direction:column;max-width:240px}
+    .btn-primary,.btn-secondary{text-align:center}
+    .about-stats{grid-template-columns:1fr 1fr}
+    .why-small-stats{grid-template-columns:1fr 1fr}
+  }
+
+  /* SCROLL BAR */
+  ::-webkit-scrollbar{width:4px}
+  ::-webkit-scrollbar-track{background:var(--black)}
+  ::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px}
+
+  /* PROGRESS BAR */
+  #progress{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--gold),var(--gold-light));z-index:1001;width:0%;transition:width 0.1s}
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-logo">ALL STYLE LADIES SALOON</div>
+  <div class="loader-bar"><div class="loader-fill"></div></div>
+</div>
+
+<!-- PROGRESS BAR -->
+<div id="progress"></div>
+
+<!-- CUSTOM CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">ALL STYLE<span>Ladies Saloon</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="nav-cta" onclick="scrollTo('#appointment')"><span>Book Now</span></button>
+  <div class="hamburger" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about" class="mobile-link">About</a>
+  <a href="#services" class="mobile-link">Services</a>
+  <a href="#gallery" class="mobile-link">Gallery</a>
+  <a href="#reviews" class="mobile-link">Reviews</a>
+  <a href="#appointment" class="mobile-link">Book Now</a>
+  <a href="#contact" class="mobile-link">Contact</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-tag" id="heroTag">Premium Beauty Studio</div>
+    <h1 class="hero-h1" id="heroH1">Transform Your Beauty<br>With <em>Professional</em><br>Care</h1>
+    <p class="hero-sub" id="heroSub">Experience premium beauty, skincare, haircare, and makeover services at ALL STYLE LADIES SALOON.</p>
+    <div class="hero-btns" id="heroBtns">
+      <a href="#appointment" class="btn-primary"><span>Book Appointment</span></a>
+      <a href="#services" class="btn-secondary">View Services</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div>
+      <div class="section-tag reveal">Our Story</div>
+      <h2 class="section-title reveal stagger-1">Elegance Redefined,<br><em>Beauty Perfected</em></h2>
+      <div class="divider reveal stagger-2"></div>
+      <p class="section-sub reveal stagger-2">At ALL STYLE LADIES SALOON, we believe every woman deserves to feel extraordinary. Our certified beauty experts combine artistry with the finest premium products to deliver transformations that truly reflect your inner radiance.</p>
+      <p class="section-sub reveal stagger-3" style="margin-top:16px">From bridal makeovers to everyday elegance, we craft personalized beauty experiences in a hygienic, welcoming sanctuary designed just for you.</p>
+      <div class="about-stats reveal stagger-4">
+        <div class="stat-card">
+          <div class="stat-num" data-count="5000">0</div>
+          <div class="stat-label">Happy Clients</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" data-count="8">0</div>
+          <div class="stat-label">Years of Excellence</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" data-count="12">0</div>
+          <div class="stat-label">Expert Stylists</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" data-count="98">0</div>
+          <div class="stat-label">% Satisfaction Rate</div>
+        </div>
+      </div>
+    </div>
+    <div class="about-visual reveal-right">
+      <div class="about-img-main">
+        <svg class="deco-flower" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <g stroke="#c9a84c" stroke-width="0.5" fill="none" opacity="0.4">
+            <circle cx="100" cy="100" r="60"/><circle cx="100" cy="100" r="40"/><circle cx="100" cy="100" r="20"/>
+            <line x1="100" y1="40" x2="100" y2="160"/><line x1="40" y1="100" x2="160" y2="100"/>
+            <line x1="58" y1="58" x2="142" y2="142"/><line x1="142" y1="58" x2="58" y2="142"/>
+            <ellipse cx="100" cy="68" rx="12" ry="20" transform="rotate(0,100,100)"/>
+            <ellipse cx="100" cy="68" rx="12" ry="20" transform="rotate(45,100,100)"/>
+            <ellipse cx="100" cy="68" rx="12" ry="20" transform="rotate(90,100,100)"/>
+            <ellipse cx="100" cy="68" rx="12" ry="20" transform="rotate(135,100,100)"/>
+            <ellipse cx="100" cy="68" rx="12" ry="20" transform="rotate(180,100,100)"/>
+            <ellipse cx="100" cy="68" rx="12" ry="20" transform="rotate(225,100,100)"/>
+            <ellipse cx="100" cy="68" rx="12" ry="20" transform="rotate(270,100,100)"/>
+            <ellipse cx="100" cy="68" rx="12" ry="20" transform="rotate(315,100,100)"/>
+          </g>
+        </svg>
+      </div>
+      <div class="about-img-float">
+        <svg viewBox="0 0 120 120" style="width:70%;height:70%;opacity:0.2" xmlns="http://www.w3.org/2000/svg">
+          <path d="M60 10 C60 10 90 30 90 60 C90 82 75 100 60 110 C45 100 30 82 30 60 C30 30 60 10 60 10Z" fill="none" stroke="#c9a84c" stroke-width="1"/>
+          <path d="M60 25 C60 25 78 40 78 60 C78 75 70 88 60 95 C50 88 42 75 42 60 C42 40 60 25 60 25Z" fill="rgba(201,168,76,0.1)" stroke="#c9a84c" stroke-width="0.5"/>
+        </svg>
+      </div>
+      <div class="about-badge">
+        <strong>8+</strong>
+        <span>Years Experience</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="services-header">
+    <div>
+      <div class="section-tag reveal">What We Offer</div>
+      <h2 class="section-title reveal stagger-1">Our <em>Premium</em><br>Services</h2>
+    </div>
+    <p class="section-sub reveal" style="max-width:320px">Every service is delivered with precision, care, and the finest products for flawless results.</p>
+  </div>
+  <div class="services-grid">
+
+    <div class="service-card reveal stagger-1">
+      <div class="service-icon">
+        <svg viewBox="0 0 48 48"><path d="M24 6 C18 6 12 12 12 20 C12 32 24 44 24 44 C24 44 36 32 36 20 C36 12 30 6 24 6Z"/><circle cx="24" cy="20" r="5"/></svg>
+      </div>
+      <div class="service-name">Hair Styling</div>
+      <div class="service-desc">From sleek blowouts to intricate updos — every style crafted to perfection for any occasion.</div>
+      <div class="service-arrow"><svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4"/></svg></div>
+    </div>
+
+    <div class="service-card reveal stagger-2">
+      <div class="service-icon">
+        <svg viewBox="0 0 48 48"><path d="M16 10 Q24 6 32 10 L34 30 Q24 38 14 30Z"/><circle cx="24" cy="16" r="4"/><path d="M18 24 Q24 28 30 24"/></svg>
+      </div>
+      <div class="service-name">Hair Spa</div>
+      <div class="service-desc">Intensive nourishment and repair treatments that restore shine, strength and vitality to your hair.</div>
+      <div class="service-arrow"><svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4"/></svg></div>
+    </div>
+
+    <div class="service-card reveal stagger-3">
+      <div class="service-icon">
+        <svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="16" stroke-dasharray="4 3"/><circle cx="24" cy="24" r="8"/><path d="M24 8 L24 16 M24 32 L24 40 M8 24 L16 24 M32 24 L40 24"/></svg>
+      </div>
+      <div class="service-name">Hair Coloring</div>
+      <div class="service-desc">Vibrant, fashion-forward colours using premium, ammonia-safe dyes for brilliant lasting results.</div>
+      <div class="service-arrow"><svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4"/></svg></div>
+    </div>
+
+    <div class="service-card reveal stagger-4">
+      <div class="service-icon">
+        <svg viewBox="0 0 48 48"><path d="M24 8 C20 14 10 16 10 24 C10 32 16 40 24 42 C32 40 38 32 38 24 C38 16 28 14 24 8Z"/><path d="M18 22 Q24 26 30 22"/><circle cx="19" cy="18" r="2"/><circle cx="29" cy="18" r="2"/></svg>
+      </div>
+      <div class="service-name">Bridal Makeup</div>
+      <div class="service-desc">Flawless bridal artistry that makes your most special day unforgettable — from subtle to stunning.</div>
+      <div class="service-arrow"><svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4"/></svg></div>
+    </div>
+
+    <div class="service-card reveal stagger-1">
+      <div class="service-icon">
+        <svg viewBox="0 0 48 48"><path d="M24 10 L28 20 L40 20 L30 28 L34 40 L24 32 L14 40 L18 28 L8 20 L20 20Z"/></svg>
+      </div>
+      <div class="service-name">Party Makeup</div>
+      <div class="service-desc">Bold, glamorous looks designed to turn heads at any celebration, event, or party.</div>
+      <div class="service-arrow"><svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4"/></svg></div>
+    </div>
+
+    <div class="service-card reveal stagger-2">
+      <div class="service-icon">
+        <svg viewBox="0 0 48 48"><path d="M14 16 Q24 10 34 16 Q38 24 34 32 Q24 38 14 32 Q10 24 14 16Z"/><path d="M20 22 Q24 26 28 22"/><circle cx="20" cy="19" r="2"/><circle cx="28" cy="19" r="2"/></svg>
+      </div>
+      <div class="service-name">Facial Treatments</div>
+      <div class="service-desc">Deep cleansing, brightening, and rejuvenating facials for radiant, youthful, glowing skin.</div>
+      <div class="service-arrow"><svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4"/></svg></div>
+    </div>
+
+    <div class="service-card reveal stagger-3">
+      <div class="service-icon">
+        <svg viewBox="0 0 48 48"><path d="M16 12 Q32 12 36 20 Q40 28 36 36 Q32 40 16 40 Q10 36 10 24 Q10 12 16 12Z"/><path d="M20 22 L28 22 M20 26 L26 26"/></svg>
+      </div>
+      <div class="service-name">Skin Care</div>
+      <div class="service-desc">Advanced skincare protocols using medical-grade products tailored to your unique skin type.</div>
+      <div class="service-arrow"><svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4"/></svg></div>
+    </div>
+
+    <div class="service-card reveal stagger-4">
+      <div class="service-icon">
+        <svg viewBox="0 0 48 48"><path d="M16 10 C12 10 10 14 10 18 L10 38 C10 40 12 42 16 42 L32 42 L38 34 L38 18 C38 14 36 10 32 10Z"/><path d="M16 18 L32 18 M16 24 L32 24 M16 30 L24 30"/></svg>
+      </div>
+      <div class="service-name">Manicure</div>
+      <div class="service-desc">Pristine nail shaping, cuticle care, and luxury polish for perfectly groomed hands.</div>
+      <div class="service-arrow"><svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4"/></svg></div>
+    </div>
+
+    <div class="service-card reveal stagger-1">
+      <div class="service-icon">
+        <svg viewBox="0 0 48 48"><ellipse cx="24" cy="32" rx="14" ry="10"/><path d="M14 26 L10 16 C14 12 18 10 24 10 C30 10 34 12 38 16 L34 26"/><path d="M18 32 L18 42 M30 32 L30 42"/></svg>
+      </div>
+      <div class="service-name">Pedicure</div>
+      <div class="service-desc">Soothing foot soaks, callus removal, and impeccable nail care for beautiful, soft feet.</div>
+      <div class="service-arrow"><svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4"/></svg></div>
+    </div>
+
+    <div class="service-card reveal stagger-2">
+      <div class="service-icon">
+        <svg viewBox="0 0 48 48"><path d="M12 14 Q24 10 36 14 L36 34 Q24 38 12 34Z"/><path d="M16 20 L32 20 M16 26 L32 26"/></svg>
+      </div>
+      <div class="service-name">Waxing</div>
+      <div class="service-desc">Smooth, gentle hair removal using premium wax for silky, long-lasting results every time.</div>
+      <div class="service-arrow"><svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4"/></svg></div>
+    </div>
+
+    <div class="service-card reveal stagger-3">
+      <div class="service-icon">
+        <svg viewBox="0 0 48 48"><path d="M10 24 C10 14 18 8 24 8 C30 8 38 14 38 24 C38 30 34 38 24 40 C14 38 10 30 10 24Z"/><line x1="16" y1="16" x2="32" y2="32"/><line x1="32" y1="16" x2="16" y2="32"/></svg>
+      </div>
+      <div class="service-name">Threading</div>
+      <div class="service-desc">Precise eyebrow and facial threading by expert hands for defined, sculpted, perfect arches.</div>
+      <div class="service-arrow"><svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4"/></svg></div>
+    </div>
+
+    <div class="service-card reveal stagger-4" style="background:linear-gradient(135deg,rgba(201,168,76,0.1),rgba(201,168,76,0.04));border-color:rgba(201,168,76,0.4)">
+      <div class="service-icon">
+        <svg viewBox="0 0 48 48"><path d="M24 6 L28 18 L42 18 L30 28 L34 42 L24 32 L14 42 L18 28 L6 18 L20 18Z"/></svg>
+      </div>
+      <div class="service-name">Beauty Packages</div>
+      <div class="service-desc">Curated luxury packages combining multiple services at exceptional value for the complete you.</div>
+      <div class="service-arrow" style="border-color:rgba(201,168,76,0.5);background:rgba(201,168,76,0.15)"><svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4"/></svg></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="gallery-intro">
+    <div class="section-tag reveal">Our Work</div>
+    <h2 class="section-title reveal stagger-1">Beauty <em>Gallery</em></h2>
+    <p class="section-sub reveal stagger-2">Before & After transformations showcasing the artistry of our expert stylists.</p>
+  </div>
+  <div class="gallery-grid reveal">
+    <div class="gallery-item" style="--ratio:1.2" onclick="openLightbox(this)">
+      <div class="gallery-label">Bridal</div>
+      <div class="gallery-placeholder" style="--ratio:1.2">
+        <svg viewBox="0 0 60 60"><circle cx="30" cy="20" r="12" stroke-width="1"/><path d="M15 45 C15 35 45 35 45 45"/><path d="M22 14 Q30 8 38 14"/></svg>
+      </div>
+      <div class="gallery-overlay"><span>Bridal Transformation</span></div>
+    </div>
+    <div class="gallery-item" style="--ratio:0.8" onclick="openLightbox(this)">
+      <div class="gallery-placeholder" style="--ratio:0.8">
+        <svg viewBox="0 0 60 60"><path d="M30 10 C20 10 14 18 14 28 C14 38 22 50 30 50 C38 50 46 38 46 28 C46 18 40 10 30 10Z"/><path d="M22 28 Q30 34 38 28"/></svg>
+      </div>
+      <div class="gallery-overlay"><span>Makeover</span></div>
+    </div>
+    <div class="gallery-item" style="--ratio:1" onclick="openLightbox(this)">
+      <div class="gallery-label">Hair</div>
+      <div class="gallery-placeholder" style="--ratio:1">
+        <svg viewBox="0 0 60 60"><path d="M30 8 C22 8 16 16 16 22 Q16 30 20 34 Q24 40 30 42 Q36 40 40 34 Q44 30 44 22 C44 16 38 8 30 8Z"/><path d="M20 22 Q30 18 40 22"/></svg>
+      </div>
+      <div class="gallery-overlay"><span>Hair Styling</span></div>
+    </div>
+    <div class="gallery-item" style="--ratio:1.4" onclick="openLightbox(this)">
+      <div class="gallery-placeholder" style="--ratio:1.4">
+        <svg viewBox="0 0 60 60"><path d="M20 10 L40 10 C44 10 48 14 48 20 L48 50 L12 50 L12 20 C12 14 16 10 20 10Z"/><path d="M22 24 L38 24 M22 30 L38 30 M22 36 L32 36"/></svg>
+      </div>
+      <div class="gallery-overlay"><span>Nail Art</span></div>
+    </div>
+    <div class="gallery-item" style="--ratio:0.9" onclick="openLightbox(this)">
+      <div class="gallery-label">Before/After</div>
+      <div class="gallery-placeholder" style="--ratio:0.9">
+        <svg viewBox="0 0 60 60"><circle cx="20" cy="30" r="10"/><circle cx="40" cy="30" r="10"/><path d="M28 30 L32 30"/><path d="M14 26 Q20 22 26 26"/><path d="M34 26 Q40 22 46 26"/></svg>
+      </div>
+      <div class="gallery-overlay"><span>Before & After</span></div>
+    </div>
+    <div class="gallery-item" style="--ratio:1.1" onclick="openLightbox(this)">
+      <div class="gallery-placeholder" style="--ratio:1.1">
+        <svg viewBox="0 0 60 60"><path d="M30 6 L34 18 L48 18 L36 28 L40 40 L30 32 L20 40 L24 28 L12 18 L26 18Z"/></svg>
+      </div>
+      <div class="gallery-overlay"><span>Party Glam</span></div>
+    </div>
+    <div class="gallery-item" style="--ratio:1.3" onclick="openLightbox(this)">
+      <div class="gallery-label">Skin</div>
+      <div class="gallery-placeholder" style="--ratio:1.3">
+        <svg viewBox="0 0 60 60"><ellipse cx="30" cy="28" rx="16" ry="18"/><path d="M22 24 Q30 28 38 24"/><circle cx="23" cy="21" r="3"/><circle cx="37" cy="21" r="3"/></svg>
+      </div>
+      <div class="gallery-overlay"><span>Skin Glow</span></div>
+    </div>
+    <div class="gallery-item" style="--ratio:0.75" onclick="openLightbox(this)">
+      <div class="gallery-placeholder" style="--ratio:0.75">
+        <svg viewBox="0 0 60 60"><path d="M15 15 C15 10 20 8 25 10 L30 14 L35 10 C40 8 45 10 45 15 L45 38 C45 44 38 50 30 52 C22 50 15 44 15 38Z"/></svg>
+      </div>
+      <div class="gallery-overlay"><span>Colour Art</span></div>
+    </div>
+    <div class="gallery-item" style="--ratio:1" onclick="openLightbox(this)">
+      <div class="gallery-placeholder" style="--ratio:1">
+        <svg viewBox="0 0 60 60"><path d="M10 20 Q30 10 50 20 L50 40 Q30 50 10 40Z"/><path d="M18 28 Q30 32 42 28 M18 34 Q30 38 42 34"/></svg>
+      </div>
+      <div class="gallery-overlay"><span>Spa Treatment</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section id="why">
+  <div class="why-grid">
+    <div>
+      <div class="section-tag reveal">Why Choose Us</div>
+      <h2 class="section-title reveal stagger-1">The <em>Difference</em><br>You Deserve</h2>
+      <div class="divider reveal stagger-2"></div>
+      <div class="features-list">
+        <div class="feature-item reveal stagger-2">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 2l3 6.5 7 .5-5 4.5 1.5 7L12 17l-6.5 3.5L7 13.5 2 9l7-.5z"/></svg>
+          </div>
+          <div class="feature-text">
+            <h4>Certified Professionals</h4>
+            <p>Our team holds international beauty certifications and undergoes continuous training in the latest techniques.</p>
+          </div>
+        </div>
+        <div class="feature-item reveal stagger-3">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8zm3.5-4.5l-4-4V7h1.5v4.5l3.5 3.5-1 1z"/></svg>
+          </div>
+          <div class="feature-text">
+            <h4>Premium Products</h4>
+            <p>We exclusively use internationally acclaimed, skin-safe, dermatologist-approved beauty products.</p>
+          </div>
+        </div>
+        <div class="feature-item reveal stagger-4">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+          </div>
+          <div class="feature-text">
+            <h4>Hygienic Environment</h4>
+            <p>Hospital-grade sanitization protocols ensure your complete safety and comfort at every visit.</p>
+          </div>
+        </div>
+        <div class="feature-item reveal stagger-5">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24"><path d="M11.5 2C6.81 2 3 5.81 3 10.5S6.81 19 11.5 19h.5v3c4.86-2.34 8-7 8-11.5C20 5.81 16.19 2 11.5 2zm1 14.5h-2v-2h2v2zm0-4h-2c0-3.25 3-3 3-5 0-1.1-.9-2-2-2s-2 .9-2 2h-2c0-2.21 1.79-4 4-4s4 1.79 4 4c0 2.5-3 2.75-3 5z"/></svg>
+          </div>
+          <div class="feature-text">
+            <h4>Personalized Care</h4>
+            <p>Every service is tailored to your unique features, skin type, and personal style preferences.</p>
+          </div>
+        </div>
+        <div class="feature-item reveal stagger-6">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+          </div>
+          <div class="feature-text">
+            <h4>Customer Satisfaction</h4>
+            <p>98% satisfaction rate with thousands of happy clients who return and recommend us every month.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="why-visual reveal-right">
+      <div class="why-big-stat">
+        <div class="why-big-num" data-count="98">0</div>
+        <div class="why-big-label">% Client Satisfaction</div>
+      </div>
+      <div class="why-small-stats">
+        <div class="mini-stat">
+          <div class="mini-stat-num" data-count="5000">0</div>
+          <div class="mini-stat-label">Clients Served</div>
+        </div>
+        <div class="mini-stat">
+          <div class="mini-stat-num" data-count="12">0</div>
+          <div class="mini-stat-label">Expert Stylists</div>
+        </div>
+        <div class="mini-stat">
+          <div class="mini-stat-num" data-count="15">0</div>
+          <div class="mini-stat-label">Premium Services</div>
+        </div>
+        <div class="mini-stat">
+          <div class="mini-stat-num" data-count="8">0</div>
+          <div class="mini-stat-label">Years of Trust</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews">
+  <div class="reviews-header">
+    <div class="section-tag reveal">Testimonials</div>
+    <h2 class="section-title reveal stagger-1">What Our Clients <em>Say</em></h2>
+    <p class="section-sub reveal stagger-2" style="margin:0 auto">Every smile is a story. Every transformation is a memory.</p>
+  </div>
+  <div class="carousel">
+    <div class="carousel-track" id="carouselTrack">
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"I came for bridal makeup and left feeling like royalty. The team was so professional and patient. The look lasted all day and I received countless compliments."</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">P</div>
+          <div>
+            <div class="reviewer-name">Priya Sharma</div>
+            <div class="reviewer-service">Bridal Makeup</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Best hair spa I have ever experienced. My hair feels so healthy and shiny after years of damage. The staff truly understands hair and treats you like family."</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">A</div>
+          <div>
+            <div class="reviewer-name">Ayesha Khan</div>
+            <div class="reviewer-service">Hair Spa & Coloring</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"The facial treatment here is absolutely divine. My skin has never glowed like this. The hygiene standards are impeccable and the ambiance is so relaxing and luxurious."</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">R</div>
+          <div>
+            <div class="reviewer-name">Riya Verma</div>
+            <div class="reviewer-service">Facial Treatment</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"I have been visiting ALL STYLE for 3 years and never disappointed. Their manicure and pedicure service is world-class. Highly recommend the beauty package!"</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">S</div>
+          <div>
+            <div class="reviewer-name">Sunita Devi</div>
+            <div class="reviewer-service">Manicure & Pedicure</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"The party makeup they did for my cousin's wedding was breathtaking. Everyone was asking who did her makeup. Will definitely be back for every special occasion."</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">N</div>
+          <div>
+            <div class="reviewer-name">Neha Gupta</div>
+            <div class="reviewer-service">Party Makeup</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Extremely professional service and very hygienic environment. The hair coloring turned out exactly how I imagined it. The color is vibrant and the staff is amazing!"</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">M</div>
+          <div>
+            <div class="reviewer-name">Meera Singh</div>
+            <div class="reviewer-service">Hair Coloring</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="carousel-controls">
+    <button class="carousel-btn" id="prevBtn"><svg viewBox="0 0 16 16"><path d="M10 4L6 8l4 4"/></svg></button>
+    <div class="carousel-dots">
+      <div class="dot active"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+    <button class="carousel-btn" id="nextBtn"><svg viewBox="0 0 16 16"><path d="M6 4l4 4-4 4"/></svg></button>
+  </div>
+</section>
+
+<!-- APPOINTMENT -->
+<section id="appointment">
+  <div class="section-tag reveal">Schedule a Visit</div>
+  <h2 class="section-title reveal stagger-1">Book Your <em>Appointment</em></h2>
+  <div class="divider reveal stagger-2"></div>
+  <div class="appt-grid">
+    <div class="appt-form reveal-left">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Your Name</label>
+          <input type="text" placeholder="Full Name">
+        </div>
+        <div class="form-group">
+          <label>Phone Number</label>
+          <input type="tel" placeholder="+91 XXXXX XXXXX">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Select Service</label>
+        <select>
+          <option value="">Choose a Service</option>
+          <option>Hair Styling</option>
+          <option>Hair Spa</option>
+          <option>Hair Coloring</option>
+          <option>Bridal Makeup</option>
+          <option>Party Makeup</option>
+          <option>Facial Treatment</option>
+          <option>Skin Care</option>
+          <option>Manicure</option>
+          <option>Pedicure</option>
+          <option>Waxing</option>
+          <option>Threading</option>
+          <option>Beauty Package</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Preferred Date</label>
+        <input type="date">
+      </div>
+      <div class="form-group">
+        <label>Message (Optional)</label>
+        <textarea placeholder="Any special requests or requirements..."></textarea>
+      </div>
+      <button class="btn-primary" style="width:100%;text-align:center;padding:18px" onclick="handleBooking()">
+        <span>Book Appointment</span>
+      </button>
+    </div>
+    <div class="appt-info reveal-right">
+      <div class="appt-info-card">
+        <h4>Business Hours</h4>
+        <p>Monday – Saturday: 9:00 AM – 8:00 PM</p>
+        <p>Sunday: 10:00 AM – 6:00 PM</p>
+        <p style="color:var(--gold);margin-top:8px;font-size:11px">Walk-ins welcome — appointments preferred</p>
+      </div>
+      <div class="appt-info-card">
+        <h4>Call Us</h4>
+        <a href="tel:+919999999999" style="color:var(--gold-light);font-size:18px;font-family:'Cormorant Garamond',serif">+91 99999 99999</a>
+        <a href="tel:+919999999998" style="color:rgba(250,248,243,0.5);font-size:14px;margin-top:4px">+91 99999 99998</a>
+      </div>
+      <div class="appt-info-card">
+        <h4>WhatsApp Booking</h4>
+        <p>Preferred way to book your appointment instantly.</p>
+        <a href="https://wa.me/919999999999?text=Hello! I would like to book an appointment at ALL STYLE LADIES SALOON." class="whatsapp-btn" target="_blank">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.138.563 4.14 1.549 5.877L0 24l6.314-1.535A11.951 11.951 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.913 0-3.7-.511-5.24-1.4l-.375-.222-3.747.91.946-3.654-.243-.375A9.93 9.93 0 012 12C2 6.486 6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/></svg>
+          Chat on WhatsApp
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-tag reveal">Find Us</div>
+  <h2 class="section-title reveal stagger-1">Get In <em>Touch</em></h2>
+  <div class="contact-grid">
+    <div class="reveal-left">
+      <div class="contact-map">
+        <div class="map-pin">
+          <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+          <div style="font-size:10px;letter-spacing:0.2em;color:var(--gold);margin-top:8px;text-transform:uppercase">All Style<br>Ladies Saloon</div>
+        </div>
+      </div>
+      <div style="margin-top:16px;padding:20px;background:var(--glass);border:1px solid var(--glass-border)">
+        <p style="font-size:12px;color:rgba(250,248,243,0.5);line-height:1.8">
+          📍 <span style="color:var(--gold)">ALL STYLE LADIES SALOON</span><br>
+          Main Market, Ranchi, Jharkhand<br>
+          India – 834001
+        </p>
+        <a href="https://maps.google.com" target="_blank" style="display:inline-block;margin-top:12px;font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(201,168,76,0.3);padding-bottom:2px">View on Google Maps →</a>
+      </div>
+    </div>
+    <div class="contact-details reveal-right">
+      <div class="contact-item">
+        <div class="contact-icon">
+          <svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg>
+        </div>
+        <div class="contact-info-text">
+          <strong>Phone & WhatsApp</strong>
+          <a href="tel:+919999999999" style="color:rgba(250,248,243,0.6);text-decoration:none">+91 99999 99999</a>
+          <a href="tel:+919999999998" style="color:rgba(250,248,243,0.6);text-decoration:none">+91 99999 99998</a>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm4.2 14.2L11 13V7h1.5v5.2l4.5 2.7-.8 1.3z"/></svg>
+        </div>
+        <div class="contact-info-text">
+          <strong>Business Hours</strong>
+          Mon – Sat: 9:00 AM – 8:00 PM<br>Sunday: 10:00 AM – 6:00 PM
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">
+          <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        </div>
+        <div class="contact-info-text">
+          <strong>Email</strong>
+          allstyleladiessaloon@gmail.com
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+        </div>
+        <div class="contact-info-text">
+          <strong>Address</strong>
+          Main Market, Ranchi<br>Jharkhand, India – 834001
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+        </div>
+        <div class="contact-info-text">
+          <strong>Follow Us</strong>
+          <div class="social-links" style="margin-top:12px">
+            <a href="#" class="social-link" title="Instagram">
+              <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            </a>
+            <a href="#" class="social-link" title="Facebook">
+              <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            </a>
+            <a href="https://wa.me/919999999999" class="social-link" title="WhatsApp">
+              <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zm-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884zm8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">ALL STYLE LADIES SALOON</div>
+      <p class="footer-tagline">Your premier destination for luxury beauty, skincare, and makeover services. Where every woman is celebrated.</p>
+      <div style="font-size:10px;letter-spacing:0.3em;color:var(--gold);text-transform:uppercase">Premium Beauty Studio</div>
+    </div>
+    <div>
+      <div class="footer-heading">Quick Links</div>
+      <ul class="footer-links">
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#services">Our Services</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#reviews">Testimonials</a></li>
+        <li><a href="#appointment">Book Now</a></li>
+        <li><a href="#contact">Contact Us</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-heading">Services</div>
+      <ul class="footer-links">
+        <li><a href="#services">Hair Styling</a></li>
+        <li><a href="#services">Bridal Makeup</a></li>
+        <li><a href="#services">Facial Treatments</a></li>
+        <li><a href="#services">Skin Care</a></li>
+        <li><a href="#services">Manicure & Pedicure</a></li>
+        <li><a href="#services">Beauty Packages</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-heading">Contact</div>
+      <ul class="footer-links" style="gap:14px">
+        <li><a href="tel:+919999999999">📞 +91 99999 99999</a></li>
+        <li><a href="https://wa.me/919999999999">💬 WhatsApp Us</a></li>
+        <li><a href="mailto:allstyleladiessaloon@gmail.com">✉️ Email Us</a></li>
+        <li><a href="#contact">📍 Ranchi, Jharkhand</a></li>
+      </ul>
+      <div style="margin-top:24px;padding-top:20px;border-top:1px solid var(--glass-border)">
+        <div class="footer-heading">Follow Us</div>
+        <div class="social-links">
+          <a href="#" class="social-link"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+          <a href="#" class="social-link"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+          <a href="https://wa.me/919999999999" class="social-link"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zm-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884zm8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2025 <span>ALL STYLE LADIES SALOON</span>. All Rights Reserved. Crafted with ♥ for our beloved clients.</div>
+    <div class="footer-copy">Premium Beauty Studio · Ranchi, Jharkhand</div>
+  </div>
+</footer>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <div class="lightbox-close" onclick="closeLightbox()">✕</div>
+  <div class="lightbox-content" id="lightboxContent"></div>
+</div>
+
+<script>
+// ---- LOADER ----
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    const loader = document.getElementById('loader');
+    loader.style.opacity = '0';
+    loader.style.transition = 'opacity 0.6s';
+    setTimeout(() => { loader.style.display = 'none'; initHeroAnimations(); }, 600);
+  }, 2000);
+});
+
+// ---- CURSOR ----
+const cursor = document.getElementById('cursor');
+const cursorRing = document.getElementById('cursorRing');
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX - 4 + 'px';
+  cursor.style.top = e.clientY - 4 + 'px';
+  cursorRing.style.left = e.clientX - 18 + 'px';
+  cursorRing.style.top = e.clientY - 18 + 'px';
+});
+document.querySelectorAll('a,button,.service-card,.gallery-item,.feature-item,.stat-card,.review-card').forEach(el => {
+  el.addEventListener('mouseenter', () => { cursor.style.transform = 'scale(2)'; cursorRing.style.transform = 'scale(1.5)'; });
+  el.addEventListener('mouseleave', () => { cursor.style.transform = 'scale(1)'; cursorRing.style.transform = 'scale(1)'; });
+});
+
+// ---- THREE.JS HERO ----
+function initThreeJS() {
+  const canvas = document.getElementById('hero-canvas');
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+  const particles = [];
+  const geometries = [
+    new THREE.OctahedronGeometry(0.3, 0),
+    new THREE.TetrahedronGeometry(0.25, 0),
+    new THREE.IcosahedronGeometry(0.2, 0),
+  ];
+
+  for (let i = 0; i < 60; i++) {
+    const geo = geometries[Math.floor(Math.random() * geometries.length)];
+    const mat = new THREE.MeshBasicMaterial({
+      color: Math.random() > 0.5 ? 0xc9a84c : 0xe8c97a,
+      wireframe: true,
+      transparent: true,
+      opacity: Math.random() * 0.3 + 0.05
+    });
+    const mesh = new THREE.Mesh(geo, mat);
+    mesh.position.set(
+      (Math.random() - 0.5) * 20,
+      (Math.random() - 0.5) * 12,
+      (Math.random() - 0.5) * 10 - 5
+    );
+    mesh.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
+    const speed = Math.random() * 0.003 + 0.001;
+    mesh.userData = { speedX: (Math.random() - 0.5) * speed, speedY: (Math.random() - 0.5) * speed, rotX: Math.random() * 0.005, rotY: Math.random() * 0.005 };
+    scene.add(mesh);
+    particles.push(mesh);
+  }
+
+  // Floating rings
+  for (let i = 0; i < 8; i++) {
+    const geo = new THREE.TorusGeometry(Math.random() * 0.8 + 0.3, 0.02, 8, 30);
+    const mat = new THREE.MeshBasicMaterial({ color: 0xc9a84c, transparent: true, opacity: Math.random() * 0.2 + 0.05 });
+    const mesh = new THREE.Mesh(geo, mat);
+    mesh.position.set((Math.random() - 0.5) * 16, (Math.random() - 0.5) * 10, (Math.random() - 0.5) * 8 - 4);
+    mesh.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, 0);
+    mesh.userData = { rotX: (Math.random() - 0.5) * 0.004, rotY: (Math.random() - 0.5) * 0.004 };
+    scene.add(mesh);
+    particles.push(mesh);
+  }
+
+  camera.position.z = 5;
+
+  let mouseX = 0, mouseY = 0;
+  document.addEventListener('mousemove', e => {
+    mouseX = (e.clientX / window.innerWidth - 0.5) * 0.5;
+    mouseY = (e.clientY / window.innerHeight - 0.5) * 0.3;
+  });
+
+  function animate() {
+    requestAnimationFrame(animate);
+    particles.forEach(p => {
+      p.rotation.x += p.userData.rotX || p.userData.speedX;
+      p.rotation.y += p.userData.rotY || p.userData.speedY;
+      p.position.y += Math.sin(Date.now() * 0.001 + p.position.x) * 0.001;
+    });
+    camera.position.x += (mouseX - camera.position.x) * 0.02;
+    camera.position.y += (-mouseY - camera.position.y) * 0.02;
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+}
+initThreeJS();
+
+// ---- HERO ANIMATIONS ----
+function initHeroAnimations() {
+  const els = ['#heroTag','#heroH1','#heroSub','#heroBtns'];
+  els.forEach((sel, i) => {
+    const el = document.querySelector(sel);
+    if (!el) return;
+    setTimeout(() => {
+      el.style.transition = 'all 0.9s cubic-bezier(0.4,0,0.2,1)';
+      el.style.opacity = '1';
+      el.style.transform = 'none';
+    }, 300 + i * 180);
+  });
+}
+
+// ---- NAV SCROLL ----
+window.addEventListener('scroll', () => {
+  const navbar = document.getElementById('navbar');
+  if (window.scrollY > 60) navbar.classList.add('scrolled');
+  else navbar.classList.remove('scrolled');
+
+  // Progress bar
+  const pct = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+  document.getElementById('progress').style.width = pct + '%';
+});
+
+// ---- HAMBURGER ----
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+hamburger.addEventListener('click', () => mobileMenu.classList.toggle('open'));
+document.querySelectorAll('.mobile-link').forEach(link => {
+  link.addEventListener('click', () => mobileMenu.classList.remove('open'));
+});
+
+// ---- SCROLL REVEAL ----
+const revealEls = document.querySelectorAll('.reveal,.reveal-left,.reveal-right');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+}, { threshold: 0.12 });
+revealEls.forEach(el => observer.observe(el));
+
+// ---- COUNTER ----
+function animateCounter(el, target, suffix='') {
+  let current = 0;
+  const duration = 1800;
+  const step = target / (duration / 16);
+  const timer = setInterval(() => {
+    current = Math.min(current + step, target);
+    el.textContent = Math.floor(current).toLocaleString() + suffix;
+    if (current >= target) clearInterval(timer);
+  }, 16);
+}
+const counterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const el = e.target;
+      const target = parseInt(el.dataset.count);
+      animateCounter(el, target);
+      counterObserver.unobserve(el);
+    }
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('[data-count]').forEach(el => counterObserver.observe(el));
+
+// ---- CAROUSEL ----
+let carouselIndex = 0;
+const track = document.getElementById('carouselTrack');
+const dots = document.querySelectorAll('.dot');
+function getVisible() { return window.innerWidth < 680 ? 1 : window.innerWidth < 900 ? 2 : 3; }
+function totalSlides() { return track.children.length; }
+function updateCarousel() {
+  const vis = getVisible();
+  const max = Math.max(0, totalSlides() - vis);
+  const clampedIndex = Math.min(carouselIndex, max);
+  const cardW = track.parentElement.offsetWidth / vis;
+  track.style.transform = `translateX(-${clampedIndex * (cardW + 24)}px)`;
+  dots.forEach((d, i) => d.classList.toggle('active', i === clampedIndex % dots.length));
+}
+document.getElementById('nextBtn').addEventListener('click', () => {
+  carouselIndex = (carouselIndex + 1) % (totalSlides() - getVisible() + 1 || 1);
+  updateCarousel();
+});
+document.getElementById('prevBtn').addEventListener('click', () => {
+  const max = Math.max(0, totalSlides() - getVisible());
+  carouselIndex = (carouselIndex - 1 + max + 1) % (max + 1);
+  updateCarousel();
+});
+dots.forEach((d, i) => d.addEventListener('click', () => { carouselIndex = i; updateCarousel(); }));
+setInterval(() => {
+  carouselIndex = (carouselIndex + 1) % (totalSlides() - getVisible() + 1 || 1);
+  updateCarousel();
+}, 4500);
+window.addEventListener('resize', updateCarousel);
+
+// ---- GALLERY LIGHTBOX ----
+function openLightbox(item) {
+  const lb = document.getElementById('lightbox');
+  const content = document.getElementById('lightboxContent');
+  const label = item.querySelector('.gallery-label')?.textContent || 'Gallery';
+  content.innerHTML = `<div style="padding:60px 80px;background:linear-gradient(135deg,#1a1510,#0d0b08);text-align:center;min-width:300px"><div style="font-family:'Cormorant Garamond',serif;font-size:48px;color:var(--gold);margin-bottom:16px">✦</div><div style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--white);margin-bottom:8px">${label}</div><div style="font-size:11px;letter-spacing:0.3em;color:rgba(250,248,243,0.4);text-transform:uppercase">ALL STYLE LADIES SALOON</div></div>`;
+  lb.classList.add('open');
+}
+function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); }
+document.getElementById('lightbox').addEventListener('click', function(e) { if (e.target === this) closeLightbox(); });
+
+// ---- BOOKING ----
+function handleBooking() {
+  const btn = event.currentTarget;
+  const span = btn.querySelector('span');
+  span.textContent = '✓ Appointment Requested!';
+  btn.style.background = 'linear-gradient(135deg,#2d8a4e,#3ca862)';
+  setTimeout(() => { span.textContent = 'Book Appointment'; btn.style.background = ''; }, 3000);
+}
+
+function scrollTo(selector) {
+  document.querySelector(selector)?.scrollIntoView({ behavior: 'smooth' });
+}
+
+// ---- PARALLAX ----
+window.addEventListener('scroll', () => {
+  const heroContent = document.querySelector('.hero-content');
+  if (heroContent) heroContent.style.transform = `translateY(${window.scrollY * 0.25}px)`;
+});
+</script>
+</body>
+</html>
