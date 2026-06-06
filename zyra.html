@@ -851,6 +851,10 @@ footer{flex-direction:column;gap:12px;text-align:center;padding:24px 20px;}
 </div>
 
 <script>
+
+  // ===== BASE URL =====
+const BASE_URL = 'https://qwickgen22.onrender.com';
+
 // ===== STATE =====
 let currentTool = {student:'notes',developer:'code_gen',creator:'yt_idea'};
 let chatMode = 'chat_general';
@@ -1163,7 +1167,7 @@ async function runTool(hub) {
 const PROMPTS = [
   {title:'Study Notes', text:'Generate comprehensive study notes on the topic of [TOPIC]. Include key concepts, definitions, examples, and a summary.', tags:['Student','Notes']},
   {title:'Quiz Generator', text:'Create a 10-question multiple choice quiz on [TOPIC]. Include correct answers and explanations.', tags:['Student','Quiz']},
-  {title:'Python Code', text:'Write clean, production-ready Python code for: [REQUIREMENT]. Add docstrings and error handling.', tags:['Developer','Code']},
+  {title:'Python Code', text:'Write clean, production-ready Python code for: [REQUIREMENT]. Add docstrings and error handlinfg.', tags:['Developer','Code']},
   {title:'SQL Query', text:'Write an optimized SQL query to [REQUIREMENT]. Explain what it does step by step.', tags:['Developer','SQL']},
   {title:'YouTube Script', text:'Write a 60-second YouTube video script on [TOPIC] with a strong hook, value body, and clear CTA.', tags:['Creator','Script']},
   {title:'Viral Hooks', text:'Write 10 viral social media hooks about [TOPIC]. Mix curiosity, bold claims, and storytelling formats.', tags:['Creator','Hooks']},
