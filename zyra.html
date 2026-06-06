@@ -1,2130 +1,1308 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Workspace</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>GYRA — Learn. Build. Create.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 <style>
-/* ── Reset & Variables ── */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-:root {
-  --font-size-sm: 13px;
-  --font-size-md: 14px;
-  --font-size-lg: 16px;
-  --font-size: var(--font-size-md);
-  --radius: 12px;
-  --radius-sm: 8px;
-  --sidebar-w: 260px;
-  --transition: 0.2s ease;
-}
-
-[data-theme="dark"] {
-  --bg: #0f1117;
-  --bg2: #161b27;
-  --bg3: #1e2535;
-  --bg4: #252d3d;
-  --border: #2a3347;
-  --text: #e8eaf0;
-  --text2: #8b93a8;
-  --text3: #5a6279;
-  --accent: #6366f1;
-  --accent2: #818cf8;
-  --accent-bg: rgba(99,102,241,0.12);
-  --accent-glow: rgba(99,102,241,0.3);
-  --user-bubble: #1e2d4a;
-  --user-border: #2a4275;
-  --success: #10b981;
-  --warning: #f59e0b;
-  --danger: #ef4444;
-  --code-bg: #1a1f2e;
-  --shadow: 0 4px 24px rgba(0,0,0,0.4);
-  --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
-}
-
-[data-theme="light"] {
-  --bg: #f8fafc;
-  --bg2: #ffffff;
-  --bg3: #f1f5f9;
-  --bg4: #e8edf5;
-  --border: #e2e8f0;
-  --text: #1e293b;
-  --text2: #64748b;
-  --text3: #94a3b8;
-  --accent: #6366f1;
-  --accent2: #4f46e5;
-  --accent-bg: rgba(99,102,241,0.08);
-  --accent-glow: rgba(99,102,241,0.2);
-  --user-bubble: #eff6ff;
-  --user-border: #bfdbfe;
-  --success: #059669;
-  --warning: #d97706;
-  --danger: #dc2626;
-  --code-bg: #1e293b;
-  --shadow: 0 4px 24px rgba(0,0,0,0.08);
-  --shadow-sm: 0 2px 8px rgba(0,0,0,0.05);
-}
-
-[data-theme="light"] .hljs { background: #1e293b !important; }
-
-html, body {
-  height: 100%;
-  font-family: 'Inter', sans-serif;
-  font-size: var(--font-size);
-  background: var(--bg);
-  color: var(--text);
-  overflow: hidden;
-}
-
-/* ── Layout ── */
-.app { display: flex; height: 100vh; overflow: hidden; }
-
-/* ── Sidebar ── */
-.sidebar {
-  width: var(--sidebar-w);
-  background: var(--bg2);
-  border-right: 1px solid var(--border);
-  display: flex;
-  flex-direction: column;
-  flex-shrink: 0;
-  overflow: hidden;
-}
-
-.sidebar-header {
-  padding: 20px 16px 16px;
-  border-bottom: 1px solid var(--border);
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 16px;
-}
-
-.logo-icon {
-  width: 36px; height: 36px;
-  background: linear-gradient(135deg, var(--accent), #8b5cf6);
-  border-radius: 10px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 18px;
-  flex-shrink: 0;
-  box-shadow: 0 0 16px var(--accent-glow);
-}
-
-.logo-text { font-weight: 700; font-size: 16px; letter-spacing: -0.3px; }
-.logo-text span { color: var(--accent2); }
-
-.btn-new-chat {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  width: 100%;
-  padding: 10px 14px;
-  background: var(--accent);
-  color: #fff;
-  border: none;
-  border-radius: var(--radius-sm);
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: var(--transition);
-  font-family: inherit;
-}
-.btn-new-chat:hover { background: var(--accent2); transform: translateY(-1px); box-shadow: 0 4px 12px var(--accent-glow); }
-
-.sidebar-nav {
-  padding: 12px 8px;
-  border-bottom: 1px solid var(--border);
-}
-
-.nav-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 9px 12px;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  font-size: 13.5px;
-  font-weight: 500;
-  color: var(--text2);
-  transition: var(--transition);
-  user-select: none;
-}
-.nav-item:hover { background: var(--bg3); color: var(--text); }
-.nav-item.active { background: var(--accent-bg); color: var(--accent2); }
-.nav-item .icon { font-size: 16px; width: 20px; text-align: center; }
-
-.sidebar-section-title {
-  padding: 12px 20px 6px;
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  color: var(--text3);
-}
-
-.history-list {
-  flex: 1;
-  overflow-y: auto;
-  padding: 4px 8px;
-  scrollbar-width: thin;
-  scrollbar-color: var(--border) transparent;
-}
-
-.history-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  color: var(--text2);
-  font-size: 12.5px;
-  transition: var(--transition);
-  white-space: nowrap;
-  overflow: hidden;
-}
-.history-item:hover { background: var(--bg3); color: var(--text); }
-.history-item span { overflow: hidden; text-overflow: ellipsis; flex: 1; }
-.history-item .del-btn {
-  opacity: 0;
-  background: none;
-  border: none;
-  color: var(--danger);
-  cursor: pointer;
-  font-size: 14px;
-  padding: 2px 4px;
-  border-radius: 4px;
-  flex-shrink: 0;
-  transition: var(--transition);
-}
-.history-item:hover .del-btn { opacity: 1; }
-
-.sidebar-footer {
-  padding: 12px 16px;
-  border-top: 1px solid var(--border);
-}
-
-.user-card {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 12px;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  transition: var(--transition);
-}
-.user-card:hover { background: var(--bg3); }
-
-.avatar {
-  width: 34px; height: 34px;
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-weight: 700; font-size: 14px; color: #fff;
-  flex-shrink: 0;
-}
-
-.user-info { flex: 1; min-width: 0; }
-.user-name { font-size: 13px; font-weight: 600; }
-.user-plan { font-size: 11px; color: var(--accent2); }
-.user-settings-icon { color: var(--text3); font-size: 16px; }
-
-/* ── Main ── */
-.main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
-
-/* ── Top Bar ── */
-.topbar {
-  padding: 12px 24px;
-  border-bottom: 1px solid var(--border);
-  background: var(--bg2);
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-shrink: 0;
-}
-
-.topbar-title {
-  flex: 1;
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--text);
-}
-
-.topbar-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 10px;
-  border-radius: 20px;
-  font-size: 11.5px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.badge-professional { background: rgba(99,102,241,0.15); color: var(--accent2); }
-.badge-friendly { background: rgba(16,185,129,0.12); color: #34d399; }
-.badge-technical { background: rgba(239,68,68,0.1); color: #f87171; }
-.badge-creative { background: rgba(245,158,11,0.12); color: #fbbf24; }
-
-.topbar-btn {
-  display: flex; align-items: center; gap: 6px;
-  padding: 7px 14px;
-  background: var(--bg3);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  color: var(--text2);
-  font-size: 12.5px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: var(--transition);
-  font-family: inherit;
-}
-.topbar-btn:hover { background: var(--bg4); color: var(--text); }
-.topbar-btn.active { background: var(--accent-bg); border-color: var(--accent); color: var(--accent2); }
-
-/* ── Views ── */
-.view { display: none; flex: 1; overflow: hidden; flex-direction: column; }
-.view.active { display: flex; }
-
-/* ── Chat View ── */
-.chat-messages {
-  flex: 1;
-  overflow-y: auto;
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  scrollbar-width: thin;
-  scrollbar-color: var(--border) transparent;
-}
-
-.welcome-screen {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  text-align: center;
-  gap: 16px;
-  padding: 40px;
-  animation: fadeIn 0.5s ease;
-}
-
-.welcome-icon {
-  width: 72px; height: 72px;
-  background: linear-gradient(135deg, var(--accent), #8b5cf6);
-  border-radius: 20px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 36px;
-  box-shadow: 0 0 40px var(--accent-glow);
-  animation: float 3s ease-in-out infinite;
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
-}
-
-.welcome-title { font-size: 26px; font-weight: 700; color: var(--text); }
-.welcome-subtitle { font-size: 14px; color: var(--text2); max-width: 420px; line-height: 1.6; }
-
-.welcome-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  justify-content: center;
-  margin-top: 8px;
-}
-
-.chip {
-  padding: 8px 16px;
-  background: var(--bg3);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  font-size: 12.5px;
-  cursor: pointer;
-  color: var(--text2);
-  transition: var(--transition);
-}
-.chip:hover { background: var(--accent-bg); border-color: var(--accent); color: var(--accent2); }
-
-/* ── Message Bubbles ── */
-.message { display: flex; gap: 12px; animation: slideUp 0.3s ease; max-width: 100%; }
-.message.user { flex-direction: row-reverse; }
-
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.msg-avatar {
-  width: 32px; height: 32px;
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 14px;
-  font-weight: 700;
-  flex-shrink: 0;
-  margin-top: 2px;
-}
-
-.msg-avatar.ai {
-  background: linear-gradient(135deg, var(--accent), #8b5cf6);
-  color: #fff;
-  box-shadow: 0 0 10px var(--accent-glow);
-}
-
-.msg-avatar.user {
-  background: var(--bg4);
-  color: var(--text2);
-  border: 1px solid var(--border);
-}
-
-.msg-body { flex: 1; min-width: 0; max-width: 85%; }
-.message.user .msg-body { align-items: flex-end; display: flex; flex-direction: column; }
-
-.msg-bubble {
-  padding: 14px 18px;
-  border-radius: var(--radius);
-  line-height: 1.7;
-  font-size: var(--font-size);
-  word-break: break-word;
-}
-
-.message.ai .msg-bubble {
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-radius: 4px var(--radius) var(--radius) var(--radius);
-}
-
-.message.user .msg-bubble {
-  background: var(--user-bubble);
-  border: 1px solid var(--user-border);
-  border-radius: var(--radius) 4px var(--radius) var(--radius);
-  color: var(--text);
-}
-
-/* Markdown styles inside bubbles */
-.msg-bubble h1, .msg-bubble h2, .msg-bubble h3, .msg-bubble h4 {
-  margin: 16px 0 8px;
-  color: var(--text);
-  font-weight: 700;
-  line-height: 1.3;
-}
-.msg-bubble h1 { font-size: 1.5em; padding-bottom: 8px; border-bottom: 2px solid var(--accent); }
-.msg-bubble h2 { font-size: 1.25em; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
-.msg-bubble h3 { font-size: 1.1em; color: var(--accent2); }
-.msg-bubble h4 { font-size: 1em; color: var(--text2); }
-.msg-bubble p { margin: 8px 0; }
-.msg-bubble ul, .msg-bubble ol { margin: 8px 0 8px 20px; }
-.msg-bubble li { margin: 4px 0; }
-.msg-bubble strong { color: var(--text); font-weight: 600; }
-.msg-bubble em { color: var(--text2); }
-.msg-bubble blockquote {
-  border-left: 3px solid var(--accent);
-  padding: 8px 16px;
-  margin: 12px 0;
-  background: var(--bg3);
-  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-  color: var(--text2);
-}
-.msg-bubble code {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.875em;
-  background: var(--code-bg);
-  padding: 2px 6px;
-  border-radius: 4px;
-  color: #a78bfa;
-}
-.msg-bubble pre {
-  background: var(--code-bg) !important;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 16px;
-  overflow-x: auto;
-  margin: 12px 0;
-  position: relative;
-}
-.msg-bubble pre code {
-  background: none !important;
-  padding: 0;
-  color: inherit;
-  font-size: 13px;
-}
-.msg-bubble table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 12px 0;
-  font-size: 13px;
-}
-.msg-bubble th {
-  background: var(--bg3);
-  padding: 8px 12px;
-  text-align: left;
-  font-weight: 600;
-  border: 1px solid var(--border);
-  color: var(--accent2);
-}
-.msg-bubble td {
-  padding: 8px 12px;
-  border: 1px solid var(--border);
-  color: var(--text2);
-}
-.msg-bubble tr:nth-child(even) td { background: var(--bg3); }
-.msg-bubble a { color: var(--accent2); text-decoration: underline; }
-.msg-bubble hr { border: none; border-top: 1px solid var(--border); margin: 16px 0; }
-
-.copy-btn-wrap {
-  display: flex;
-  justify-content: flex-end;
-  gap: 6px;
-  margin-top: 8px;
-}
-
-.copy-btn {
-  display: flex; align-items: center; gap: 4px;
-  padding: 4px 10px;
-  background: var(--bg3);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  color: var(--text3);
-  font-size: 11.5px;
-  cursor: pointer;
-  transition: var(--transition);
-  font-family: inherit;
-}
-.copy-btn:hover { color: var(--text); background: var(--bg4); }
-.copy-btn.copied { color: var(--success); border-color: var(--success); }
-
-/* Thinking/loading indicator */
-.thinking {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 12px 18px;
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  color: var(--text3);
-  font-size: 13px;
-  animation: slideUp 0.3s ease;
-}
-
-.thinking-dots { display: flex; gap: 4px; }
-.thinking-dots span {
-  width: 6px; height: 6px;
-  background: var(--accent);
-  border-radius: 50%;
-  animation: bounce 1.2s ease-in-out infinite;
-}
-.thinking-dots span:nth-child(2) { animation-delay: 0.2s; }
-.thinking-dots span:nth-child(3) { animation-delay: 0.4s; }
-
-@keyframes bounce {
-  0%, 100% { transform: translateY(0); opacity: 0.4; }
-  50% { transform: translateY(-6px); opacity: 1; }
-}
-
-/* ── Input Area ── */
-.input-area {
-  padding: 16px 24px 20px;
-  background: var(--bg2);
-  border-top: 1px solid var(--border);
-  flex-shrink: 0;
-}
-
-.research-banner {
-  display: none;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 14px;
-  background: rgba(245,158,11,0.1);
-  border: 1px solid rgba(245,158,11,0.3);
-  border-radius: var(--radius-sm);
-  color: #fbbf24;
-  font-size: 12.5px;
-  font-weight: 500;
-  margin-bottom: 10px;
-}
-.research-banner.visible { display: flex; }
-
-.input-box {
-  display: flex;
-  gap: 10px;
-  align-items: flex-end;
-  background: var(--bg3);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 12px 14px;
-  transition: var(--transition);
-}
-.input-box:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
-
-#chat-input {
-  flex: 1;
-  background: none;
-  border: none;
-  outline: none;
-  color: var(--text);
-  font-size: var(--font-size);
-  font-family: inherit;
-  resize: none;
-  max-height: 180px;
-  min-height: 24px;
-  line-height: 1.6;
-  overflow-y: auto;
-  scrollbar-width: thin;
-}
-#chat-input::placeholder { color: var(--text3); }
-
-.input-actions { display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
-
-.send-btn {
-  width: 38px; height: 38px;
-  background: var(--accent);
-  border: none;
-  border-radius: 10px;
-  color: #fff;
-  font-size: 18px;
-  cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  transition: var(--transition);
-  flex-shrink: 0;
-}
-.send-btn:hover:not(:disabled) { background: var(--accent2); transform: scale(1.05); }
-.send-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-
-.input-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 10px;
-}
-
-.input-footer-left { display: flex; gap: 6px; align-items: center; }
-
-.toggle-btn {
-  display: flex; align-items: center; gap: 5px;
-  padding: 5px 10px;
-  background: var(--bg4);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  color: var(--text3);
-  font-size: 12px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: var(--transition);
-  font-family: inherit;
-}
-.toggle-btn:hover { color: var(--text); }
-.toggle-btn.on { background: rgba(245,158,11,0.1); border-color: rgba(245,158,11,0.4); color: #fbbf24; }
-
-.char-count { font-size: 11px; color: var(--text3); }
-
-/* ── Image View ── */
-.image-view {
-  padding: 24px;
-  overflow-y: auto;
-  flex: 1;
-}
-
-.image-form-card {
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 24px;
-  max-width: 680px;
-  margin: 0 auto 24px;
-}
-
-.form-title {
-  font-size: 16px;
-  font-weight: 700;
-  margin-bottom: 4px;
-}
-.form-subtitle { font-size: 13px; color: var(--text2); margin-bottom: 20px; }
-
-.form-group { margin-bottom: 16px; }
-
-.form-label {
-  display: block;
-  font-size: 12.5px;
-  font-weight: 600;
-  color: var(--text2);
-  margin-bottom: 6px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.form-input, .form-select, .form-textarea {
-  width: 100%;
-  background: var(--bg3);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 10px 14px;
-  color: var(--text);
-  font-size: 13.5px;
-  font-family: inherit;
-  outline: none;
-  transition: var(--transition);
-}
-.form-input:focus, .form-select:focus, .form-textarea:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px var(--accent-glow);
-}
-.form-textarea { resize: vertical; min-height: 80px; }
-
-.aspect-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 8px;
-}
-
-.aspect-btn {
-  padding: 8px;
-  background: var(--bg3);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  color: var(--text2);
-  font-size: 12px;
-  font-weight: 500;
-  cursor: pointer;
-  text-align: center;
-  transition: var(--transition);
-  font-family: inherit;
-}
-.aspect-btn:hover { border-color: var(--accent); color: var(--accent2); }
-.aspect-btn.selected { background: var(--accent-bg); border-color: var(--accent); color: var(--accent2); }
-
-.btn-primary {
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-  width: 100%;
-  padding: 12px;
-  background: linear-gradient(135deg, var(--accent), #8b5cf6);
-  border: none;
-  border-radius: var(--radius-sm);
-  color: #fff;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: var(--transition);
-  font-family: inherit;
-  margin-top: 8px;
-}
-.btn-primary:hover:not(:disabled) { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 6px 20px var(--accent-glow); }
-.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
-
-.image-result {
-  max-width: 680px;
-  margin: 0 auto;
-  display: none;
-}
-.image-result.visible { display: block; }
-
-.image-result-card {
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  overflow: hidden;
-}
-
-.result-img {
-  width: 100%;
-  display: block;
-  max-height: 600px;
-  object-fit: contain;
-  background: var(--bg3);
-}
-
-.image-actions {
-  padding: 14px 18px;
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-.btn-secondary {
-  display: flex; align-items: center; gap: 6px;
-  padding: 8px 14px;
-  background: var(--bg3);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  color: var(--text2);
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: var(--transition);
-  font-family: inherit;
-  text-decoration: none;
-}
-.btn-secondary:hover { background: var(--bg4); color: var(--text); }
-
-/* ── Research View ── */
-.research-view {
-  padding: 24px;
-  overflow-y: auto;
-  flex: 1;
-}
-
-.research-form-card {
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 24px;
-  max-width: 720px;
-  margin: 0 auto 24px;
-}
-
-.research-steps {
-  max-width: 720px;
-  margin: 0 auto 24px;
-  display: none;
-}
-.research-steps.visible { display: block; }
-
-.step-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 12px 16px;
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  margin-bottom: 8px;
-  font-size: 13px;
-  animation: slideUp 0.3s ease;
-}
-.step-icon { font-size: 16px; flex-shrink: 0; }
-.step-label { color: var(--text2); }
-.step-item.done .step-label { color: var(--success); }
-.step-item.active .step-label { color: var(--accent2); }
-
-.research-report-card {
-  max-width: 720px;
-  margin: 0 auto;
-  display: none;
-}
-.research-report-card.visible { display: block; }
-
-.report-card {
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 28px;
-  line-height: 1.7;
-  font-size: var(--font-size);
-}
-.report-card h1 { font-size: 1.5em; color: var(--accent2); padding-bottom: 12px; border-bottom: 2px solid var(--accent); margin-bottom: 16px; }
-.report-card h2 { font-size: 1.2em; margin: 20px 0 8px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
-.report-card h3 { font-size: 1.05em; color: var(--text2); margin: 14px 0 6px; }
-.report-card p { margin: 8px 0; color: var(--text2); }
-.report-card ul, .report-card ol { margin: 8px 0 8px 20px; }
-.report-card li { margin: 5px 0; color: var(--text2); }
-.report-card strong { color: var(--text); }
-.report-card blockquote { border-left: 3px solid var(--accent); padding: 8px 16px; margin: 12px 0; background: var(--bg3); border-radius: 0 8px 8px 0; color: var(--text2); }
-.report-card table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13px; }
-.report-card th { background: var(--bg3); padding: 8px 12px; text-align: left; font-weight: 600; border: 1px solid var(--border); color: var(--accent2); }
-.report-card td { padding: 8px 12px; border: 1px solid var(--border); color: var(--text2); }
-.report-card tr:nth-child(even) td { background: var(--bg3); }
-.report-card code { font-family: 'JetBrains Mono', monospace; font-size: 0.875em; background: var(--code-bg); padding: 2px 6px; border-radius: 4px; color: #a78bfa; }
-.report-card hr { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
-
-.report-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 16px;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-/* ── Settings Modal ── */
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.6);
-  backdrop-filter: blur(4px);
-  z-index: 1000;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  animation: fadeIn 0.2s ease;
-}
-.modal-overlay.open { display: flex; }
-
-.modal {
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  width: 100%;
-  max-width: 640px;
-  max-height: 85vh;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  box-shadow: var(--shadow);
-  animation: slideUp 0.3s ease;
-}
-
-.modal-header {
-  padding: 20px 24px 16px;
-  border-bottom: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-shrink: 0;
-}
-
-.modal-title { font-size: 17px; font-weight: 700; }
-
-.modal-close {
-  width: 32px; height: 32px;
-  background: var(--bg3);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  color: var(--text2);
-  font-size: 18px;
-  cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  transition: var(--transition);
-}
-.modal-close:hover { background: var(--bg4); color: var(--text); }
-
-.modal-body {
-  overflow-y: auto;
-  flex: 1;
-  padding: 0;
-}
-
-.settings-tabs {
-  display: flex;
-  border-bottom: 1px solid var(--border);
-  padding: 0 24px;
-  gap: 4px;
-  flex-shrink: 0;
-  overflow-x: auto;
-}
-
-.settings-tab {
-  padding: 12px 16px;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--text3);
-  cursor: pointer;
-  border-bottom: 2px solid transparent;
-  transition: var(--transition);
-  white-space: nowrap;
-  background: none;
-  border-left: none;
-  border-right: none;
-  border-top: none;
-  font-family: inherit;
-}
-.settings-tab:hover { color: var(--text); }
-.settings-tab.active { color: var(--accent2); border-bottom-color: var(--accent); }
-
-.settings-panel { padding: 24px; display: none; }
-.settings-panel.active { display: block; }
-
-.setting-group { margin-bottom: 24px; }
-.setting-label {
-  font-size: 13px;
-  font-weight: 600;
-  margin-bottom: 8px;
-  color: var(--text);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.setting-desc { font-size: 12px; color: var(--text3); margin-bottom: 10px; }
-
-.option-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-  gap: 8px;
-}
-
-.option-card {
-  padding: 12px 14px;
-  background: var(--bg3);
-  border: 2px solid var(--border);
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  transition: var(--transition);
-  text-align: center;
-  font-family: inherit;
-}
-.option-card:hover { border-color: var(--accent); }
-.option-card.selected { border-color: var(--accent); background: var(--accent-bg); }
-.option-card .opt-icon { font-size: 20px; margin-bottom: 4px; }
-.option-card .opt-label { font-size: 12.5px; font-weight: 600; color: var(--text); }
-.option-card .opt-desc { font-size: 11px; color: var(--text3); margin-top: 2px; }
-
-.modal-footer {
-  padding: 16px 24px;
-  border-top: 1px solid var(--border);
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  flex-shrink: 0;
-}
-
-.btn-save {
-  padding: 9px 22px;
-  background: var(--accent);
-  border: none;
-  border-radius: var(--radius-sm);
-  color: #fff;
-  font-size: 13.5px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: var(--transition);
-  font-family: inherit;
-}
-.btn-save:hover { background: var(--accent2); }
-
-.btn-cancel {
-  padding: 9px 16px;
-  background: var(--bg3);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  color: var(--text2);
-  font-size: 13.5px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: var(--transition);
-  font-family: inherit;
-}
-.btn-cancel:hover { background: var(--bg4); }
-
-/* ── Toast ── */
-.toast-container {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  z-index: 9999;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.toast {
-  padding: 12px 18px;
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  font-size: 13px;
-  color: var(--text);
-  box-shadow: var(--shadow);
-  animation: slideInRight 0.3s ease;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  max-width: 300px;
-}
-.toast.success { border-color: var(--success); }
-.toast.error { border-color: var(--danger); }
-
-@keyframes slideInRight {
-  from { transform: translateX(100%); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
-}
-
-/* ── Spinner ── */
-.spinner {
-  width: 20px; height: 20px;
-  border: 2px solid var(--border);
-  border-top-color: var(--accent);
-  border-radius: 50%;
-  animation: spin 0.7s linear infinite;
-  display: inline-block;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
-
-/* ── Pre-code copy button ── */
-.code-block-wrapper { position: relative; }
-.code-copy {
-  position: absolute;
-  top: 8px; right: 8px;
-  padding: 4px 10px;
-  background: var(--bg4);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  color: var(--text3);
-  font-size: 11px;
-  cursor: pointer;
-  transition: var(--transition);
-  font-family: inherit;
-}
-.code-copy:hover { color: var(--text); }
-.code-copy.copied { color: var(--success); border-color: var(--success); }
-
-/* ── Empty / Error states ── */
-.empty-state {
-  text-align: center;
-  padding: 60px 40px;
-  color: var(--text3);
-}
-.empty-state .empty-icon { font-size: 48px; margin-bottom: 12px; }
-.empty-state p { font-size: 14px; }
-
-/* ── Loading overlay for research ── */
-.research-loading {
-  display: none;
-  padding: 20px 24px;
-  background: rgba(245,158,11,0.05);
-  border: 1px solid rgba(245,158,11,0.2);
-  border-radius: var(--radius-sm);
-  margin-bottom: 16px;
-  font-size: 13px;
-  color: #fbbf24;
-  align-items: center;
-  gap: 10px;
-  max-width: 720px;
-  margin-left: auto;
-  margin-right: auto;
-}
-.research-loading.visible { display: flex; }
-
-/* ── Scrollbar ── */
-::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--text3); }
-
-/* ── Responsive ── */
-@media (max-width: 720px) {
-  .sidebar { position: fixed; left: -100%; top: 0; height: 100%; z-index: 500; transition: left 0.3s ease; }
-  .sidebar.open { left: 0; }
-  .mobile-menu-btn { display: flex; }
-  .aspect-grid { grid-template-columns: repeat(3, 1fr); }
-}
-
-.mobile-menu-btn {
-  display: none;
-  width: 36px; height: 36px;
-  background: var(--bg3);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  align-items: center; justify-content: center;
-  cursor: pointer;
-  font-size: 18px;
-  color: var(--text2);
-}
-
-/* Font sizes */
-[data-fontsize="small"] { --font-size: var(--font-size-sm); }
-[data-fontsize="medium"] { --font-size: var(--font-size-md); }
-[data-fontsize="large"] { --font-size: var(--font-size-lg); }
+:root{
+--bg:#070B14;--card:#0F172A;--border:rgba(255,255,255,0.08);
+--primary:#8B5CF6;--secondary:#A855F7;--accent:#6D28D9;
+--text:#FFFFFF;--muted:#94A3B8;--success:#10B981;--error:#EF4444;
+--sidebar-w:260px;--font:'Inter',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:var(--font);overflow-x:hidden;cursor:none;}
+body.light-mode{--bg:#F8FAFC;--card:#FFFFFF;--border:rgba(0,0,0,0.08);--text:#0F172A;--muted:#64748B;}
+
+/* CURSOR */
+#cursor{position:fixed;width:10px;height:10px;background:var(--primary);border-radius:50%;pointer-events:none;z-index:99999;transition:transform .15s ease,opacity .2s;transform:translate(-50%,-50%);}
+#cursor-trail{position:fixed;width:30px;height:30px;border:1.5px solid rgba(139,92,246,.4);border-radius:50%;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:left .1s ease,top .1s ease,transform .2s,border-color .2s;}
+a,button,[role=button],.nav-item,.sidebar-item{cursor:none;}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:rgba(139,92,246,.4);border-radius:4px;}
+
+/* LOADER */
+#loader{position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;}
+#loader canvas{position:absolute;inset:0;}
+.loader-logo{position:relative;z-index:1;font-size:56px;font-weight:900;letter-spacing:-2px;background:linear-gradient(135deg,#8B5CF6,#A855F7,#EC4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.loader-tag{position:relative;z-index:1;display:flex;gap:12px;align-items:center;}
+.loader-word{font-size:14px;font-weight:500;color:var(--muted);opacity:0;transform:translateY(10px);transition:all .5s ease;}
+.loader-word.show{opacity:1;transform:translateY(0);}
+.loader-bar{position:relative;z-index:1;width:200px;height:2px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden;margin-top:8px;}
+.loader-bar-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--primary),var(--secondary));border-radius:2px;transition:width 3s ease;}
+
+/* LANDING */
+#landing{min-height:100vh;display:flex;flex-direction:column;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 60px;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(20px);border-bottom:1px solid transparent;transition:all .3s;}
+nav.scrolled{border-color:var(--border);background:rgba(7,11,20,.8);}
+.nav-logo{font-size:22px;font-weight:800;letter-spacing:-1px;background:linear-gradient(135deg,#8B5CF6,#A855F7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.nav-links{display:flex;gap:32px;align-items:center;}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:500;transition:color .2s;}
+.nav-links a:hover{color:var(--text);}
+.nav-actions{display:flex;gap:12px;}
+.btn{padding:10px 20px;border-radius:10px;font-size:14px;font-weight:600;border:none;transition:all .2s;font-family:var(--font);}
+.btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--border);}
+.btn-ghost:hover{color:var(--text);border-color:rgba(255,255,255,.2);}
+.btn-primary{background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;box-shadow:0 4px 20px rgba(139,92,246,.3);}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 8px 30px rgba(139,92,246,.4);}
+.btn-outline{background:transparent;color:var(--text);border:1px solid rgba(255,255,255,.15);padding:12px 28px;font-size:15px;}
+.btn-outline:hover{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.3);}
+.btn-large{padding:14px 32px;font-size:16px;border-radius:12px;}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:120px 60px 80px;position:relative;overflow:hidden;}
+.hero-canvas{position:absolute;inset:0;}
+.hero-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(139,92,246,.15) 0%,transparent 70%);pointer-events:none;}
+.hero-content{position:relative;z-index:1;max-width:720px;text-align:center;}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.2);border-radius:100px;font-size:13px;color:var(--primary);font-weight:500;margin-bottom:32px;}
+.hero-badge span{width:6px;height:6px;background:var(--primary);border-radius:50%;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.5;transform:scale(.8);}}
+h1{font-size:clamp(36px,5vw,72px);font-weight:900;line-height:1.1;letter-spacing:-2px;margin-bottom:24px;}
+.grad{background:linear-gradient(135deg,#fff 40%,#8B5CF6 80%,#A855F7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.hero p{font-size:18px;color:var(--muted);line-height:1.7;margin-bottom:40px;max-width:560px;margin-left:auto;margin-right:auto;}
+.hero-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
+.floating-cards{position:absolute;right:5%;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:12px;z-index:1;}
+.float-card{background:rgba(15,23,42,.8);border:1px solid var(--border);border-radius:12px;padding:14px 18px;backdrop-filter:blur(20px);display:flex;align-items:center;gap:12px;font-size:13px;font-weight:500;min-width:160px;animation:float 4s ease-in-out infinite;}
+.float-card:nth-child(2){animation-delay:.5s;}
+.float-card:nth-child(3){animation-delay:1s;}
+.float-card:nth-child(4){animation-delay:1.5s;}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+.float-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;}
+
+/* SECTIONS */
+section{padding:100px 60px;}
+.section-title{text-align:center;margin-bottom:64px;}
+.section-label{display:inline-block;font-size:12px;font-weight:600;color:var(--primary);letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;}
+.section-title h2{font-size:clamp(28px,4vw,48px);font-weight:800;letter-spacing:-1px;margin-bottom:16px;}
+.section-title p{font-size:16px;color:var(--muted);max-width:500px;margin:0 auto;line-height:1.7;}
+
+/* FEATURES */
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;max-width:1100px;margin:0 auto;}
+.feature-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px;transition:all .3s;position:relative;overflow:hidden;}
+.feature-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(139,92,246,.05),transparent);opacity:0;transition:.3s;}
+.feature-card:hover{border-color:rgba(139,92,246,.3);transform:translateY(-4px);box-shadow:0 20px 60px rgba(0,0,0,.3);}
+.feature-card:hover::before{opacity:1;}
+.feature-icon{width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,rgba(139,92,246,.2),rgba(168,85,247,.1));display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:16px;}
+.feature-card h3{font-size:16px;font-weight:700;margin-bottom:8px;}
+.feature-card p{font-size:14px;color:var(--muted);line-height:1.6;}
+
+/* USER CATEGORIES */
+.categories-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:1000px;margin:0 auto;}
+.cat-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:40px 32px;text-align:center;position:relative;overflow:hidden;transition:all .3s;}
+.cat-card::after{content:'';position:absolute;bottom:-40px;right:-40px;width:120px;height:120px;border-radius:50%;opacity:.1;filter:blur(30px);}
+.cat-card.students::after{background:#3B82F6;}
+.cat-card.developers::after{background:#10B981;}
+.cat-card.creators::after{background:#F59E0B;}
+.cat-card:hover{transform:translateY(-6px);border-color:rgba(139,92,246,.3);}
+.cat-emoji{font-size:48px;margin-bottom:20px;display:block;}
+.cat-card h3{font-size:22px;font-weight:800;margin-bottom:12px;}
+.cat-card p{color:var(--muted);line-height:1.6;margin-bottom:24px;}
+.cat-list{text-align:left;list-style:none;display:flex;flex-direction:column;gap:8px;}
+.cat-list li{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:8px;}
+.cat-list li::before{content:'✓';color:var(--primary);font-weight:700;}
+
+/* PRICING */
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:960px;margin:0 auto;}
+.price-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:36px 32px;position:relative;transition:all .3s;}
+.price-card.featured{border-color:var(--primary);box-shadow:0 0 60px rgba(139,92,246,.15);}
+.featured-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--primary),var(--secondary));padding:4px 16px;border-radius:100px;font-size:12px;font-weight:600;white-space:nowrap;}
+.price-name{font-size:14px;font-weight:600;color:var(--muted);margin-bottom:16px;}
+.price-amount{font-size:42px;font-weight:900;letter-spacing:-2px;margin-bottom:4px;}
+.price-period{font-size:13px;color:var(--muted);}
+.price-features{list-style:none;margin:28px 0;display:flex;flex-direction:column;gap:12px;}
+.price-features li{font-size:14px;color:var(--muted);display:flex;align-items:center;gap:10px;}
+.price-features li::before{content:'✓';color:var(--success);font-weight:700;}
+.price-features li.off::before{content:'✕';color:rgba(255,255,255,.2);}
+.price-features li.off{opacity:.4;}
+.price-btn{width:100%;padding:14px;border-radius:12px;font-size:15px;font-weight:600;border:none;font-family:var(--font);}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:40px 60px;display:flex;align-items:center;justify-content:space-between;}
+footer .footer-logo{font-size:18px;font-weight:800;background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+footer p{font-size:13px;color:var(--muted);}
+
+/* APP LAYOUT */
+#app{display:none;height:100vh;overflow:hidden;}
+
+/* SIDEBAR */
+.sidebar{width:var(--sidebar-w);background:var(--card);border-right:1px solid var(--border);display:flex;flex-direction:column;height:100vh;overflow:hidden;flex-shrink:0;transition:width .3s;}
+.sidebar.collapsed{width:64px;}
+.sidebar-header{padding:20px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.sidebar-logo{font-size:18px;font-weight:800;background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;white-space:nowrap;overflow:hidden;}
+.collapse-btn{width:28px;height:28px;border:1px solid var(--border);border-radius:6px;background:transparent;color:var(--muted);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.collapse-btn:hover{background:rgba(255,255,255,.05);color:var(--text);}
+.sidebar-new{padding:12px 16px;border-bottom:1px solid var(--border);flex-shrink:0;}
+.new-chat-btn{width:100%;padding:10px 14px;background:linear-gradient(135deg,var(--primary),var(--secondary));border:none;border-radius:10px;color:#fff;font-size:13px;font-weight:600;font-family:var(--font);display:flex;align-items:center;gap:8px;justify-content:center;}
+.new-chat-btn:hover{opacity:.9;}
+.sidebar-nav{flex:1;overflow-y:auto;padding:8px;}
+.sidebar-section{font-size:10px;font-weight:600;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;padding:12px 10px 6px;}
+.sidebar-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:8px;color:var(--muted);font-size:13px;font-weight:500;transition:all .2s;white-space:nowrap;overflow:hidden;}
+.sidebar-item:hover{background:rgba(255,255,255,.05);color:var(--text);}
+.sidebar-item.active{background:rgba(139,92,246,.1);color:var(--primary);}
+.sidebar-icon{font-size:16px;flex-shrink:0;width:20px;text-align:center;}
+.sidebar-label{overflow:hidden;text-overflow:ellipsis;}
+.sidebar.collapsed .sidebar-label,.sidebar.collapsed .sidebar-section,.sidebar.collapsed .new-chat-btn span,.sidebar.collapsed .sidebar-logo{display:none;}
+.sidebar.collapsed .sidebar-item{justify-content:center;}
+.sidebar.collapsed .new-chat-btn{padding:10px;}
+.sidebar.collapsed .new-chat-btn::after{content:'+';}
+.sidebar-bottom{padding:12px 16px;border-top:1px solid var(--border);flex-shrink:0;}
+.user-profile{display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;transition:all .2s;}
+.user-profile:hover{background:rgba(255,255,255,.05);}
+.avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0;}
+.user-name{font-size:13px;font-weight:600;}
+.user-plan{font-size:11px;color:var(--muted);}
+
+/* MAIN */
+.main-area{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+.topbar{padding:0 24px;height:56px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.topbar-title{font-size:15px;font-weight:700;}
+.topbar-actions{display:flex;gap:8px;align-items:center;}
+.icon-btn{width:36px;height:36px;border-radius:8px;background:transparent;border:1px solid var(--border);color:var(--muted);display:flex;align-items:center;justify-content:center;font-size:15px;transition:all .2s;}
+.icon-btn:hover{background:rgba(255,255,255,.05);color:var(--text);}
+
+/* CONTENT PANELS */
+.content{flex:1;overflow-y:auto;display:none;}
+.content.active{display:flex;flex-direction:column;}
+
+/* CHAT */
+#chat-content{display:none;}
+#chat-content.active{display:flex;flex-direction:column;height:100%;}
+.chat-mode-bar{padding:12px 24px;border-bottom:1px solid var(--border);display:flex;gap:8px;flex-shrink:0;}
+.mode-chip{padding:6px 14px;border-radius:100px;font-size:12px;font-weight:600;border:1px solid var(--border);background:transparent;color:var(--muted);font-family:var(--font);}
+.mode-chip.active{background:rgba(139,92,246,.15);border-color:rgba(139,92,246,.3);color:var(--primary);}
+.chat-messages{flex:1;overflow-y:auto;padding:24px;}
+.chat-welcome{text-align:center;padding:60px 20px;}
+.chat-welcome h2{font-size:28px;font-weight:800;margin-bottom:12px;}
+.chat-welcome p{color:var(--muted);margin-bottom:32px;}
+.suggestion-chips{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;}
+.chip{padding:10px 18px;background:var(--card);border:1px solid var(--border);border-radius:100px;font-size:13px;color:var(--muted);transition:all .2s;}
+.chip:hover{border-color:rgba(139,92,246,.4);color:var(--text);}
+.message{display:flex;gap:14px;margin-bottom:24px;animation:slideIn .3s ease;}
+@keyframes slideIn{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+.msg-avatar{width:32px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;font-weight:700;}
+.msg-avatar.user{background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;}
+.msg-avatar.ai{background:rgba(139,92,246,.15);border:1px solid rgba(139,92,246,.2);}
+.msg-body{flex:1;max-width:720px;}
+.msg-name{font-size:12px;font-weight:600;color:var(--muted);margin-bottom:6px;}
+.msg-text{font-size:14px;line-height:1.7;color:var(--text);}
+.msg-text p{margin-bottom:12px;}
+.msg-text p:last-child{margin-bottom:0;}
+.msg-text h1,.msg-text h2,.msg-text h3{font-weight:700;margin:16px 0 8px;}
+.msg-text code{background:rgba(139,92,246,.1);padding:2px 6px;border-radius:4px;font-size:13px;font-family:monospace;}
+.msg-text pre{background:#0D1117;border:1px solid var(--border);border-radius:10px;padding:16px;margin:12px 0;overflow-x:auto;}
+.msg-text pre code{background:transparent;padding:0;}
+.msg-text ul,.msg-text ol{padding-left:20px;margin-bottom:12px;}
+.msg-text li{margin-bottom:4px;}
+.msg-text strong{color:var(--text);font-weight:700;}
+.msg-text table{width:100%;border-collapse:collapse;margin:12px 0;}
+.msg-text th,.msg-text td{border:1px solid var(--border);padding:8px 12px;text-align:left;font-size:13px;}
+.msg-text th{background:rgba(255,255,255,.05);}
+.msg-actions{display:flex;gap:8px;margin-top:10px;}
+.msg-action-btn{padding:4px 10px;background:transparent;border:1px solid var(--border);border-radius:6px;color:var(--muted);font-size:11px;font-family:var(--font);transition:all .2s;}
+.msg-action-btn:hover{background:rgba(255,255,255,.05);color:var(--text);}
+.typing-indicator{display:flex;gap:6px;align-items:center;padding:12px 0;}
+.typing-dot{width:7px;height:7px;background:var(--primary);border-radius:50%;animation:typing .8s ease-in-out infinite;}
+.typing-dot:nth-child(2){animation-delay:.15s;}
+.typing-dot:nth-child(3){animation-delay:.3s;}
+@keyframes typing{0%,100%{transform:translateY(0);opacity:.4;}50%{transform:translateY(-6px);opacity:1;}}
+.chat-input-area{padding:16px 24px;border-top:1px solid var(--border);flex-shrink:0;}
+.input-wrapper{background:var(--card);border:1px solid var(--border);border-radius:14px;display:flex;align-items:flex-end;gap:10px;padding:12px 14px;transition:border-color .2s;}
+.input-wrapper:focus-within{border-color:rgba(139,92,246,.4);}
+#chat-input{flex:1;background:transparent;border:none;outline:none;font-family:var(--font);font-size:14px;color:var(--text);resize:none;max-height:160px;line-height:1.6;}
+#chat-input::placeholder{color:var(--muted);}
+.send-btn{width:36px;height:36px;border-radius:9px;background:linear-gradient(135deg,var(--primary),var(--secondary));border:none;color:#fff;font-size:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.send-btn:hover{opacity:.9;}
+
+/* HUB */
+.hub-layout{display:flex;height:100%;overflow:hidden;}
+.hub-tools{width:220px;border-right:1px solid var(--border);padding:16px;overflow-y:auto;flex-shrink:0;}
+.hub-tools h3{font-size:11px;font-weight:600;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px;}
+.tool-item{padding:10px 12px;border-radius:8px;font-size:13px;font-weight:500;color:var(--muted);transition:all .2s;display:flex;align-items:center;gap:10px;}
+.tool-item:hover{background:rgba(255,255,255,.05);color:var(--text);}
+.tool-item.active{background:rgba(139,92,246,.1);color:var(--primary);}
+.hub-workspace{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+.hub-tool-area{flex:1;display:flex;gap:0;overflow:hidden;}
+.tool-input-panel{flex:1;padding:24px;border-right:1px solid var(--border);display:flex;flex-direction:column;gap:16px;overflow-y:auto;}
+.tool-output-panel{flex:1;padding:24px;display:flex;flex-direction:column;gap:16px;overflow-y:auto;}
+.panel-label{font-size:12px;font-weight:600;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;}
+textarea.tool-textarea{flex:1;min-height:200px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:12px;padding:16px;color:var(--text);font-family:var(--font);font-size:14px;line-height:1.6;resize:none;outline:none;transition:border-color .2s;}
+textarea.tool-textarea:focus{border-color:rgba(139,92,246,.4);}
+textarea.tool-textarea::placeholder{color:var(--muted);}
+.tool-output{flex:1;min-height:200px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:12px;padding:16px;overflow-y:auto;}
+.tool-output-content{font-size:14px;line-height:1.7;color:var(--text);}
+.tool-output-content p{margin-bottom:12px;}
+.tool-output-content h1,.tool-output-content h2,.tool-output-content h3{font-weight:700;margin:16px 0 8px;}
+.tool-output-content code{background:rgba(139,92,246,.1);padding:2px 6px;border-radius:4px;font-size:13px;font-family:monospace;}
+.tool-output-content pre{background:#0D1117;border:1px solid var(--border);border-radius:10px;padding:16px;margin:12px 0;overflow-x:auto;}
+.tool-output-content pre code{background:transparent;padding:0;}
+.tool-output-content ul,.tool-output-content ol{padding-left:20px;margin-bottom:12px;}
+.tool-output-content li{margin-bottom:4px;}
+.tool-output-content strong{font-weight:700;}
+.output-placeholder{color:var(--muted);font-size:14px;display:flex;align-items:center;justify-content:center;height:100%;text-align:center;}
+.tool-actions{display:flex;gap:10px;flex-wrap:wrap;}
+.generate-btn{padding:12px 24px;background:linear-gradient(135deg,var(--primary),var(--secondary));border:none;border-radius:10px;color:#fff;font-size:14px;font-weight:600;font-family:var(--font);display:flex;align-items:center;gap:8px;}
+.generate-btn:hover{opacity:.9;transform:translateY(-1px);}
+.generate-btn:disabled{opacity:.5;}
+.copy-btn,.export-btn{padding:10px 18px;background:transparent;border:1px solid var(--border);border-radius:10px;color:var(--muted);font-size:13px;font-weight:600;font-family:var(--font);transition:all .2s;}
+.copy-btn:hover,.export-btn:hover{background:rgba(255,255,255,.05);color:var(--text);}
+
+/* IMAGE STUDIO */
+#image-content.active{display:flex;height:100%;overflow:hidden;}
+.image-controls{width:320px;padding:24px;border-right:1px solid var(--border);overflow-y:auto;display:flex;flex-direction:column;gap:20px;flex-shrink:0;}
+.image-gallery{flex:1;padding:24px;overflow-y:auto;display:flex;flex-direction:column;gap:24px;}
+.field-label{font-size:12px;font-weight:600;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;}
+.field-input{width:100%;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:10px;padding:12px;color:var(--text);font-family:var(--font);font-size:14px;outline:none;transition:border-color .2s;}
+.field-input:focus{border-color:rgba(139,92,246,.4);}
+select.field-input option{background:#0F172A;}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.ratio-btn,.style-btn{padding:8px;background:transparent;border:1px solid var(--border);border-radius:8px;color:var(--muted);font-size:12px;font-weight:600;font-family:var(--font);text-align:center;transition:all .2s;}
+.ratio-btn.active,.style-btn.active{background:rgba(139,92,246,.1);border-color:rgba(139,92,246,.3);color:var(--primary);}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+.gen-image-btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--primary),var(--secondary));border:none;border-radius:12px;color:#fff;font-size:14px;font-weight:700;font-family:var(--font);}
+.gen-image-btn:hover{opacity:.9;}
+.image-result{border-radius:16px;overflow:hidden;border:1px solid var(--border);}
+.image-result img{width:100%;display:block;}
+.image-result-actions{padding:16px;display:flex;gap:10px;background:var(--card);}
+.gallery-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:16px;color:var(--muted);text-align:center;}
+.gallery-empty-icon{font-size:64px;opacity:.3;}
+
+/* SETTINGS */
+#settings-content.active{display:block;overflow-y:auto;}
+.settings-inner{padding:32px;max-width:640px;}
+.settings-inner h2{font-size:20px;font-weight:800;margin-bottom:32px;}
+.settings-section{margin-bottom:32px;}
+.settings-section h3{font-size:13px;font-weight:700;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border);}
+.settings-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.04);}
+.settings-row:last-child{border-bottom:none;}
+.settings-row-label h4{font-size:14px;font-weight:600;margin-bottom:2px;}
+.settings-row-label p{font-size:12px;color:var(--muted);}
+.toggle{width:42px;height:24px;background:rgba(255,255,255,.1);border-radius:100px;position:relative;transition:background .2s;flex-shrink:0;}
+.toggle.on{background:var(--primary);}
+.toggle::after{content:'';position:absolute;top:3px;left:3px;width:18px;height:18px;background:#fff;border-radius:50%;transition:transform .2s;}
+.toggle.on::after{transform:translateX(18px);}
+.theme-options{display:flex;gap:10px;flex-wrap:wrap;}
+.theme-option{padding:8px 16px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-weight:500;color:var(--muted);font-family:var(--font);background:transparent;transition:all .2s;}
+.theme-option.active{border-color:var(--primary);color:var(--primary);background:rgba(139,92,246,.1);}
+.settings-input{width:100%;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:10px;padding:10px 14px;color:var(--text);font-family:var(--font);font-size:14px;outline:none;}
+.settings-input:focus{border-color:rgba(139,92,246,.4);}
+.save-btn{padding:12px 28px;background:linear-gradient(135deg,var(--primary),var(--secondary));border:none;border-radius:10px;color:#fff;font-size:14px;font-weight:600;font-family:var(--font);margin-top:8px;}
+.save-btn:hover{opacity:.9;}
+
+/* TOAST */
+.toast-container{position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:8px;}
+.toast{padding:12px 20px;background:var(--card);border:1px solid var(--border);border-radius:10px;font-size:13px;font-weight:500;display:flex;align-items:center;gap:10px;animation:slideInRight .3s ease;box-shadow:0 8px 30px rgba(0,0,0,.3);}
+.toast.success{border-color:rgba(16,185,129,.3);}
+.toast.error{border-color:rgba(239,68,68,.3);}
+@keyframes slideInRight{from{opacity:0;transform:translateX(20px);}to{opacity:1;transform:translateX(0);}}
+
+/* COMMAND PALETTE */
+#cmd-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1000;backdrop-filter:blur(8px);display:none;align-items:flex-start;justify-content:center;padding-top:15vh;}
+#cmd-overlay.open{display:flex;}
+.cmd-palette{width:100%;max-width:560px;background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,.5);}
+.cmd-input-wrap{display:flex;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid var(--border);}
+.cmd-search-icon{color:var(--muted);font-size:16px;}
+#cmd-input{flex:1;background:transparent;border:none;outline:none;font-family:var(--font);font-size:15px;color:var(--text);}
+#cmd-input::placeholder{color:var(--muted);}
+.cmd-results{max-height:340px;overflow-y:auto;}
+.cmd-item{display:flex;align-items:center;gap:14px;padding:12px 20px;font-size:14px;color:var(--muted);transition:all .15s;}
+.cmd-item:hover,.cmd-item.focused{background:rgba(139,92,246,.08);color:var(--text);}
+.cmd-icon{width:32px;height:32px;border-radius:8px;background:rgba(139,92,246,.1);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+.cmd-item-label{font-weight:500;}
+.cmd-item-key{margin-left:auto;font-size:11px;color:var(--muted);opacity:.5;}
+
+/* MOBILE */
+@media(max-width:768px){
+nav{padding:16px 20px;}
+.nav-links{display:none;}
+.hero{padding:100px 20px 60px;text-align:center;}
+.floating-cards{display:none;}
+.hero-btns{flex-direction:column;align-items:center;}
+section{padding:60px 20px;}
+.categories-grid{grid-template-columns:1fr;}
+.pricing-grid{grid-template-columns:1fr;}
+.features-grid{grid-template-columns:1fr;}
+footer{flex-direction:column;gap:12px;text-align:center;padding:24px 20px;}
+#app{display:none!important;}
+.mobile-app{display:flex!important;}
+}
+.mobile-app{display:none;flex-direction:column;height:100vh;}
+.mobile-nav{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--border);display:flex;z-index:100;padding-bottom:env(safe-area-inset-bottom);}
+.mobile-nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 8px;color:var(--muted);font-size:10px;font-weight:600;transition:color .2s;}
+.mobile-nav-item.active{color:var(--primary);}
+.mobile-nav-item .nav-icon{font-size:20px;}
+.mobile-content{flex:1;overflow-y:auto;padding-bottom:80px;}
+
+/* LOADING SPINNER */
+.spinner{width:20px;height:20px;border:2px solid rgba(255,255,255,.2);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* PROMPT LIBRARY */
+.prompts-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;padding:24px;}
+.prompt-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;transition:all .2s;}
+.prompt-card:hover{border-color:rgba(139,92,246,.3);transform:translateY(-2px);}
+.prompt-card h4{font-size:14px;font-weight:700;margin-bottom:8px;}
+.prompt-card p{font-size:13px;color:var(--muted);line-height:1.5;margin-bottom:16px;}
+.prompt-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;}
+.prompt-tag{padding:3px 10px;background:rgba(139,92,246,.1);border-radius:100px;font-size:11px;color:var(--primary);}
+.prompt-actions{display:flex;gap:8px;}
+.prompt-use-btn{padding:8px 16px;background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.2);border-radius:8px;color:var(--primary);font-size:12px;font-weight:600;font-family:var(--font);transition:all .2s;}
+.prompt-use-btn:hover{background:rgba(139,92,246,.2);}
+
+/* HISTORY */
+.history-list{padding:24px;display:flex;flex-direction:column;gap:12px;}
+.history-item{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 20px;display:flex;align-items:center;gap:16px;transition:all .2s;}
+.history-item:hover{border-color:rgba(139,92,246,.2);}
+.history-icon{width:36px;height:36px;border-radius:8px;background:rgba(139,92,246,.1);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.history-info{flex:1;min-width:0;}
+.history-info h4{font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.history-info p{font-size:12px;color:var(--muted);margin-top:2px;}
+.history-time{font-size:11px;color:var(--muted);flex-shrink:0;}
 </style>
 </head>
 <body>
+<!-- CURSOR -->
+<div id="cursor"></div>
+<div id="cursor-trail"></div>
 
-<div class="app">
+<!-- TOAST -->
+<div class="toast-container" id="toast-container"></div>
 
-  <!-- ─── Sidebar ─── -->
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-      <div class="logo">
-        <div class="logo-icon">✦</div>
-        <div class="logo-text">AI <span>Workspace</span></div>
-      </div>
-      <button class="btn-new-chat" onclick="newChat()">
-        <span>+</span> New Chat
-      </button>
+<!-- COMMAND PALETTE -->
+<div id="cmd-overlay">
+  <div class="cmd-palette">
+    <div class="cmd-input-wrap">
+      <span class="cmd-search-icon">⌘</span>
+      <input id="cmd-input" placeholder="Search actions..." autocomplete="off"/>
     </div>
-
-    <nav class="sidebar-nav">
-      <div class="nav-item active" onclick="switchView('chat')" id="nav-chat">
-        <span class="icon">💬</span> Chat
-      </div>
-      <div class="nav-item" onclick="switchView('image')" id="nav-image">
-        <span class="icon">🖼️</span> Image Generation
-      </div>
-      <div class="nav-item" onclick="switchView('research')" id="nav-research">
-        <span class="icon">🔬</span> Deep Research
-      </div>
-    </nav>
-
-    <div class="sidebar-section-title">Recent Chats</div>
-    <div class="history-list" id="history-list">
-      <div class="empty-state" style="padding:20px;font-size:12px;">
-        <p>No chats yet</p>
-      </div>
-    </div>
-
-    <div class="sidebar-footer">
-      <div class="user-card" onclick="openSettings()">
-        <div class="avatar" id="user-avatar">U</div>
-        <div class="user-info">
-          <div class="user-name" id="user-name-display">User</div>
-          <div class="user-plan">Pro Plan · AI Workspace</div>
-        </div>
-        <div class="user-settings-icon">⚙️</div>
-      </div>
-    </div>
-  </aside>
-
-  <!-- ─── Main ─── -->
-  <main class="main">
-
-    <!-- Top Bar -->
-    <div class="topbar">
-      <button class="mobile-menu-btn" onclick="toggleSidebar()">☰</button>
-      <div class="topbar-title" id="topbar-title">AI Chat</div>
-      <div class="topbar-badge badge-professional" id="personality-badge">⚡ Professional</div>
-      <button class="topbar-btn" onclick="openSettings()">⚙️ Settings</button>
-    </div>
-
-    <!-- ─── Chat View ─── -->
-    <div class="view active" id="view-chat">
-      <div class="chat-messages" id="chat-messages">
-        <div class="welcome-screen" id="welcome-screen">
-          <div class="welcome-icon">✦</div>
-          <h1 class="welcome-title">Welcome to AI Workspace</h1>
-          <p class="welcome-subtitle">Your intelligent workspace powered by Gemini 2.5 Flash. Ask anything, research deeply, or create stunning images.</p>
-          <div class="welcome-chips">
-            <div class="chip" onclick="sendChip('Write a professional business proposal outline')">📝 Business Proposal</div>
-            <div class="chip" onclick="sendChip('Explain quantum computing simply')">⚛️ Explain a concept</div>
-            <div class="chip" onclick="sendChip('Write a Python script to sort a list of dictionaries')">🐍 Write Python code</div>
-            <div class="chip" onclick="sendChip('Give me a SWOT analysis template')">📊 SWOT Analysis</div>
-            <div class="chip" onclick="sendChip('What are the top productivity habits of successful people?')">🎯 Productivity tips</div>
-            <div class="chip" onclick="sendChip('Draft a cold outreach email to a potential client')">📧 Cold email</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="input-area">
-        <div class="research-banner" id="research-banner">
-          🔬 Deep Research mode is ON — your next message will trigger multi-step research
-        </div>
-        <div class="input-box">
-          <textarea id="chat-input" placeholder="Ask anything… (Shift+Enter for new line)" rows="1" oninput="autoResize(this)" onkeydown="handleKey(event)"></textarea>
-          <div class="input-actions">
-            <button class="send-btn" id="send-btn" onclick="sendMessage()" title="Send">
-              ↑
-            </button>
-          </div>
-        </div>
-        <div class="input-footer">
-          <div class="input-footer-left">
-            <button class="toggle-btn" id="research-toggle" onclick="toggleResearch()">
-              🔬 Deep Research
-            </button>
-          </div>
-          <span class="char-count" id="char-count">0 / 4000</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- ─── Image View ─── -->
-    <div class="view" id="view-image">
-      <div class="image-view">
-        <div class="image-form-card">
-          <div class="form-title">🖼️ AI Image Generation</div>
-          <div class="form-subtitle">Powered by Pollinations AI — describe your vision and generate stunning images instantly.</div>
-
-          <div class="form-group">
-            <label class="form-label">Image Prompt</label>
-            <textarea class="form-textarea" id="img-prompt" placeholder="A serene mountain lake at golden hour, photorealistic, 8K, dramatic lighting…" style="min-height:100px;"></textarea>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Style Enhancement</label>
-            <select class="form-select" id="img-style">
-              <option value="">None (use as-is)</option>
-              <option value="photorealistic, 8K, ultra-detailed">Photorealistic</option>
-              <option value="digital art, illustration, vibrant colors">Digital Art</option>
-              <option value="oil painting, classical, fine art">Oil Painting</option>
-              <option value="watercolor, soft, artistic">Watercolor</option>
-              <option value="anime style, manga, Japanese animation">Anime</option>
-              <option value="cinematic, movie still, dramatic lighting">Cinematic</option>
-              <option value="3D render, CGI, studio lighting">3D Render</option>
-              <option value="minimalist, clean, simple">Minimalist</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Aspect Ratio</label>
-            <div class="aspect-grid">
-              <button class="aspect-btn selected" data-aspect="1:1" onclick="selectAspect(this)">1:1<br><small>Square</small></button>
-              <button class="aspect-btn" data-aspect="16:9" onclick="selectAspect(this)">16:9<br><small>Wide</small></button>
-              <button class="aspect-btn" data-aspect="9:16" onclick="selectAspect(this)">9:16<br><small>Portrait</small></button>
-              <button class="aspect-btn" data-aspect="4:3" onclick="selectAspect(this)">4:3<br><small>Classic</small></button>
-              <button class="aspect-btn" data-aspect="3:4" onclick="selectAspect(this)">3:4<br><small>Tall</small></button>
-            </div>
-          </div>
-
-          <button class="btn-primary" id="img-gen-btn" onclick="generateImage()">
-            ✨ Generate Image
-          </button>
-        </div>
-
-        <div class="image-result" id="image-result">
-          <div class="image-result-card">
-            <img id="result-img" class="result-img" src="" alt="Generated image" loading="lazy">
-            <div class="image-actions">
-              <a class="btn-secondary" id="download-btn" href="#" download="ai-image.jpg" target="_blank">
-                ⬇️ Download
-              </a>
-              <button class="btn-secondary" onclick="generateImage()">🔄 Regenerate</button>
-              <button class="btn-secondary" onclick="copyImagePrompt()">📋 Copy Prompt</button>
-              <span id="img-dimensions" style="font-size:12px;color:var(--text3);margin-left:auto;"></span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ─── Research View ─── -->
-    <div class="view" id="view-research">
-      <div class="research-view">
-        <div class="research-form-card">
-          <div class="form-title">🔬 Deep Research</div>
-          <div class="form-subtitle">Multi-step AI-powered research that breaks down complex topics, explores sub-questions, and synthesizes a comprehensive structured report.</div>
-
-          <div class="form-group">
-            <label class="form-label">Research Topic</label>
-            <textarea class="form-textarea" id="research-topic" placeholder="e.g. The impact of artificial intelligence on the future of work and employment…" style="min-height:100px;"></textarea>
-          </div>
-
-          <button class="btn-primary" id="research-btn" onclick="startResearch()">
-            🔍 Start Deep Research
-          </button>
-        </div>
-
-        <div class="research-loading" id="research-loading">
-          <div class="spinner"></div>
-          <span id="research-status">Initializing research…</span>
-        </div>
-
-        <div class="research-steps" id="research-steps-container"></div>
-
-        <div class="research-report-card" id="research-report-card">
-          <div class="report-header">
-            <div>
-              <div style="font-size:14px;font-weight:700;">📄 Research Report</div>
-              <div style="font-size:12px;color:var(--text3);" id="report-topic-label"></div>
-            </div>
-            <div style="display:flex;gap:8px;">
-              <button class="btn-secondary" onclick="copyReport()">📋 Copy Report</button>
-              <button class="btn-secondary" onclick="newResearch()">🔄 New Research</button>
-            </div>
-          </div>
-          <div class="report-card" id="research-report"></div>
-        </div>
-      </div>
-    </div>
-
-  </main>
+    <div class="cmd-results" id="cmd-results"></div>
+  </div>
 </div>
 
-<!-- ─── Settings Modal ─── -->
-<div class="modal-overlay" id="settings-modal">
-  <div class="modal">
-    <div class="modal-header">
-      <div class="modal-title">⚙️ Settings</div>
-      <button class="modal-close" onclick="closeSettings()">✕</button>
+<!-- LOADER -->
+<div id="loader">
+  <canvas id="loader-canvas"></canvas>
+  <div class="loader-logo">GYRA</div>
+  <div class="loader-tag">
+    <span class="loader-word" id="lw1">Learn</span>
+    <span style="color:rgba(255,255,255,.2);position:relative;z-index:1;">·</span>
+    <span class="loader-word" id="lw2">Build</span>
+    <span style="color:rgba(255,255,255,.2);position:relative;z-index:1;">·</span>
+    <span class="loader-word" id="lw3">Create</span>
+  </div>
+  <div class="loader-bar"><div class="loader-bar-fill" id="loader-bar-fill"></div></div>
+</div>
+
+<!-- LANDING PAGE -->
+<div id="landing">
+  <nav id="navbar">
+    <div class="nav-logo">GYRA</div>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#users">Who it's for</a>
+      <a href="#pricing">Pricing</a>
+    </div>
+    <div class="nav-actions">
+      <button class="btn btn-ghost" onclick="openApp()">Sign in</button>
+      <button class="btn btn-primary" onclick="openApp()">Start Free</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <canvas class="hero-canvas" id="hero-canvas"></canvas>
+    <div class="hero-glow"></div>
+    <div class="hero-content">
+      <div class="hero-badge"><span></span>Now in Public Beta — Free to use</div>
+      <h1><span class="grad">Your Complete AI Workspace</span> for Students, Developers & Creators</h1>
+      <p>Generate ideas, code, notes, content, and images inside one intelligent workspace. Powered by Google Gemini.</p>
+      <div class="hero-btns">
+        <button class="btn btn-primary btn-large" onclick="openApp()">Start Free →</button>
+        <button class="btn btn-outline btn-large" onclick="openApp()">Explore Workspace</button>
+      </div>
+    </div>
+    <div class="floating-cards">
+      <div class="float-card"><div class="float-icon" style="background:rgba(139,92,246,.2)">💬</div>AI Chat</div>
+      <div class="float-card"><div class="float-icon" style="background:rgba(236,72,153,.2)">🎨</div>Image Studio</div>
+      <div class="float-card"><div class="float-icon" style="background:rgba(59,130,246,.2)">📝</div>Notes Generator</div>
+      <div class="float-card"><div class="float-icon" style="background:rgba(16,185,129,.2)">💻</div>Code Assistant</div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section id="features">
+    <div class="section-title">
+      <div class="section-label">Features</div>
+      <h2>Everything you need to <span class="grad">work smarter</span></h2>
+      <p>A complete set of AI tools designed for the way modern students, developers, and creators actually work.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card"><div class="feature-icon">💬</div><h3>AI Chat</h3><p>Context-aware conversations with multiple AI modes — general, academic, developer, and creative.</p></div>
+      <div class="feature-card"><div class="feature-icon">🎨</div><h3>Image Studio</h3><p>Generate stunning visuals with multiple styles, aspect ratios, and prompt enhancement powered by Pollinations.</p></div>
+      <div class="feature-card"><div class="feature-icon">🎓</div><h3>Student Hub</h3><p>Notes, quizzes, flashcards, study planners, and research tools built for academic excellence.</p></div>
+      <div class="feature-card"><div class="feature-icon">💻</div><h3>Developer Hub</h3><p>Code generation, debugging, SQL, API design, and documentation with syntax highlighting.</p></div>
+      <div class="feature-card"><div class="feature-icon">✨</div><h3>Creator Hub</h3><p>YouTube ideas, scripts, hooks, thumbnails, SEO, and captions for content creators.</p></div>
+      <div class="feature-card"><div class="feature-icon">📚</div><h3>Prompt Library</h3><p>Curated prompts across all categories to help you get better results faster.</p></div>
+      <div class="feature-card"><div class="feature-icon">🕒</div><h3>Smart History</h3><p>Search and revisit all your past chats, generated content, images, and notes instantly.</p></div>
+      <div class="feature-card"><div class="feature-icon">⌘</div><h3>Command Palette</h3><p>Power user shortcut (Ctrl+K) for instant navigation across every tool in the workspace.</p></div>
+    </div>
+  </section>
+
+  <!-- USERS -->
+  <section id="users" style="background:rgba(15,23,42,.4);">
+    <div class="section-title">
+      <div class="section-label">Who it's for</div>
+      <h2>Built for the way <span class="grad">you work</span></h2>
+    </div>
+    <div class="categories-grid">
+      <div class="cat-card students">
+        <span class="cat-emoji">🎓</span>
+        <h3>Students</h3>
+        <p>Supercharge your studies with AI tools designed for academic success.</p>
+        <ul class="cat-list">
+          <li>Generate detailed notes from any topic</li>
+          <li>Create quizzes and flashcards</li>
+          <li>Get research summaries instantly</li>
+          <li>Plan your study schedule with AI</li>
+        </ul>
+      </div>
+      <div class="cat-card developers">
+        <span class="cat-emoji">💻</span>
+        <h3>Developers</h3>
+        <p>Build faster with an AI pair programmer that understands your code.</p>
+        <ul class="cat-list">
+          <li>Generate production-ready code</li>
+          <li>Debug and fix errors instantly</li>
+          <li>Design APIs and SQL queries</li>
+          <li>Write docs in seconds</li>
+        </ul>
+      </div>
+      <div class="cat-card creators">
+        <span class="cat-emoji">✨</span>
+        <h3>Creators</h3>
+        <p>Create content faster with an AI studio built for growth and engagement.</p>
+        <ul class="cat-list">
+          <li>Generate viral YouTube ideas</li>
+          <li>Write scripts and hooks</li>
+          <li>Optimize for SEO and reach</li>
+          <li>Create captions across platforms</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section id="pricing">
+    <div class="section-title">
+      <div class="section-label">Pricing</div>
+      <h2>Simple, transparent <span class="grad">pricing</span></h2>
+      <p>Start free, scale when you need to. No hidden fees.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="price-name">Free</div>
+        <div class="price-amount">$0</div>
+        <div class="price-period">forever</div>
+        <ul class="price-features">
+          <li>50 AI messages/day</li>
+          <li>20 image generations/day</li>
+          <li>All hub tools</li>
+          <li>Prompt library access</li>
+          <li class="off">Priority AI model</li>
+          <li class="off">Unlimited history</li>
+          <li class="off">Team workspaces</li>
+        </ul>
+        <button class="price-btn btn-outline" onclick="openApp()">Get Started</button>
+      </div>
+      <div class="price-card featured">
+        <div class="featured-badge">Most Popular</div>
+        <div class="price-name">Pro</div>
+        <div class="price-amount" style="background:linear-gradient(135deg,#8B5CF6,#A855F7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">$12</div>
+        <div class="price-period">per month</div>
+        <ul class="price-features">
+          <li>Unlimited AI messages</li>
+          <li>Unlimited images</li>
+          <li>All hub tools</li>
+          <li>Prompt library access</li>
+          <li>Priority AI model</li>
+          <li>Unlimited history</li>
+          <li class="off">Team workspaces</li>
+        </ul>
+        <button class="price-btn btn-primary" onclick="openApp()">Upgrade to Pro</button>
+      </div>
+      <div class="price-card">
+        <div class="price-name">Team</div>
+        <div class="price-amount">$29</div>
+        <div class="price-period">per month</div>
+        <ul class="price-features">
+          <li>Everything in Pro</li>
+          <li>5 team members</li>
+          <li>Shared workspaces</li>
+          <li>Shared prompt library</li>
+          <li>Admin controls</li>
+          <li>Priority support</li>
+          <li>Custom integrations</li>
+        </ul>
+        <button class="price-btn btn-outline" onclick="openApp()">Start Team Trial</button>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-logo">GYRA</div>
+    <p>© 2025 GYRA. Learn. Build. Create.</p>
+    <p style="color:var(--muted);font-size:13px;">Powered by Google Gemini & Pollinations</p>
+  </footer>
+</div>
+
+<!-- DASHBOARD APP -->
+<div id="app" style="display:flex;">
+  <!-- SIDEBAR -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">GYRA</div>
+      <button class="collapse-btn" onclick="toggleSidebar()" title="Toggle sidebar">☰</button>
+    </div>
+    <div class="sidebar-new">
+      <button class="new-chat-btn" onclick="newChat()">
+        <span>+</span><span>New Chat</span>
+      </button>
+    </div>
+    <div class="sidebar-nav">
+      <div class="sidebar-section">Workspace</div>
+      <div class="sidebar-item active" onclick="navigate('chat')" id="nav-chat">
+        <span class="sidebar-icon">💬</span><span class="sidebar-label">Chat</span>
+      </div>
+      <div class="sidebar-item" onclick="navigate('image')" id="nav-image">
+        <span class="sidebar-icon">🎨</span><span class="sidebar-label">Image Studio</span>
+      </div>
+      <div class="sidebar-section">Hubs</div>
+      <div class="sidebar-item" onclick="navigate('student')" id="nav-student">
+        <span class="sidebar-icon">🎓</span><span class="sidebar-label">Student Hub</span>
+      </div>
+      <div class="sidebar-item" onclick="navigate('developer')" id="nav-developer">
+        <span class="sidebar-icon">💻</span><span class="sidebar-label">Developer Hub</span>
+      </div>
+      <div class="sidebar-item" onclick="navigate('creator')" id="nav-creator">
+        <span class="sidebar-icon">✨</span><span class="sidebar-label">Creator Hub</span>
+      </div>
+      <div class="sidebar-section">Library</div>
+      <div class="sidebar-item" onclick="navigate('prompts')" id="nav-prompts">
+        <span class="sidebar-icon">📚</span><span class="sidebar-label">Prompt Library</span>
+      </div>
+      <div class="sidebar-item" onclick="navigate('history')" id="nav-history">
+        <span class="sidebar-icon">🕒</span><span class="sidebar-label">History</span>
+      </div>
+    </div>
+    <div class="sidebar-bottom">
+      <div class="sidebar-item" onclick="navigate('settings')" id="nav-settings">
+        <span class="sidebar-icon">⚙️</span><span class="sidebar-label">Settings</span>
+      </div>
+      <div class="user-profile">
+        <div class="avatar">G</div>
+        <div>
+          <div class="user-name sidebar-label">Guest User</div>
+          <div class="user-plan sidebar-label" style="font-size:11px;color:var(--muted);">Free Plan</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main-area">
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="topbar-title" id="topbar-title">AI Chat</div>
+      <div class="topbar-actions">
+        <button class="icon-btn" onclick="openCmd()" title="Command palette (Ctrl+K)">⌘</button>
+        <button class="icon-btn" onclick="goHome()" title="Home">🏠</button>
+      </div>
     </div>
 
-    <div class="settings-tabs">
-      <button class="settings-tab active" onclick="switchSettingsTab('profile', this)">Profile</button>
-      <button class="settings-tab" onclick="switchSettingsTab('appearance', this)">Appearance</button>
-      <button class="settings-tab" onclick="switchSettingsTab('ai', this)">AI Personality</button>
-      <button class="settings-tab" onclick="switchSettingsTab('instructions', this)">Custom Instructions</button>
+    <!-- CHAT PANEL -->
+    <div id="chat-content" class="content active" style="height:calc(100vh - 57px);">
+      <div class="chat-mode-bar">
+        <button class="mode-chip active" onclick="setChatMode('chat_general',this)">General</button>
+        <button class="mode-chip" onclick="setChatMode('chat_student',this)">Student</button>
+        <button class="mode-chip" onclick="setChatMode('chat_dev',this)">Developer</button>
+        <button class="mode-chip" onclick="setChatMode('chat_creator',this)">Creator</button>
+      </div>
+      <div class="chat-messages" id="chat-messages">
+        <div class="chat-welcome" id="chat-welcome">
+          <h2>Hello! I'm <span class="grad">GYRA</span> ✦</h2>
+          <p>Your intelligent AI workspace. Ask me anything.</p>
+          <div class="suggestion-chips">
+            <div class="chip" onclick="sendSuggestion('Explain quantum computing simply')">Explain quantum computing simply</div>
+            <div class="chip" onclick="sendSuggestion('Write a Python web scraper')">Write a Python web scraper</div>
+            <div class="chip" onclick="sendSuggestion('Generate 10 YouTube video ideas about AI')">YouTube ideas about AI</div>
+            <div class="chip" onclick="sendSuggestion('Create study notes on photosynthesis')">Study notes: photosynthesis</div>
+          </div>
+        </div>
+      </div>
+      <div class="chat-input-area">
+        <div class="input-wrapper">
+          <textarea id="chat-input" placeholder="Message GYRA..." rows="1" onkeydown="handleChatKey(event)" oninput="autoResize(this)"></textarea>
+          <button class="send-btn" onclick="sendChat()" id="send-btn">➤</button>
+        </div>
+      </div>
     </div>
 
-    <div class="modal-body">
-
-      <!-- Profile -->
-      <div class="settings-panel active" id="panel-profile">
-        <div class="setting-group">
-          <div class="setting-label">👤 Display Name</div>
-          <input type="text" class="form-input" id="setting-name" placeholder="Your name">
+    <!-- IMAGE STUDIO -->
+    <div id="image-content" class="content" style="height:calc(100vh - 57px);">
+      <div class="image-controls">
+        <div>
+          <div class="field-label">Prompt</div>
+          <textarea class="field-input" id="img-prompt" rows="4" placeholder="Describe the image you want to create..." style="resize:none;min-height:100px;"></textarea>
         </div>
-        <div class="setting-group">
-          <div class="setting-label">📧 Email</div>
-          <input type="email" class="form-input" id="setting-email" placeholder="your@email.com">
-        </div>
-      </div>
-
-      <!-- Appearance -->
-      <div class="settings-panel" id="panel-appearance">
-        <div class="setting-group">
-          <div class="setting-label">🎨 Theme</div>
-          <div class="setting-desc">Choose your preferred color scheme.</div>
-          <div class="option-grid">
-            <button class="option-card selected" data-value="dark" onclick="selectOption(this, 'theme')">
-              <div class="opt-icon">🌙</div>
-              <div class="opt-label">Dark</div>
-              <div class="opt-desc">Easy on the eyes</div>
-            </button>
-            <button class="option-card" data-value="light" onclick="selectOption(this, 'theme')">
-              <div class="opt-icon">☀️</div>
-              <div class="opt-label">Light</div>
-              <div class="opt-desc">Bright & clean</div>
-            </button>
-            <button class="option-card" data-value="system" onclick="selectOption(this, 'theme')">
-              <div class="opt-icon">💻</div>
-              <div class="opt-label">System</div>
-              <div class="opt-desc">Auto-detect</div>
-            </button>
+        <div>
+          <div class="field-label">Aspect Ratio</div>
+          <div class="grid-2">
+            <button class="ratio-btn active" data-ratio="1:1" onclick="selectRatio(this)">1:1</button>
+            <button class="ratio-btn" data-ratio="16:9" onclick="selectRatio(this)">16:9</button>
+            <button class="ratio-btn" data-ratio="9:16" onclick="selectRatio(this)">9:16</button>
+            <button class="ratio-btn" data-ratio="4:5" onclick="selectRatio(this)">4:5</button>
           </div>
         </div>
-        <div class="setting-group">
-          <div class="setting-label">🔤 Font Size</div>
-          <div class="setting-desc">Adjust the text size throughout the interface.</div>
-          <div class="option-grid">
-            <button class="option-card" data-value="small" onclick="selectOption(this, 'fontSize')">
-              <div class="opt-icon" style="font-size:14px;">Aa</div>
-              <div class="opt-label">Small</div>
-              <div class="opt-desc">Compact</div>
-            </button>
-            <button class="option-card selected" data-value="medium" onclick="selectOption(this, 'fontSize')">
-              <div class="opt-icon" style="font-size:18px;">Aa</div>
-              <div class="opt-label">Medium</div>
-              <div class="opt-desc">Default</div>
-            </button>
-            <button class="option-card" data-value="large" onclick="selectOption(this, 'fontSize')">
-              <div class="opt-icon" style="font-size:22px;">Aa</div>
-              <div class="opt-label">Large</div>
-              <div class="opt-desc">Comfortable</div>
-            </button>
+        <div>
+          <div class="field-label">Style</div>
+          <div class="grid-3">
+            <button class="style-btn active" data-style="Realistic" onclick="selectStyle(this)">Realistic</button>
+            <button class="style-btn" data-style="Cinematic" onclick="selectStyle(this)">Cinematic</button>
+            <button class="style-btn" data-style="Anime" onclick="selectStyle(this)">Anime</button>
+            <button class="style-btn" data-style="Illustration" onclick="selectStyle(this)">Illustration</button>
+            <button class="style-btn" data-style="Product" onclick="selectStyle(this)">Product</button>
+            <button class="style-btn" data-style="Thumbnail" onclick="selectStyle(this)">Thumbnail</button>
           </div>
         </div>
+        <button class="gen-image-btn" onclick="generateImage()" id="gen-img-btn">✦ Generate Image</button>
       </div>
-
-      <!-- AI Personality -->
-      <div class="settings-panel" id="panel-ai">
-        <div class="setting-group">
-          <div class="setting-label">🤖 AI Tone & Personality</div>
-          <div class="setting-desc">Choose how the AI communicates with you. This is automatically applied to every response.</div>
-          <div class="option-grid" style="grid-template-columns: repeat(2, 1fr);">
-            <button class="option-card selected" data-value="professional" onclick="selectOption(this, 'personality')">
-              <div class="opt-icon">💼</div>
-              <div class="opt-label">Professional</div>
-              <div class="opt-desc">Formal, structured, business-focused. Ideal for work and productivity.</div>
-            </button>
-            <button class="option-card" data-value="friendly" onclick="selectOption(this, 'personality')">
-              <div class="opt-icon">😊</div>
-              <div class="opt-label">Friendly</div>
-              <div class="opt-desc">Warm, casual, approachable. Like talking to a knowledgeable friend.</div>
-            </button>
-            <button class="option-card" data-value="technical" onclick="selectOption(this, 'personality')">
-              <div class="opt-icon">⚙️</div>
-              <div class="opt-label">Technical</div>
-              <div class="opt-desc">Precise, code-heavy, in-depth. Perfect for developers.</div>
-            </button>
-            <button class="option-card" data-value="creative" onclick="selectOption(this, 'personality')">
-              <div class="opt-icon">🎨</div>
-              <div class="opt-label">Creative</div>
-              <div class="opt-desc">Imaginative, expressive, unconventional. Great for brainstorming.</div>
-            </button>
-          </div>
+      <div class="image-gallery" id="image-gallery">
+        <div class="gallery-empty">
+          <div class="gallery-empty-icon">🎨</div>
+          <h3>No images yet</h3>
+          <p>Enter a prompt and generate your first image</p>
         </div>
       </div>
-
-      <!-- Custom Instructions -->
-      <div class="settings-panel" id="panel-instructions">
-        <div class="setting-group">
-          <div class="setting-label">👤 About Me</div>
-          <div class="setting-desc">Tell the AI about yourself so it can personalize responses to your context.</div>
-          <textarea class="form-textarea" id="setting-about" placeholder="e.g. I'm a software engineer at a startup, working on a SaaS product. I prefer concise technical answers with examples." style="min-height:100px;"></textarea>
-        </div>
-        <div class="setting-group">
-          <div class="setting-label">📋 How AI Should Respond</div>
-          <div class="setting-desc">Define custom instructions the AI always follows in every conversation.</div>
-          <textarea class="form-textarea" id="setting-instructions" placeholder="e.g. Always start with a summary. Use bullet points for lists. Provide code examples when explaining technical concepts." style="min-height:100px;"></textarea>
-        </div>
-      </div>
-
     </div>
 
-    <div class="modal-footer">
-      <button class="btn-cancel" onclick="closeSettings()">Cancel</button>
-      <button class="btn-save" onclick="saveSettings()">💾 Save Settings</button>
+    <!-- STUDENT HUB -->
+    <div id="student-content" class="content" style="height:calc(100vh - 57px);">
+      <div class="hub-layout">
+        <div class="hub-tools">
+          <h3>Student Tools</h3>
+          <div class="tool-item active" onclick="selectTool('student','notes',this,'📝','Notes Generator','Write a topic, chapter, or concept...')">📝 Notes Generator</div>
+          <div class="tool-item" onclick="selectTool('student','quiz',this,'❓','Quiz Generator','Enter a topic to generate a quiz on...')">❓ Quiz Generator</div>
+          <div class="tool-item" onclick="selectTool('student','flashcard',this,'🗂','Flashcard Generator','Enter a topic for flashcards...')">🗂 Flashcard Generator</div>
+          <div class="tool-item" onclick="selectTool('student','planner',this,'📅','Study Planner','Describe your study goals and timeline...')">📅 Study Planner</div>
+          <div class="tool-item" onclick="selectTool('student','assignment',this,'📋','Assignment Helper','Paste your assignment question or requirements...')">📋 Assignment Helper</div>
+          <div class="tool-item" onclick="selectTool('student','research',this,'🔬','Research Summarizer','Enter a research topic or paste text to summarize...')">🔬 Research Summarizer</div>
+        </div>
+        <div class="hub-workspace">
+          <div class="hub-tool-area">
+            <div class="tool-input-panel">
+              <div>
+                <div class="panel-label" id="student-input-label">Topic or Content</div>
+                <textarea class="tool-textarea" id="student-input" placeholder="Write a topic, chapter, or concept..."></textarea>
+              </div>
+              <div class="tool-actions">
+                <button class="generate-btn" onclick="runTool('student')" id="student-gen-btn">✦ Generate</button>
+                <button class="copy-btn" onclick="copyOutput('student-output')">Copy</button>
+              </div>
+            </div>
+            <div class="tool-output-panel">
+              <div class="panel-label">Output</div>
+              <div class="tool-output">
+                <div class="tool-output-content" id="student-output">
+                  <div class="output-placeholder">Your generated content will appear here</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DEVELOPER HUB -->
+    <div id="developer-content" class="content" style="height:calc(100vh - 57px);">
+      <div class="hub-layout">
+        <div class="hub-tools">
+          <h3>Dev Tools</h3>
+          <div class="tool-item active" onclick="selectTool('developer','code_gen',this,'💻','Code Generator','Describe what code you want to build...')">💻 Code Generator</div>
+          <div class="tool-item" onclick="selectTool('developer','debug',this,'🐛','Debug Assistant','Paste your code to debug...')">🐛 Debug Assistant</div>
+          <div class="tool-item" onclick="selectTool('developer','explain',this,'🔍','Code Explainer','Paste code you want explained...')">🔍 Code Explainer</div>
+          <div class="tool-item" onclick="selectTool('developer','sql',this,'🗄','SQL Generator','Describe the SQL query you need...')">🗄 SQL Generator</div>
+          <div class="tool-item" onclick="selectTool('developer','api_builder',this,'🔌','API Builder','Describe the API you want to build...')">🔌 API Builder</div>
+          <div class="tool-item" onclick="selectTool('developer','docs',this,'📄','Documentation Writer','Describe what you want documented...')">📄 Documentation Writer</div>
+        </div>
+        <div class="hub-workspace">
+          <div class="hub-tool-area">
+            <div class="tool-input-panel">
+              <div>
+                <div class="panel-label" id="developer-input-label">Input</div>
+                <textarea class="tool-textarea" id="developer-input" placeholder="Describe what code you want to build..."></textarea>
+              </div>
+              <div class="tool-actions">
+                <button class="generate-btn" onclick="runTool('developer')" id="developer-gen-btn">✦ Generate</button>
+                <button class="copy-btn" onclick="copyOutput('developer-output')">Copy</button>
+              </div>
+            </div>
+            <div class="tool-output-panel">
+              <div class="panel-label">Output</div>
+              <div class="tool-output">
+                <div class="tool-output-content" id="developer-output">
+                  <div class="output-placeholder">Your generated code will appear here</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CREATOR HUB -->
+    <div id="creator-content" class="content" style="height:calc(100vh - 57px);">
+      <div class="hub-layout">
+        <div class="hub-tools">
+          <h3>Creator Tools</h3>
+          <div class="tool-item active" onclick="selectTool('creator','yt_idea',this,'▶','YouTube Idea Generator','Describe your channel or niche...')">▶ YouTube Ideas</div>
+          <div class="tool-item" onclick="selectTool('creator','script',this,'🎬','Script Generator','Enter your video topic...')">🎬 Script Generator</div>
+          <div class="tool-item" onclick="selectTool('creator','hook',this,'🪝','Hook Generator','Enter your content topic...')">🪝 Hook Generator</div>
+          <div class="tool-item" onclick="selectTool('creator','thumbnail',this,'🖼','Thumbnail Ideas','Describe your video topic...')">🖼 Thumbnail Ideas</div>
+          <div class="tool-item" onclick="selectTool('creator','seo',this,'🔍','SEO Generator','Enter your content topic for SEO...')">🔍 SEO Generator</div>
+          <div class="tool-item" onclick="selectTool('creator','caption',this,'📱','Caption Generator','Describe your post or content...')">📱 Caption Generator</div>
+        </div>
+        <div class="hub-workspace">
+          <div class="hub-tool-area">
+            <div class="tool-input-panel">
+              <div>
+                <div class="panel-label" id="creator-input-label">Topic or Content</div>
+                <textarea class="tool-textarea" id="creator-input" placeholder="Describe your channel or niche..."></textarea>
+              </div>
+              <div class="tool-actions">
+                <button class="generate-btn" onclick="runTool('creator')" id="creator-gen-btn">✦ Generate</button>
+                <button class="copy-btn" onclick="copyOutput('creator-output')">Copy</button>
+              </div>
+            </div>
+            <div class="tool-output-panel">
+              <div class="panel-label">Output</div>
+              <div class="tool-output">
+                <div class="tool-output-content" id="creator-output">
+                  <div class="output-placeholder">Your generated content will appear here</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROMPT LIBRARY -->
+    <div id="prompts-content" class="content" style="height:calc(100vh - 57px);overflow-y:auto;">
+      <div class="prompts-grid" id="prompts-grid"></div>
+    </div>
+
+    <!-- HISTORY -->
+    <div id="history-content" class="content" style="height:calc(100vh - 57px);overflow-y:auto;">
+      <div class="history-list" id="history-list"></div>
+    </div>
+
+    <!-- SETTINGS -->
+    <div id="settings-content" class="content" style="height:calc(100vh - 57px);">
+      <div class="settings-inner">
+        <h2>Settings</h2>
+        <div class="settings-section">
+          <h3>Profile</h3>
+          <div class="settings-row">
+            <div class="settings-row-label"><h4>Username</h4><p>Your display name</p></div>
+            <input class="settings-input" id="username-input" value="Guest User" style="width:180px;"/>
+          </div>
+          <button class="save-btn" onclick="saveSettings()">Save Changes</button>
+        </div>
+        <div class="settings-section">
+          <h3>Appearance</h3>
+          <div class="settings-row">
+            <div class="settings-row-label"><h4>Theme</h4><p>Choose your preferred look</p></div>
+            <div class="theme-options">
+              <button class="theme-option active" onclick="setTheme('dark',this)">Dark</button>
+              <button class="theme-option" onclick="setTheme('light',this)">Light</button>
+              <button class="theme-option" onclick="setTheme('purple',this)">Midnight</button>
+            </div>
+          </div>
+        </div>
+        <div class="settings-section">
+          <h3>Preferences</h3>
+          <div class="settings-row">
+            <div class="settings-row-label"><h4>Custom Cursor</h4><p>Enable the glowing cursor effect</p></div>
+            <div class="toggle on" id="cursor-toggle" onclick="toggleCursor(this)"></div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- ─── Toast Container ─── -->
-<div class="toast-container" id="toast-container"></div>
-
 <script>
-// ─────────────────────────────────────────────
-// State
-// ─────────────────────────────────────────────
-let settings = {
-  personality: 'professional',
-  theme: 'dark',
-  fontSize: 'medium',
-  customInstructions: '',
-  aboutMe: '',
-};
+// ===== STATE =====
+let currentTool = {student:'notes',developer:'code_gen',creator:'yt_idea'};
+let chatMode = 'chat_general';
+let chatHistory = [];
+let selectedRatio = '1:1';
+let selectedStyle = 'Realistic';
+let currentPanel = 'chat';
+let cursorEnabled = true;
+let generatedImages = [];
+let historyItems = [];
 
-let chatHistory = []; // [{role, content, text}]
-let localHistory = []; // sidebar items [{id, title, messages}]
-let currentChatId = null;
-let isResearchMode = false;
-let isSending = false;
-let selectedAspect = '1:1';
-let currentImageUrl = '';
-let currentImagePrompt = '';
+// ===== CURSOR =====
+const cursor = document.getElementById('cursor');
+const trail = document.getElementById('cursor-trail');
+let mx=0, my=0, tx=0, ty=0;
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.left = mx+'px'; cursor.style.top = my+'px';
+  setTimeout(() => {
+    trail.style.left = mx+'px'; trail.style.top = my+'px';
+  }, 60);
+});
+document.addEventListener('mousedown', () => cursor.style.transform='translate(-50%,-50%) scale(1.5)');
+document.addEventListener('mouseup', () => cursor.style.transform='translate(-50%,-50%) scale(1)');
+document.querySelectorAll('button,a,[role=button],.chip,.sidebar-item,.tool-item,.mode-chip,.prompt-use-btn,.ratio-btn,.style-btn').forEach(el => {
+  el.addEventListener('mouseenter', () => { cursor.style.transform='translate(-50%,-50%) scale(2)'; trail.style.borderColor='rgba(139,92,246,.7)'; });
+  el.addEventListener('mouseleave', () => { cursor.style.transform='translate(-50%,-50%) scale(1)'; trail.style.borderColor='rgba(139,92,246,.4)'; });
+});
 
-const PERSONALITY_LABELS = {
-  professional: '⚡ Professional',
-  friendly: '😊 Friendly',
-  technical: '⚙️ Technical',
-  creative: '🎨 Creative',
-};
-
-const PERSONALITY_BADGE_CLASSES = {
-  professional: 'badge-professional',
-  friendly: 'badge-friendly',
-  technical: 'badge-technical',
-  creative: 'badge-creative',
-};
-
-// ─────────────────────────────────────────────
-// Init
-// ─────────────────────────────────────────────
-async function init() {
-  // Load settings from server
-  try {
-    const res = await fetch('/api/settings');
-    if (res.ok) {
-      const data = await res.json();
-      settings = { ...settings, ...data };
-    }
-  } catch (e) {}
-
-  applySettings(false);
-  loadHistory();
-
-  // Restore name
-  const storedName = localStorage.getItem('ws_name') || 'User';
-  document.getElementById('user-name-display').textContent = storedName;
-  document.getElementById('user-avatar').textContent = storedName[0].toUpperCase();
-  document.getElementById('setting-name').value = storedName;
-
-  const storedEmail = localStorage.getItem('ws_email') || '';
-  document.getElementById('setting-email').value = storedEmail;
-}
-
-function applySettings(save = true) {
-  // Theme
-  const theme = settings.theme === 'system'
-    ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
-    : settings.theme;
-  document.documentElement.setAttribute('data-theme', theme);
-  document.documentElement.setAttribute('data-fontsize', settings.fontSize);
-
-  // Personality badge
-  const badge = document.getElementById('personality-badge');
-  badge.textContent = PERSONALITY_LABELS[settings.personality];
-  badge.className = `topbar-badge ${PERSONALITY_BADGE_CLASSES[settings.personality]}`;
-
-  // Sync option cards in settings
-  syncOptionCards('theme', settings.theme);
-  syncOptionCards('fontSize', settings.fontSize);
-  syncOptionCards('personality', settings.personality);
-
-  // Sync textareas
-  document.getElementById('setting-about').value = settings.aboutMe || '';
-  document.getElementById('setting-instructions').value = settings.customInstructions || '';
-
-  if (save) {
-    fetch('/api/settings', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(settings),
-    }).catch(() => {});
-  }
-}
-
-// ─────────────────────────────────────────────
-// Chat History (local sidebar)
-// ─────────────────────────────────────────────
-function loadHistory() {
-  try {
-    localHistory = JSON.parse(localStorage.getItem('ws_chats') || '[]');
-  } catch(e) { localHistory = []; }
-  renderHistoryList();
-}
-
-function saveHistoryItem(id, title, messages) {
-  const idx = localHistory.findIndex(h => h.id === id);
-  if (idx >= 0) {
-    localHistory[idx].messages = messages;
-    localHistory[idx].title = title;
-  } else {
-    localHistory.unshift({ id, title, messages });
-  }
-  if (localHistory.length > 30) localHistory = localHistory.slice(0, 30);
-  localStorage.setItem('ws_chats', JSON.stringify(localHistory));
-  renderHistoryList();
-}
-
-function renderHistoryList() {
-  const list = document.getElementById('history-list');
-  if (localHistory.length === 0) {
-    list.innerHTML = '<div class="empty-state" style="padding:20px;font-size:12px;"><p>No chats yet</p></div>';
-    return;
-  }
-  list.innerHTML = localHistory.map(h => `
-    <div class="history-item" onclick="loadChat('${h.id}')">
-      <span title="${h.title}">💬 ${h.title}</span>
-      <button class="del-btn" onclick="deleteChat(event, '${h.id}')" title="Delete">✕</button>
-    </div>
-  `).join('');
-}
-
-function loadChat(id) {
-  const item = localHistory.find(h => h.id === id);
-  if (!item) return;
-  currentChatId = id;
-  chatHistory = item.messages || [];
-
-  const msgs = document.getElementById('chat-messages');
-  document.getElementById('welcome-screen')?.remove();
-  msgs.innerHTML = '';
-
-  chatHistory.forEach(m => {
-    appendMessageDOM(m.role, m.content, false);
-  });
-
-  switchView('chat');
-}
-
-function deleteChat(e, id) {
-  e.stopPropagation();
-  localHistory = localHistory.filter(h => h.id !== id);
-  localStorage.setItem('ws_chats', JSON.stringify(localHistory));
-  renderHistoryList();
-}
-
-// ─────────────────────────────────────────────
-// Chat
-// ─────────────────────────────────────────────
-async function sendMessage() {
-  const input = document.getElementById('chat-input');
-  const text = input.value.trim();
-  if (!text || isSending) return;
-
-  if (isResearchMode) {
-    // Route to research
-    document.getElementById('research-topic').value = text;
-    input.value = '';
-    autoResize(input);
-    switchView('research');
-    await startResearch();
-    return;
-  }
-
-  isSending = true;
-  document.getElementById('send-btn').disabled = true;
-
-  // Hide welcome screen
-  const ws = document.getElementById('welcome-screen');
-  if (ws) ws.remove();
-
-  input.value = '';
-  autoResize(input);
-  document.getElementById('char-count').textContent = '0 / 4000';
-
-  // Init chat id
-  if (!currentChatId) {
-    currentChatId = 'chat_' + Date.now();
-  }
-
-  // Append user message
-  appendMessageDOM('user', text);
-  chatHistory.push({ role: 'user', content: text });
-
-  // Thinking indicator
-  const thinkId = 'think_' + Date.now();
-  const thinkEl = document.createElement('div');
-  thinkEl.id = thinkId;
-  thinkEl.className = 'message ai';
-  thinkEl.innerHTML = `
-    <div class="msg-avatar ai">✦</div>
-    <div class="msg-body">
-      <div class="thinking">
-        <div class="thinking-dots"><span></span><span></span><span></span></div>
-        <span style="color:var(--text3);font-size:13px;">Thinking…</span>
-      </div>
-    </div>`;
-  document.getElementById('chat-messages').appendChild(thinkEl);
-  scrollBottom();
-
-  try {
-    const res = await fetch('/api/chat', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({ message: text }),
+// ===== LOADER =====
+(function initLoader() {
+  const canvas = document.getElementById('loader-canvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+  const particles = Array.from({length:80}, () => ({
+    x: Math.random()*canvas.width, y: Math.random()*canvas.height,
+    r: Math.random()*2+.5, dx: (Math.random()-.5)*.3, dy: (Math.random()-.5)*.3,
+    o: Math.random()*.5+.1
+  }));
+  function drawParticles() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    particles.forEach(p => {
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle = `rgba(139,92,246,${p.o})`; ctx.fill();
+      p.x+=p.dx; p.y+=p.dy;
+      if(p.x<0||p.x>canvas.width) p.dx*=-1;
+      if(p.y<0||p.y>canvas.height) p.dy*=-1;
     });
-    const data = await res.json();
-
-    document.getElementById(thinkId)?.remove();
-
-    if (data.success) {
-      appendMessageDOM('ai', data.response);
-      chatHistory.push({ role: 'assistant', content: data.response });
-
-      // Save to local history
-      const title = text.length > 40 ? text.slice(0, 40) + '…' : text;
-      saveHistoryItem(currentChatId, title, chatHistory);
-    } else {
-      appendMessageDOM('ai', `⚠️ ${data.error || 'Something went wrong.'}`);
-    }
-  } catch (e) {
-    document.getElementById(thinkId)?.remove();
-    appendMessageDOM('ai', '⚠️ Network error. Please check your connection and try again.');
+    requestAnimationFrame(drawParticles);
   }
+  drawParticles();
 
-  isSending = false;
-  document.getElementById('send-btn').disabled = false;
-  input.focus();
-  scrollBottom();
-}
+  setTimeout(() => document.getElementById('lw1').classList.add('show'), 400);
+  setTimeout(() => document.getElementById('lw2').classList.add('show'), 700);
+  setTimeout(() => document.getElementById('lw3').classList.add('show'), 1000);
+  document.getElementById('loader-bar-fill').style.width = '100%';
 
-function appendMessageDOM(role, content, scroll = true) {
-  const msgs = document.getElementById('chat-messages');
+  setTimeout(() => {
+    const loader = document.getElementById('loader');
+    loader.style.transition = 'opacity .6s ease';
+    loader.style.opacity = '0';
+    setTimeout(() => {
+      loader.style.display = 'none';
+      document.getElementById('landing').style.display = 'flex';
+      initHeroCanvas();
+    }, 600);
+  }, 3000);
+})();
 
-  const wrapper = document.createElement('div');
-  wrapper.className = `message ${role}`;
-
-  const avatarHtml = role === 'ai'
-    ? `<div class="msg-avatar ai">✦</div>`
-    : `<div class="msg-avatar user">${(localStorage.getItem('ws_name') || 'U')[0].toUpperCase()}</div>`;
-
-  const renderedContent = role === 'ai' ? renderMarkdown(content) : escapeHtml(content);
-
-  const copyBtns = role === 'ai' ? `
-    <div class="copy-btn-wrap">
-      <button class="copy-btn" onclick="copyText(this, ${JSON.stringify(content)})">📋 Copy</button>
-    </div>` : '';
-
-  wrapper.innerHTML = `
-    ${avatarHtml}
-    <div class="msg-body">
-      <div class="msg-bubble">${renderedContent}</div>
-      ${copyBtns}
-    </div>`;
-
-  msgs.appendChild(wrapper);
-
-  // Highlight code blocks
-  wrapper.querySelectorAll('pre code').forEach(block => {
-    hljs.highlightElement(block);
-    // Add copy button to code blocks
-    const pre = block.parentElement;
-    pre.style.position = 'relative';
-    const copyBtn = document.createElement('button');
-    copyBtn.className = 'code-copy';
-    copyBtn.textContent = 'Copy';
-    copyBtn.onclick = () => {
-      navigator.clipboard.writeText(block.textContent || '').then(() => {
-        copyBtn.textContent = 'Copied!';
-        copyBtn.classList.add('copied');
-        setTimeout(() => { copyBtn.textContent = 'Copy'; copyBtn.classList.remove('copied'); }, 2000);
-      });
-    };
-    pre.appendChild(copyBtn);
-  });
-
-  if (scroll) scrollBottom();
-}
-
-function sendChip(text) {
-  document.getElementById('chat-input').value = text;
-  sendMessage();
-}
-
-function newChat() {
-  currentChatId = null;
-  chatHistory = [];
-  fetch('/api/history/clear', {method: 'POST'}).catch(() => {});
-
-  const msgs = document.getElementById('chat-messages');
-  msgs.innerHTML = `
-    <div class="welcome-screen" id="welcome-screen">
-      <div class="welcome-icon">✦</div>
-      <h1 class="welcome-title">Welcome to AI Workspace</h1>
-      <p class="welcome-subtitle">Your intelligent workspace powered by Gemini 2.5 Flash. Ask anything, research deeply, or create stunning images.</p>
-      <div class="welcome-chips">
-        <div class="chip" onclick="sendChip('Write a professional business proposal outline')">📝 Business Proposal</div>
-        <div class="chip" onclick="sendChip('Explain quantum computing simply')">⚛️ Explain a concept</div>
-        <div class="chip" onclick="sendChip('Write a Python script to sort a list of dictionaries')">🐍 Write Python code</div>
-        <div class="chip" onclick="sendChip('Give me a SWOT analysis template')">📊 SWOT Analysis</div>
-        <div class="chip" onclick="sendChip('What are the top productivity habits of successful people?')">🎯 Productivity tips</div>
-        <div class="chip" onclick="sendChip('Draft a cold outreach email to a potential client')">📧 Cold email</div>
-      </div>
-    </div>`;
-
-  switchView('chat');
-}
-
-function toggleResearch() {
-  isResearchMode = !isResearchMode;
-  const btn = document.getElementById('research-toggle');
-  const banner = document.getElementById('research-banner');
-  if (isResearchMode) {
-    btn.classList.add('on');
-    btn.textContent = '🔬 Deep Research ON';
-    banner.classList.add('visible');
-  } else {
-    btn.classList.remove('on');
-    btn.textContent = '🔬 Deep Research';
-    banner.classList.remove('visible');
-  }
-}
-
-// ─────────────────────────────────────────────
-// Image Generation
-// ─────────────────────────────────────────────
-function selectAspect(btn) {
-  document.querySelectorAll('.aspect-btn').forEach(b => b.classList.remove('selected'));
-  btn.classList.add('selected');
-  selectedAspect = btn.dataset.aspect;
-}
-
-async function generateImage() {
-  const prompt = document.getElementById('img-prompt').value.trim();
-  const style = document.getElementById('img-style').value;
-
-  if (!prompt) { showToast('Please enter an image prompt.', 'error'); return; }
-
-  const btn = document.getElementById('img-gen-btn');
-  btn.disabled = true;
-  btn.innerHTML = '<div class="spinner"></div> Generating…';
-
-  const resultDiv = document.getElementById('image-result');
-  resultDiv.classList.remove('visible');
-
-  try {
-    const res = await fetch('/api/image', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({ prompt, style, aspect: selectedAspect }),
+// ===== HERO CANVAS =====
+function initHeroCanvas() {
+  const canvas = document.getElementById('hero-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  function resize() { canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight; }
+  resize(); window.addEventListener('resize', resize);
+  const pts = Array.from({length:50}, () => ({
+    x: Math.random()*canvas.width, y: Math.random()*canvas.height,
+    r: Math.random()*1.5+.5, dx: (Math.random()-.5)*.2, dy: (Math.random()-.5)*.2,
+    o: Math.random()*.4+.1
+  }));
+  let mx=canvas.width/2, my=canvas.height/2;
+  canvas.addEventListener('mousemove', e => { mx=e.offsetX; my=e.offsetY; });
+  function draw() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    pts.forEach(p => {
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(139,92,246,${p.o})`; ctx.fill();
+      p.x+=p.dx+(mx-canvas.width/2)*0.00015;
+      p.y+=p.dy+(my-canvas.height/2)*0.00015;
+      if(p.x<0) p.x=canvas.width; if(p.x>canvas.width) p.x=0;
+      if(p.y<0) p.y=canvas.height; if(p.y>canvas.height) p.y=0;
     });
-    const data = await res.json();
-
-    if (data.success) {
-      currentImageUrl = data.url;
-      currentImagePrompt = data.prompt;
-
-      const img = document.getElementById('result-img');
-      img.src = data.url;
-      img.onload = () => {
-        resultDiv.classList.add('visible');
-        document.getElementById('download-btn').href = data.url;
-        document.getElementById('img-dimensions').textContent = `${data.width} × ${data.height}px`;
-        btn.disabled = false;
-        btn.innerHTML = '✨ Generate Image';
-      };
-      img.onerror = () => {
-        showToast('Image generation failed. Try a different prompt.', 'error');
-        btn.disabled = false;
-        btn.innerHTML = '✨ Generate Image';
-      };
-    } else {
-      showToast(data.error || 'Failed to generate image.', 'error');
-      btn.disabled = false;
-      btn.innerHTML = '✨ Generate Image';
-    }
-  } catch (e) {
-    showToast('Network error. Please try again.', 'error');
-    btn.disabled = false;
-    btn.innerHTML = '✨ Generate Image';
+    requestAnimationFrame(draw);
   }
+  draw();
 }
 
-function copyImagePrompt() {
-  navigator.clipboard.writeText(currentImagePrompt).then(() => {
-    showToast('Prompt copied!', 'success');
-  });
+// ===== NAV SCROLL =====
+window.addEventListener('scroll', () => {
+  const nav = document.getElementById('navbar');
+  if (nav) nav.classList.toggle('scrolled', window.scrollY > 20);
+});
+
+// ===== NAVIGATION =====
+function openApp() {
+  document.getElementById('landing').style.display = 'none';
+  document.getElementById('app').style.display = 'flex';
+}
+function goHome() {
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('landing').style.display = 'flex';
+  window.scrollTo(0, 0);
+}
+function navigate(panel) {
+  currentPanel = panel;
+  document.querySelectorAll('.content').forEach(c => { c.style.display='none'; c.classList.remove('active'); });
+  document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+  const el = document.getElementById(panel+'-content');
+  if (el) { el.style.display='flex'; el.classList.add('active'); }
+  const nav = document.getElementById('nav-'+panel);
+  if (nav) nav.classList.add('active');
+  const titles = {chat:'AI Chat',image:'Image Studio',student:'Student Hub',developer:'Developer Hub',creator:'Creator Hub',prompts:'Prompt Library',history:'History',settings:'Settings'};
+  document.getElementById('topbar-title').textContent = titles[panel] || 'GYRA';
+  if (panel === 'prompts') renderPrompts();
+  if (panel === 'history') renderHistory();
 }
 
-// ─────────────────────────────────────────────
-// Deep Research
-// ─────────────────────────────────────────────
-async function startResearch() {
-  const topic = document.getElementById('research-topic').value.trim();
-  if (!topic) { showToast('Please enter a research topic.', 'error'); return; }
+// Auto-show landing on load
+document.getElementById('app').style.display = 'none';
+document.getElementById('landing').style.display = 'none'; // hidden until loader done
 
-  const btn = document.getElementById('research-btn');
-  btn.disabled = true;
-  btn.innerHTML = '<div class="spinner"></div> Researching…';
-
-  const loadingEl = document.getElementById('research-loading');
-  const stepsContainer = document.getElementById('research-steps-container');
-  const reportCard = document.getElementById('research-report-card');
-
-  loadingEl.classList.add('visible');
-  stepsContainer.classList.remove('visible');
-  stepsContainer.innerHTML = '';
-  reportCard.classList.remove('visible');
-
-  document.getElementById('research-status').textContent = 'Breaking down research questions…';
-
-  const statusMessages = [
-    'Identifying key research questions…',
-    'Researching sub-topics in depth…',
-    'Gathering insights and data…',
-    'Analyzing findings…',
-    'Synthesizing final report…',
-  ];
-
-  let statusIdx = 0;
-  const statusInterval = setInterval(() => {
-    if (statusIdx < statusMessages.length - 1) statusIdx++;
-    document.getElementById('research-status').textContent = statusMessages[statusIdx];
-  }, 5000);
-
-  try {
-    const res = await fetch('/api/research', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({ topic }),
-    });
-    const data = await res.json();
-
-    clearInterval(statusInterval);
-    loadingEl.classList.remove('visible');
-
-    if (data.success) {
-      // Show steps
-      stepsContainer.classList.add('visible');
-      data.steps.forEach((step, i) => {
-        const el = document.createElement('div');
-        el.className = 'step-item done';
-        el.innerHTML = `<span class="step-icon">✅</span><div class="step-label">${step.label}</div>`;
-        stepsContainer.appendChild(el);
-      });
-
-      // Show report
-      document.getElementById('report-topic-label').textContent = `Topic: ${topic}`;
-      document.getElementById('research-report').innerHTML = renderMarkdown(data.report);
-      reportCard.classList.add('visible');
-
-      document.getElementById('research-report').querySelectorAll('pre code').forEach(b => {
-        hljs.highlightElement(b);
-      });
-
-      showToast('Research complete!', 'success');
-    } else {
-      showToast(data.error || 'Research failed.', 'error');
-    }
-  } catch (e) {
-    clearInterval(statusInterval);
-    loadingEl.classList.remove('visible');
-    showToast('Network error during research.', 'error');
-  }
-
-  btn.disabled = false;
-  btn.innerHTML = '🔍 Start Deep Research';
+// ===== SIDEBAR =====
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('collapsed');
 }
 
-function newResearch() {
-  document.getElementById('research-topic').value = '';
-  document.getElementById('research-report-card').classList.remove('visible');
-  document.getElementById('research-steps-container').classList.remove('visible');
-  document.getElementById('research-steps-container').innerHTML = '';
+// ===== CHAT =====
+marked.setOptions({
+  highlight: (code, lang) => {
+    if (lang && hljs.getLanguage(lang)) return hljs.highlight(code, {language:lang}).value;
+    return hljs.highlightAuto(code).value;
+  },
+  breaks: true, gfm: true
+});
+
+function setChatMode(mode, btn) {
+  chatMode = mode;
+  document.querySelectorAll('.mode-chip').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
 }
-
-function copyReport() {
-  const content = document.getElementById('research-report').innerText;
-  navigator.clipboard.writeText(content).then(() => {
-    showToast('Report copied to clipboard!', 'success');
-  });
+function handleChatKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendChat(); }
 }
-
-// ─────────────────────────────────────────────
-// Settings
-// ─────────────────────────────────────────────
-function openSettings() {
-  document.getElementById('settings-modal').classList.add('open');
-  // Sync UI with current settings
-  syncOptionCards('theme', settings.theme);
-  syncOptionCards('fontSize', settings.fontSize);
-  syncOptionCards('personality', settings.personality);
-  document.getElementById('setting-about').value = settings.aboutMe || '';
-  document.getElementById('setting-instructions').value = settings.customInstructions || '';
-  document.getElementById('setting-name').value = localStorage.getItem('ws_name') || 'User';
-  document.getElementById('setting-email').value = localStorage.getItem('ws_email') || '';
-}
-
-function closeSettings() {
-  document.getElementById('settings-modal').classList.remove('open');
-}
-
-function switchSettingsTab(tab, el) {
-  document.querySelectorAll('.settings-tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.settings-panel').forEach(p => p.classList.remove('active'));
-  el.classList.add('active');
-  document.getElementById('panel-' + tab).classList.add('active');
-}
-
-function selectOption(btn, key) {
-  const grid = btn.closest('.option-grid');
-  grid.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
-  btn.classList.add('selected');
-  settings[key] = btn.dataset.value;
-
-  // Live preview for theme
-  if (key === 'theme') {
-    const theme = settings.theme === 'system'
-      ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
-      : settings.theme;
-    document.documentElement.setAttribute('data-theme', theme);
-  }
-  if (key === 'fontSize') {
-    document.documentElement.setAttribute('data-fontsize', settings.fontSize);
-  }
-}
-
-function syncOptionCards(key, value) {
-  document.querySelectorAll(`[data-value]`).forEach(card => {
-    if (card.dataset.value === value) {
-      const grid = card.closest('.option-grid');
-      if (grid) {
-        const allInGroup = grid.querySelectorAll('[data-value]');
-        allInGroup.forEach(c => c.classList.remove('selected'));
-        card.classList.add('selected');
-      }
-    }
-  });
-}
-
-async function saveSettings() {
-  settings.aboutMe = document.getElementById('setting-about').value.trim();
-  settings.customInstructions = document.getElementById('setting-instructions').value.trim();
-
-  const name = document.getElementById('setting-name').value.trim() || 'User';
-  const email = document.getElementById('setting-email').value.trim();
-  localStorage.setItem('ws_name', name);
-  localStorage.setItem('ws_email', email);
-
-  document.getElementById('user-name-display').textContent = name;
-  document.getElementById('user-avatar').textContent = name[0].toUpperCase();
-
-  applySettings(true);
-  closeSettings();
-  showToast('Settings saved!', 'success');
-}
-
-// ─────────────────────────────────────────────
-// View switching
-// ─────────────────────────────────────────────
-function switchView(view) {
-  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  document.getElementById('view-' + view).classList.add('active');
-  document.getElementById('nav-' + view)?.classList.add('active');
-
-  const titles = { chat: 'AI Chat', image: 'Image Generation', research: 'Deep Research' };
-  document.getElementById('topbar-title').textContent = titles[view] || 'AI Workspace';
-}
-
-// ─────────────────────────────────────────────
-// Utilities
-// ─────────────────────────────────────────────
 function autoResize(el) {
   el.style.height = 'auto';
-  el.style.height = Math.min(el.scrollHeight, 180) + 'px';
-  const len = el.value.length;
-  document.getElementById('char-count').textContent = `${len} / 4000`;
-  if (len > 4000) el.value = el.value.slice(0, 4000);
+  el.style.height = Math.min(el.scrollHeight, 160) + 'px';
+}
+function sendSuggestion(text) {
+  document.getElementById('chat-input').value = text;
+  sendChat();
+}
+async function sendChat() {
+  const input = document.getElementById('chat-input');
+  const msg = input.value.trim();
+  if (!msg) return;
+  input.value = ''; input.style.height='auto';
+  document.getElementById('chat-welcome').style.display = 'none';
+  appendMessage('user', msg);
+  chatHistory.push({user: msg, assistant: ''});
+  const typingId = appendTyping();
+  document.getElementById('send-btn').disabled = true;
+  try {
+    const res = await fetch('/api/chat', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({tool: chatMode, message: msg, history: chatHistory.slice(-10)})
+    });
+    const data = await res.json();
+    removeTyping(typingId);
+    if (data.success) {
+      chatHistory[chatHistory.length-1].assistant = data.response;
+      appendMessage('ai', data.response);
+      addToHistory('chat', msg.substring(0,60));
+    } else { appendMessage('ai', 'Error: '+data.error); }
+  } catch(e) { removeTyping(typingId); appendMessage('ai', 'Connection error. Please try again.'); }
+  document.getElementById('send-btn').disabled = false;
+  scrollChat();
+}
+function appendMessage(role, text) {
+  const container = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  div.className = 'message';
+  const isAI = role === 'ai';
+  div.innerHTML = `
+    <div class="msg-avatar ${role}">${isAI ? '✦' : 'G'}</div>
+    <div class="msg-body">
+      <div class="msg-name">${isAI ? 'GYRA' : 'You'}</div>
+      <div class="msg-text">${isAI ? marked.parse(text) : escapeHtml(text).replace(/\n/g,'<br>')}</div>
+      ${isAI ? `<div class="msg-actions">
+        <button class="msg-action-btn" onclick="copyText(this.closest('.message').querySelector('.msg-text').innerText)">Copy</button>
+        <button class="msg-action-btn" onclick="regenerate()">Regenerate</button>
+      </div>` : ''}
+    </div>`;
+  container.appendChild(div);
+  if (isAI) { div.querySelectorAll('pre code').forEach(b => hljs.highlightElement(b)); }
+  scrollChat();
+}
+function appendTyping() {
+  const id = 'typing-'+Date.now();
+  const container = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  div.className = 'message'; div.id = id;
+  div.innerHTML = `<div class="msg-avatar ai">✦</div><div class="msg-body"><div class="msg-name">GYRA</div><div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div>`;
+  container.appendChild(div); scrollChat();
+  return id;
+}
+function removeTyping(id) { const el = document.getElementById(id); if(el) el.remove(); }
+function scrollChat() { const c = document.getElementById('chat-messages'); c.scrollTop = c.scrollHeight; }
+function newChat() { chatHistory = []; document.getElementById('chat-messages').innerHTML = document.getElementById('chat-messages').innerHTML; navigate('chat'); document.getElementById('chat-welcome').style.display='block'; document.getElementById('chat-messages').innerHTML = ''; const welcome = document.createElement('div'); welcome.id='chat-welcome'; welcome.className='chat-welcome'; welcome.innerHTML='<h2>Hello! I\'m <span class="grad">GYRA</span> ✦</h2><p>Your intelligent AI workspace. Ask me anything.</p><div class="suggestion-chips"><div class="chip" onclick="sendSuggestion(\'Explain quantum computing simply\')">Explain quantum computing simply</div><div class="chip" onclick="sendSuggestion(\'Write a Python web scraper\')">Write a Python web scraper</div><div class="chip" onclick="sendSuggestion(\'Generate 10 YouTube video ideas about AI\')">YouTube ideas about AI</div><div class="chip" onclick="sendSuggestion(\'Create study notes on photosynthesis\')">Study notes: photosynthesis</div></div>'; document.getElementById('chat-messages').appendChild(welcome); }
+function regenerate() {
+  if (chatHistory.length === 0) return;
+  const last = chatHistory[chatHistory.length-1];
+  const msgs = document.getElementById('chat-messages').querySelectorAll('.message');
+  if (msgs.length >= 2) msgs[msgs.length-1].remove();
+  chatHistory.pop();
+  document.getElementById('chat-input').value = last.user;
+  sendChat();
 }
 
-function handleKey(e) {
-  if (e.key === 'Enter' && !e.shiftKey) {
-    e.preventDefault();
-    sendMessage();
+// ===== IMAGE STUDIO =====
+function selectRatio(btn) {
+  document.querySelectorAll('.ratio-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  selectedRatio = btn.dataset.ratio;
+}
+function selectStyle(btn) {
+  document.querySelectorAll('.style-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  selectedStyle = btn.dataset.style;
+}
+function getRatioDimensions(ratio) {
+  const map = {'1:1':[512,512],'16:9':[768,432],'9:16':[432,768],'4:5':[512,640]};
+  return map[ratio] || [512,512];
+}
+async function generateImage() {
+  const prompt = document.getElementById('img-prompt').value.trim();
+  if (!prompt) { showToast('Please enter a prompt', 'error'); return; }
+  const btn = document.getElementById('gen-img-btn');
+  btn.disabled = true; btn.innerHTML = '<div class="spinner"></div> Generating...';
+  const [w,h] = getRatioDimensions(selectedRatio);
+  const fullPrompt = encodeURIComponent(`${prompt}, ${selectedStyle} style, high quality, detailed`);
+  const url = `https://image.pollinations.ai/prompt/${fullPrompt}?width=${w}&height=${h}&nologo=true&seed=${Date.now()}`;
+  const gallery = document.getElementById('image-gallery');
+  gallery.innerHTML = '';
+  const resultDiv = document.createElement('div');
+  resultDiv.className = 'image-result';
+  resultDiv.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;height:300px;background:rgba(139,92,246,.05);border-radius:16px;"><div class="spinner" style="width:40px;height:40px;border-color:rgba(139,92,246,.3);border-top-color:var(--primary);"></div></div>`;
+  gallery.appendChild(resultDiv);
+  const img = new Image();
+  img.onload = () => {
+    resultDiv.innerHTML = `<img src="${url}" alt="${prompt}" style="border-radius:16px 16px 0 0;"/><div class="image-result-actions"><button class="copy-btn" onclick="copyText('${prompt}')">Copy Prompt</button><a href="${url}" download="gyra-image.png" class="copy-btn">Download</a><button class="copy-btn" onclick="generateImage()">Regenerate</button></div>`;
+    generatedImages.push({url, prompt, style:selectedStyle, ratio:selectedRatio, time:new Date().toLocaleTimeString()});
+    addToHistory('image', prompt.substring(0,60));
+    btn.disabled = false; btn.innerHTML = '✦ Generate Image';
+    showToast('Image generated!', 'success');
+  };
+  img.onerror = () => {
+    resultDiv.innerHTML = `<div style="padding:24px;text-align:center;color:var(--muted);">Failed to generate image. Please try again.</div>`;
+    btn.disabled = false; btn.innerHTML = '✦ Generate Image';
+    showToast('Generation failed', 'error');
+  };
+  img.src = url;
+}
+
+// ===== HUB TOOLS =====
+function selectTool(hub, toolId, el, icon, label, placeholder) {
+  currentTool[hub] = toolId;
+  document.querySelectorAll(`#${hub}-content .tool-item`).forEach(i => i.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById(`${hub}-input-label`).textContent = label;
+  document.getElementById(`${hub}-input`).placeholder = placeholder;
+  document.getElementById(`${hub}-output`).innerHTML = '<div class="output-placeholder">Your generated content will appear here</div>';
+}
+async function runTool(hub) {
+  const input = document.getElementById(`${hub}-input`).value.trim();
+  if (!input) { showToast('Please enter some input', 'error'); return; }
+  const btn = document.getElementById(`${hub}-gen-btn`);
+  btn.disabled = true; btn.innerHTML = '<div class="spinner"></div> Generating...';
+  const output = document.getElementById(`${hub}-output`);
+  output.innerHTML = '<div class="output-placeholder"><div class="typing-indicator" style="justify-content:center;"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div>';
+  try {
+    const res = await fetch('/api/generate', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({tool: currentTool[hub], input})
+    });
+    const data = await res.json();
+    if (data.success) {
+      output.innerHTML = marked.parse(data.content);
+      output.querySelectorAll('pre code').forEach(b => hljs.highlightElement(b));
+      addToHistory(hub, input.substring(0,60));
+      showToast('Content generated!', 'success');
+    } else { output.innerHTML = `<div style="color:var(--error)">Error: ${data.error}</div>`; }
+  } catch(e) { output.innerHTML = '<div style="color:var(--error)">Connection error. Please try again.</div>'; }
+  btn.disabled = false;
+  const labels = {student:'✦ Generate', developer:'✦ Generate', creator:'✦ Generate'};
+  btn.innerHTML = labels[hub] || '✦ Generate';
+}
+
+// ===== PROMPT LIBRARY =====
+const PROMPTS = [
+  {title:'Study Notes', text:'Generate comprehensive study notes on the topic of [TOPIC]. Include key concepts, definitions, examples, and a summary.', tags:['Student','Notes']},
+  {title:'Quiz Generator', text:'Create a 10-question multiple choice quiz on [TOPIC]. Include correct answers and explanations.', tags:['Student','Quiz']},
+  {title:'Python Code', text:'Write clean, production-ready Python code for: [REQUIREMENT]. Add docstrings and error handling.', tags:['Developer','Code']},
+  {title:'SQL Query', text:'Write an optimized SQL query to [REQUIREMENT]. Explain what it does step by step.', tags:['Developer','SQL']},
+  {title:'YouTube Script', text:'Write a 60-second YouTube video script on [TOPIC] with a strong hook, value body, and clear CTA.', tags:['Creator','Script']},
+  {title:'Viral Hooks', text:'Write 10 viral social media hooks about [TOPIC]. Mix curiosity, bold claims, and storytelling formats.', tags:['Creator','Hooks']},
+  {title:'Bug Fixer', text:'Analyze this code for bugs, explain each issue clearly, then provide a corrected version: [CODE]', tags:['Developer','Debug']},
+  {title:'Research Summary', text:'Summarize and analyze the research topic: [TOPIC]. Include key findings, methodology, and conclusions.', tags:['Student','Research']},
+  {title:'SEO Keywords', text:'Generate 30 SEO keywords for [TOPIC]: 10 primary, 10 long-tail, and 10 question-based. Prioritize by search intent.', tags:['Creator','SEO']},
+  {title:'API Design', text:'Design a complete REST API for [PROJECT]. Include endpoints, request/response schemas, auth, and example code.', tags:['Developer','API']},
+  {title:'Flashcards', text:'Create 20 flashcards for studying [TOPIC]. Front: term or question. Back: definition or answer.', tags:['Student','Flashcards']},
+  {title:'Caption Pack', text:'Write 5 engaging social media captions for [TOPIC]. Include relevant emojis and hashtags for each platform.', tags:['Creator','Captions']},
+];
+function renderPrompts() {
+  const grid = document.getElementById('prompts-grid');
+  grid.innerHTML = PROMPTS.map(p => `
+    <div class="prompt-card">
+      <h4>${p.title}</h4>
+      <p>${p.text.replace(/\[.*?\]/g, '<em style="color:var(--primary)">$&</em>')}</p>
+      <div class="prompt-tags">${p.tags.map(t => `<span class="prompt-tag">${t}</span>`).join('')}</div>
+      <div class="prompt-actions">
+        <button class="prompt-use-btn" onclick="usePrompt(${JSON.stringify(p.text).replace(/"/g,'&quot;')})">Use Prompt</button>
+        <button class="copy-btn" onclick="copyText(${JSON.stringify(p.text).replace(/"/g,'&quot;')})">Copy</button>
+      </div>
+    </div>`).join('');
+}
+function usePrompt(text) {
+  navigate('chat');
+  document.getElementById('chat-input').value = text;
+  showToast('Prompt loaded in chat!', 'success');
+}
+
+// ===== HISTORY =====
+function addToHistory(type, label) {
+  const icons = {chat:'💬', image:'🎨', student:'📝', developer:'💻', creator:'✨'};
+  historyItems.unshift({type, label, icon:icons[type]||'📄', time:new Date().toLocaleTimeString()});
+  if (historyItems.length > 50) historyItems.pop();
+}
+function renderHistory() {
+  const list = document.getElementById('history-list');
+  if (!historyItems.length) {
+    list.innerHTML = '<div style="text-align:center;padding:60px;color:var(--muted);">No history yet. Start using GYRA!</div>';
+    return;
+  }
+  list.innerHTML = historyItems.map((item,i) => `
+    <div class="history-item">
+      <div class="history-icon">${item.icon}</div>
+      <div class="history-info"><h4>${escapeHtml(item.label)}</h4><p>${item.type.charAt(0).toUpperCase()+item.type.slice(1)}</p></div>
+      <span class="history-time">${item.time}</span>
+    </div>`).join('');
+}
+
+// ===== SETTINGS =====
+function saveSettings() {
+  const name = document.getElementById('username-input').value.trim();
+  if (name) { document.querySelector('.user-name').textContent = name; document.querySelector('.avatar').textContent = name[0].toUpperCase(); }
+  showToast('Settings saved!', 'success');
+}
+function setTheme(theme, btn) {
+  document.querySelectorAll('.theme-option').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  if (theme === 'light') { document.body.classList.add('light-mode'); }
+  else { document.body.classList.remove('light-mode'); }
+  if (theme === 'purple') {
+    document.documentElement.style.setProperty('--bg','#0D0520');
+    document.documentElement.style.setProperty('--card','#160B2C');
+  } else if (theme === 'dark') {
+    document.documentElement.style.setProperty('--bg','#070B14');
+    document.documentElement.style.setProperty('--card','#0F172A');
   }
 }
-
-function scrollBottom() {
-  const msgs = document.getElementById('chat-messages');
-  msgs.scrollTo({ top: msgs.scrollHeight, behavior: 'smooth' });
+function toggleCursor(el) {
+  el.classList.toggle('on');
+  cursorEnabled = el.classList.contains('on');
+  cursor.style.display = cursorEnabled ? 'block' : 'none';
+  trail.style.display = cursorEnabled ? 'block' : 'none';
 }
 
-function renderMarkdown(text) {
-  marked.setOptions({
-    breaks: true,
-    gfm: true,
-    highlight: null,
-  });
-  return marked.parse(text || '');
+// ===== COMMAND PALETTE =====
+const cmdActions = [
+  {label:'New Chat', icon:'💬', key:'N', action:()=>{navigate('chat');newChat();}},
+  {label:'Image Studio', icon:'🎨', key:'I', action:()=>navigate('image')},
+  {label:'Student Hub', icon:'🎓', key:'S', action:()=>navigate('student')},
+  {label:'Developer Hub', icon:'💻', key:'D', action:()=>navigate('developer')},
+  {label:'Creator Hub', icon:'✨', key:'C', action:()=>navigate('creator')},
+  {label:'Prompt Library', icon:'📚', key:'P', action:()=>navigate('prompts')},
+  {label:'History', icon:'🕒', key:'H', action:()=>navigate('history')},
+  {label:'Settings', icon:'⚙️', key:'G', action:()=>navigate('settings')},
+  {label:'Go to Home', icon:'🏠', key:'Q', action:goHome},
+];
+function openCmd() {
+  document.getElementById('cmd-overlay').classList.add('open');
+  document.getElementById('cmd-input').value = '';
+  document.getElementById('cmd-input').focus();
+  renderCmd('');
 }
+function closeCmd() { document.getElementById('cmd-overlay').classList.remove('open'); }
+function renderCmd(query) {
+  const results = document.getElementById('cmd-results');
+  const filtered = cmdActions.filter(a => a.label.toLowerCase().includes(query.toLowerCase()));
+  results.innerHTML = filtered.map((a,i) => `<div class="cmd-item" onclick="runCmd(${i})" onmouseenter="focusCmd(this)"><div class="cmd-icon">${a.icon}</div><span class="cmd-item-label">${a.label}</span><span class="cmd-item-key">${a.key}</span></div>`).join('');
+}
+function focusCmd(el) { document.querySelectorAll('.cmd-item').forEach(i=>i.classList.remove('focused')); el.classList.add('focused'); }
+function runCmd(i) { closeCmd(); cmdActions[i].action(); }
+document.getElementById('cmd-input').addEventListener('input', e => renderCmd(e.target.value));
+document.getElementById('cmd-overlay').addEventListener('click', e => { if(e.target===document.getElementById('cmd-overlay')) closeCmd(); });
+document.addEventListener('keydown', e => {
+  if ((e.ctrlKey||e.metaKey) && e.key==='k') { e.preventDefault(); if(document.getElementById('app').style.display!=='none') openCmd(); }
+  if (e.key==='Escape') closeCmd();
+});
 
+// ===== UTILS =====
+function copyOutput(id) {
+  const el = document.getElementById(id);
+  copyText(el ? el.innerText : '');
+}
+function copyText(text) {
+  navigator.clipboard.writeText(text).then(() => showToast('Copied to clipboard!', 'success')).catch(() => showToast('Copy failed', 'error'));
+}
 function escapeHtml(text) {
-  const div = document.createElement('div');
-  div.appendChild(document.createTextNode(text));
-  return div.innerHTML;
+  return text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
 }
-
-function copyText(btn, text) {
-  navigator.clipboard.writeText(text).then(() => {
-    btn.textContent = '✅ Copied!';
-    btn.classList.add('copied');
-    setTimeout(() => {
-      btn.textContent = '📋 Copy';
-      btn.classList.remove('copied');
-    }, 2000);
-  });
-}
-
-function showToast(message, type = 'info') {
+function showToast(msg, type='success') {
   const container = document.getElementById('toast-container');
   const toast = document.createElement('div');
-  const icons = { success: '✅', error: '❌', info: 'ℹ️' };
   toast.className = `toast ${type}`;
-  toast.innerHTML = `<span>${icons[type] || 'ℹ️'}</span><span>${message}</span>`;
+  toast.innerHTML = `<span>${type==='success'?'✓':'✕'}</span>${escapeHtml(msg)}`;
   container.appendChild(toast);
-  setTimeout(() => {
-    toast.style.opacity = '0';
-    toast.style.transform = 'translateX(100%)';
-    toast.style.transition = '0.3s ease';
-    setTimeout(() => toast.remove(), 300);
-  }, 3500);
+  setTimeout(() => { toast.style.opacity='0'; toast.style.transform='translateX(20px)'; toast.style.transition='all .3s'; setTimeout(()=>toast.remove(),300); }, 2500);
 }
 
-function toggleSidebar() {
-  document.getElementById('sidebar').classList.toggle('open');
+// Mobile detection
+if (window.innerWidth <= 768) {
+  document.body.style.cursor = 'auto';
+  cursor.style.display = 'none';
+  trail.style.display = 'none';
 }
 
-// ─────────────────────────────────────────────
-// Close modal on overlay click
-// ─────────────────────────────────────────────
-document.getElementById('settings-modal').addEventListener('click', function(e) {
-  if (e.target === this) closeSettings();
-});
-
-// System theme change
-window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-  if (settings.theme === 'system') applySettings(false);
-});
-
-// ─────────────────────────────────────────────
-// Boot
-// ─────────────────────────────────────────────
-init();
+// Init content panel visibility
+document.querySelectorAll('.content').forEach(c => { c.style.display='none'; });
+document.getElementById('chat-content').style.display = 'flex';
+document.getElementById('chat-content').classList.add('active');
 </script>
 </body>
 </html>
