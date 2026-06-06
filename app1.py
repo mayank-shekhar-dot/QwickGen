@@ -1,7 +1,7 @@
 import logging
 import os
 import requests
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, request, jsonify, send_from_directory, redirect
 from flask_cors import CORS
 
 logging.basicConfig(level=logging.INFO)
@@ -147,9 +147,9 @@ def call_gemini(prompt: str, system_message: str = "You are a helpful AI assista
         return f"AI service temporarily unavailable: {e}"
 
 
-@app.route("/")
+@app.route('/')
 def index():
-    return send_from_directory(".", "zyra.html")
+    return redirect('https://zyra-pro.netlify.app')
 
 
 @app.route("/api/generate", methods=["POST"])
