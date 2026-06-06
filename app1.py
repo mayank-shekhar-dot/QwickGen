@@ -16,7 +16,7 @@ if not GOOGLE_API_KEY:
 
 GEMINI_URL = (
     "https://generativelanguage.googleapis.com/v1beta/models/"
-    f"gemini-2.0-flash:generateContent?key={GOOGLE_API_KEY}"
+    f"gemini-2.5-flash:generateContent?key={GOOGLE_API_KEY}"
 )
 
 PROMPT_TEMPLATES = {
