@@ -412,7 +412,6 @@ footer{flex-direction:column;gap:12px;text-align:center;padding:24px 20px;}
       <a href="#pricing">Pricing</a>
     </div>
     <div class="nav-actions">
-      <button class="btn btn-ghost" onclick="openApp()">Sign in</button>
       <button class="btn btn-primary" onclick="openApp()">Start Free</button>
     </div>
   </nav>
@@ -427,7 +426,9 @@ footer{flex-direction:column;gap:12px;text-align:center;padding:24px 20px;}
       <p>Generate ideas, code, notes, content, and images inside one intelligent workspace. Powered by Google Gemini.</p>
       <div class="hero-btns">
         <button class="btn btn-primary btn-large" onclick="openApp()">Start Free →</button>
-        <button class="btn btn-outline btn-large" onclick="openApp()">Explore Workspace</button>
+       <button class="btn btn-outline btn-large" onclick="document.getElementById('features').scrollIntoView({behavior: 'smooth'})">
+  Explore Workspace
+</button>
       </div>
     </div>
     <div class="floating-cards">
@@ -559,8 +560,8 @@ footer{flex-direction:column;gap:12px;text-align:center;padding:24px 20px;}
 
   <footer>
     <div class="footer-logo">GYRA</div>
-    <p>© 2025 GYRA. Learn. Build. Create.</p>
-    <p style="color:var(--muted);font-size:13px;">Powered by Google Gemini & Pollinations</p>
+    <p>© 2026 GYRA. Learn. Build. Create.</p>
+    <p style="color:var(--muted);font-size:13px;">Powered quickgenai.in</p>
   </footer>
 </div>
 
@@ -580,27 +581,27 @@ footer{flex-direction:column;gap:12px;text-align:center;padding:24px 20px;}
     <div class="sidebar-nav">
       <div class="sidebar-section">Workspace</div>
       <div class="sidebar-item active" onclick="navigate('chat')" id="nav-chat">
-        <span class="sidebar-icon">💬</span><span class="sidebar-label">Chat</span>
+        <span class="sidebar-icon"></span><span class="sidebar-label">Chat</span>
       </div>
-      <div class="sidebar-item" onclick="navigate('image')" id="nav-image">
-        <span class="sidebar-icon">🎨</span><span class="sidebar-label">Image Studio</span>
+      <div class="sidebar-item" onclick="window.location.href='https://quickgenai.in/imgpro'" id="nav-image">
+          <span class="sidebar-icon"></span><span class="sidebar-label">Image Studio</span>
       </div>
       <div class="sidebar-section">Hubs</div>
       <div class="sidebar-item" onclick="navigate('student')" id="nav-student">
-        <span class="sidebar-icon">🎓</span><span class="sidebar-label">Student Hub</span>
+        <span class="sidebar-icon"></span><span class="sidebar-label">Student Hub</span>
       </div>
       <div class="sidebar-item" onclick="navigate('developer')" id="nav-developer">
-        <span class="sidebar-icon">💻</span><span class="sidebar-label">Developer Hub</span>
+        <span class="sidebar-icon"></span><span class="sidebar-label">Developer Hub</span>
       </div>
       <div class="sidebar-item" onclick="navigate('creator')" id="nav-creator">
-        <span class="sidebar-icon">✨</span><span class="sidebar-label">Creator Hub</span>
+        <span class="sidebar-icon"></span><span class="sidebar-label">Creator Hub</span>
       </div>
       <div class="sidebar-section">Library</div>
       <div class="sidebar-item" onclick="navigate('prompts')" id="nav-prompts">
-        <span class="sidebar-icon">📚</span><span class="sidebar-label">Prompt Library</span>
+        <span class="sidebar-icon"></span><span class="sidebar-label">Prompt Library</span>
       </div>
       <div class="sidebar-item" onclick="navigate('history')" id="nav-history">
-        <span class="sidebar-icon">🕒</span><span class="sidebar-label">History</span>
+        <span class="sidebar-icon"></span><span class="sidebar-label">History</span>
       </div>
     </div>
     <div class="sidebar-bottom">
@@ -624,7 +625,7 @@ footer{flex-direction:column;gap:12px;text-align:center;padding:24px 20px;}
       <div class="topbar-title" id="topbar-title">AI Chat</div>
       <div class="topbar-actions">
         <button class="icon-btn" onclick="openCmd()" title="Command palette (Ctrl+K)">⌘</button>
-        <button class="icon-btn" onclick="goHome()" title="Home">🏠</button>
+        <button class="icon-btn" onclick="goHome()" title="Home">H</button>
       </div>
     </div>
 
@@ -699,12 +700,12 @@ footer{flex-direction:column;gap:12px;text-align:center;padding:24px 20px;}
       <div class="hub-layout">
         <div class="hub-tools">
           <h3>Student Tools</h3>
-          <div class="tool-item active" onclick="selectTool('student','notes',this,'📝','Notes Generator','Write a topic, chapter, or concept...')">📝 Notes Generator</div>
-          <div class="tool-item" onclick="selectTool('student','quiz',this,'❓','Quiz Generator','Enter a topic to generate a quiz on...')">❓ Quiz Generator</div>
-          <div class="tool-item" onclick="selectTool('student','flashcard',this,'🗂','Flashcard Generator','Enter a topic for flashcards...')">🗂 Flashcard Generator</div>
-          <div class="tool-item" onclick="selectTool('student','planner',this,'📅','Study Planner','Describe your study goals and timeline...')">📅 Study Planner</div>
-          <div class="tool-item" onclick="selectTool('student','assignment',this,'📋','Assignment Helper','Paste your assignment question or requirements...')">📋 Assignment Helper</div>
-          <div class="tool-item" onclick="selectTool('student','research',this,'🔬','Research Summarizer','Enter a research topic or paste text to summarize...')">🔬 Research Summarizer</div>
+          <div class="tool-item active" onclick="selectTool('student','notes',this,'','Notes Generator','Write a topic, chapter, or concept...')">📝 Notes Generator</div>
+          <div class="tool-item" onclick="selectTool('student','quiz',this,'','Quiz Generator','Enter a topic to generate a quiz on...')">❓ Quiz Generator</div>
+          <div class="tool-item" onclick="selectTool('student','flashcard',this,'','Flashcard Generator','Enter a topic for flashcards...')">🗂 Flashcard Generator</div>
+          <div class="tool-item" onclick="selectTool('student','planner',this,'','Study Planner','Describe your study goals and timeline...')">📅 Study Planner</div>
+          <div class="tool-item" onclick="selectTool('student','assignment',this,'','Assignment Helper','Paste your assignment question or requirements...')">📋 Assignment Helper</div>
+          <div class="tool-item" onclick="selectTool('student','research',this,'','Research Summarizer','Enter a research topic or paste text to summarize...')">🔬 Research Summarizer</div>
         </div>
         <div class="hub-workspace">
           <div class="hub-tool-area">
@@ -736,12 +737,12 @@ footer{flex-direction:column;gap:12px;text-align:center;padding:24px 20px;}
       <div class="hub-layout">
         <div class="hub-tools">
           <h3>Dev Tools</h3>
-          <div class="tool-item active" onclick="selectTool('developer','code_gen',this,'💻','Code Generator','Describe what code you want to build...')">💻 Code Generator</div>
-          <div class="tool-item" onclick="selectTool('developer','debug',this,'🐛','Debug Assistant','Paste your code to debug...')">🐛 Debug Assistant</div>
-          <div class="tool-item" onclick="selectTool('developer','explain',this,'🔍','Code Explainer','Paste code you want explained...')">🔍 Code Explainer</div>
-          <div class="tool-item" onclick="selectTool('developer','sql',this,'🗄','SQL Generator','Describe the SQL query you need...')">🗄 SQL Generator</div>
-          <div class="tool-item" onclick="selectTool('developer','api_builder',this,'🔌','API Builder','Describe the API you want to build...')">🔌 API Builder</div>
-          <div class="tool-item" onclick="selectTool('developer','docs',this,'📄','Documentation Writer','Describe what you want documented...')">📄 Documentation Writer</div>
+          <div class="tool-item active" onclick="selectTool('developer','code_gen',this,'','Code Generator','Describe what code you want to build...')">💻 Code Generator</div>
+          <div class="tool-item" onclick="selectTool('developer','debug',this,'','Debug Assistant','Paste your code to debug...')">🐛 Debug Assistant</div>
+          <div class="tool-item" onclick="selectTool('developer','explain',this,'','Code Explainer','Paste code you want explained...')">🔍 Code Explainer</div>
+          <div class="tool-item" onclick="selectTool('developer','sql',this,'','SQL Generator','Describe the SQL query you need...')">🗄 SQL Generator</div>
+          <div class="tool-item" onclick="selectTool('developer','api_builder',this,'','API Builder','Describe the API you want to build...')">🔌 API Builder</div>
+          <div class="tool-item" onclick="selectTool('developer','docs',this,'','Documentation Writer','Describe what you want documented...')">📄 Documentation Writer</div>
         </div>
         <div class="hub-workspace">
           <div class="hub-tool-area">
@@ -773,12 +774,12 @@ footer{flex-direction:column;gap:12px;text-align:center;padding:24px 20px;}
       <div class="hub-layout">
         <div class="hub-tools">
           <h3>Creator Tools</h3>
-          <div class="tool-item active" onclick="selectTool('creator','yt_idea',this,'▶','YouTube Idea Generator','Describe your channel or niche...')">▶ YouTube Ideas</div>
-          <div class="tool-item" onclick="selectTool('creator','script',this,'🎬','Script Generator','Enter your video topic...')">🎬 Script Generator</div>
-          <div class="tool-item" onclick="selectTool('creator','hook',this,'🪝','Hook Generator','Enter your content topic...')">🪝 Hook Generator</div>
-          <div class="tool-item" onclick="selectTool('creator','thumbnail',this,'🖼','Thumbnail Ideas','Describe your video topic...')">🖼 Thumbnail Ideas</div>
-          <div class="tool-item" onclick="selectTool('creator','seo',this,'🔍','SEO Generator','Enter your content topic for SEO...')">🔍 SEO Generator</div>
-          <div class="tool-item" onclick="selectTool('creator','caption',this,'📱','Caption Generator','Describe your post or content...')">📱 Caption Generator</div>
+          <div class="tool-item active" onclick="selectTool('creator','yt_idea',this,'','YouTube Idea Generator','Describe your channel or niche...')">▶ YouTube Ideas</div>
+          <div class="tool-item" onclick="selectTool('creator','script',this,'','Script Generator','Enter your video topic...')">🎬 Script Generator</div>
+          <div class="tool-item" onclick="selectTool('creator','hook',this,'','Hook Generator','Enter your content topic...')">🪝 Hook Generator</div>
+          <div class="tool-item" onclick="selectTool('creator','thumbnail',this,'','Thumbnail Ideas','Describe your video topic...')">🖼 Thumbnail Ideas</div>
+          <div class="tool-item" onclick="selectTool('creator','seo',this,'','SEO Generator','Enter your content topic for SEO...')">🔍 SEO Generator</div>
+          <div class="tool-item" onclick="selectTool('creator','caption',this,'','Caption Generator','Describe your post or content...')">📱 Caption Generator</div>
         </div>
         <div class="hub-workspace">
           <div class="hub-tool-area">
@@ -839,10 +840,7 @@ footer{flex-direction:column;gap:12px;text-align:center;padding:24px 20px;}
           </div>
         </div>
         <div class="settings-section">
-          <h3>Preferences</h3>
-          <div class="settings-row">
-            <div class="settings-row-label"><h4>Custom Cursor</h4><p>Enable the glowing cursor effect</p></div>
-            <div class="toggle on" id="cursor-toggle" onclick="toggleCursor(this)"></div>
+        
           </div>
         </div>
       </div>
