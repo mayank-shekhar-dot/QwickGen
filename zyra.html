@@ -849,10 +849,8 @@ footer{flex-direction:column;gap:12px;text-align:center;padding:24px 20px;}
     </div>
   </div>
 </div>
-
 <script>
-
-  // ===== BASE URL =====
+// ===== BASE URL =====
 const BASE_URL = 'https://zyra-4s8u.onrender.com';
 
 // ===== STATE =====
@@ -1028,7 +1026,7 @@ async function sendChat() {
   const typingId = appendTyping();
   document.getElementById('send-btn').disabled = true;
   try {
-    const res = await fetch('/api/chat', {
+    const res = await fetch(BASE_URL + '/api/chat', {
       method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({tool: chatMode, message: msg, history: chatHistory.slice(-10)})
     });
@@ -1146,7 +1144,7 @@ async function runTool(hub) {
   const output = document.getElementById(`${hub}-output`);
   output.innerHTML = '<div class="output-placeholder"><div class="typing-indicator" style="justify-content:center;"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div>';
   try {
-    const res = await fetch('/api/generate', {
+    const res = await fetch(BASE_URL + '/api/generate', {
       method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({tool: currentTool[hub], input})
     });
