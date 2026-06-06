@@ -149,7 +149,7 @@ def call_gemini(prompt: str, system_message: str = "You are a helpful AI assista
 
 @app.route("/")
 def index():
-    return send_from_directory(".", "index.html")
+    return send_from_directory(".", "zyra.html")
 
 
 @app.route("/api/generate", methods=["POST"])
