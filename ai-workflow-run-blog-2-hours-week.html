@@ -1,0 +1,1398 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>The Exact AI Workflow I Use to Run My Blog in Just 2 Hours a Week | QuickGenAI</title>
+
+  <meta name="description"
+        content="I run my entire blog in just 2 hours a week using a simple AI workflow. Here is the exact step-by-step process — tools, prompts, and schedule — that any blogger can copy today." />
+
+  <meta name="keywords"
+        content="AI workflow to manage a blog, how to run a blog with AI, save time blogging with AI 2025, AI tools for bloggers, blog automation using AI, blogging with ChatGPT for beginners" />
+
+  <meta name="author" content="Mayank" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://quickgenai.in/ai-workflow-run-blog-2-hours-week/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type"        content="article" />
+  <meta property="og:title"       content="The Exact AI Workflow I Use to Run My Blog in Just 2 Hours a Week" />
+  <meta property="og:description" content="My full AI blogging workflow — from content ideas to publishing — done in 2 hours a week. Copy this exact process and automate your blog." />
+  <meta property="og:url"         content="https://quickgenai.in/ai-workflow-run-blog-2-hours-week/" />
+  <meta property="og:site_name"   content="QuickGenAI" />
+  <meta property="og:image"       content="https://quickgenai.in/images/ai-blog-workflow-og.jpg" />
+  <meta property="article:author" content="https://www.facebook.com/quickgenai.in" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:site"        content="@genwen.network" />
+  <meta name="twitter:creator"     content="@genwen.network" />
+  <meta name="twitter:title"       content="The Exact AI Workflow I Use to Run My Blog in Just 2 Hours a Week" />
+  <meta name="twitter:description" content="Run your blog on autopilot with this AI workflow. 2 hours a week is all you need — here is exactly how I do it." />
+  <meta name="twitter:image"       content="https://quickgenai.in/images/ai-blog-workflow-twitter.jpg" />
+
+  <!-- Schema.org -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "The Exact AI Workflow I Use to Run My Blog in Just 2 Hours a Week",
+    "description": "A detailed breakdown of a proven AI blogging workflow that covers content planning, writing, editing, and scheduling — all within 2 hours per week.",
+    "author": {
+      "@type": "Person",
+      "name": "Mayank",
+      "url": "https://quickgenai.in/author/mayank/",
+      "sameAs": [
+        "https://twitter.com/genwen.network",
+        "https://www.facebook.com/quickgenai.in"
+      ]
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "QuickGenAI",
+      "url": "https://quickgenai.in",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://quickgenai.in/logo.png"
+      }
+    },
+    "mainEntityOfPage": "https://quickgenai.in/ai-workflow-run-blog-2-hours-week/",
+    "image": "https://quickgenai.in/images/ai-blog-workflow-og.jpg",
+    "datePublished": "2025-07-15",
+    "dateModified": "2025-07-15",
+    "keywords": "AI blogging workflow, blog with AI tools, save time blogging, AI for content creators"
+  }
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --color-bg: #fafaf8;
+      --color-surface: #ffffff;
+      --color-primary: #1a1a2e;
+      --color-accent: #e94560;
+      --color-accent-soft: #fff0f2;
+      --color-text: #2d2d2d;
+      --color-muted: #6b7280;
+      --color-border: #e5e7eb;
+      --color-tag-bg: #f3f4f6;
+      --font-body: 'Inter', sans-serif;
+      --font-heading: 'Lora', serif;
+      --radius: 12px;
+      --shadow: 0 4px 24px rgba(0,0,0,0.07);
+      --max-width: 780px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--color-bg);
+      color: var(--color-text);
+      line-height: 1.75;
+      font-size: 17px;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .header-inner {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      text-decoration: none;
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 22px;
+      color: var(--color-primary);
+    }
+
+    .logo span { font-weight: 700; color: var(--color-accent); }
+
+    nav { display: flex; align-items: center; gap: 12px; }
+
+    .nav-item { position: relative; }
+
+    .nav-btn,
+    .nav-item > a {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      color: var(--color-muted);
+      font-size: 15px;
+      font-weight: 500;
+      padding: 10px 14px;
+      border-radius: 10px;
+      transition: color 0.2s, background 0.2s;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    .nav-btn:hover,
+    .nav-item > a:hover,
+    .nav-item > a.active {
+      color: var(--color-primary);
+      background: var(--color-tag-bg);
+    }
+
+    .chevron { font-size: 12px; line-height: 1; }
+
+    .dropdown {
+      position: absolute;
+      top: calc(100% + 10px);
+      left: 0;
+      min-width: 280px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 14px;
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(8px);
+      pointer-events: none;
+      transition: opacity 0.22s ease, transform 0.22s ease;
+      z-index: 10;
+    }
+
+    .nav-item:hover .dropdown,
+    .nav-item:focus-within .dropdown {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .dropdown a {
+      display: block;
+      padding: 12px 16px;
+      text-decoration: none;
+      color: var(--color-text);
+      font-size: 14px;
+      border-bottom: 1px solid var(--color-border);
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .dropdown a:last-child { border-bottom: none; }
+
+    .dropdown a:hover,
+    .dropdown a.current {
+      background: var(--color-accent-soft);
+      color: var(--color-primary);
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 6px;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 26px;
+      height: 2px;
+      background: var(--color-primary);
+      border-radius: 999px;
+      transition: all 0.3s;
+    }
+
+    .mobile-menu {
+      display: none;
+      flex-direction: column;
+      background: var(--color-surface);
+      border-bottom: 1px solid var(--color-border);
+      padding: 12px 24px 16px;
+    }
+
+    .mobile-menu a {
+      padding: 14px 0;
+      text-decoration: none;
+      color: var(--color-text);
+      font-weight: 600;
+      border-bottom: 1px solid var(--color-border);
+      font-size: 16px;
+    }
+
+    .mobile-menu a:last-child { border-bottom: none; }
+    .mobile-menu.open { display: flex; }
+
+    .hero {
+      position: relative;
+      min-height: 480px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #fff;
+      padding: 100px 24px 72px;
+      background: linear-gradient(180deg, rgba(10, 14, 37, 0.82), rgba(24, 31, 68, 0.78)),
+        url('IMAGE_PLACEHOLDER_HERO.jpg') center/cover no-repeat;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top, rgba(255,255,255,0.07), transparent 35%);
+      pointer-events: none;
+    }
+
+    .hero * { position: relative; z-index: 1; }
+
+    .hero-tag {
+      display: inline-block;
+      background: var(--color-accent);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      border-radius: 100px;
+      margin-bottom: 22px;
+    }
+
+    .hero h1 {
+      font-family: var(--font-heading);
+      font-size: clamp(28px, 5vw, 52px);
+      font-weight: 600;
+      line-height: 1.25;
+      max-width: 800px;
+      margin: 0 auto 20px;
+    }
+
+    .hero-meta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      font-size: 14px;
+      color: rgba(255,255,255,0.65);
+      flex-wrap: wrap;
+    }
+
+    .hero-meta span { display: flex; align-items: center; gap: 6px; }
+
+    .layout {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 48px;
+      align-items: start;
+    }
+
+    article { min-width: 0; }
+
+    .article-intro {
+      font-size: 19px;
+      line-height: 1.8;
+      color: #444;
+      border-left: 4px solid var(--color-accent);
+      padding-left: 20px;
+      margin-bottom: 40px;
+      font-family: var(--font-heading);
+      font-style: italic;
+    }
+
+    article section { margin-bottom: 52px; }
+
+    article h2 {
+      font-family: var(--font-heading);
+      font-size: clamp(22px, 3vw, 30px);
+      font-weight: 600;
+      color: var(--color-primary);
+      margin-bottom: 20px;
+      line-height: 1.3;
+    }
+
+    article h3 {
+      font-family: var(--font-heading);
+      font-size: clamp(18px, 2.5vw, 22px);
+      font-weight: 600;
+      color: var(--color-primary);
+      margin-top: 36px;
+      margin-bottom: 16px;
+      line-height: 1.4;
+    }
+
+    article p { margin-bottom: 20px; color: #374151; line-height: 1.85; }
+
+    article ul { margin: 0 0 20px 20px; color: #374151; line-height: 1.85; }
+    article ul li { margin-bottom: 10px; }
+
+    article ol { margin: 0 0 20px 20px; color: #374151; line-height: 1.85; }
+    article ol li { margin-bottom: 10px; }
+
+    .section-img {
+      width: 100%;
+      border-radius: var(--radius);
+      margin-bottom: 24px;
+      display: block;
+      object-fit: cover;
+      height: 340px;
+      box-shadow: var(--shadow);
+    }
+
+    .share-block {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      padding: 28px;
+      margin-bottom: 48px;
+    }
+
+    .share-block h4 {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      margin-bottom: 16px;
+    }
+
+    .share-buttons { display: flex; flex-wrap: wrap; gap: 10px; }
+
+    .share-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      color: #fff;
+      transition: transform 0.15s, filter 0.15s;
+      cursor: pointer;
+      border: none;
+    }
+
+    .share-btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
+    .share-btn.fb  { background: #1877f2; }
+    .share-btn.tw  { background: #14171a; }
+    .share-btn.li  { background: #0077b5; }
+    .share-btn.wa  { background: #25d366; }
+    .share-btn svg { width: 18px; height: 18px; fill: currentColor; flex-shrink: 0; }
+
+    .faq-section { margin-bottom: 52px; }
+
+    .faq-section > h2 {
+      font-family: var(--font-heading);
+      font-size: clamp(22px, 3vw, 28px);
+      font-weight: 600;
+      color: var(--color-primary);
+      margin-bottom: 28px;
+    }
+
+    .faq-item {
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      margin-bottom: 12px;
+      overflow: hidden;
+      background: var(--color-surface);
+      transition: box-shadow 0.2s;
+    }
+
+    .faq-item.open { box-shadow: var(--shadow); }
+
+    .faq-question {
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      text-align: left;
+      gap: 16px;
+    }
+
+    .faq-question span {
+      font-weight: 600;
+      font-size: 16px;
+      color: var(--color-primary);
+      line-height: 1.4;
+    }
+
+    .faq-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--color-tag-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background 0.2s, transform 0.3s;
+    }
+
+    .faq-item.open .faq-icon { background: var(--color-accent); transform: rotate(45deg); }
+
+    .faq-icon svg { width: 14px; height: 14px; }
+    .faq-item.open .faq-icon svg { stroke: #fff; }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease, padding 0.35s ease;
+      padding: 0 24px;
+    }
+
+    .faq-item.open .faq-answer { max-height: 400px; padding: 0 24px 20px; }
+
+    .faq-answer p { font-size: 15px; color: #4b5563; line-height: 1.75; }
+
+    .sidebar { position: sticky; top: 80px; }
+
+    .sidebar-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    .sidebar-card h4 {
+      font-family: var(--font-heading);
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--color-primary);
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: 2px solid var(--color-border);
+    }
+
+    .toc-list { list-style: none; }
+    .toc-list li { margin-bottom: 10px; }
+
+    .toc-list a {
+      text-decoration: none;
+      color: var(--color-muted);
+      font-size: 14px;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      transition: color 0.2s;
+    }
+
+    .toc-list a::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--color-border);
+      flex-shrink: 0;
+      margin-top: 7px;
+      transition: background 0.2s;
+    }
+
+    .toc-list a:hover { color: var(--color-accent); }
+    .toc-list a:hover::before { background: var(--color-accent); }
+
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; }
+
+    .tag {
+      background: var(--color-tag-bg);
+      color: var(--color-muted);
+      padding: 5px 14px;
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+      cursor: pointer;
+    }
+
+    .tag:hover { background: var(--color-accent); color: #fff; }
+
+    .newsletter-form { display: flex; flex-direction: column; gap: 10px; }
+
+    .newsletter-form input {
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 14px;
+      font-family: var(--font-body);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .newsletter-form input:focus { border-color: var(--color-accent); }
+
+    .newsletter-form button {
+      background: var(--color-accent);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 11px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: var(--font-body);
+      transition: filter 0.2s;
+    }
+
+    .newsletter-form button:hover { filter: brightness(1.1); }
+
+    footer { background: var(--color-primary); color: rgba(255,255,255,0.75); }
+
+    .container { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+
+    .footer-top {
+      padding: 56px 0 40px;
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr;
+      gap: 40px;
+    }
+
+    .footer-brand { display: flex; flex-direction: column; gap: 0; }
+
+    .footer-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      margin-bottom: 14px;
+      cursor: pointer;
+    }
+
+    .footer-logo-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--color-accent);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .footer-logo-icon svg { width: 18px; height: 18px; }
+
+    .footer-logo-text {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 20px;
+      color: #fff;
+    }
+
+    .footer-logo-text span { color: var(--color-accent); }
+
+    .footer-tagline {
+      font-size: 14px;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 20px;
+    }
+
+    .footer-socials { display: flex; gap: 10px; }
+
+    .footer-social {
+      width: 36px;
+      height: 36px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      color: rgba(255,255,255,0.7);
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .footer-social:hover { background: var(--color-accent); color: #fff; }
+
+    .footer-social svg {
+      width: 16px;
+      height: 16px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .footer-col h5 {
+      font-family: var(--font-heading);
+      font-size: 16px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 16px;
+    }
+
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 10px; }
+
+    .footer-col ul li a,
+    .footer-col ul li button {
+      text-decoration: none;
+      color: rgba(255,255,255,0.6);
+      font-size: 14px;
+      font-family: var(--font-body);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      transition: color 0.2s;
+    }
+
+    .footer-col ul li a:hover,
+    .footer-col ul li button:hover { color: var(--color-accent); }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 20px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .footer-copyright { font-size: 13px; color: rgba(255,255,255,0.5); }
+
+    .footer-legal { display: flex; gap: 20px; }
+
+    .footer-legal a {
+      font-size: 13px;
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-legal a:hover { color: #fff; }
+
+    #progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      background: var(--color-accent);
+      width: 0%;
+      z-index: 999;
+      transition: width 0.1s linear;
+    }
+
+    #back-top {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      width: 44px;
+      height: 44px;
+      background: var(--color-accent);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 16px rgba(233,69,96,0.4);
+      transition: transform 0.2s;
+      z-index: 90;
+    }
+
+    #back-top:hover { transform: translateY(-3px); }
+    #back-top svg { width: 20px; height: 20px; stroke: #fff; fill: none; }
+
+    @media (max-width: 1024px) { .footer-top { grid-template-columns: 1fr 1fr 1fr; } }
+    @media (max-width: 960px) { .layout { grid-template-columns: 1fr; } .sidebar { position: static; } }
+    @media (max-width: 640px) {
+      nav { display: none; }
+      .hamburger { display: flex; }
+      .hero { padding: 56px 20px 52px; }
+      .share-buttons { flex-direction: column; }
+      .share-btn { justify-content: center; }
+      .footer-top { grid-template-columns: 1fr 1fr; gap: 28px; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; }
+      .section-img { height: 220px; }
+    }
+    @media (max-width: 480px) { .footer-top { grid-template-columns: 1fr; } }
+
+    /* AUTHOR SECTION */
+
+.author-section{
+    max-width:400px;
+    margin:50px auto;
+    text-align:center;
+    padding:30px;
+    background:#ffffff;
+    border-radius:20px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.08);
+}
+
+.author-img{
+    width:140px;
+    height:140px;
+    border-radius:50%;
+    object-fit:cover;
+    margin-bottom:20px;
+}
+
+.author-section h2{
+    font-size:28px;
+    margin-bottom:15px;
+    color:#111827;
+}
+
+.author-section p{
+    font-size:16px;
+    line-height:1.7;
+    color:#4b5563;
+}
+
+/* HERO SECTION */
+.hero{
+  position: relative;
+  width: 100%;
+  min-height: 420px;
+
+  display: flex;
+  align-items: center;
+
+  padding: 80px 60px;
+
+  border-radius: 24px;
+  overflow: hidden;
+
+  background-image: url('images/ai-microlearning.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  color: #fff;
+}
+
+/* DARK OVERLAY */
+.hero::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background: rgba(0,0,0,0.50);
+
+  z-index: 1;
+}
+
+/* CONTENT */
+.hero > div{
+  position: relative;
+  z-index: 2;
+
+  width: 100%;
+  max-width: 800px;
+}
+
+/* TAG */
+.hero-tag{
+  display: inline-block;
+
+  padding: 8px 16px;
+  margin-bottom: 18px;
+
+  border-radius: 999px;
+
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(8px);
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* TITLE */
+.hero h1{
+  margin: 0 0 20px;
+
+  font-size: clamp(2rem, 5vw, 4rem);
+  line-height: 1.15;
+  font-weight: 800;
+
+  color: #fff;
+}
+
+/* META */
+.hero-meta{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+
+  font-size: 15px;
+}
+
+.hero-meta span{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  color: rgba(255,255,255,0.92);
+}
+
+.hero-meta svg{
+  flex-shrink: 0;
+}
+
+
+/* =========================
+   TABLET
+========================= */
+@media (max-width: 992px){
+
+  .hero{
+    min-height: 360px;
+    padding: 70px 40px;
+    border-radius: 20px;
+  }
+
+  .hero-meta{
+    gap: 14px;
+  }
+
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+@media (max-width: 768px){
+
+  .hero{
+    min-height: 320px;
+
+    padding: 50px 24px;
+
+    border-radius: 18px;
+
+    align-items: flex-end;
+  }
+
+  .hero h1{
+    line-height: 1.2;
+  }
+
+  .hero-meta{
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+
+    font-size: 14px;
+  }
+
+  .hero-tag{
+    font-size: 13px;
+    padding: 7px 14px;
+  }
+
+}
+
+
+/* =========================
+   SMALL MOBILE
+========================= */
+@media (max-width: 480px){
+
+  .hero{
+    min-height: 280px;
+
+    padding: 40px 18px;
+
+    border-radius: 16px;
+  }
+
+  .hero h1{
+    font-size: 1.8rem;
+  }
+
+}
+
+.hero{
+  background-image: url('https://quickgenai.in/images/ai-blog-workflow-og.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+  </style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<!-- ══════════════════════════════ HEADER ══════════════════════════════ -->
+<header>
+  <div class="header-inner">
+    <a href="#" class="logo">QuickGen<span>AI</span></a>
+    <nav>
+      <div class="nav-item">
+        <a href="#" class="nav-btn">Blog <span class="chevron">&#9660;</span></a>
+        <div class="dropdown">
+          <a href="https://quickgenai.in/categories/ai-learning-basics-&-education" class="current">AI Learning, Basics &amp; Education</a>
+          <a href="https://quickgenai.in/categories/ai-tools-productivity-&-business-use">AI Tools, Productivity &amp; Business Use</a>
+          <a href="https://quickgenai.in/categories/future-ai-trends-&-advanced-concepts">Future AI, Trends &amp; Advanced Concepts</a>
+          <a href="https://quickgenai.in/categories/ai-news-risks-&-industry-updates">AI News, Risks &amp; Industry Updates</a>
+        </div>
+      </div>
+      <div class="nav-item"><a href="https://quickgenai.in/ai-tools">Tools</a></div>
+      <div class="nav-item"><a href="https://quickgenai.in/about">About</a></div>
+      <div class="nav-item"><a href="https://quickgenai.in/contact">Contact</a></div>
+      <div class="nav-item"><a href="https://quickgenai.in">Home</a></div>
+    </nav>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="https://quickgenai.in">Home</a>
+    <a href="https://quickgenai.in/categories/ai-learning-basics-&-education" class="current">AI Learning, Basics &amp; Education</a>
+    <a href="https://quickgenai.in/categories/ai-tools-productivity-&-business-use">AI Tools, Productivity &amp; Business Use</a>
+    <a href="https://quickgenai.in/categories/future-ai-trends-&-advanced-concepts">Future AI, Trends &amp; Advanced Concepts</a>
+    <a href="https://quickgenai.in/categories/ai-news-risks-&-industry-updates">AI News, Risks &amp; Industry Updates</a>
+    <a href="https://quickgenai.in/ai-tools">Tools</a>
+    <a href="https://quickgenai.in/about">About</a>
+    <a href="https://quickgenai.in/contact">Contact</a>
+  </div>
+</header>
+
+<!-- ══════════════════════════════ HERO ══════════════════════════════ -->
+<div class="hero">
+  <div>
+    <span class="hero-tag">AI Tools, Productivity & Business</span>
+    <h1>The Exact AI Workflow I Use to Run My Blog in Just 2 Hours a Week</h1>
+    <div class="hero-meta">
+      <span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="7" r="4"/><path d="M5.2 20a7 7 0 0 1 13.6 0"/></svg>
+        Mayank
+      </span>
+      <span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        16 June 2026
+      </span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════ LAYOUT ══════════════════════════════ -->
+<div class="layout">
+
+  <main>
+    <article>
+
+    <h2>The Exact AI Workflow I Use to Run My Blog in Just 2 Hours a Week</h2><hr /><h2>Introduction</h2><p>Two hours. That's it. Every week, two focused hours is all it takes to keep my blog producing consistent content, ranking on Google, and generating traffic — without burning out, without hiring a team, and without spending money on tools I barely use.</p><p>Eighteen months ago that sentence would have made me roll my eyes. I was spending twelve to fifteen hours a week on my blog and still felt behind. Writing took forever. Research felt endless. Repurposing content was something I knew I should do but never had time for. Publishing felt like the finish line of a marathon I ran every single week.</p><p>Then I rebuilt everything around AI — not as a shortcut to skip the work, but as infrastructure to remove the parts of the work that didn't require me specifically. What's left is a lean, repeatable system that runs in two hours and produces more than I was managing in fifteen.</p><p>This isn't a theoretical framework. This is the exact workflow, with exact tools, exact time allocations, and honest notes about what works and where the limits are. If you run a blog — whether for business, personal brand, or income — this is worth your full attention.</p><hr /><h2>What My Blog Life Looked Like Before AI</h2><p>Chaotic is the honest word for it.</p><p>My weekly blogging process looked something like this: spend an hour or two trying to decide what to write about, talk myself out of three ideas before settling on one, spend another hour doing keyword research across three different tabs, write a draft over two or three separate sessions because I kept losing momentum, spend time editing that draft, realize halfway through that the structure was wrong and rebuild it, create a thumbnail image that looked decent but took forty-five minutes, write a meta description at the last minute while publishing, and then collapse without touching repurposing at all.</p><p>The content was decent. The process was exhausting. And because the process was exhausting, consistency suffered. Some weeks I published. Some weeks I didn't. The traffic graph reflected that inconsistency with annoying accuracy.</p><p>I was also conflating two very different things: the parts of blogging that require genuine human judgment — perspective, voice, experience, editorial decisions — and the parts that are just production tasks. I was spending equal energy on both, which meant my actual thinking was getting diluted by mechanical work that didn't need me.</p><hr /><h2>The Turning Point That Made Me Rethink Everything</h2><p>It wasn't one dramatic moment. It was a slow accumulation of noticing.</p><p>I noticed that my best posts — the ones that ranked well and got shared — weren't the ones I'd spent the most time on. They were the ones where I had the clearest point of view going in and spent my energy developing that angle rather than fighting the production process.</p><p>I noticed that most of the time I spent "writing" was actually time spent staring at a blank document waiting to start, or reorganizing sections I should have outlined before drafting, or doing research I could have done faster with better tools.</p><p>And I noticed — once I started testing AI tools seriously — that the production layer of blogging could be dramatically compressed without touching the parts that actually made content worth reading. The research, the drafting structure, the SEO mechanics, the repurposing — all of it could run faster. What couldn't be automated was my perspective, my examples, my voice, and my editorial judgment about what was actually worth saying.</p><p>Once I saw that distinction clearly, rebuilding the workflow was just engineering.</p><hr /><h2>The Tools I Use (And What Each One Does)</h2><p>No expensive stack. No complicated integrations. Five tools, most with free tiers sufficient for solo bloggers:</p><p><strong>Claude</strong> — primary thinking partner for ideation, outlining, drafting, and repurposing. Handles the heaviest lifting in the workflow.</p><p><strong>ChatGPT</strong> — secondary, used specifically for keyword angle brainstorming and meta description variations.</p><p><strong>Google Trends + Google Search Console</strong> — free keyword research and content validation. No paid SEO tool needed at this workflow level.</p><p><strong>Canva Pro</strong> — featured images, social graphics, and content repurposing visuals. ₹1,299/month.</p><p><strong>Buffer</strong> — scheduling across platforms. Free tier handles everything for a solo blogger.</p><p>Total monthly cost beyond what I'd pay anyway: ₹1,299. Everything else is free.</p><hr /><h2>Step 1 — Finding Content Ideas in 10 Minutes</h2><p><strong>Time allocated: 10 minutes</strong></p><p>I open Claude and give it a specific brief — not "give me blog post ideas" but something like: "I write about [topic] for [specific audience]. Here are my three most recent posts: [titles]. What angles haven't I covered that this audience is actively searching for or struggling with right now?"</p><p>That specificity produces ideas that are actually relevant to my existing content landscape rather than generic topic suggestions anyone could generate.</p><p>I cross-reference the top two or three ideas against Google Trends to confirm search interest is real and directionally growing rather than declining. Five minutes of Trends data tells me more about whether an idea is worth pursuing than an hour of intuition-based debate with myself.</p><p>I pick one idea. The rest go into a running list for future weeks. Decision made in ten minutes, not two hours.</p><hr /><h2>Step 2 — Keyword Research Without Paying for Tools</h2><p><strong>Time allocated: 10 minutes</strong></p><p>Paid SEO tools are useful. They're also unnecessary for a blogger doing their own site's keyword research with a focused content strategy.</p><p>I take my chosen topic and ask Claude to generate fifteen to twenty keyword variations — different angles, different search intents, different levels of specificity. Long-tail variations, question-based searches, comparison searches. This takes two minutes and produces a working list I'd otherwise spend twenty minutes building manually.</p><p>Then I paste the most promising ones into Google Search and pay attention to three things: what the autocomplete suggests, what the "People also ask" section shows, and what's ranking on page one. That tells me the real search intent — what people are actually looking for when they type those words — faster than any tool dashboard.</p><p>Google Search Console shows me which keywords my existing content is already getting impressions for. Sometimes the best keyword opportunity is a post I've already written that ranks on page two for something valuable and just needs a focused update.</p><p>Total time: ten minutes. No subscription required.</p><hr /><h2>Step 3 — Creating the First Draft in Under 30 Minutes</h2><p><strong>Time allocated: 30 minutes</strong></p><p>This is where most bloggers think AI replaces the writer. It doesn't. It replaces the blank page.</p><p>I give Claude a structured brief: the target keyword, the intended audience and their specific knowledge level, the main argument or perspective I want to make, three to five points I know I want to include from my own experience or expertise, and the approximate word count. I also tell it explicitly what I don't want — no generic advice, no listicle padding, no conclusions that just summarize what was already said.</p><p>What comes back is a structured draft that has the right skeleton. The sections are logical, the flow is coherent, and about forty percent of the sentences are usable with light editing. The other sixty percent either need rewriting in my voice or replacing with something more specific — which is what the next step handles.</p><p>The draft takes Claude about ninety seconds to generate. Reading through it and marking what stays, what changes, and what needs my input takes the rest of the thirty minutes. I'm not editing at this stage — I'm annotating. Actual editing happens in step four.</p><hr /><h2>Step 4 — Editing and Adding My Personal Voice</h2><p><strong>Time allocated: 20 minutes</strong></p><p>This is the step that makes the difference between content that reads like AI wrote it and content that reads like a person worth following wrote it.</p><p>I go through the annotated draft and do three specific things. First, I replace generic examples with real ones — things I've actually experienced, specific numbers from my own results, situations my audience has told me about directly. Second, I cut anything that's technically correct but adds no perspective — the hedged statements, the "it depends" paragraphs that exist to cover all bases rather than to actually say something. Third, I rewrite the opening and closing entirely in my own words, because those are the parts readers use to decide whether they want more from you.</p><p>Twenty minutes of focused editing produces something that sounds like me. Not AI with light polish — actually me, using AI as the scaffolding rather than the voice.</p><hr /><h2>Step 5 — Creating Featured Images and Graphics</h2><p><strong>Time allocated: 10 minutes</strong></p><p>Canva with a saved brand template makes this genuinely fast. The template has my fonts, colors, and layout already set. I change the title text, swap the background if needed, and export in the right dimensions for my blog and social platforms simultaneously.</p><p>For posts that benefit from additional in-content graphics — a simple diagram, a comparison table as an image, a pull quote visual — I create those in the same session. Canva's AI background generation handles custom visuals when I need something more specific than stock images.</p><p>Ten minutes produces everything the post needs visually. The consistency of working from a template means it also looks like it belongs to the same brand every time, which is the thing most solo bloggers sacrifice when they're moving fast.</p><hr /><h2>Step 6 — Writing SEO Meta Title and Description</h2><p><strong>Time allocated: 5 minutes</strong></p><p>I ask Claude to write five variations of the meta title — each one leading with the primary keyword but approaching the hook differently. One curiosity-driven, one benefit-driven, one number-led, one question-based, one direct statement. I pick the one that best matches the actual content and sounds most natural as a search result someone would click.</p><p>For the meta description I do the same — three variations, pick one, adjust the character count to fit. The whole thing takes five minutes because I'm choosing from options rather than generating from scratch.</p><p>The difference between a thoughtfully written meta description and a placeholder is measurable in click-through rate. Five minutes here compounds over months of that post sitting in search results.</p><hr /><h2>Step 7 — Repurposing One Blog Post Into 5 Pieces of Content</h2><p><strong>Time allocated: 15 minutes</strong></p><p>This is the step most bloggers skip because it feels like extra work. It's actually where most of the leverage lives.</p><p>I paste the finished blog post into Claude and ask for five specific outputs: a LinkedIn post that takes the most counterintuitive point and expands it into a standalone argument, three Twitter/X posts pulling the most quotable insights, an Instagram caption with a clear hook and actionable takeaway, a short-form video script based on the post's main argument, and an email newsletter version that adds one personal reflection not in the original post.</p><p>Fifteen minutes produces a week's worth of social content from one piece of writing. The social posts point back to the blog. The email drives direct traffic. The video script gets recorded in whatever spare time exists that week. One post, five distribution channels, fifteen minutes of additional work.</p><hr /><h2>Step 8 — Scheduling and Publishing Everything</h2><p><strong>Time allocated: 10 minutes</strong></p><p>Buffer handles social scheduling. I upload the posts, set the times based on Buffer's engagement recommendations for my specific audience, and everything goes out automatically across the week.</p><p>The blog post itself gets published directly — no scheduling complexity there. The email goes into Mailerlite with the newsletter version from step seven, scheduled for the day after the post goes live to give search indexing a head start before driving direct traffic.</p><p>Ten minutes of scheduling means I'm not manually posting anything for the rest of the week. Everything runs while I'm doing other things.</p><hr /><h2>My Full 2-Hour Weekly Schedule Breakdown</h2><p>Here's exactly how the two hours split across a single session:</p><p><strong>0:00 – 0:10</strong> — Content ideation and topic selection
+<strong>0:10 – 0:20</strong> — Keyword research and search intent validation
+<strong>0:20 – 0:50</strong> — AI draft generation and annotation
+<strong>0:50 – 1:10</strong> — Editing and voice layer
+<strong>1:10 – 1:20</strong> — Featured image and graphics
+<strong>1:20 – 1:25</strong> — Meta title and description
+<strong>1:25 – 1:40</strong> — Repurposing into five content pieces
+<strong>1:40 – 1:50</strong> — Scheduling and publishing
+<strong>1:50 – 2:00</strong> — Buffer time for anything that ran over, or reviewing Search Console data for next week's ideation</p><p>Two hours. One complete blog post. Five pieces of social content. One email newsletter. All scheduled and live.</p><hr /><h2>What I Still Do Manually (And Why)</h2><p>Responding to comments and emails — every reply is written by me. That's where reader relationships are built, and no AI output sounds like genuine engagement because it isn't.</p><p>Strategic decisions about content direction — which topics to prioritize over the next quarter, when to update old posts versus write new ones, how to position the blog against competitors. These require judgment built from actually running the blog, not pattern matching from training data.</p><p>Personal story integration — the specific experiences, failures, and observations that make content worth reading over generic alternatives. AI can structure a post around a personal anecdote I describe, but the anecdote itself has to come from me.</p><p>Outreach and relationship building — guest post pitches, collaboration conversations, link-building relationships. These are human-to-human, and readers and editors can tell the difference immediately.</p><hr /><h2>Mistakes I Made When I First Started Using AI for Blogging</h2><p>Publishing first drafts without editing. The content was coherent and completely lacking in personality. Traffic told the story — bounce rates were high because people could sense something was off without being able to name it.</p><p>Using AI for topic ideas without validating them against real search data. Generated ideas that sounded interesting but had no actual search volume. Wrote three posts before noticing the traffic wasn't coming because no one was looking for those topics.</p><p>Letting the AI structure determine the post structure. Early posts followed whatever outline Claude generated. They were logical and forgettable. The better approach is to outline first based on my own thinking, then use AI to draft within that structure.</p><p>Repurposing too literally — pasting blog content into social posts without adapting for platform context. LinkedIn audiences read differently than blog readers. Instagram is a different medium entirely. Platform-blind repurposing gets ignored.</p><p>Treating the workflow as fixed too early. The current two-hour system took about three months of iteration to settle. Locking in a workflow before you understand what's working is how you end up efficient at the wrong things.</p><hr /><h2>Results I've Seen Since Switching to This Workflow</h2><p>Organic traffic is up sixty percent compared to the same period last year — driven primarily by publishing consistency rather than any single viral post. The algorithm rewards regular publishing. A system that makes regular publishing sustainable is therefore a traffic strategy.</p><p>Content output doubled while time investment dropped by roughly seventy percent. More posts, less time, better consistency — that combination has compounded over twelve months into a meaningfully larger content library that keeps generating traffic passively.</p><p>Repurposed content now drives about thirty percent of total blog traffic. Before this workflow, repurposing was something I did occasionally and badly. Now it's systematic, and the social content drives readers to posts they'd otherwise never find.</p><p>The posts themselves are longer and better structured than before — because I spend editing time on thinking and voice rather than fighting the blank page and structural decisions. Better posts rank better. That part is simple.</p><hr /><h2>Conclusion + Free Workflow Template</h2><p>Two hours a week is achievable for any blogger willing to rebuild their process around what they actually need to do themselves versus what can run faster with AI support.</p><p>The system works because it's honest about the division of labor. AI handles production speed. You handle perspective, voice, real examples, and editorial judgment. Neither replaces the other. The combination produces more than either could alone.</p><p>The workflow template below covers every step with exact prompts, time allocations, and tool recommendations. Save it, adapt it to your specific blog topic and audience, and run it for four consecutive weeks before judging the results. Four weeks of consistent execution will tell you more than any amount of reading about it.</p><p><strong>Free Workflow Template — 2-Hour Blog System:</strong></p><p>Step 1: Ideation prompt template → "I write [topic] for [audience]. Recent posts: [titles]. What underserved angles exist that this audience searches for?"
+Step 2: Keyword brief → Generate 15 variations in Claude, validate top 3 in Google Search + Trends
+Step 3: Draft brief → Target keyword + audience + your 3-5 personal points + what to avoid
+Step 4: Edit checklist → Replace generic examples, cut hedged filler, rewrite open and close
+Step 5: Canva brand template → Set once, reuse every week
+Step 6: Meta prompt → "Write 5 meta title variations leading with [keyword], each with a different hook style"
+Step 7: Repurpose prompt → "Turn this post into: LinkedIn argument, 3 tweets, Instagram caption, video script, email version with personal reflection"
+Step 8: Schedule → Buffer for social, Mailerlite for email, direct publish for blog</p><hr /><h2>FAQ</h2><p><strong>Q1: Can complete beginners use this workflow or do you need blogging experience first?</strong>
+Beginners can use the tools immediately. What takes time to develop is the editorial judgment — knowing what to keep from the AI draft, what your voice actually sounds like, and what your specific audience responds to. That judgment develops through publishing, not through waiting. Start with the workflow, expect the first few weeks to be slower than two hours, and let the process speed up naturally as the decisions become familiar.</p><p><strong>Q2: What niche or topic does this workflow work best for?</strong>
+Any topic where the writer has genuine perspective and experience to bring. The workflow compresses production — it doesn't generate expertise. A food blogger, a finance writer, a travel creator, a B2B consultant — the steps are identical. What goes into step four, the voice and personal layer, is what makes the output specific to the topic and valuable to the audience.</p><p><strong>Q3: Is two hours realistic or is that an optimistic best case?</strong>
+For the first month, expect three to three and a half hours while the workflow becomes habitual. The time investment drops as decisions that currently require thought become automatic. The ten minutes on ideation feels slow when you're still learning to brief Claude effectively. After a month of doing it weekly, that same step takes seven minutes without trying.</p><p><strong>Q4: Does Google penalize AI-assisted content?</strong>
+Google's stated position is that it evaluates content quality — helpfulness, accuracy, and genuine value to readers — not the production method behind it. AI-generated content that's thin, generic, and unedited performs poorly because it's thin, generic, and unedited. AI-assisted content that's edited for voice, grounded in real expertise, and genuinely useful performs the same as well-written human content. The editing step in this workflow is what makes that distinction.</p><p><strong>Q5: How do you maintain a consistent voice when AI is drafting?</strong>
+Three things help: briefing Claude with examples of your own writing before asking for a draft, editing every draft rather than publishing any first output, and rewriting the opening and closing paragraphs entirely in your own words every time. Those two paragraphs set the tone for everything in between. Over time, the AI drafts get closer to your voice because you're consistently correcting toward it.</p><p><strong>Q6: What if my blog is very technical or niche-specific?</strong>
+Technical accuracy requires more careful editing than general content does. The workflow still applies — you're just spending more of the editing time on factual verification and less on structural changes. For highly technical content, use AI to draft the framework and explanation structure, then go through fact by fact against your own knowledge or cited sources before publishing.</p><p><strong>Q7: Can this workflow handle multiple posts per week?</strong>
+Yes, by running the system twice. Two sessions of two hours each produces two complete posts with full repurposing. The second run is usually faster than the first in any given week because the ideation decisions from the first session often surface adjacent ideas that require less research to validate.</p><p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</p><p><strong>Q8: What's the most important step not to skip?</strong>
+Step four — the editing and voice layer. Every other step can be shortened or simplified in a tight week. That one cannot. It's the step that makes the content yours rather than generic, and it's what readers are actually responding to when they come back for more.</p>      
+
+      <!-- ── FAQ ── -->
+         <!-- ── FAQ ── -->
+
+      <!-- ── AUTHOR ── -->
+  
+
+    <!-- ── SHARE ── -->
+<div class="share-block">
+  <h4>Share This Article</h4>
+
+  <div class="share-buttons">
+
+    <!-- Facebook -->
+    <a href="#"
+       class="share-btn fb"
+       onclick="sharePlatform(event, 'facebook')"
+       aria-label="Share on Facebook">
+
+      <svg viewBox="0 0 24 24">
+        <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+      </svg>
+
+      Facebook
+    </a>
+
+    <!-- Twitter -->
+    <a href="#"
+       class="share-btn tw"
+       onclick="sharePlatform(event, 'twitter')"
+       aria-label="Share on Twitter">
+
+      <svg viewBox="0 0 24 24">
+        <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/>
+      </svg>
+
+      Twitter
+    </a>
+
+    <!-- LinkedIn -->
+    <a href="#"
+       class="share-btn li"
+       onclick="sharePlatform(event, 'linkedin')"
+       aria-label="Share on LinkedIn">
+
+      <svg viewBox="0 0 24 24">
+        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+        <rect x="2" y="9" width="4" height="12"/>
+        <circle cx="4" cy="4" r="2"/>
+      </svg>
+
+      LinkedIn
+    </a>
+
+    <!-- WhatsApp -->
+    <a href="#"
+       class="share-btn wa"
+       onclick="sharePlatform(event, 'whatsapp')"
+       aria-label="Share on WhatsApp">
+
+      <svg viewBox="0 0 24 24">
+        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+      </svg>
+
+      WhatsApp
+    </a>
+
+  </div>
+</div>
+
+<script>
+function sharePlatform(event, platform) {
+
+  event.preventDefault();
+
+  const url = window.location.href;
+
+  // Auto copy link silently
+  navigator.clipboard.writeText(url).catch(() => {});
+
+  let shareUrl = '';
+
+  if (platform === 'facebook') {
+    shareUrl =
+      `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+  }
+
+  if (platform === 'twitter') {
+    shareUrl =
+      `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}`;
+  }
+
+  if (platform === 'linkedin') {
+    shareUrl =
+      `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
+  }
+
+  if (platform === 'whatsapp') {
+    shareUrl =
+      `https://wa.me/?text=${encodeURIComponent(url)}`;
+  }
+
+  window.open(shareUrl, '_blank');
+
+}
+</script>
+    
+
+    </article>
+  </main>
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar" aria-label="Article sidebar">
+
+        
+
+    <!-- AUTHOR SECTION -->
+<section class="author-section">
+
+    <img src="aut.jpg" alt="Author Image" class="author-img">
+
+    <p>Writer</p>
+    <h2>Mayank</h2>
+
+    <p>
+        Digital professional with 3+ years of experience building and scaling high-performing online platforms.
+       I’ve developed 50+ websites, trained 10+ AI systems, and solved 1500+ debugging challenges, combining technical expertise with strategic and creative problem-solving.
+
+
+    </p>
+
+</section>
+
+  </aside>
+  
+
+</div><!-- /.layout -->
+
+<!-- ══════════════════════════════ FOOTER ══════════════════════════════ -->
+<footer>
+  <div class="container">
+    <div class="footer-top">
+
+      <div class="footer-brand">
+        <a href="#" class="footer-logo">
+          <div class="footer-logo-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          </div>
+          <span class="footer-logo-text">QuickGen<span>AI</span></span>
+        </a>
+        <p class="footer-tagline">Empowering creators and professionals with expert content and powerful AI tools.</p>
+        
+      </div>
+
+      <div class="footer-col">
+        <h5>Blog</h5>
+        <ul>
+          <li><a href="https://quickgenai.in/categories/ai-learning-basics-&-education">AI Learning &amp; Basics</a></li>
+          <li><a href="https://quickgenai.in/categories/ai-tools-productivity-&-business-use">AI Tools &amp; Productivity</a></li>
+          <li><a href="https://quickgenai.in/categories/future-ai-trends-&-advanced-concepts">Future AI &amp; Trends</a></li>
+          <li><a href="https://quickgenai.in/categories/ai-news-risks-&-industry-updates">AI News &amp; Risks</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="https://quickgenai.in/about">About Us</a></li>
+          <li><a href="https://quickgenai.in/contact">Contact</a></li>
+          <li><a href="https://quickgenai.in/ai-tools">AI Tools</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Legal</h5>
+        <ul>
+          <li><a href="https://quickgenai.in/privacy-policy">Privacy Policy</a></li>
+          <li><a href="https://quickgenai.in/terms">Terms of Use</a></li>
+          <li><a href="https://quickgenai.in/cookie-policy">Cookie Policy</a></li>
+          <li><a href="https://quickgenai.in/disclaimer">Disclaimer</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Quick Links</h5>
+        <ul>
+          <li><a href="https://quickgenai.in">Home</a></li>
+          <li><a href="https://quickgenai.in/ai-tools">Tools</a></li>
+          <li><a href="https://quickgenai.in/about">About</a></li>
+          <li><a href="https://quickgenai.in/contact">Contact</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <p class="footer-copyright">&copy; 2026 QuickGenAI. All rights reserved.</p>
+      <div class="footer-legal">
+        <a href="https://quickgenai.in/privacy-policy">Privacy Policy</a>
+        <a href="https://quickgenai.in/terms">Terms of Use</a>
+        <a href="https://quickgenai.in/disclaimer">Disclaimer</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ══════════════════════════════ BACK TO TOP ══════════════════════════════ -->
+<button id="back-top" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+
+<!-- ══════════════════════════════ SCRIPTS ══════════════════════════════ -->
+<script>
+  function toggleMenu() {
+    document.getElementById('mobileMenu').classList.toggle('open');
+  }
+
+  window.addEventListener('scroll', function () {
+    var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+    var scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    var progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+    document.getElementById('progress-bar').style.width = progress + '%';
+
+    var btn = document.getElementById('back-top');
+    if (scrollTop > 400) {
+      btn.style.display = 'flex';
+    } else {
+      btn.style.display = 'none';
+    }
+  });
+
+  document.getElementById('back-top').addEventListener('click', function () {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  document.querySelectorAll('.faq-question').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var item = this.closest('.faq-item');
+      var isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(function (i) { i.classList.remove('open'); });
+      if (!isOpen) item.classList.add('open');
+      this.setAttribute('aria-expanded', !isOpen);
+    });
+  });
+</script>
+
+</body>
+</html>
