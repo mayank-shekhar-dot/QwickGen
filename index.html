@@ -1768,5 +1768,48 @@ crossorigin="anonymous"></script>
     });
   }
 </script>
+  <script>
+document.addEventListener('click', function (e) {
+    const link = e.target.closest('a');
+    if (!link) return;
+
+    const href = link.href || "";
+
+    // X / Twitter
+    if (href.includes('x.com') || href.includes('twitter.com')) {
+        e.preventDefault();
+        window.open('https://x.com/genweb_network', '_blank');
+        return;
+    }
+
+    // Facebook
+    if (href.includes('facebook.com')) {
+        e.preventDefault();
+        window.open('https://www.facebook.com/profile.php?id=61589589786305', '_blank');
+        return;
+    }
+
+    // LinkedIn
+    if (href.includes('linkedin.com')) {
+        e.preventDefault();
+        window.open('https://www.linkedin.com/in/mayank-singh-14b897414/', '_blank');
+        return;
+    }
+
+    // Instagram
+    if (href.includes('instagram.com')) {
+        e.preventDefault();
+        window.open('https://www.instagram.com/genweb.network/', '_blank');
+        return;
+    }
+
+    // WhatsApp share link
+    if (href.includes('wa.me')) {
+        e.preventDefault();
+        window.open('https://www.instagram.com/genweb.network/', '_blank');
+        return;
+    }
+});
+</script>
 </body>
 </html>
