@@ -176,7 +176,7 @@ def call_gemini(prompt: str, system_message: str = "You are a helpful AI assista
 
 @app.route("/")
 def index():
-    return send_from_directory(".", "tool10.html")
+    return send_from_directory(".", "ai-tools.html")
 
 
 @app.route("/ai-tools")
