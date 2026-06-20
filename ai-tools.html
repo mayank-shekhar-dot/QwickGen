@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
@@ -870,31 +869,79 @@ const TOOL_PROMPTS = {
 };
 
 /* Call the generate API — POST /api/generate {tool, input} → {content, success} */
+/* Call the generate API */
 async function callGenerateAPI(toolId, userInput, extra) {
-
   const response = await fetch(`${API_BASE}/api/generate`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ tool: toolId, input: userInput, extra: extra || '' })
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      tool: toolId,
+      input: userInput,
+      extra: extra || ''
+    })
   });
 
-  if (!response.ok) throw new Error(`Server error ${response.status}: ${response.statusText}`);
+  if (!response.ok) {
+    throw new Error(`Server error ${response.status}`);
+  }
+
   const data = await response.json();
-  if (data.success === false) throw new Error(data.error || 'API returned an error');
-  return data.content || data.result || data.output || data.text || data.response || JSON.stringify(data);
+
+  if (data.success === false) {
+    throw new Error(data.error || 'API returned an error');
+  }
+
+  // Return answer from metadata if available
+  return (
+    data.metadata?.answer ||
+    data.metadata?.response ||
+    data.response ||
+    data.content ||
+    data.result ||
+    data.output ||
+    data.text ||
+    JSON.stringify(data)
+  );
 }
-/* Call the chat API — POST /api/chat {tool, message, history} → {response, success} */
+
+/* Call the chat API */
 async function callChatAPI(toolId, message, history, persona) {
   const response = await fetch(`${API_BASE}/api/chat`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ tool: toolId, message, history, persona })
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      tool: toolId,
+      message,
+      history,
+      persona
+    })
   });
 
-  if (!response.ok) throw new Error(`Server error ${response.status}: ${response.statusText}`);
+  if (!response.ok) {
+    throw new Error(`Server error ${response.status}`);
+  }
+
   const data = await response.json();
-  if (data.success === false) throw new Error(data.error || 'API returned an error');
-  return data.response || data.content || data.result || data.output || data.text || JSON.stringify(data);
+
+  if (data.success === false) {
+    throw new Error(data.error || 'API returned an error');
+  }
+
+  // Return answer from metadata if available
+  return (
+    data.metadata?.answer ||
+    data.metadata?.response ||
+    data.response ||
+    data.content ||
+    data.result ||
+    data.output ||
+    data.text ||
+    JSON.stringify(data)
+  );
 }
 
 /* Check API health on load */
