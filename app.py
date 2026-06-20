@@ -14,17 +14,16 @@ GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 if not GOOGLE_API_KEY:
     raise ValueError("GOOGLE_API_KEY not found in environment variables")
 
+# CHANGED: v1 -> v1beta
 GEMINI_URL = (
-    "https://generativelanguage.googleapis.com/v1/models/"
+    "https://generativelanguage.googleapis.com/v1beta/models/"
     f"gemini-2.5-flash:generateContent?key={GOOGLE_API_KEY}"
 )
-
 
 # ----------------------------
 # Prompt Templates
 # ----------------------------
 PROMPT_TEMPLATES = {
-    # Creator Tools
     "hook": {
         "system": "You are a viral content strategist who writes scroll-stopping hooks.",
         "template": "Write 8 attention-grabbing hooks for content about: {input}\n\nReturn them as a numbered list. Each hook should be punchy, curiosity-driven, and under 20 words.",
@@ -49,8 +48,6 @@ PROMPT_TEMPLATES = {
         "system": "You are a Twitter/X growth expert known for viral tweet hooks.",
         "template": "Write 10 viral tweet hooks (under 280 characters each) about: {input}\n\nMix formats: bold claims, contrarian takes, listicles, questions, and stories. Number each one.",
     },
-
-    # SEO Tools
     "keyword": {
         "system": "You are an SEO expert specializing in keyword research.",
         "template": "Generate a comprehensive keyword list for the topic: {input}\n\nOrganize the output into:\n- 10 Primary keywords (high volume)\n- 10 Long-tail keywords (low competition)\n- 5 Question-based keywords\n\nFormat as clean lists.",
@@ -71,8 +68,6 @@ PROMPT_TEMPLATES = {
         "system": "You are a YouTube growth expert who crafts high-CTR video titles.",
         "template": "Generate 10 high-CTR YouTube video titles for content about: {input}\n\nEach title should be under 70 characters, use power words, and trigger curiosity. Mix listicles, how-tos, and bold claims. Number the list.",
     },
-
-    # Developer Tools
     "debug": {
         "system": "You are a senior software engineer and expert code debugger.",
         "template": "Analyze the following code, identify any bugs or issues, explain them clearly, and provide a corrected version:\n\n{input}",
@@ -93,8 +88,6 @@ PROMPT_TEMPLATES = {
         "system": "You are a database expert who writes efficient, well-structured SQL queries.",
         "template": "Write an SQL query for the following request:\n\n{input}\n\nReturn the query in a code block, then briefly explain what it does.",
     },
-
-    # Chatbots
     "chat_general": {
         "system": "You are a helpful, friendly, and knowledgeable AI assistant. Give clear, accurate, and concise responses.",
         "template": "{input}",
@@ -123,34 +116,64 @@ def call_gemini(prompt: str, system_message: str = "You are a helpful AI assista
             "contents": [
                 {
                     "role": "user",
-                    "parts": [{"text": f"{system_message}\n\nUser: {prompt}"}],
+                    "parts": [
+                        {
+                            "text": f"{system_message}\n\nUser: {prompt}"
+                        }
+                    ]
+                }
+            ],
+            # CHANGED: Added Google Search grounding
+            "tools": [
+                {
+                    "google_search": {}
                 }
             ]
         }
-        response = requests.post(GEMINI_URL, json=payload, timeout=60)
+
+        response = requests.post(
+            GEMINI_URL,
+            json=payload,
+            timeout=60
+        )
+
         data = response.json()
-        
-        # Debug: Log full response
-        logging.error("Gemini response status: %s", response.status_code)
-        logging.error("Gemini response body: %s", data)
-        
-        if "candidates" in data:
-            return data["candidates"][0]["content"]["parts"][0]["text"]
-        
-        # Check for specific error fields
-        if "error" in data:
-            return f"API Error: {data['error'].get('message', 'Unknown error')}"
-            
-        logging.error("Unexpected Gemini response: %s", data)
+
+        logging.info("Gemini response status: %s", response.status_code)
+        logging.info("Gemini response body: %s", data)
+
+        if response.status_code != 200:
+            if "error" in data:
+                return f"API Error: {data['error'].get('message', 'Unknown error')}"
+            return f"API Error: HTTP {response.status_code}"
+
+        candidates = data.get("candidates", [])
+        if candidates:
+            content = candidates[0].get("content", {})
+            parts = content.get("parts", [])
+
+            texts = []
+            for part in parts:
+                if "text" in part:
+                    texts.append(part["text"])
+
+            if texts:
+                return "\n".join(texts)
+
         return "Sorry, I couldn't generate a response. Please try again."
+
+    except requests.exceptions.Timeout:
+        return "AI request timed out. Please try again."
+
+    except requests.exceptions.RequestException as e:
+        logging.exception("Gemini request error")
+        return f"Network error: {e}"
+
     except Exception as e:
         logging.exception("Gemini API error")
         return f"AI service temporarily unavailable: {e}"
 
 
-# ----------------------------
-# Routes
-# ----------------------------
 @app.route("/")
 def index():
     return send_from_directory(".", "tool10.html")
@@ -177,7 +200,9 @@ def generate():
         tpl = PROMPT_TEMPLATES[tool_id]
         prompt = tpl["template"].format(input=user_input, target=target)
         result = call_gemini(prompt, tpl["system"])
+
         return jsonify({"success": True, "content": result})
+
     except Exception as e:
         logging.exception("Generation failed")
         return jsonify({"success": False, "error": str(e)}), 500
@@ -200,11 +225,16 @@ def chat():
 
         conversation = ""
         for turn in history[-10:]:
-            conversation += f"User: {turn.get('user', '')}\nAssistant: {turn.get('assistant', '')}\n"
+            conversation += (
+                f"User: {turn.get('user', '')}\n"
+                f"Assistant: {turn.get('assistant', '')}\n"
+            )
         conversation += f"User: {message}"
 
         result = call_gemini(conversation, system_prompt)
+
         return jsonify({"success": True, "response": result})
+
     except Exception as e:
         logging.exception("Chat failed")
         return jsonify({"success": False, "error": str(e)}), 500
@@ -212,9 +242,16 @@ def chat():
 
 @app.route("/api/health", methods=["GET"])
 def health():
-    return jsonify({"status": "healthy", "service": "AI Tool Hub"})
+    return jsonify({
+        "status": "healthy",
+        "service": "AI Tool Hub"
+    })
 
 
 if __name__ == "__main__":
     port = int(os.getenv("PORT", "5000"))
-    app.run(host="0.0.0.0", port=port, debug=False)
+    app.run(
+        host="0.0.0.0",
+        port=port,
+        debug=False
+    )
