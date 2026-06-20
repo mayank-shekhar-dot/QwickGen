@@ -193,20 +193,39 @@ def generate():
         target = data.get("target", "Python")
 
         if tool_id not in PROMPT_TEMPLATES:
-            return jsonify({"success": False, "error": "Unknown tool"}), 400
+            return jsonify({
+                "success": False,
+                "error": "Unknown tool"
+            }), 400
+
         if not user_input:
-            return jsonify({"success": False, "error": "Please provide some input."}), 400
+            return jsonify({
+                "success": False,
+                "error": "Please provide some input."
+            }), 400
 
         tpl = PROMPT_TEMPLATES[tool_id]
-        prompt = tpl["template"].format(input=user_input, target=target)
+        prompt = tpl["template"].format(
+            input=user_input,
+            target=target
+        )
+
         result = call_gemini(prompt, tpl["system"])
 
-        return jsonify({"success": True, "content": result})
+        return jsonify({
+            "success": True,
+            "content": result,
+            "metadata": {
+                "answer": result
+            }
+        })
 
     except Exception as e:
         logging.exception("Generation failed")
-        return jsonify({"success": False, "error": str(e)}), 500
-
+        return jsonify({
+            "success": False,
+            "error": str(e)
+        }), 500
 
 @app.route("/api/chat", methods=["POST"])
 def chat():
@@ -217,9 +236,16 @@ def chat():
         history = data.get("history", [])
 
         if tool_id not in PROMPT_TEMPLATES:
-            return jsonify({"success": False, "error": "Unknown chatbot"}), 400
+            return jsonify({
+                "success": False,
+                "error": "Unknown chatbot"
+            }), 400
+
         if not message:
-            return jsonify({"success": False, "error": "Empty message"}), 400
+            return jsonify({
+                "success": False,
+                "error": "Empty message"
+            }), 400
 
         system_prompt = PROMPT_TEMPLATES[tool_id]["system"]
 
@@ -229,16 +255,25 @@ def chat():
                 f"User: {turn.get('user', '')}\n"
                 f"Assistant: {turn.get('assistant', '')}\n"
             )
+
         conversation += f"User: {message}"
 
         result = call_gemini(conversation, system_prompt)
 
-        return jsonify({"success": True, "response": result})
+        return jsonify({
+            "success": True,
+            "response": result,
+            "metadata": {
+                "answer": result
+            }
+        })
 
     except Exception as e:
         logging.exception("Chat failed")
-        return jsonify({"success": False, "error": str(e)}), 500
-
+        return jsonify({
+            "success": False,
+            "error": str(e)
+        }), 500
 
 @app.route("/api/health", methods=["GET"])
 def health():
