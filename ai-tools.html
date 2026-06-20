@@ -72,6 +72,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<!-- ✅ Markdown + Syntax Highlighting -->
+<script src="https://cdn.jsdelivr.net/npm/marked@9/marked.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
 <style>
 :root {
   --primary: #818cf8;
@@ -434,7 +440,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);-webk
 .regen-btn{background:rgba(99,102,241,.1);color:var(--primary);border:1px solid rgba(99,102,241,.2)}
 .regen-btn:hover{background:rgba(99,102,241,.2)}
 .result-content{
-  font-size:.88rem;line-height:1.8;white-space:pre-wrap;
+  font-size:.88rem;line-height:1.8;
   color:var(--text);background:var(--bg-soft);
   border-radius:var(--radius-sm);padding:1rem 1.1rem;
   border:1px solid var(--border);max-height:420px;overflow-y:auto;
@@ -469,8 +475,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);-webk
 .msg-avatar{width:32px;height:32px;border-radius:9px;display:grid;place-items:center;font-size:.75rem;flex-shrink:0;font-weight:700}
 .msg-avatar.ai{background:linear-gradient(135deg,var(--accent),var(--primary));color:#fff}
 .msg-avatar.user{background:linear-gradient(135deg,var(--primary-dark),var(--secondary));color:#fff}
-.bubble{max-width:75%;padding:.7rem .95rem;border-radius:14px;font-size:.86rem;line-height:1.65;white-space:pre-wrap;background:var(--bg-card);border:1px solid var(--border)}
-.msg.user .bubble{background:linear-gradient(135deg,var(--primary-dark),var(--secondary));color:#fff;border:none}
+.bubble{max-width:75%;padding:.7rem .95rem;border-radius:14px;font-size:.86rem;line-height:1.65;background:var(--bg-card);border:1px solid var(--border)}
+.msg.user .bubble{background:linear-gradient(135deg,var(--primary-dark),var(--secondary));color:#fff;border:none;white-space:pre-wrap}
 .empty-chat{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;text-align:center;gap:.5rem;opacity:.5}
 .empty-chat i{font-size:2rem;color:var(--primary)}
 .empty-chat p{font-size:.85rem;color:var(--text-muted)}
@@ -606,6 +612,77 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);-webk
 .g-chat{background:linear-gradient(135deg,#f59e0b,#ef4444)}
 
 *{scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+
+/* ═══════════ MARKDOWN RENDERED OUTPUT ═══════════ */
+.md-body { font-size:.88rem; line-height:1.8; color:var(--text); }
+.md-body p { margin:.6em 0; }
+.md-body p:first-child { margin-top:0; }
+.md-body p:last-child { margin-bottom:0; }
+.md-body h1,.md-body h2,.md-body h3,.md-body h4,.md-body h5 {
+  font-weight:700; line-height:1.3; margin:1.1em 0 .4em; color:var(--text);
+}
+.md-body h1 { font-size:1.25em; }
+.md-body h2 { font-size:1.1em; }
+.md-body h3 { font-size:1em; }
+.md-body h4 { font-size:.95em; }
+.md-body ul,.md-body ol { padding-left:1.5em; margin:.5em 0; }
+.md-body li { margin:.25em 0; }
+.md-body li > ul, .md-body li > ol { margin:.15em 0; }
+.md-body strong { font-weight:700; }
+.md-body em { font-style:italic; }
+.md-body code {
+  background:rgba(99,102,241,.14); color:var(--primary);
+  padding:.12em .4em; border-radius:5px;
+  font-family:'Fira Code','Cascadia Code','Consolas',monospace;
+  font-size:.85em;
+}
+.md-body pre {
+  background:#0d1117; border:1px solid var(--border);
+  border-radius:var(--radius-sm); margin:.75em 0;
+  overflow:auto; position:relative;
+}
+.md-body pre code {
+  background:none; color:inherit; padding:0; font-size:.84em;
+  display:block; padding:2.6rem 1.1rem 1rem; line-height:1.65;
+  border-radius:0;
+}
+.md-body blockquote {
+  border-left:3px solid var(--primary); padding:.45em .95em;
+  margin:.6em 0; background:rgba(99,102,241,.06);
+  border-radius:0 var(--radius-sm) var(--radius-sm) 0;
+  color:var(--text-muted);
+}
+.md-body table { width:100%; border-collapse:collapse; margin:.65em 0; font-size:.85em; }
+.md-body th,.md-body td { padding:.45rem .7rem; border:1px solid var(--border); text-align:left; }
+.md-body th { background:rgba(99,102,241,.08); font-weight:600; }
+.md-body hr { border:none; border-top:1px solid var(--border); margin:.85em 0; }
+.md-body a { color:var(--primary); text-decoration:underline; }
+
+/* Code block header bar */
+.code-block-wrap { position:relative; }
+.code-lang-label {
+  position:absolute; top:.55rem; left:.85rem;
+  font-size:.65rem; font-weight:700; text-transform:uppercase;
+  letter-spacing:.08em; color:var(--text-muted); pointer-events:none;
+  font-family:'Inter',sans-serif;
+}
+.code-copy-btn {
+  position:absolute; top:.4rem; right:.5rem;
+  background:rgba(255,255,255,.07); border:1px solid var(--border);
+  color:var(--text-muted); border-radius:6px;
+  padding:.18rem .55rem; font-size:.67rem; cursor:pointer;
+  font-family:'Inter',sans-serif; font-weight:600; transition:all .15s;
+  display:inline-flex; align-items:center; gap:.3rem;
+}
+.code-copy-btn:hover {
+  background:rgba(99,102,241,.15); color:var(--primary);
+  border-color:var(--border-hover);
+}
+
+/* Chat bubble markdown — AI bubbles */
+.bubble.md-body { white-space:normal; }
+.bubble.md-body pre { background:#060c14; }
+.bubble.md-body code { background:rgba(129,140,248,.18); }
 </style>
 </head>
 <body>
@@ -775,6 +852,60 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);-webk
 </div>
 
 <script>
+/* ══════════════════════════════════════
+   MARKED + HIGHLIGHT.JS SETUP
+══════════════════════════════════════ */
+(function() {
+  const renderer = new marked.Renderer();
+  renderer.code = function(code, language) {
+    const lang = (language || '').toLowerCase();
+    let highlighted;
+    try {
+      highlighted = lang && hljs.getLanguage(lang)
+        ? hljs.highlight(code, { language: lang }).value
+        : hljs.highlightAuto(code).value;
+    } catch(e) {
+      highlighted = marked.Lexer.escapeTest ? code : code.replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+    return `<pre><code class="hljs${lang ? ' language-'+lang : ''}">${highlighted}</code></pre>`;
+  };
+  marked.use({ renderer, breaks: true, gfm: true });
+})();
+
+/* Add copy buttons + language labels to all <pre> blocks inside a container */
+function addCodeCopyButtons(container) {
+  container.querySelectorAll('pre').forEach(pre => {
+    if (pre.parentElement && pre.parentElement.classList.contains('code-block-wrap')) return;
+    const code = pre.querySelector('code');
+    const langMatch = code && code.className.match(/language-(\w+)/);
+    const lang = langMatch ? langMatch[1] : '';
+
+    const wrap = document.createElement('div');
+    wrap.className = 'code-block-wrap';
+    pre.parentNode.insertBefore(wrap, pre);
+    wrap.appendChild(pre);
+
+    if (lang) {
+      const label = document.createElement('span');
+      label.className = 'code-lang-label';
+      label.textContent = lang;
+      wrap.appendChild(label);
+    }
+
+    const btn = document.createElement('button');
+    btn.className = 'code-copy-btn';
+    btn.innerHTML = '<i class="fa-regular fa-copy"></i> Copy';
+    btn.addEventListener('click', () => {
+      const text = code ? code.innerText : pre.innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        btn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
+        setTimeout(() => { btn.innerHTML = '<i class="fa-regular fa-copy"></i> Copy'; }, 2000);
+      });
+    });
+    wrap.appendChild(btn);
+  });
+}
+
 /* ══════════════════════════════════════
    THREE.JS BACKGROUND
 ══════════════════════════════════════ */
@@ -985,18 +1116,17 @@ const TOOLS = {
   code_gen:     { name:'Code Generator',       desc:'Production-ready code from a prompt.',        icon:'fa-solid fa-code',             group:'dev',     inputLabel:'Describe what to build', placeholder:'e.g. A Python function that validates email addresses' },
   explain:      { name:'Code Explainer',       desc:'Plain-English code explanations.',            icon:'fa-solid fa-book-open',        group:'dev',     inputLabel:'Paste your code', placeholder:'Paste any code to get a clear explanation...' },
   convert:      { name:'Code Converter',       desc:'Convert code between languages.',             icon:'fa-solid fa-shuffle',          group:'dev',     inputLabel:'Paste your code', placeholder:'Paste code to convert...', hasTarget:true },
-  sql:          { name:'SQL Query Generator',  desc:'Natural language → SQL queries.',             icon:'fa-solid fa-database',         group:'dev',     inputLabel:'Describe the query', placeholder:'e.g. Get all users who signed up in the last 7 days' },
-  chat_general:     { name:'Custom Chatbot',      desc:'General-purpose AI assistant.',           icon:'fa-solid fa-comments',         group:'chat', isChat:true, persona:'You are a knowledgeable, friendly AI assistant. You provide clear, helpful, and thoughtful answers.' },
-  chat_emotional:   { name:'Emotional Chatbot',   desc:'Empathetic, supportive companion.',       icon:'fa-solid fa-heart',            group:'chat', isChat:true, persona:'You are a warm, empathetic companion who listens with care and responds with emotional intelligence and support.' },
-  chat_career:      { name:'Career Coach Bot',    desc:'Practical career guidance.',              icon:'fa-solid fa-briefcase',        group:'chat', isChat:true, persona:'You are an experienced career coach who gives practical, actionable advice on job searching, interviews, and professional growth.' },
-  chat_mindfulness: { name:'Mindfulness Bot',     desc:'Calm, grounding presence.',               icon:'fa-solid fa-spa',              group:'chat', isChat:true, persona:'You are a mindfulness guide who helps people reduce stress, find calm, and practice present-moment awareness.' },
+  sql:          { name:'SQL Generator',        desc:'Efficient SQL queries on demand.',            icon:'fa-solid fa-database',         group:'dev',     inputLabel:'Describe your query', placeholder:'e.g. Get the top 10 customers by total order value' },
+  chat_general:     { name:'General AI Chat',      desc:'Ask anything — fast, friendly, accurate.',   icon:'fa-solid fa-comments',         group:'chat', isChat:true },
+  chat_emotional:   { name:'Emotional Support',    desc:'A kind AI to talk through hard moments.',    icon:'fa-solid fa-heart',            group:'chat', isChat:true },
+  chat_career:      { name:'Career Coach',          desc:'Actionable career guidance and strategy.',   icon:'fa-solid fa-briefcase',        group:'chat', isChat:true },
+  chat_mindfulness: { name:'Mindfulness Guide',     desc:'Calm, grounded guidance for your mind.',     icon:'fa-solid fa-spa',              group:'chat', isChat:true },
 };
-
 const GROUPS = [
-  { id:'creator', label:'Creator Tools',   icon:'fa-solid fa-wand-magic-sparkles' },
-  { id:'seo',     label:'SEO Tools',       icon:'fa-solid fa-magnifying-glass-chart' },
-  { id:'dev',     label:'Developer Tools', icon:'fa-solid fa-terminal' },
-  { id:'chat',    label:'Chatbots',        icon:'fa-solid fa-robot' },
+  { id:'creator', label:'Content Creator',  icon:'fa-solid fa-pen-nib' },
+  { id:'seo',     label:'SEO Tools',         icon:'fa-solid fa-magnifying-glass-chart' },
+  { id:'dev',     label:'Developer Tools',   icon:'fa-solid fa-terminal' },
+  { id:'chat',    label:'AI Chat Bots',      icon:'fa-solid fa-robot' },
 ];
 const GROUP_COLORS = { creator:'g-creator', seo:'g-seo', dev:'g-dev', chat:'g-chat' };
 
@@ -1149,12 +1279,15 @@ async function runGenerate(id) {
             <button class="copy-btn" id="copyBtn"><i class="fa-regular fa-copy"></i> Copy</button>
           </div>
         </div>
-        <div class="result-content typing-cursor" id="resultContent"></div>
+        <div class="result-content md-body typing-cursor" id="resultContent"></div>
       </div>
     `;
 
     const el = document.getElementById('resultContent');
-    typeText(el, response, () => el.classList.remove('typing-cursor'));
+    typeText(el, response, () => {
+      el.classList.remove('typing-cursor');
+      addCodeCopyButtons(el);
+    });
 
     document.getElementById('copyBtn').addEventListener('click', () => {
       navigator.clipboard.writeText(response).then(() => {
@@ -1181,15 +1314,21 @@ async function runGenerate(id) {
   }
 }
 
+/* Render markdown progressively — like ChatGPT/Claude */
 function typeText(el, text, onDone) {
+  el.classList.add('md-body');
   const speed = text.length > 500 ? 2 : text.length > 200 ? 4 : 8;
   let i = 0;
   function tick() {
     if (i < text.length) {
-      el.textContent = text.slice(0, ++i);
-      el.parentElement && (el.parentElement.scrollTop = el.parentElement.scrollHeight);
+      i++;
+      el.innerHTML = marked.parse(text.slice(0, i));
+      if (el.parentElement) el.parentElement.scrollTop = el.parentElement.scrollHeight;
       setTimeout(tick, speed + Math.random() * speed);
-    } else { if (onDone) onDone(); }
+    } else {
+      el.innerHTML = marked.parse(text);
+      if (onDone) onDone();
+    }
   }
   tick();
 }
@@ -1248,16 +1387,24 @@ function appendMsg(role, text, isTyping) {
   if (empty) empty.remove();
   const m = document.createElement('div');
   m.className = `msg ${role}`;
+  const bubbleId = isTyping ? 'id="typingBubble"' : '';
+  const bubbleClasses = `bubble${isTyping ? ' typing-cursor' : ''}${role === 'ai' ? ' md-body' : ''}`;
   m.innerHTML = `
     <div class="msg-avatar ${role}">
       <i class="fa-solid ${role === 'user' ? 'fa-user' : 'fa-robot'}"></i>
     </div>
-    <div class="bubble ${isTyping ? 'typing-cursor' : ''}" id="${isTyping ? 'typingBubble' : ''}"></div>
+    <div class="${bubbleClasses}" ${bubbleId}></div>
   `;
-  m.querySelector('.bubble').textContent = text;
+  const bubble = m.querySelector('.bubble');
+  if (isTyping || role === 'user') {
+    bubble.textContent = text;
+  } else {
+    bubble.innerHTML = marked.parse(text);
+    addCodeCopyButtons(bubble);
+  }
   box.appendChild(m);
   box.scrollTop = box.scrollHeight;
-  return m.querySelector('.bubble');
+  return bubble;
 }
 
 async function sendChat(id) {
@@ -1279,7 +1426,7 @@ async function sendChat(id) {
 
     aiBubble.textContent = '';
     aiBubble.classList.remove('typing-cursor');
-    typeText(aiBubble, response, null);
+    typeText(aiBubble, response, () => addCodeCopyButtons(aiBubble));
     setAPIStatus(true);
   } catch(err) {
     aiBubble.classList.remove('typing-cursor');
