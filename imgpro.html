@@ -1245,9 +1245,12 @@ async function generateImage() {
   };
 
   /* ── Start loading ── */
-const url = "https://gen.pollinations.ai/image/" + encodeURIComponent(prompt);
+/* ── Start loading ── */
+/* ── Start loading ── */
+console.log(url);
+imageEl.src = url;
  
-  /* ── Timeout protection ── */
+ /* ── Timeout protection ── */
   setTimeout(() => {
     if (!imageEl.complete) {
       skeleton.style.display = 'none';
