@@ -1198,7 +1198,7 @@ async function generateImage() {
   const fullPrompt = prompt + (style ? ', ' + style : '');
 
   const url =
-    'https://image.pollinations.ai/prompt/' +
+    'https://gen.pollinations.ai/image/' +
     encodeURIComponent(fullPrompt) +
     '?seed=' + Date.now();
 
