@@ -1236,12 +1236,9 @@
       const dims       = RATIO_DIMS[aspectRatio] || RATIO_DIMS['1:1'];
       const seed       = Math.floor(Math.random() * 2147483647);
 
-      /* ── Construct Pollinations URL ──
-         Using <img> src (not fetch) so CORS headers are not required.
-         gen.pollinations.ai blocks cross-origin fetch but allows <img> loading.
-      ── */
+      /* ── Construct Pollinations URL ── */
       const url =
-        'https://gen.pollinations.ai/image/' +
+        'https://image.pollinations.ai/prompt/' +
         encodeURIComponent(fullPrompt) +
         '?width='  + dims.width +
         '&height=' + dims.height +
