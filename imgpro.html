@@ -1190,7 +1190,7 @@
     }
 
     /* ── Image Generation ───────────────────────────────────────────── */
-    async function generateImage() {
+    function generateImage() {
       const prompt = document.getElementById('prompt-input').value.trim();
 
       if (!prompt) {
@@ -1222,6 +1222,12 @@
       currentImage = null;
       autoSaved    = false;
 
+      /* Detach previous handlers to prevent stale fires */
+      imageEl.onload  = null;
+      imageEl.onerror = null;
+      /* Remove src so browser doesn't serve a cached result before handlers attach */
+      imageEl.src = '';
+
       /* Track this generation so stale callbacks are ignored */
       const thisGen = ++generationId;
 
@@ -1231,7 +1237,8 @@
       const seed       = Math.floor(Math.random() * 2147483647);
 
       /* ── Construct Pollinations URL ──
-         Format: https://gen.pollinations.ai/image/{encoded-prompt}?width=W&height=H&seed=S&model=flux&nologo=true
+         Using <img> src (not fetch) so CORS headers are not required.
+         gen.pollinations.ai blocks cross-origin fetch but allows <img> loading.
       ── */
       const url =
         'https://gen.pollinations.ai/image/' +
@@ -1242,72 +1249,49 @@
         '&model=flux' +
         '&nologo=true';
 
-      /* ── Set up a timeout (60 s) ── */
+      /* ── Timeout (90 s — Pollinations can be slow on first cold request) ── */
       const timeoutId = setTimeout(() => {
-        if (thisGen !== generationId) return; // superseded
+        if (thisGen !== generationId) return;
         if (!currentImage) {
+          imageEl.onload  = null;
+          imageEl.onerror = null;
+          imageEl.src     = '';
           showError();
-          showToast('Generation timed out. Try again.', 'error');
+          showToast('Generation timed out. Please try again.', 'error');
         }
-      }, 60000);
+      }, 90000);
 
-      /* ── Fetch image as blob to avoid cross-origin display/download issues ── */
-      try {
-        const response = await fetch(url);
-
-        /* Guard: if another generation was started while we were waiting, discard */
+      /* ── Wire up handlers BEFORE setting src ── */
+      imageEl.onload = () => {
         if (thisGen !== generationId) return;
-
-        if (!response.ok) throw new Error('HTTP ' + response.status);
-
-        const contentType = response.headers.get('content-type') || '';
-        if (!contentType.startsWith('image/')) throw new Error('Not an image response');
-
-        const blob    = await response.blob();
-        const blobUrl = URL.createObjectURL(blob);
-
-        if (thisGen !== generationId) { URL.revokeObjectURL(blobUrl); return; }
-
         clearTimeout(timeoutId);
 
-        /* Revoke previous blob URL to free memory */
-        if (imageEl._blobUrl) URL.revokeObjectURL(imageEl._blobUrl);
-        imageEl._blobUrl = blobUrl;
+        skeleton.style.display    = 'none';
+        placeholder.style.display = 'none';
+        imageEl.style.display     = 'block';
+        actions.style.display     = 'flex';
 
-        imageEl.src = blobUrl;
+        resetBtn();
 
-        imageEl.onload = () => {
-          skeleton.style.display    = 'none';
-          placeholder.style.display = 'none';
-          imageEl.style.display     = 'block';
-          actions.style.display     = 'flex';
+        currentImage = { url, prompt, style, aspectRatio };
+        autoSaved    = false;
 
-          resetBtn();
+        const saveBtn = document.querySelector('.btn-save');
+        if (saveBtn) saveBtn.textContent = '💾 Save';
 
-          currentImage = { url: blobUrl, originalUrl: url, prompt, style, aspectRatio, blob };
-          autoSaved    = false;
+        showToast('Image generated!');
+        autoSaveImage();
+      };
 
-          const saveBtn = document.querySelector('.btn-save');
-          if (saveBtn) saveBtn.textContent = '💾 Save';
-
-          showToast('Image generated!');
-          autoSaveImage();
-        };
-
-        imageEl.onerror = () => {
-          clearTimeout(timeoutId);
-          URL.revokeObjectURL(blobUrl);
-          if (thisGen !== generationId) return;
-          showError();
-          showToast('Failed to display the image. Try again.', 'error');
-        };
-
-      } catch (err) {
-        clearTimeout(timeoutId);
+      imageEl.onerror = () => {
         if (thisGen !== generationId) return;
+        clearTimeout(timeoutId);
         showError();
         showToast('Failed to generate image. Try again.', 'error');
-      }
+      };
+
+      /* ── Start loading — <img> bypasses CORS restrictions ── */
+      imageEl.src = url;
     }
 
     /* ── Download ───────────────────────────────────────────────────── */
@@ -1315,11 +1299,10 @@
       if (!currentImage) return;
 
       try {
-        /* currentImage.blob is the already-fetched blob — use it directly */
-        const blob    = currentImage.blob instanceof Blob
-          ? currentImage.blob
-          : await fetch(currentImage.url).then(r => r.blob());
-
+        /* Try fetching as blob for a true file download */
+        const response = await fetch(currentImage.url);
+        if (!response.ok) throw new Error('fetch failed');
+        const blob    = await response.blob();
         const blobUrl = URL.createObjectURL(blob);
         const a       = document.createElement('a');
         a.href        = blobUrl;
@@ -1330,9 +1313,9 @@
         setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
         showToast('Image downloaded!');
       } catch {
-        /* Fallback: open original URL in new tab */
-        window.open(currentImage.originalUrl || currentImage.url, '_blank', 'noopener');
-        showToast('Opening image for download...');
+        /* Fallback: open the URL in a new tab so the user can save manually */
+        window.open(currentImage.url, '_blank', 'noopener');
+        showToast('Opening image — right-click to save.', 'success');
       }
     }
 
