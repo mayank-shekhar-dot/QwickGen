@@ -1198,7 +1198,7 @@ async function generateImage() {
   const fullPrompt = prompt + (style ? ', ' + style : '');
 
   const url =
-    'https://gen.pollinations.ai/image/' +
+    "https://gen.pollinations.ai/image/" +
     encodeURIComponent(fullPrompt) +
     '?seed=' + Date.now();
 
@@ -1245,8 +1245,8 @@ async function generateImage() {
   };
 
   /* ── Start loading ── */
-  imageEl.src = "https://gen.pollinations.ai/image/cat";
-
+const url = "https://gen.pollinations.ai/image/" + encodeURIComponent(prompt);
+ 
   /* ── Timeout protection ── */
   setTimeout(() => {
     if (!imageEl.complete) {
