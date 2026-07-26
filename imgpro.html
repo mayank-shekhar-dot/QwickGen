@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -925,7 +926,7 @@
             <div class="skeleton" style="height:12px;width:70%;border-radius:6px;"></div>
             <div class="skeleton" style="height:12px;width:40%;border-radius:6px;"></div>
           </div>
-          <img id="generated-image" alt="Generated image" />
+          <img id="generated-image" alt="Generated image" crossorigin="anonymous" />
           <div class="image-actions" id="image-actions">
             <button class="btn-action btn-download" onclick="downloadImage()">&#11123; Download</button>
             <button class="btn-action btn-save" onclick="saveToGallery()">&#128190; Save</button>
@@ -1080,7 +1081,7 @@
           <div class="faq-icon">+</div>
         </button>
         <div class="faq-answer">
-          Yes — you can download generated images directly to your device. Always review the platform’s latest usage policies before using images commercially.
+          Yes — you can download generated images directly to your device. Always review the platform's latest usage policies before using images commercially.
         </div>
       </div>
 
@@ -1104,6 +1105,15 @@
     /* ── State ─────────────────────────────────────────────────────── */
     let currentImage = null; // { url, prompt, style, aspectRatio }
     let autoSaved = false;
+    let generationId = 0; // track each generation attempt to avoid stale callbacks
+
+    /* ── Aspect ratio → pixel dimensions ───────────────────────────── */
+    const RATIO_DIMS = {
+      '1:1':  { width: 1024, height: 1024 },
+      '16:9': { width: 1344, height: 768  },
+      '9:16': { width: 768,  height: 1344 },
+      '4:3':  { width: 1024, height: 768  }
+    };
 
     /* ── Custom Cursor ──────────────────────────────────────────────── */
     const cursor = document.getElementById('cursor');
@@ -1161,127 +1171,169 @@
       t._timer = setTimeout(() => t.classList.remove('show'), 3500);
     }
 
-    /* ── Image Generation ───────────────────────────────────────────── */
-async function generateImage() {
-  const prompt = document.getElementById('prompt-input').value.trim();
-
-  if (!prompt) {
-    showToast('Please enter a prompt first.', 'error');
-    document.getElementById('prompt-input').focus();
-    return;
-  }
-
-  const style       = document.getElementById('style-select').value;
-  const aspectRatio = document.getElementById('ratio-select').value;
-  const btn         = document.getElementById('generate-btn');
-  const icon        = document.getElementById('btn-icon');
-  const text        = document.getElementById('btn-text');
-  const placeholder = document.getElementById('placeholder');
-  const skeleton    = document.getElementById('skeleton');
-  const imageEl     = document.getElementById('generated-image');
-  const actions     = document.getElementById('image-actions');
-
-  /* ── Enter loading state ── */
-  btn.disabled = true;
-  icon.innerHTML = '<div class="spinner"></div>';
-  text.textContent = 'Generating...';
-
-  placeholder.style.display = 'none';
-  imageEl.style.display = 'none';
-  actions.style.display = 'none';
-  skeleton.style.display = 'flex';
-
-  currentImage = null;
-  autoSaved = false;
-
-  /* ── Build Pollinations AI URL ── */
-  const fullPrompt = prompt + (style ? ', ' + style : '');
-
-  const url =
-    "https://gen.pollinations.ai/image/" +
-    encodeURIComponent(fullPrompt) +
-    '?seed=' + Date.now();
-
-  /* ── Clear old handlers ── */
-  imageEl.onload = null;
-  imageEl.onerror = null;
-
-  /* ── Success ── */
-  imageEl.onload = () => {
-    skeleton.style.display = 'none';
-    placeholder.style.display = 'none';
-    imageEl.style.display = 'block';
-    actions.style.display = 'flex';
-
-    btn.disabled = false;
-    icon.textContent = '⚡';
-    text.textContent = 'Generate Image';
-
-    currentImage = {
-      url,
-      prompt,
-      style,
-      aspectRatio
-    };
-
-    autoSaved = false;
-
-    showToast('Image generated!');
-    autoSaveImage();
-  };
-
-  /* ── Failure ── */
-  imageEl.onerror = () => {
-    skeleton.style.display = 'none';
-    placeholder.style.display = 'flex';
-    imageEl.style.display = 'none';
-    actions.style.display = 'none';
-
-    btn.disabled = false;
-    icon.textContent = '⚡';
-    text.textContent = 'Generate Image';
-
-    showToast('Failed to generate image. Try again.', 'error');
-  };
-
-  /* ── Start loading ── */
-/* ── Start loading ── */
-/* ── Start loading ── */
-console.log(url);
-imageEl.src = url;
- 
- /* ── Timeout protection ── */
-  setTimeout(() => {
-    if (!imageEl.complete) {
-      skeleton.style.display = 'none';
-      placeholder.style.display = 'flex';
-      imageEl.style.display = 'none';
-      actions.style.display = 'none';
-
+    /* ── Reset UI to idle state ─────────────────────────────────────── */
+    function resetBtn() {
+      const btn  = document.getElementById('generate-btn');
+      const icon = document.getElementById('btn-icon');
+      const text = document.getElementById('btn-text');
       btn.disabled = false;
-      icon.textContent = '⚡';
+      icon.innerHTML = '⚡';
       text.textContent = 'Generate Image';
-
-      showToast('Generation timed out. Try again.', 'error');
     }
-  }, 30000);
-}
+
+    function showError() {
+      document.getElementById('skeleton').style.display  = 'none';
+      document.getElementById('placeholder').style.display = 'flex';
+      document.getElementById('generated-image').style.display = 'none';
+      document.getElementById('image-actions').style.display   = 'none';
+      resetBtn();
+    }
+
+    /* ── Image Generation ───────────────────────────────────────────── */
+    async function generateImage() {
+      const prompt = document.getElementById('prompt-input').value.trim();
+
+      if (!prompt) {
+        showToast('Please enter a prompt first.', 'error');
+        document.getElementById('prompt-input').focus();
+        return;
+      }
+
+      const style       = document.getElementById('style-select').value;
+      const aspectRatio = document.getElementById('ratio-select').value;
+      const btn         = document.getElementById('generate-btn');
+      const icon        = document.getElementById('btn-icon');
+      const text        = document.getElementById('btn-text');
+      const placeholder = document.getElementById('placeholder');
+      const skeleton    = document.getElementById('skeleton');
+      const imageEl     = document.getElementById('generated-image');
+      const actions     = document.getElementById('image-actions');
+
+      /* ── Enter loading state ── */
+      btn.disabled = true;
+      icon.innerHTML = '<div class="spinner"></div>';
+      text.textContent = 'Generating...';
+
+      placeholder.style.display = 'none';
+      imageEl.style.display     = 'none';
+      actions.style.display     = 'none';
+      skeleton.style.display    = 'flex';
+
+      currentImage = null;
+      autoSaved    = false;
+
+      /* Track this generation so stale callbacks are ignored */
+      const thisGen = ++generationId;
+
+      /* ── Build prompt & dimensions ── */
+      const fullPrompt = style ? prompt + ', ' + style : prompt;
+      const dims       = RATIO_DIMS[aspectRatio] || RATIO_DIMS['1:1'];
+      const seed       = Math.floor(Math.random() * 2147483647);
+
+      /* ── Construct Pollinations URL ──
+         Format: https://gen.pollinations.ai/image/{encoded-prompt}?width=W&height=H&seed=S&model=flux&nologo=true
+      ── */
+      const url =
+        'https://gen.pollinations.ai/image/' +
+        encodeURIComponent(fullPrompt) +
+        '?width='  + dims.width +
+        '&height=' + dims.height +
+        '&seed='   + seed +
+        '&model=flux' +
+        '&nologo=true';
+
+      /* ── Set up a timeout (60 s) ── */
+      const timeoutId = setTimeout(() => {
+        if (thisGen !== generationId) return; // superseded
+        if (!currentImage) {
+          showError();
+          showToast('Generation timed out. Try again.', 'error');
+        }
+      }, 60000);
+
+      /* ── Fetch image as blob to avoid cross-origin display/download issues ── */
+      try {
+        const response = await fetch(url);
+
+        /* Guard: if another generation was started while we were waiting, discard */
+        if (thisGen !== generationId) return;
+
+        if (!response.ok) throw new Error('HTTP ' + response.status);
+
+        const contentType = response.headers.get('content-type') || '';
+        if (!contentType.startsWith('image/')) throw new Error('Not an image response');
+
+        const blob    = await response.blob();
+        const blobUrl = URL.createObjectURL(blob);
+
+        if (thisGen !== generationId) { URL.revokeObjectURL(blobUrl); return; }
+
+        clearTimeout(timeoutId);
+
+        /* Revoke previous blob URL to free memory */
+        if (imageEl._blobUrl) URL.revokeObjectURL(imageEl._blobUrl);
+        imageEl._blobUrl = blobUrl;
+
+        imageEl.src = blobUrl;
+
+        imageEl.onload = () => {
+          skeleton.style.display    = 'none';
+          placeholder.style.display = 'none';
+          imageEl.style.display     = 'block';
+          actions.style.display     = 'flex';
+
+          resetBtn();
+
+          currentImage = { url: blobUrl, originalUrl: url, prompt, style, aspectRatio, blob };
+          autoSaved    = false;
+
+          const saveBtn = document.querySelector('.btn-save');
+          if (saveBtn) saveBtn.textContent = '💾 Save';
+
+          showToast('Image generated!');
+          autoSaveImage();
+        };
+
+        imageEl.onerror = () => {
+          clearTimeout(timeoutId);
+          URL.revokeObjectURL(blobUrl);
+          if (thisGen !== generationId) return;
+          showError();
+          showToast('Failed to display the image. Try again.', 'error');
+        };
+
+      } catch (err) {
+        clearTimeout(timeoutId);
+        if (thisGen !== generationId) return;
+        showError();
+        showToast('Failed to generate image. Try again.', 'error');
+      }
+    }
 
     /* ── Download ───────────────────────────────────────────────────── */
-    function downloadImage() {
+    async function downloadImage() {
       if (!currentImage) return;
-      /* Open the Pollinations URL in a new tab — direct download
-         via <a download> is blocked cross-origin, so this is the
-         reliable fallback that always works without a backend.      */
-      const a = document.createElement('a');
-      a.href = currentImage.url;
-      a.download = 'pixelforge-' + Date.now() + '.png';
-      a.target = '_blank';
-      a.rel = 'noopener';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      showToast('Opening image for download...');
+
+      try {
+        /* currentImage.blob is the already-fetched blob — use it directly */
+        const blob    = currentImage.blob instanceof Blob
+          ? currentImage.blob
+          : await fetch(currentImage.url).then(r => r.blob());
+
+        const blobUrl = URL.createObjectURL(blob);
+        const a       = document.createElement('a');
+        a.href        = blobUrl;
+        a.download    = 'quickgenai-' + Date.now() + '.png';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
+        showToast('Image downloaded!');
+      } catch {
+        /* Fallback: open original URL in new tab */
+        window.open(currentImage.originalUrl || currentImage.url, '_blank', 'noopener');
+        showToast('Opening image for download...');
+      }
     }
 
     /* ── Gallery (localStorage) ─────────────────────────────────────── */
@@ -1299,15 +1351,19 @@ imageEl.src = url;
 
     function autoSaveImage() {
       if (!currentImage || autoSaved) return;
+
+      /* Store the original API URL (not the blob URL which is session-only) */
       const images = getStoredImages();
-      const entry = {
-        id: Date.now(),
-        url: currentImage.url,
-        prompt: currentImage.prompt,
-        style: currentImage.style,
+      const entry  = {
+        id:          Date.now(),
+        url:         currentImage.originalUrl || currentImage.url,
+        prompt:      currentImage.prompt,
+        style:       currentImage.style,
         aspectRatio: currentImage.aspectRatio
       };
       images.unshift(entry);
+      /* Keep at most 50 images to avoid localStorage quota issues */
+      if (images.length > 50) images.length = 50;
       saveStoredImages(images);
       autoSaved = true;
       loadGallery();
@@ -1403,7 +1459,7 @@ imageEl.src = url;
 
     /* ── FAQ ────────────────────────────────────────────────────────── */
     function toggleFaq(btn) {
-      const item = btn.closest('.faq-item');
+      const item   = btn.closest('.faq-item');
       const isOpen = item.classList.contains('open');
       document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
       if (!isOpen) item.classList.add('open');
