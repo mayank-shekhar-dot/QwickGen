@@ -1,4 +1,3 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://quickgenai.in/sitemap.xml
+User-agent: Mediapartners-Google
+Disallow: /ai-tools
+Disallow: /imgpro
