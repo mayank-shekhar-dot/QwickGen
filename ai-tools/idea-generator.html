@@ -1,0 +1,1975 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f5f7fb" />
+    <meta name="description" content="Beat creative block with QuickGenAI's free Idea Generator, which turns a single topic into a list of fresh content or project ideas you can act on right away." />
+    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href="https://quickgenai.in/tools/idea-generator/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://quickgenai.in/tools/idea-generator/" />
+    <meta property="og:title" content="Idea Generator – Content &amp; Project Ideas | QuickGenAI" />
+    <meta property="og:description" content="Beat creative block with QuickGenAI's free Idea Generator, which turns a single topic into a list of fresh content or project ideas you can act on right away." />
+    <meta property="og:site_name" content="QuickGenAI" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Idea Generator – Content &amp; Project Ideas | QuickGenAI" />
+    <meta name="twitter:description" content="Beat creative block with QuickGenAI's free Idea Generator, which turns a single topic into a list of fresh content or project ideas you can act on right away." />
+
+    <title>Idea Generator – Content &amp; Project Ideas | QuickGenAI</title>
+
+    <style>
+      :root {
+        --ink: #17263c;
+        --muted: #617089;
+        --muted-strong: #445570;
+        --line: #dbe3ee;
+        --line-strong: #cbd6e4;
+        --surface: #ffffff;
+        --surface-soft: #f5f7fb;
+        --surface-blue: #eff5ff;
+        --accent: #3265e8;
+        --accent-dark: #214bbd;
+        --accent-soft: #dce8ff;
+        --violet: #8064ea;
+        --teal: #27a59b;
+        --danger: #c0392b;
+        --danger-soft: #fbe8e6;
+        --shadow: 0 18px 50px rgba(36, 59, 94, 0.1);
+        --shadow-soft: 0 10px 28px rgba(36, 59, 94, 0.07);
+        --radius-xl: 30px;
+        --radius-lg: 22px;
+        --radius-md: 16px;
+        --max-width: 1180px;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        min-width: 320px;
+        overflow-x: hidden;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at 10% 0%, rgba(216, 229, 255, 0.66), transparent 27rem),
+          radial-gradient(circle at 90% 10%, rgba(229, 222, 255, 0.5), transparent 29rem),
+          var(--surface-soft);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          sans-serif;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      button,
+      a {
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      button {
+        font: inherit;
+      }
+
+      img,
+      svg {
+        display: block;
+        max-width: 100%;
+      }
+
+      :focus-visible {
+        outline: 3px solid rgba(50, 101, 232, 0.45);
+        outline-offset: 4px;
+      }
+
+      .skip-link {
+        position: fixed;
+        z-index: 50;
+        top: 12px;
+        left: 12px;
+        padding: 10px 14px;
+        color: #fff;
+        background: var(--ink);
+        border-radius: 9px;
+        transform: translateY(-140%);
+        transition: transform 180ms ease;
+      }
+
+      .skip-link:focus {
+        transform: translateY(0);
+      }
+
+      .container {
+        width: min(calc(100% - 40px), var(--max-width));
+        margin-inline: auto;
+      }
+
+      .container-narrow {
+        width: min(calc(100% - 40px), 820px);
+        margin-inline: auto;
+      }
+
+      /* ===== Header (same as homepage) ===== */
+      .site-header {
+        position: sticky;
+        z-index: 20;
+        top: 16px;
+        width: min(calc(100% - 32px), 1100px);
+        margin: 16px auto 0;
+      }
+
+      .nav-shell {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 68px;
+        padding: 9px 10px 9px 20px;
+        background: rgba(255, 255, 255, 0.76);
+        border: 1px solid rgba(203, 214, 228, 0.86);
+        border-radius: 18px;
+        box-shadow: 0 12px 36px rgba(51, 77, 115, 0.1);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 0.98rem;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        white-space: nowrap;
+      }
+
+      .brand-mark {
+        position: relative;
+        display: grid;
+        width: 34px;
+        height: 34px;
+        place-items: center;
+        overflow: hidden;
+        color: #fff;
+        background: #0a0a0a;
+        border-radius: 11px;
+        box-shadow: 0 7px 18px rgba(50, 101, 232, 0.26);
+        flex-shrink: 0;
+      }
+
+      .brand-mark svg { width: 25px; height: 25px; display: block; }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        margin-left: auto;
+      }
+
+      .nav-links a {
+        padding: 10px 13px;
+        color: var(--muted-strong);
+        border-radius: 10px;
+        font-size: 0.87rem;
+        font-weight: 650;
+        transition:
+          color 180ms ease,
+          background 180ms ease;
+      }
+
+      .nav-links a:hover,
+      .nav-links a[aria-current="page"] {
+        color: var(--accent-dark);
+        background: var(--surface-blue);
+      }
+
+      .nav-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-left: 10px;
+        padding: 11px 16px;
+        color: #fff !important;
+        background: var(--ink);
+        border-radius: 11px;
+        font-size: 0.84rem !important;
+        font-weight: 750 !important;
+        transition:
+          background 180ms ease,
+          transform 180ms ease;
+      }
+
+      .nav-cta:hover {
+        color: #fff !important;
+        background: var(--accent);
+        transform: translateY(-1px);
+      }
+
+      .menu-toggle {
+        display: none;
+        width: 42px;
+        height: 42px;
+        padding: 0;
+        color: var(--ink);
+        background: transparent;
+        border: 1px solid var(--line);
+        border-radius: 11px;
+        cursor: pointer;
+      }
+
+      .menu-toggle svg {
+        width: 20px;
+        margin: auto;
+      }
+
+      /* ===== Tool intro ===== */
+      .tool-intro {
+        padding: 64px 0 12px;
+      }
+
+      .tool-intro-inner {
+        max-width: 720px;
+        margin-inline: auto;
+        text-align: center;
+      }
+
+      .tool-intro-icon {
+        display: grid;
+        width: 56px;
+        height: 56px;
+        margin: 0 auto 20px;
+        place-items: center;
+        color: var(--accent-dark);
+        background: var(--accent-soft);
+        border-radius: 16px;
+      }
+
+      .tool-intro h1 {
+        margin-bottom: 12px;
+        font-size: clamp(2.1rem, 5vw, 3rem);
+      }
+
+      .tool-intro p {
+        max-width: 520px;
+        margin: 0 auto;
+        color: var(--muted);
+        font-size: 1rem;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
+      }
+
+      h1,
+      h2,
+      h3 {
+        letter-spacing: -0.045em;
+        line-height: 1.12;
+      }
+
+      /* ===== Tool section ===== */
+      .section {
+        padding: 56px 0;
+      }
+
+      .section-header {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 30px;
+        margin-bottom: 30px;
+      }
+
+      .section-header h2 {
+        max-width: 600px;
+        margin-bottom: 0;
+        font-size: clamp(1.7rem, 3.4vw, 2.35rem);
+      }
+
+      .section-intro {
+        max-width: 430px;
+        margin-bottom: 4px;
+        color: var(--muted);
+        font-size: 0.94rem;
+      }
+
+      .section-kicker {
+        margin-bottom: 10px;
+        color: var(--accent-dark);
+        font-size: 0.74rem;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .section-muted {
+        background: rgba(233, 240, 250, 0.42);
+        border-top: 1px solid rgba(216, 226, 239, 0.65);
+        border-bottom: 1px solid rgba(216, 226, 239, 0.65);
+      }
+
+      .tool-panel {
+        max-width: 680px;
+        margin: 0 auto;
+        padding: clamp(22px, 4vw, 36px);
+        background: rgba(255, 255, 255, 0.78);
+        border: 1px solid rgba(215, 224, 237, 0.95);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-soft);
+      }
+
+      .field {
+        margin-bottom: 18px;
+      }
+
+      .field:last-of-type {
+        margin-bottom: 24px;
+      }
+
+      .field-label {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--muted-strong);
+        font-size: 0.85rem;
+        font-weight: 700;
+      }
+
+      .field-hint {
+        display: block;
+        margin-top: 6px;
+        color: var(--muted);
+        font-size: 0.78rem;
+      }
+
+      .field-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+      }
+
+      textarea,
+      input[type="text"],
+      select {
+        width: 100%;
+        padding: 12px 14px;
+        color: var(--ink);
+        background: #fff;
+        border: 1px solid var(--line-strong);
+        border-radius: 12px;
+        font-family: inherit;
+        font-size: 0.92rem;
+        transition:
+          border-color 180ms ease,
+          box-shadow 180ms ease;
+      }
+
+      textarea:focus,
+      input[type="text"]:focus,
+      select:focus {
+        border-color: var(--accent);
+        outline: none;
+        box-shadow: 0 0 0 4px rgba(50, 101, 232, 0.14);
+      }
+
+      textarea {
+        min-height: 96px;
+        resize: vertical;
+      }
+
+      select {
+        cursor: pointer;
+        appearance: none;
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23617089' stroke-width='2'%3e%3cpath d='m6 9 6 6 6-6' stroke-linecap='round' stroke-linejoin='round'/%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right 12px center;
+        background-size: 18px;
+        padding-right: 38px;
+      }
+
+      .field-error {
+        display: none;
+        margin-top: 7px;
+        color: var(--danger);
+        font-size: 0.8rem;
+        font-weight: 650;
+      }
+
+      .field.has-error textarea {
+        border-color: var(--danger);
+      }
+
+      .field.has-error .field-error {
+        display: block;
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 49px;
+        gap: 9px;
+        padding: 12px 18px;
+        border: 1px solid transparent;
+        border-radius: 12px;
+        font-size: 0.9rem;
+        font-weight: 750;
+        cursor: pointer;
+        transition:
+          transform 180ms ease,
+          box-shadow 180ms ease,
+          background 180ms ease,
+          border-color 180ms ease,
+          opacity 180ms ease;
+      }
+
+      .button:hover {
+        transform: translateY(-2px);
+      }
+
+      .button:disabled {
+        cursor: not-allowed;
+        opacity: 0.65;
+        transform: none;
+      }
+
+      .button-primary {
+        color: #fff;
+        background: var(--accent);
+        box-shadow: 0 10px 24px rgba(50, 101, 232, 0.24);
+      }
+
+      .button-primary:hover:not(:disabled) {
+        background: var(--accent-dark);
+        box-shadow: 0 13px 28px rgba(50, 101, 232, 0.3);
+      }
+
+      .button-secondary {
+        color: var(--ink);
+        background: rgba(255, 255, 255, 0.66);
+        border-color: var(--line-strong);
+      }
+
+      .button-secondary:hover:not(:disabled) {
+        background: #fff;
+        border-color: #aebdd1;
+      }
+
+      .button-ghost {
+        min-height: 40px;
+        padding: 8px 14px;
+        color: var(--accent-dark);
+        background: var(--surface-blue);
+        font-size: 0.82rem;
+      }
+
+      .button-ghost:hover:not(:disabled) {
+        background: var(--accent-soft);
+      }
+
+      .button-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .tool-actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .spinner {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        border: 2px solid rgba(255, 255, 255, 0.5);
+        border-top-color: #fff;
+        border-radius: 50%;
+        animation: spin 700ms linear infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* ===== Result area ===== */
+      .result-panel {
+        max-width: 680px;
+        margin: 22px auto 0;
+      }
+
+      .result-box {
+        padding: clamp(20px, 4vw, 30px);
+        background: rgba(255, 255, 255, 0.72);
+        border: 1px dashed var(--line-strong);
+        border-radius: var(--radius-lg);
+      }
+
+      .result-box.has-content {
+        border-style: solid;
+        border-color: rgba(215, 224, 237, 0.95);
+        box-shadow: var(--shadow-soft);
+      }
+
+      .result-empty {
+        color: var(--muted);
+        font-size: 0.92rem;
+        text-align: center;
+      }
+
+      .result-status {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        color: var(--muted-strong);
+        font-size: 0.92rem;
+        font-weight: 650;
+      }
+
+      .result-status .spinner {
+        border: 2px solid rgba(50, 101, 232, 0.25);
+        border-top-color: var(--accent);
+      }
+
+      .result-error {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 14px 16px;
+        color: #8a2d22;
+        background: var(--danger-soft);
+        border: 1px solid rgba(192, 57, 43, 0.25);
+        border-radius: 12px;
+        font-size: 0.88rem;
+      }
+
+      .hook-list {
+        display: grid;
+        gap: 12px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .hook-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        padding: 14px 16px;
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 13px;
+      }
+
+      .hook-item p {
+        margin: 0;
+        color: var(--ink);
+        font-size: 0.94rem;
+        font-weight: 600;
+        line-height: 1.5;
+      }
+
+      .hook-number {
+        color: var(--accent-dark);
+        font-size: 0.7rem;
+        font-weight: 800;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      .copy-btn {
+        flex: 0 0 auto;
+        min-height: 36px;
+        padding: 8px 13px;
+        color: var(--accent-dark);
+        background: var(--surface-blue);
+        border: 1px solid transparent;
+        border-radius: 9px;
+        font-size: 0.78rem;
+        font-weight: 750;
+        cursor: pointer;
+        transition: background 160ms ease;
+      }
+
+      .copy-btn:hover {
+        background: var(--accent-soft);
+      }
+
+      .copy-btn.copied {
+        color: #147d75;
+        background: #d9f3ef;
+      }
+
+      .result-footer-actions {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 18px;
+      }
+
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+
+      /* ===== About / prose ===== */
+      .about-copy p {
+        max-width: 700px;
+        margin: 0 auto 16px;
+        color: var(--muted-strong);
+        font-size: 0.97rem;
+        text-align: left;
+      }
+
+      .about-copy {
+        max-width: 700px;
+        margin: 0 auto;
+      }
+
+      /* ===== Steps ===== */
+      .steps {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+      }
+
+      .step {
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.65);
+        border: 1px solid rgba(215, 224, 237, 0.9);
+        border-radius: var(--radius-lg);
+      }
+
+      .step-index {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        margin-bottom: 16px;
+        color: #fff;
+        background: var(--ink);
+        border-radius: 12px;
+        font-size: 0.74rem;
+        font-weight: 850;
+      }
+
+      .step:nth-child(2) .step-index {
+        background: var(--accent);
+      }
+
+      .step:nth-child(3) .step-index {
+        background: var(--violet);
+      }
+
+      .step:nth-child(4) .step-index {
+        background: var(--teal);
+      }
+
+      .step h3 {
+        margin-bottom: 6px;
+        font-size: 0.96rem;
+        letter-spacing: -0.02em;
+      }
+
+      .step p {
+        margin-bottom: 0;
+        color: var(--muted);
+        font-size: 0.83rem;
+      }
+
+      /* ===== Features grid ===== */
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+      }
+
+      .feature-card {
+        padding: 22px;
+        background: rgba(255, 255, 255, 0.65);
+        border: 1px solid rgba(215, 224, 237, 0.9);
+        border-radius: var(--radius-lg);
+      }
+
+      .feature-number {
+        display: grid;
+        width: 38px;
+        height: 38px;
+        margin-bottom: 20px;
+        place-items: center;
+        color: var(--accent-dark);
+        background: var(--accent-soft);
+        border-radius: 11px;
+      }
+
+      .feature-card:nth-child(2) .feature-number {
+        color: #6242cc;
+        background: #e9e2ff;
+      }
+
+      .feature-card:nth-child(3) .feature-number {
+        color: #147c74;
+        background: #d9f2ee;
+      }
+
+      .feature-card:nth-child(4) .feature-number {
+        color: #ae6719;
+        background: #ffecd5;
+      }
+
+      .feature-card h3 {
+        margin-bottom: 8px;
+        font-size: 1rem;
+        letter-spacing: -0.025em;
+      }
+
+      .feature-card p {
+        margin-bottom: 0;
+        color: var(--muted);
+        font-size: 0.83rem;
+        line-height: 1.55;
+      }
+
+      /* ===== Example ===== */
+      .example-panel {
+        max-width: 680px;
+        margin: 0 auto;
+        padding: clamp(22px, 4vw, 30px);
+        background: rgba(255, 255, 255, 0.72);
+        border: 1px solid rgba(215, 224, 237, 0.95);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-soft);
+      }
+
+      .example-badge {
+        display: inline-block;
+        margin-bottom: 16px;
+        padding: 5px 10px;
+        color: var(--muted);
+        background: var(--surface-soft);
+        border-radius: 7px;
+        font-size: 0.66rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .example-input {
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .example-label {
+        display: block;
+        margin-bottom: 6px;
+        color: var(--muted);
+        font-size: 0.78rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .example-input p {
+        margin: 0;
+        color: var(--ink);
+        font-size: 0.94rem;
+        font-weight: 650;
+      }
+
+      /* ===== FAQ ===== */
+      .faq-layout {
+        max-width: 780px;
+        margin: 0 auto;
+      }
+
+      .faq-list {
+        border-top: 1px solid var(--line-strong);
+      }
+
+      .faq-item {
+        border-bottom: 1px solid var(--line-strong);
+      }
+
+      .faq-question {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        gap: 20px;
+        padding: 20px 0;
+        color: var(--ink);
+        text-align: left;
+        background: transparent;
+        border: 0;
+        cursor: pointer;
+        font-size: 0.96rem;
+        font-weight: 750;
+      }
+
+      .faq-icon {
+        display: grid;
+        flex: 0 0 auto;
+        width: 28px;
+        height: 28px;
+        place-items: center;
+        color: var(--accent-dark);
+        background: var(--surface-blue);
+        border-radius: 8px;
+        transition: transform 200ms ease;
+      }
+
+      .faq-item.is-open .faq-icon {
+        transform: rotate(45deg);
+      }
+
+      .faq-answer {
+        display: grid;
+        grid-template-rows: 0fr;
+        transition: grid-template-rows 220ms ease;
+      }
+
+      .faq-answer > div {
+        min-height: 0;
+        overflow: hidden;
+      }
+
+      .faq-answer p {
+        max-width: 700px;
+        margin: -3px 0 20px;
+        color: var(--muted);
+        font-size: 0.86rem;
+      }
+
+      .faq-item.is-open .faq-answer {
+        grid-template-rows: 1fr;
+      }
+
+      /* ===== Related tools ===== */
+      .related-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+      }
+
+      .tool-card {
+        display: flex;
+        min-height: 190px;
+        flex-direction: column;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.72);
+        border: 1px solid rgba(215, 224, 237, 0.95);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-soft);
+        transition:
+          transform 220ms ease,
+          box-shadow 220ms ease,
+          border-color 220ms ease;
+      }
+
+      .tool-card:hover,
+      .tool-card:focus-within {
+        border-color: #b8cbee;
+        box-shadow: 0 20px 40px rgba(44, 71, 113, 0.13);
+        transform: translateY(-5px);
+      }
+
+      .tool-icon {
+        display: grid;
+        width: 38px;
+        height: 38px;
+        place-items: center;
+        color: var(--accent-dark);
+        background: var(--accent-soft);
+        border-radius: 11px;
+      }
+
+      .tool-icon.violet {
+        color: #6344ca;
+        background: #e9e3ff;
+      }
+
+      .tool-icon.teal {
+        color: #167a73;
+        background: #d9f3ef;
+      }
+
+      .tool-icon.orange {
+        color: #b66817;
+        background: #ffebcf;
+      }
+
+      .tool-card h3 {
+        margin: 16px 0 6px;
+        font-size: 0.96rem;
+        letter-spacing: -0.02em;
+      }
+
+      .tool-card p {
+        margin-bottom: 16px;
+        color: var(--muted);
+        font-size: 0.8rem;
+        line-height: 1.5;
+      }
+
+      .tool-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        width: fit-content;
+        margin-top: auto;
+        color: var(--accent-dark);
+        font-size: 0.78rem;
+        font-weight: 800;
+      }
+
+      .tool-link svg {
+        transition: transform 180ms ease;
+      }
+
+      .tool-link:hover svg {
+        transform: translateX(3px);
+      }
+
+      /* ===== Footer (same as homepage) ===== */
+      .site-footer {
+        padding: 63px 0 25px;
+        color: #cad5e6;
+        background: #14243c;
+      }
+
+      .footer-grid {
+        display: grid;
+        grid-template-columns: 1.45fr repeat(3, 0.8fr) 0.9fr;
+        gap: 30px;
+        padding-bottom: 54px;
+      }
+
+      .footer-brand {
+        max-width: 240px;
+      }
+
+      .footer-brand .brand {
+        color: #fff;
+        margin-bottom: 18px;
+      }
+
+      .footer-brand p,
+      .footer-heading {
+        color: #91a3be;
+        font-size: 0.79rem;
+      }
+
+      .footer-brand p {
+        line-height: 1.7;
+      }
+
+      .footer-heading {
+        margin-bottom: 17px;
+        font-size: 0.69rem;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .footer-links {
+        display: grid;
+        gap: 10px;
+      }
+
+      .footer-links a {
+        width: fit-content;
+        color: #d7e0ee;
+        font-size: 0.79rem;
+        transition: color 180ms ease;
+      }
+
+      .footer-links a:hover {
+        color: #fff;
+      }
+
+      .social-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .social-link {
+        display: grid !important;
+        width: 31px;
+        height: 31px;
+        place-items: center;
+        color: #d7e0ee !important;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.11);
+        border-radius: 9px;
+      }
+
+      .social-link:hover {
+        color: #fff !important;
+        background: rgba(255, 255, 255, 0.16);
+      }
+
+      .footer-bottom {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        padding-top: 21px;
+        border-top: 1px solid rgba(211, 224, 243, 0.16);
+        color: #8295b0;
+        font-size: 0.72rem;
+      }
+
+      .footer-bottom p {
+        margin-bottom: 0;
+      }
+
+      .footer-contact {
+        color: #dce6f4;
+        overflow-wrap: anywhere;
+      }
+
+      /* ===== Responsive ===== */
+      @media (max-width: 980px) {
+        .features-grid,
+        .steps {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .related-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .footer-grid {
+          grid-template-columns: 1.5fr repeat(2, 1fr);
+        }
+
+        .footer-brand {
+          grid-column: span 3;
+        }
+      }
+
+      @media (max-width: 760px) {
+        .site-header {
+          top: 9px;
+          width: min(calc(100% - 20px), 1100px);
+          margin-top: 9px;
+        }
+
+        .nav-shell {
+          padding-left: 14px;
+        }
+
+        .menu-toggle {
+          display: grid;
+          place-items: center;
+        }
+
+        .nav-links {
+          position: absolute;
+          top: calc(100% + 8px);
+          right: 0;
+          left: 0;
+          display: grid;
+          gap: 2px;
+          padding: 8px;
+          background: rgba(255, 255, 255, 0.94);
+          border: 1px solid var(--line);
+          border-radius: 15px;
+          box-shadow: var(--shadow-soft);
+          opacity: 0;
+          pointer-events: none;
+          transform: translateY(-7px);
+          transition:
+            opacity 180ms ease,
+            transform 180ms ease;
+        }
+
+        .nav-links.is-open {
+          opacity: 1;
+          pointer-events: auto;
+          transform: translateY(0);
+        }
+
+        .nav-links a {
+          padding: 12px;
+        }
+
+        .nav-cta {
+          margin: 4px 0 0;
+          text-align: center;
+        }
+
+        .tool-intro {
+          padding: 46px 0 6px;
+        }
+
+        .section {
+          padding: 44px 0;
+        }
+
+        .section-header {
+          display: block;
+        }
+
+        .section-intro {
+          margin-top: 14px;
+        }
+
+        .field-row {
+          grid-template-columns: 1fr;
+        }
+
+        .steps,
+        .features-grid,
+        .related-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .button-row,
+        .tool-actions {
+          display: grid;
+        }
+
+        .tool-actions .button {
+          width: 100%;
+        }
+
+        .hook-item {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .copy-btn {
+          width: 100%;
+        }
+
+        .footer-grid {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 35px 20px;
+        }
+
+        .footer-brand {
+          grid-column: span 2;
+        }
+
+        .footer-bottom {
+          display: block;
+        }
+
+        .footer-contact {
+          margin-top: 8px;
+        }
+      }
+
+      @media (max-width: 500px) {
+        .container,
+        .container-narrow {
+          width: min(calc(100% - 28px), var(--max-width));
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+
+        *,
+        *::before,
+        *::after {
+          transition-duration: 0.01ms !important;
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+        }
+      }
+    </style>
+    <!-- Fonts (Inter was referenced in CSS but never actually loaded; Playfair Display powers the logo monogram) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Idea Generator",
+  "url": "https://quickgenai.in/tools/idea-generator/",
+  "description": "Beat creative block with QuickGenAI's free Idea Generator, which turns a single topic into a list of fresh content or project ideas you can act on right away.",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "QuickGenAI",
+    "url": "https://quickgenai.in/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Idea Generator – QuickGenAI",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Web",
+  "url": "https://quickgenai.in/tools/idea-generator/",
+  "description": "Beat creative block with QuickGenAI's free Idea Generator, which turns a single topic into a list of fresh content or project ideas you can act on right away.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://quickgenai.in/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "AI Tools",
+      "item": "https://quickgenai.in/ai-tools"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Idea Generator",
+      "item": "https://quickgenai.in/tools/idea-generator/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is the Idea Generator?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A tool that generates a list of ideas based on a topic or category you provide."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What can I use it for?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Content ideas, project ideas, and general brainstorming starting points."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What information should I enter?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A topic, and optionally a platform or category to narrow the ideas."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How many ideas will I get?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The number of ideas depends on what the underlying service returns."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I copy an idea?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Each idea in your results has a Copy button next to it."
+      }
+    }
+  ]
+}
+</script>
+</head>
+
+  <body>
+<noscript><style>
+  /* AdSense/Bot-safe fallback: full navigation must render with zero JavaScript */
+  .nav-links{display:flex!important;flex-wrap:wrap;opacity:1!important;pointer-events:auto!important;position:static!important;transform:none!important;box-shadow:none!important;background:transparent!important;}
+  .menu-toggle{display:none!important;}
+</style></noscript>
+
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+
+    <header class="site-header">
+      <nav class="nav-shell" aria-label="Primary navigation">
+        <a class="brand" href="/" aria-label="Go to QuickGenAI home">
+          <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 100 100" role="img" aria-label="QuickGenAI logo">
+              <text x="8" y="74" font-family="'Playfair Display',Georgia,serif" font-style="italic" font-weight="700" font-size="76" fill="white">G</text>
+              <line x1="47" y1="26" x2="47" y2="58" stroke="white" stroke-width="2.4" stroke-linecap="round"/>
+              <text x="49" y="60" font-family="'Playfair Display',Georgia,serif" font-weight="700" font-size="21" fill="white">AI</text>
+              <path d="M46 66 Q 60 82, 82 78" fill="none" stroke="white" stroke-width="1.6" stroke-linecap="round"/>
+            </svg></span>
+          <span>QuickGenAI</span>
+        </a>
+
+        <button
+          class="menu-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="primary-links"
+          aria-label="Open navigation menu"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round" />
+          </svg>
+        </button>
+
+        <div class="nav-links" id="primary-links">
+          <a href="/">Home</a>
+          <a href="/tools/" aria-current="page">Tools</a>
+          <a href="/about/">About</a>
+          <a href="/contact/">Contact</a>
+          <a class="nav-cta" href="/tools/">Explore tools <span aria-hidden="true">↗</span></a>
+        </div>
+      </nav>
+    </header>
+
+    <main id="main-content">
+      <!-- TOOL INTRO -->
+      <section class="tool-intro" aria-labelledby="tool-title">
+        <div class="container">
+          <div class="tool-intro-inner">
+            <span class="tool-intro-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v7a2.5 2.5 0 0 1-2.5 2.5H11l-4.5 4v-4h0A2.5 2.5 0 0 1 4 13.5v-7Z" /></svg>
+            </span>
+            <h1 id="tool-title">Idea Generator</h1>
+            <p>Generate a list of ideas from a topic or category.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- MAIN TOOL -->
+      <section class="section" aria-labelledby="generator-heading">
+        <div class="container">
+          <h2 id="generator-heading" class="sr-only">Idea Generator Tool</h2>
+
+          <form class="tool-panel" id="tool-form" novalidate>
+            <div class="field" id="topic-field">
+              <label class="field-label" for="topic-input">What do you need ideas for?</label>
+              <textarea id="topic-input" name="topic" placeholder="e.g. Instagram Reels for a home bakery" aria-describedby="topic-error topic-hint" required></textarea>
+              <span class="field-error" id="topic-error" role="alert">Please enter what do you need ideas for?.</span>
+              <span class="field-hint" id="topic-hint">Describe the topic or category you want ideas for.</span>
+            </div>
+
+            <div class="field-row">
+              <div class="field">
+                <label class="field-label" for="platform-select">Platform / category</label>
+                <select id="platform-select" name="platform">
+                  <option value="general">General</option>
+                  <option value="instagram">Instagram</option>
+                  <option value="youtube">YouTube</option>
+                  <option value="blog">Blog</option>
+                  <option value="business">Business</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="tool-actions">
+              <button class="button button-primary" type="submit" id="generate-btn">
+                <span id="generate-btn-label">Generate Ideas</span>
+              </button>
+            </div>
+          </form>
+
+          <!-- RESULT AREA -->
+          <div class="result-panel" aria-live="polite">
+            <div class="result-box" id="result-box">
+              <p class="result-empty" id="result-empty">Your generated ideas will appear here.</p>
+            </div>
+            <div class="result-footer-actions" id="result-actions" hidden>
+              <button class="button button-secondary" type="button" id="regenerate-btn">Regenerate</button>
+            <button class="button button-ghost" type="button" id="clear-btn">Clear</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ABOUT -->
+      <section class="section section-muted" aria-labelledby="about-title">
+        <div class="container">
+          <div class="section-header" style="justify-content: center; text-align: center; flex-direction: column; align-items: center;">
+            <p class="section-kicker">Learn more</p>
+            <h2 id="about-title">About Idea Generator</h2>
+          </div>
+          <div class="about-copy">
+            <p>Coming up with fresh ideas on demand is one of the harder parts of regular content or project work.</p>
+            <p>The Idea Generator takes a topic or category and produces a list of idea options you can review, combine, or use as a jumping-off point.</p>
+            <p>It's useful for creators, marketers, and small business owners who need a quick list of directions to consider.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- HOW TO USE -->
+      <section class="section" aria-labelledby="how-title">
+        <div class="container">
+          <div class="section-header" style="justify-content: center; text-align: center; flex-direction: column; align-items: center;">
+            <p class="section-kicker">Getting started</p>
+            <h2 id="how-title">How to Use Idea Generator</h2>
+          </div>
+          <div class="steps">
+            <article class="step">
+              <span class="step-index">01</span>
+              <h3>Enter your topic</h3>
+              <p>Describe what you need ideas for.</p>
+            </article>
+            <article class="step">
+              <span class="step-index">02</span>
+              <h3>Choose a platform or category</h3>
+              <p>Select the context that best matches your need.</p>
+            </article>
+            <article class="step">
+              <span class="step-index">03</span>
+              <h3>Click Generate Ideas</h3>
+              <p>Submit your input to produce a list of ideas.</p>
+            </article>
+            <article class="step">
+              <span class="step-index">04</span>
+              <h3>Review and copy</h3>
+              <p>Read through the ideas and copy the ones you want to use.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- FEATURES / USE CASES -->
+      <section class="section section-muted" aria-labelledby="features-title">
+        <div class="container">
+          <div class="section-header" style="justify-content: center; text-align: center; flex-direction: column; align-items: center;">
+            <p class="section-kicker">What it offers</p>
+            <h2 id="features-title">Idea Generator Features</h2>
+          </div>
+          <div class="features-grid">
+            <article class="feature-card">
+              <span class="feature-number" aria-hidden="true">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12.5 11 15l4-5" stroke-linecap="round" stroke-linejoin="round" /><rect x="4" y="4" width="16" height="16" rx="4" /></svg>
+              </span>
+              <h3>Multiple idea options</h3>
+              <p>Generate several ideas from a single topic instead of just one.</p>
+            </article>
+            <article class="feature-card">
+              <span class="feature-number" aria-hidden="true">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12.5 11 15l4-5" stroke-linecap="round" stroke-linejoin="round" /><rect x="4" y="4" width="16" height="16" rx="4" /></svg>
+              </span>
+              <h3>Category-aware</h3>
+              <p>Tailor ideas toward a platform or category when relevant.</p>
+            </article>
+            <article class="feature-card">
+              <span class="feature-number" aria-hidden="true">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12.5 11 15l4-5" stroke-linecap="round" stroke-linejoin="round" /><rect x="4" y="4" width="16" height="16" rx="4" /></svg>
+              </span>
+              <h3>Easy copying</h3>
+              <p>Copy any generated idea to your clipboard with a single click.</p>
+            </article>
+            <article class="feature-card">
+              <span class="feature-number" aria-hidden="true">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12.5 11 15l4-5" stroke-linecap="round" stroke-linejoin="round" /><rect x="4" y="4" width="16" height="16" rx="4" /></svg>
+              </span>
+              <h3>Simple interface</h3>
+              <p>A focused, browser-based tool with no unnecessary settings.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+            <section class="section" aria-labelledby="example-title">
+        <div class="container">
+          <div class="section-header" style="justify-content: center; text-align: center; flex-direction: column; align-items: center;">
+            <p class="section-kicker">See it in action</p>
+            <h2 id="example-title">Idea Generator Example</h2>
+          </div>
+          <div class="example-panel">
+            <span class="example-badge">Illustrative example</span>
+            <div class="example-input">
+              <span class="example-label">Topic</span>
+              <p>Instagram Reels for a home bakery</p>
+            </div>
+            <ul class="hook-list" aria-label="Example ideas">
+              <li class="hook-item"><p><span class="hook-number">Idea 1&nbsp;·&nbsp;</span>A day-in-the-life of prepping a custom cake order.</p></li>
+              <li class="hook-item"><p><span class="hook-number">Idea 2&nbsp;·&nbsp;</span>Three ingredient swaps for a healthier version of a classic recipe.</p></li>
+              <li class="hook-item"><p><span class="hook-number">Idea 3&nbsp;·&nbsp;</span>A before-and-after of decorating a simple cupcake.</p></li>
+            </ul>
+            <p style="margin-top: 18px; color: var(--muted); font-size: 0.82rem; text-align: center;">This is a sample illustration, not an actual generated result.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section class="section section-muted" aria-labelledby="faq-title">
+        <div class="container faq-layout">
+          <div class="section-header" style="justify-content: center; text-align: center; flex-direction: column; align-items: center;">
+            <p class="section-kicker">Need to know</p>
+            <h2 id="faq-title">Frequently Asked Questions</h2>
+          </div>
+          <div class="faq-list">
+            <div class="faq-item is-open">
+              <button class="faq-question" type="button" aria-expanded="true" aria-controls="faq-answer-1" id="faq-question-1">
+                <span>What is the Idea Generator?</span>
+                <span class="faq-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="faq-answer" id="faq-answer-1" role="region" aria-labelledby="faq-question-1">
+                <div><p>A tool that generates a list of ideas based on a topic or category you provide.</p></div>
+              </div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-question" type="button" aria-expanded="false" aria-controls="faq-answer-2" id="faq-question-2">
+                <span>What can I use it for?</span>
+                <span class="faq-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="faq-answer" id="faq-answer-2" role="region" aria-labelledby="faq-question-2">
+                <div><p>Content ideas, project ideas, and general brainstorming starting points.</p></div>
+              </div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-question" type="button" aria-expanded="false" aria-controls="faq-answer-3" id="faq-question-3">
+                <span>What information should I enter?</span>
+                <span class="faq-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="faq-answer" id="faq-answer-3" role="region" aria-labelledby="faq-question-3">
+                <div><p>A topic, and optionally a platform or category to narrow the ideas.</p></div>
+              </div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-question" type="button" aria-expanded="false" aria-controls="faq-answer-4" id="faq-question-4">
+                <span>How many ideas will I get?</span>
+                <span class="faq-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="faq-answer" id="faq-answer-4" role="region" aria-labelledby="faq-question-4">
+                <div><p>The number of ideas depends on what the underlying service returns.</p></div>
+              </div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-question" type="button" aria-expanded="false" aria-controls="faq-answer-5" id="faq-question-5">
+                <span>How do I copy an idea?</span>
+                <span class="faq-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="faq-answer" id="faq-answer-5" role="region" aria-labelledby="faq-question-5">
+                <div><p>Each idea in your results has a Copy button next to it.</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- RELATED TOOLS -->
+      <section class="section" aria-labelledby="related-title">
+        <div class="container">
+          <div class="section-header" style="justify-content: center; text-align: center; flex-direction: column; align-items: center;">
+            <p class="section-kicker">Keep exploring</p>
+            <h2 id="related-title">Related Tools</h2>
+          </div>
+          <div class="related-grid">
+            <article class="tool-card">
+              <span class="tool-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v7a2.5 2.5 0 0 1-2.5 2.5H11l-4.5 4v-4h0A2.5 2.5 0 0 1 4 13.5v-7Z" /></svg>
+              </span>
+              <h3>Hook Generator</h3>
+              <p>Create engaging opening hooks for videos, posts, and ads.</p>
+              <a class="tool-link" href="/tools/hook-generator/">Try Hook Generator <span aria-hidden="true">→</span></a>
+            </article>
+            <article class="tool-card">
+              <span class="tool-icon orange">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3.5" y="3.5" width="17" height="17" rx="4" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.7" r=".8" fill="currentColor" stroke="none" /></svg>
+              </span>
+              <h3>Title Generator</h3>
+              <p>Create title options for videos, articles, and posts.</p>
+              <a class="tool-link" href="/tools/title-generator/">Try Title Generator <span aria-hidden="true">→</span></a>
+            </article>
+            <article class="tool-card">
+              <span class="tool-icon violet">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m5 19 14-14M7 5h.01M17 19h.01" stroke-linecap="round" /><circle cx="7" cy="5" r="2.5" /><circle cx="17" cy="19" r="2.5" /></svg>
+              </span>
+              <h3>Tweet Hook Generator</h3>
+              <p>Create hook lines suited to short-form posts.</p>
+              <a class="tool-link" href="/tools/tweet-hook-generator/">Try Tweet Hook Generator <span aria-hidden="true">→</span></a>
+            </article>
+            <article class="tool-card">
+              <span class="tool-icon teal">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19V5M4 19h16M8 15l3-4 3 2 4-6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              </span>
+              <h3>Keyword Generator</h3>
+              <p>Generate keyword ideas from a seed topic.</p>
+              <a class="tool-link" href="/tools/keyword-generator/">Try Keyword Generator <span aria-hidden="true">→</span></a>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a class="brand" href="/" aria-label="Go to QuickGenAI home">
+              <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 100 100" role="img" aria-label="QuickGenAI logo">
+              <text x="8" y="74" font-family="'Playfair Display',Georgia,serif" font-style="italic" font-weight="700" font-size="76" fill="white">G</text>
+              <line x1="47" y1="26" x2="47" y2="58" stroke="white" stroke-width="2.4" stroke-linecap="round"/>
+              <text x="49" y="60" font-family="'Playfair Display',Georgia,serif" font-weight="700" font-size="21" fill="white">AI</text>
+              <path d="M46 66 Q 60 82, 82 78" fill="none" stroke="white" stroke-width="1.6" stroke-linecap="round"/>
+            </svg></span>
+              <span>QuickGenAI</span>
+            </a>
+            <p>Practical AI tools for writing, content, SEO, creativity, development, and productivity.</p>
+            <a class="footer-contact" href="mailto:contactmayankproduction@gmail.com">contactmayankproduction@gmail.com</a>
+          </div>
+
+          <div>
+            <p class="footer-heading">Navigation</p>
+            <nav class="footer-links" aria-label="Footer navigation">
+              <a href="/">Home</a>
+              <a href="/tools/">Tools</a>
+              <a href="/about/">About</a>
+              <a href="/contact/">Contact</a>
+            </nav>
+          </div>
+
+          <div>
+            <p class="footer-heading">Related Tools</p>
+            <nav class="footer-links" aria-label="Related tools">
+              <a href="/tools/ai-chat/">AI Chat</a>
+              <a href="/tools/content-generator/">Content Generator</a>
+              <a href="/tools/title-generator/">Title Generator</a>
+              <a href="/tools/social-media-caption-generator/">Caption Generator</a>
+            </nav>
+          </div>
+
+          <div>
+            <p class="footer-heading">Legal</p>
+            <nav class="footer-links" aria-label="Legal navigation">
+              <a href="/privacy-policy/">Privacy Policy</a>
+              <a href="/terms/">Terms &amp; Conditions</a>
+              <a href="/disclaimer/">Disclaimer</a>
+            </nav>
+          </div>
+
+          <div>
+            <p class="footer-heading">Social Media</p>
+            <div class="social-links">
+              <a class="social-link" href="#" aria-label="Instagram" title="Instagram">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                  <rect x="3.5" y="3.5" width="17" height="17" rx="4" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.7" r=".8" fill="currentColor" stroke="none" />
+                </svg>
+              </a>
+              <a class="social-link" href="#" aria-label="YouTube" title="YouTube">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M21.2 7.2a2.6 2.6 0 0 0-1.8-1.8C17.8 5 12 5 12 5s-5.8 0-7.4.4a2.6 2.6 0 0 0-1.8 1.8A27 27 0 0 0 2.4 12a27 27 0 0 0 .4 4.8 2.6 2.6 0 0 0 1.8 1.8c1.6.4 7.4.4 7.4.4s5.8 0 7.4-.4a2.6 2.6 0 0 0 1.8-1.8 27 27 0 0 0 .4-4.8 27 27 0 0 0-.4-4.8ZM10.3 15.1V8.9l5.3 3.1-5.3 3.1Z" />
+                </svg>
+              </a>
+              <a class="social-link" href="#" aria-label="X" title="X">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M5.2 4h4l3.3 4.8L16.3 4h2.5l-5.1 6.4L19.5 20h-4l-3.8-5.5L7.4 20H4.8l5.5-7.1L5.2 4Zm3.5 1.7H8l7.9 12.6h.8L8.7 5.7Z" />
+                </svg>
+              </a>
+              <a class="social-link" href="#" aria-label="Facebook" title="Facebook">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M14 8h3V4h-3c-2.8 0-5 2.2-5 5v3H6v4h3v4h4v-4h3l1-4h-4V9c0-.6.4-1 1-1Z" />
+                </svg>
+              </a>
+              <a class="social-link" href="#" aria-label="LinkedIn" title="LinkedIn">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M5 8.2A2.1 2.1 0 1 0 5 4a2.1 2.1 0 0 0 0 4.2ZM3.2 20.1h3.6V9.4H3.2v10.7ZM9 9.4v10.7h3.6v-5.3c0-1.4.3-2.7 2-2.7s1.9 1.6 1.9 2.8v5.2h3.6v-5.9c0-2.9-.6-5.2-4-5.2-1.6 0-2.7.9-3.2 1.7h-.1V9.4H9Z" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <p>© <span id="current-year">2026</span> QuickGenAI. All rights reserved.</p>
+          <p>Built for useful work, one task at a time.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      (() => {
+        "use strict";
+
+        /* ---------- API CONFIGURATION ----------
+           Central backend. Every tool page calls the SAME endpoints;
+           only the "tool" id in the request body changes per page.
+        ------------------------------------------ */
+        const API_BASE_URL = "https://qwickgen22.onrender.com";
+        const API_ENDPOINT_GENERATE = "/api/generate";
+        const API_ENDPOINT_CHAT = "/api/chat";
+        const API_ENDPOINT_HEALTH = "/api/health";
+
+/* ---------- Mobile nav (same behavior as homepage) ---------- */
+        const menuToggle = document.querySelector(".menu-toggle");
+        const navLinks = document.querySelector("#primary-links");
+
+        if (menuToggle && navLinks) {
+          const closeMenu = () => {
+            navLinks.classList.remove("is-open");
+            menuToggle.setAttribute("aria-expanded", "false");
+            menuToggle.setAttribute("aria-label", "Open navigation menu");
+          };
+
+          menuToggle.addEventListener("click", () => {
+            const isOpen = navLinks.classList.toggle("is-open");
+            menuToggle.setAttribute("aria-expanded", String(isOpen));
+            menuToggle.setAttribute("aria-label", isOpen ? "Close navigation menu" : "Open navigation menu");
+          });
+
+          navLinks.querySelectorAll("a").forEach((link) => {
+            link.addEventListener("click", closeMenu);
+          });
+
+          document.addEventListener("click", (event) => {
+            if (!navLinks.contains(event.target) && !menuToggle.contains(event.target)) closeMenu();
+          });
+
+          document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape") {
+              closeMenu();
+              menuToggle.focus();
+            }
+          });
+
+          window.addEventListener("resize", () => {
+            if (window.innerWidth > 760) closeMenu();
+          });
+        }
+
+        /* ---------- FAQ accordion ---------- */
+        document.querySelectorAll(".faq-question").forEach((question) => {
+          question.addEventListener("click", () => {
+            const item = question.closest(".faq-item");
+            const shouldOpen = !item.classList.contains("is-open");
+
+            document.querySelectorAll(".faq-item.is-open").forEach((openItem) => {
+              openItem.classList.remove("is-open");
+              openItem.querySelector(".faq-question").setAttribute("aria-expanded", "false");
+            });
+
+            if (shouldOpen) {
+              item.classList.add("is-open");
+              question.setAttribute("aria-expanded", "true");
+            }
+          });
+        });
+
+        const year = document.querySelector("#current-year");
+
+        /* ---------- Idea Generator (tool: idea) ---------- */
+        const TOOL_ID = "idea";
+        const form = document.getElementById("tool-form");
+        const primaryField = document.getElementById("topic-field");
+        const primaryInput = document.getElementById("topic-input");
+        const generateBtn = document.getElementById("generate-btn");
+        const generateBtnLabel = document.getElementById("generate-btn-label");
+        const resultBox = document.getElementById("result-box");
+        const resultActions = document.getElementById("result-actions");
+        const regenerateBtn = document.getElementById("regenerate-btn");
+        const clearBtn = document.getElementById("clear-btn");
+
+        let isLoading = false;
+
+        function setLoading(loading) {
+          isLoading = loading;
+          generateBtn.disabled = loading;
+          generateBtnLabel.textContent = loading ? "Generating ideas..." : "Generate Ideas";
+        }
+
+        function showEmptyState() {
+          resultBox.classList.remove("has-content");
+          resultBox.innerHTML = '<p class="result-empty">Your generated ideas will appear here.</p>';
+          resultActions.hidden = true;
+        }
+
+        function showLoadingState() {
+          resultBox.classList.remove("has-content");
+          resultBox.innerHTML = '<p class="result-status"><span class="spinner" aria-hidden="true"></span>Generating ideas...</p>';
+          resultActions.hidden = true;
+        }
+
+        function showErrorState(message) {
+          resultBox.classList.remove("has-content");
+          resultBox.innerHTML = '<p class="result-error" role="alert"><span>⚠</span><span></span></p>';
+          resultBox.querySelector(".result-error span:last-child").textContent = message;
+          resultActions.hidden = true;
+        }
+
+        async function copyText(text, button) {
+          try {
+            await navigator.clipboard.writeText(text);
+            const original = button.textContent;
+            button.textContent = "Copied";
+            button.classList.add("copied");
+            setTimeout(() => { button.textContent = original; button.classList.remove("copied"); }, 1600);
+          } catch (err) {
+            button.textContent = "Copy failed";
+            setTimeout(() => { button.textContent = "Copy"; }, 1600);
+          }
+        }
+
+        function renderList(content) {
+          resultBox.classList.add("has-content");
+          const lines = content
+            .split(/\r?\n/)
+            .map((l) => l.replace(/^[\s]*[-*•\d]+[.)]?\s*/, "").trim())
+            .filter((l) => l.length > 0);
+
+          const list = document.createElement("ul");
+          list.className = "hook-list";
+          list.setAttribute("aria-label", "Generated results");
+
+          (lines.length ? lines : [content]).forEach((text, index) => {
+            const item = document.createElement("li");
+            item.className = "hook-item";
+            const p = document.createElement("p");
+            const label = document.createElement("span");
+            label.className = "hook-number";
+            label.textContent = "Result " + (index + 1) + "  ";
+            p.appendChild(label);
+            p.appendChild(document.createTextNode(text));
+            const copyBtn = document.createElement("button");
+            copyBtn.type = "button";
+            copyBtn.className = "copy-btn";
+            copyBtn.textContent = "Copy";
+            copyBtn.addEventListener("click", () => copyText(text, copyBtn));
+            item.appendChild(p);
+            item.appendChild(copyBtn);
+            list.appendChild(item);
+          });
+
+          resultBox.innerHTML = "";
+          resultBox.appendChild(list);
+          resultActions.hidden = false;
+        }
+
+        function renderText(content) {
+          resultBox.classList.add("has-content");
+          const wrap = document.createElement("div");
+          wrap.className = "hook-item";
+          wrap.style.flexDirection = "column";
+          wrap.style.alignItems = "stretch";
+          wrap.style.gap = "12px";
+
+          const pre = document.createElement("p");
+          pre.style.whiteSpace = "pre-wrap";
+          pre.style.margin = "0";
+          pre.textContent = content;
+
+          const copyBtn = document.createElement("button");
+          copyBtn.type = "button";
+          copyBtn.className = "copy-btn";
+          copyBtn.style.alignSelf = "flex-start";
+          copyBtn.textContent = "Copy";
+          copyBtn.addEventListener("click", () => copyText(content, copyBtn));
+
+          wrap.appendChild(pre);
+          wrap.appendChild(copyBtn);
+          resultBox.innerHTML = "";
+          resultBox.appendChild(wrap);
+          resultActions.hidden = false;
+        }
+
+        async function generateResult() {
+          const value = primaryInput.value.trim();
+          if (!value) {
+            primaryField.classList.add("has-error");
+            primaryInput.focus();
+            return;
+          }
+          primaryField.classList.remove("has-error");
+
+          setLoading(true);
+          showLoadingState();
+
+          try {
+            const response = await fetch(API_BASE_URL + API_ENDPOINT_GENERATE, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                tool: TOOL_ID,
+                input: value,
+                extra: "",
+              }),
+            });
+
+            let data;
+            try {
+              data = await response.json();
+            } catch (parseErr) {
+              throw new Error("bad-response");
+            }
+
+            if (!response.ok || !data || data.success !== true) {
+              const serverMessage = data && data.error ? data.error : null;
+              throw new Error(serverMessage || "api-error");
+            }
+
+            if (!data.content) {
+              throw new Error("api-error");
+            }
+
+            renderList(data.content);
+          } catch (err) {
+            if (err instanceof TypeError) {
+              showErrorState("Unable to connect to the service. Please try again later.");
+            } else if (err.message && err.message !== "api-error" && err.message !== "bad-response") {
+              showErrorState(err.message);
+            } else {
+              showErrorState("Something went wrong while generating ideas. Please try again.");
+            }
+          } finally {
+            setLoading(false);
+          }
+        }
+
+        form.addEventListener("submit", (event) => { event.preventDefault(); if (!isLoading) generateResult(); });
+        primaryInput.addEventListener("input", () => {
+          if (primaryField.classList.contains("has-error") && primaryInput.value.trim()) primaryField.classList.remove("has-error");
+        });
+        regenerateBtn.addEventListener("click", () => { if (!isLoading) generateResult(); });
+        clearBtn.addEventListener("click", () => {
+          primaryInput.value = "";
+          primaryField.classList.remove("has-error");
+          showEmptyState();
+          primaryInput.focus();
+        });
+      })();
+    </script>
+  </body>
+</html>
