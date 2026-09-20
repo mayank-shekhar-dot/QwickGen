@@ -35,7 +35,8 @@ from flask_cors import CORS
 
 from prompt_builder import build_system_prompt
 
-load_dotenv()
+load_dotenv()                       # .env in the app folder (local testing / Render secret file)
+load_dotenv("/etc/secrets/.env")    # Render "Secret Files" location
 logging.basicConfig(level=logging.INFO)
 
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
@@ -226,6 +227,10 @@ def clean_history(raw):
 @mentor_bp.route("/api/mentor", methods=["POST"])
 @login_required
 def mentor():
+    if missing_settings():
+        logging.error("Mentor called but settings are missing: %s", missing_settings())
+        return jsonify(success=False, error="The mentor is not set up on the server yet."), 503
+
     data = request.get_json(silent=True) or {}
     question = str(data.get("question", "")).strip()
 
@@ -258,27 +263,37 @@ def mentor():
 
 @mentor_bp.route("/api/mentor/health", methods=["GET"])
 def mentor_health():
-    return jsonify(status="healthy", service="AI Business Mentor", data_source=DATA_SOURCE)
+    missing = missing_settings()
+    return jsonify(status="healthy" if not missing else "needs_setup",
+                   service="AI Business Mentor", data_source=DATA_SOURCE, missing_settings=missing)
 
 
 # ---------------------------------------------------------------------------
 # Standalone app
 # ---------------------------------------------------------------------------
-def create_app():
-    if not GOOGLE_API_KEY:
-        raise ValueError("GOOGLE_API_KEY not found in environment variables")
+def missing_settings():
+    """Names (never values) of required settings that are not set."""
+    missing = []
+    if not os.getenv("GOOGLE_API_KEY"):
+        missing.append("GOOGLE_API_KEY")
     if DATA_SOURCE == "db" and not DATABASE_URL:
-        raise ValueError("DATABASE_URL not found (needed when DATA_SOURCE=db)")
+        missing.append("DATABASE_URL")
     if REQUIRE_AUTH and not JWT_SECRET:
-        raise ValueError("JWT_SECRET not found (needed for login check)")
+        missing.append("JWT_SECRET")
+    return missing
+
+
+def create_app():
     app = Flask(__name__)
-    CORS(app, origins=os.getenv("ALLOWED_ORIGIN", "*"))
+    origins = [o.strip() for o in os.getenv("ALLOWED_ORIGIN", "*").split(",") if o.strip()]
+    CORS(app, origins=origins)   # ALLOWED_ORIGIN can hold several sites, comma separated
     app.register_blueprint(mentor_bp)
+    if missing_settings():
+        logging.error("MISSING SETTINGS: %s (add them in Render > Environment or Secret Files)", ", ".join(missing_settings()))
     return app
 
 
-if os.getenv("GOOGLE_API_KEY"):
-    app = create_app()          # so `gunicorn mentor_api:app` works on Render
+app = create_app()      # always defined, so `gunicorn mentor_api:app` always starts
 
 if __name__ == "__main__":
-    create_app().run(host="0.0.0.0", port=int(os.getenv("PORT", "5000")), debug=False)
+    app.run(host="0.0.0.0", port=int(os.getenv("PORT", "5000")), debug=False)
