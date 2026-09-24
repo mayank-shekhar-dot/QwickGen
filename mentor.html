@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Mentor - QuickGenAI</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f5f7fb;color:#171717}
+.page{max-width:1000px;margin:auto;min-height:100vh;display:flex;flex-direction:column}
+header{padding:22px 20px;border-bottom:1px solid #e5e7eb;background:#fff}
+.brand{font-size:22px;font-weight:700}.subtitle{margin-top:5px;color:#6b7280;font-size:14px}
+main{flex:1;padding:20px;display:flex;flex-direction:column}
+.welcome{text-align:center;padding:30px 10px 20px}
+.welcome h1{margin:0 0 10px;font-size:32px}.welcome p{color:#6b7280}
+.chat{background:#fff;border:1px solid #e5e7eb;border-radius:16px;padding:18px;min-height:420px;max-height:58vh;overflow-y:auto}
+.message{margin:12px 0;display:flex}.message.user{justify-content:flex-end}
+.bubble{max-width:78%;padding:12px 15px;border-radius:14px;line-height:1.55;white-space:pre-wrap;overflow-wrap:anywhere}
+.assistant .bubble{background:#f1f3f6}.user .bubble{background:#171717;color:#fff}
+.composer{display:flex;gap:10px;margin-top:14px}
+textarea{flex:1;min-height:58px;resize:vertical;padding:14px;border:1px solid #d1d5db;border-radius:12px;font:inherit}
+button{border:0;border-radius:12px;padding:0 22px;background:#171717;color:#fff;font-weight:600;cursor:pointer}
+button:disabled{opacity:.5}.clear{margin-top:10px;background:transparent;color:#6b7280;padding:6px 0}
+.status{min-height:20px;margin-top:7px;color:#6b7280;font-size:13px}
+@media(max-width:650px){.welcome h1{font-size:26px}.composer{flex-direction:column}button{min-height:48px}.bubble{max-width:90%}}
+</style>
+</head>
+<body>
+<div class="page">
+<header>
+<div class="brand">QuickGenAI</div>
+<div class="subtitle">AI Mentor</div>
+</header>
+
+<main>
+<section class="welcome">
+<h1>AI Mentor</h1>
+<p>Tell your mentor what you are working on and get practical guidance.</p>
+</section>
+
+<section id="chat" class="chat" aria-live="polite">
+<div class="message assistant">
+<div class="bubble">Hi! I'm your AI Mentor. Tell me what you're working on and I'll help you with practical next steps.</div>
+</div>
+</section>
+
+<div class="composer">
+<textarea id="message" placeholder="Ask your AI Mentor..." aria-label="Message"></textarea>
+<button id="sendButton" type="button">Send</button>
+</div>
+
+<div id="status" class="status"></div>
+<button id="clearButton" class="clear" type="button">Clear conversation</button>
+</main>
+</div>
+
+<script>
+const API_BASE = "https://YOUR-MENTOR-BACKEND.onrender.com";
+
+const chat = document.getElementById("chat");
+const messageInput = document.getElementById("message");
+const sendButton = document.getElementById("sendButton");
+const clearButton = document.getElementById("clearButton");
+const status = document.getElementById("status");
+
+let history = [];
+
+function addMessage(role, text) {
+    const wrapper = document.createElement("div");
+    wrapper.className = "message " + role;
+
+    const bubble = document.createElement("div");
+    bubble.className = "bubble";
+    bubble.textContent = text;
+
+    wrapper.appendChild(bubble);
+    chat.appendChild(wrapper);
+    chat.scrollTop = chat.scrollHeight;
+}
+
+async function sendMessage() {
+    const message = messageInput.value.trim();
+
+    if (!message || sendButton.disabled) return;
+
+    addMessage("user", message);
+    messageInput.value = "";
+    sendButton.disabled = true;
+    status.textContent = "AI Mentor is thinking...";
+
+    try {
+        const response = await fetch(API_BASE + "/api/mentor", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({
+                message: message,
+                history: history
+            })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+            throw new Error(data.error || "Something went wrong.");
+        }
+
+        addMessage("assistant", data.content);
+
+        history.push({role:"user", content:message});
+        history.push({role:"model", content:data.content});
+
+        status.textContent = "";
+    } catch (error) {
+        addMessage("assistant", "Sorry, I couldn't connect to the AI Mentor. " + error.message);
+        status.textContent = "Connection error.";
+    } finally {
+        sendButton.disabled = false;
+        messageInput.focus();
+    }
+}
+
+sendButton.addEventListener("click", sendMessage);
+
+messageInput.addEventListener("keydown", function(event) {
+    if (event.key === "Enter" && !event.shiftKey) {
+        event.preventDefault();
+        sendMessage();
+    }
+});
+
+clearButton.addEventListener("click", function() {
+    history = [];
+    chat.innerHTML = '<div class="message assistant"><div class="bubble">Conversation cleared. What would you like help with?</div></div>';
+    status.textContent = "";
+    messageInput.focus();
+});
+</script>
+</body>
+</html>
