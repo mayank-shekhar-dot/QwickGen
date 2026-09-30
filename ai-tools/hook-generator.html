@@ -1,0 +1,2042 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f5f7fb" />
+    <meta name="description" content="Stop staring at a blank first line: QuickGenAI's free Hook Generator creates scroll-stopping opening hooks for videos, posts, ads, and captions in seconds." />
+    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href="https://quickgenai.in/tools/hook-generator/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://quickgenai.in/tools/hook-generator/" />
+    <meta property="og:title" content="Hook Generator – Create Engaging Hooks | QuickGenAI" />
+    <meta property="og:description" content="Stop staring at a blank first line: QuickGenAI's free Hook Generator creates scroll-stopping opening hooks for videos, posts, ads, and captions in seconds." />
+    <meta property="og:site_name" content="QuickGenAI" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Hook Generator – Create Engaging Hooks | QuickGenAI" />
+    <meta name="twitter:description" content="Stop staring at a blank first line: QuickGenAI's free Hook Generator creates scroll-stopping opening hooks for videos, posts, ads, and captions in seconds." />
+
+    <title>Hook Generator – Create Engaging Hooks | QuickGenAI</title>
+
+    <style>
+      :root {
+        --ink: #17263c;
+        --muted: #617089;
+        --muted-strong: #445570;
+        --line: #dbe3ee;
+        --line-strong: #cbd6e4;
+        --surface: #ffffff;
+        --surface-soft: #f5f7fb;
+        --surface-blue: #eff5ff;
+        --accent: #3265e8;
+        --accent-dark: #214bbd;
+        --accent-soft: #dce8ff;
+        --violet: #8064ea;
+        --teal: #27a59b;
+        --danger: #c0392b;
+        --danger-soft: #fbe8e6;
+        --shadow: 0 18px 50px rgba(36, 59, 94, 0.1);
+        --shadow-soft: 0 10px 28px rgba(36, 59, 94, 0.07);
+        --radius-xl: 30px;
+        --radius-lg: 22px;
+        --radius-md: 16px;
+        --max-width: 1180px;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        min-width: 320px;
+        overflow-x: hidden;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at 10% 0%, rgba(216, 229, 255, 0.66), transparent 27rem),
+          radial-gradient(circle at 90% 10%, rgba(229, 222, 255, 0.5), transparent 29rem),
+          var(--surface-soft);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          sans-serif;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      button,
+      a {
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      button {
+        font: inherit;
+      }
+
+      img,
+      svg {
+        display: block;
+        max-width: 100%;
+      }
+
+      :focus-visible {
+        outline: 3px solid rgba(50, 101, 232, 0.45);
+        outline-offset: 4px;
+      }
+
+      .skip-link {
+        position: fixed;
+        z-index: 50;
+        top: 12px;
+        left: 12px;
+        padding: 10px 14px;
+        color: #fff;
+        background: var(--ink);
+        border-radius: 9px;
+        transform: translateY(-140%);
+        transition: transform 180ms ease;
+      }
+
+      .skip-link:focus {
+        transform: translateY(0);
+      }
+
+      .container {
+        width: min(calc(100% - 40px), var(--max-width));
+        margin-inline: auto;
+      }
+
+      .container-narrow {
+        width: min(calc(100% - 40px), 820px);
+        margin-inline: auto;
+      }
+
+      /* ===== Header (same as homepage) ===== */
+      .site-header {
+        position: sticky;
+        z-index: 20;
+        top: 16px;
+        width: min(calc(100% - 32px), 1100px);
+        margin: 16px auto 0;
+      }
+
+      .nav-shell {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 68px;
+        padding: 9px 10px 9px 20px;
+        background: rgba(255, 255, 255, 0.76);
+        border: 1px solid rgba(203, 214, 228, 0.86);
+        border-radius: 18px;
+        box-shadow: 0 12px 36px rgba(51, 77, 115, 0.1);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 0.98rem;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        white-space: nowrap;
+      }
+
+      .brand-mark {
+        position: relative;
+        display: grid;
+        width: 34px;
+        height: 34px;
+        place-items: center;
+        overflow: hidden;
+        color: #fff;
+        background: #0a0a0a;
+        border-radius: 11px;
+        box-shadow: 0 7px 18px rgba(50, 101, 232, 0.26);
+        flex-shrink: 0;
+      }
+
+      .brand-mark svg { width: 25px; height: 25px; display: block; }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        margin-left: auto;
+      }
+
+      .nav-links a {
+        padding: 10px 13px;
+        color: var(--muted-strong);
+        border-radius: 10px;
+        font-size: 0.87rem;
+        font-weight: 650;
+        transition:
+          color 180ms ease,
+          background 180ms ease;
+      }
+
+      .nav-links a:hover,
+      .nav-links a[aria-current="page"] {
+        color: var(--accent-dark);
+        background: var(--surface-blue);
+      }
+
+      .nav-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-left: 10px;
+        padding: 11px 16px;
+        color: #fff !important;
+        background: var(--ink);
+        border-radius: 11px;
+        font-size: 0.84rem !important;
+        font-weight: 750 !important;
+        transition:
+          background 180ms ease,
+          transform 180ms ease;
+      }
+
+      .nav-cta:hover {
+        color: #fff !important;
+        background: var(--accent);
+        transform: translateY(-1px);
+      }
+
+      .menu-toggle {
+        display: none;
+        width: 42px;
+        height: 42px;
+        padding: 0;
+        color: var(--ink);
+        background: transparent;
+        border: 1px solid var(--line);
+        border-radius: 11px;
+        cursor: pointer;
+      }
+
+      .menu-toggle svg {
+        width: 20px;
+        margin: auto;
+      }
+
+      /* ===== Tool intro ===== */
+      .tool-intro {
+        padding: 64px 0 12px;
+      }
+
+      .tool-intro-inner {
+        max-width: 720px;
+        margin-inline: auto;
+        text-align: center;
+      }
+
+      .tool-intro-icon {
+        display: grid;
+        width: 56px;
+        height: 56px;
+        margin: 0 auto 20px;
+        place-items: center;
+        color: var(--accent-dark);
+        background: var(--accent-soft);
+        border-radius: 16px;
+      }
+
+      .tool-intro h1 {
+        margin-bottom: 12px;
+        font-size: clamp(2.1rem, 5vw, 3rem);
+      }
+
+      .tool-intro p {
+        max-width: 520px;
+        margin: 0 auto;
+        color: var(--muted);
+        font-size: 1rem;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
+      }
+
+      h1,
+      h2,
+      h3 {
+        letter-spacing: -0.045em;
+        line-height: 1.12;
+      }
+
+      /* ===== Tool section ===== */
+      .section {
+        padding: 56px 0;
+      }
+
+      .section-header {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 30px;
+        margin-bottom: 30px;
+      }
+
+      .section-header h2 {
+        max-width: 600px;
+        margin-bottom: 0;
+        font-size: clamp(1.7rem, 3.4vw, 2.35rem);
+      }
+
+      .section-intro {
+        max-width: 430px;
+        margin-bottom: 4px;
+        color: var(--muted);
+        font-size: 0.94rem;
+      }
+
+      .section-kicker {
+        margin-bottom: 10px;
+        color: var(--accent-dark);
+        font-size: 0.74rem;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .section-muted {
+        background: rgba(233, 240, 250, 0.42);
+        border-top: 1px solid rgba(216, 226, 239, 0.65);
+        border-bottom: 1px solid rgba(216, 226, 239, 0.65);
+      }
+
+      .tool-panel {
+        max-width: 680px;
+        margin: 0 auto;
+        padding: clamp(22px, 4vw, 36px);
+        background: rgba(255, 255, 255, 0.78);
+        border: 1px solid rgba(215, 224, 237, 0.95);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-soft);
+      }
+
+      .field {
+        margin-bottom: 18px;
+      }
+
+      .field:last-of-type {
+        margin-bottom: 24px;
+      }
+
+      .field-label {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--muted-strong);
+        font-size: 0.85rem;
+        font-weight: 700;
+      }
+
+      .field-hint {
+        display: block;
+        margin-top: 6px;
+        color: var(--muted);
+        font-size: 0.78rem;
+      }
+
+      .field-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+      }
+
+      textarea,
+      input[type="text"],
+      select {
+        width: 100%;
+        padding: 12px 14px;
+        color: var(--ink);
+        background: #fff;
+        border: 1px solid var(--line-strong);
+        border-radius: 12px;
+        font-family: inherit;
+        font-size: 0.92rem;
+        transition:
+          border-color 180ms ease,
+          box-shadow 180ms ease;
+      }
+
+      textarea:focus,
+      input[type="text"]:focus,
+      select:focus {
+        border-color: var(--accent);
+        outline: none;
+        box-shadow: 0 0 0 4px rgba(50, 101, 232, 0.14);
+      }
+
+      textarea {
+        min-height: 96px;
+        resize: vertical;
+      }
+
+      select {
+        cursor: pointer;
+        appearance: none;
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23617089' stroke-width='2'%3e%3cpath d='m6 9 6 6 6-6' stroke-linecap='round' stroke-linejoin='round'/%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right 12px center;
+        background-size: 18px;
+        padding-right: 38px;
+      }
+
+      .field-error {
+        display: none;
+        margin-top: 7px;
+        color: var(--danger);
+        font-size: 0.8rem;
+        font-weight: 650;
+      }
+
+      .field.has-error textarea {
+        border-color: var(--danger);
+      }
+
+      .field.has-error .field-error {
+        display: block;
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 49px;
+        gap: 9px;
+        padding: 12px 18px;
+        border: 1px solid transparent;
+        border-radius: 12px;
+        font-size: 0.9rem;
+        font-weight: 750;
+        cursor: pointer;
+        transition:
+          transform 180ms ease,
+          box-shadow 180ms ease,
+          background 180ms ease,
+          border-color 180ms ease,
+          opacity 180ms ease;
+      }
+
+      .button:hover {
+        transform: translateY(-2px);
+      }
+
+      .button:disabled {
+        cursor: not-allowed;
+        opacity: 0.65;
+        transform: none;
+      }
+
+      .button-primary {
+        color: #fff;
+        background: var(--accent);
+        box-shadow: 0 10px 24px rgba(50, 101, 232, 0.24);
+      }
+
+      .button-primary:hover:not(:disabled) {
+        background: var(--accent-dark);
+        box-shadow: 0 13px 28px rgba(50, 101, 232, 0.3);
+      }
+
+      .button-secondary {
+        color: var(--ink);
+        background: rgba(255, 255, 255, 0.66);
+        border-color: var(--line-strong);
+      }
+
+      .button-secondary:hover:not(:disabled) {
+        background: #fff;
+        border-color: #aebdd1;
+      }
+
+      .button-ghost {
+        min-height: 40px;
+        padding: 8px 14px;
+        color: var(--accent-dark);
+        background: var(--surface-blue);
+        font-size: 0.82rem;
+      }
+
+      .button-ghost:hover:not(:disabled) {
+        background: var(--accent-soft);
+      }
+
+      .button-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .tool-actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .spinner {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        border: 2px solid rgba(255, 255, 255, 0.5);
+        border-top-color: #fff;
+        border-radius: 50%;
+        animation: spin 700ms linear infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* ===== Result area ===== */
+      .result-panel {
+        max-width: 680px;
+        margin: 22px auto 0;
+      }
+
+      .result-box {
+        padding: clamp(20px, 4vw, 30px);
+        background: rgba(255, 255, 255, 0.72);
+        border: 1px dashed var(--line-strong);
+        border-radius: var(--radius-lg);
+      }
+
+      .result-box.has-content {
+        border-style: solid;
+        border-color: rgba(215, 224, 237, 0.95);
+        box-shadow: var(--shadow-soft);
+      }
+
+      .result-empty {
+        color: var(--muted);
+        font-size: 0.92rem;
+        text-align: center;
+      }
+
+      .result-status {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        color: var(--muted-strong);
+        font-size: 0.92rem;
+        font-weight: 650;
+      }
+
+      .result-status .spinner {
+        border: 2px solid rgba(50, 101, 232, 0.25);
+        border-top-color: var(--accent);
+      }
+
+      .result-error {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 14px 16px;
+        color: #8a2d22;
+        background: var(--danger-soft);
+        border: 1px solid rgba(192, 57, 43, 0.25);
+        border-radius: 12px;
+        font-size: 0.88rem;
+      }
+
+      .hook-list {
+        display: grid;
+        gap: 12px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .hook-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        padding: 14px 16px;
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 13px;
+      }
+
+      .hook-item p {
+        margin: 0;
+        color: var(--ink);
+        font-size: 0.94rem;
+        font-weight: 600;
+        line-height: 1.5;
+      }
+
+      .hook-number {
+        color: var(--accent-dark);
+        font-size: 0.7rem;
+        font-weight: 800;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      .copy-btn {
+        flex: 0 0 auto;
+        min-height: 36px;
+        padding: 8px 13px;
+        color: var(--accent-dark);
+        background: var(--surface-blue);
+        border: 1px solid transparent;
+        border-radius: 9px;
+        font-size: 0.78rem;
+        font-weight: 750;
+        cursor: pointer;
+        transition: background 160ms ease;
+      }
+
+      .copy-btn:hover {
+        background: var(--accent-soft);
+      }
+
+      .copy-btn.copied {
+        color: #147d75;
+        background: #d9f3ef;
+      }
+
+      .result-footer-actions {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 18px;
+      }
+
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+
+      /* ===== About / prose ===== */
+      .about-copy p {
+        max-width: 700px;
+        margin: 0 auto 16px;
+        color: var(--muted-strong);
+        font-size: 0.97rem;
+        text-align: left;
+      }
+
+      .about-copy {
+        max-width: 700px;
+        margin: 0 auto;
+      }
+
+      /* ===== Steps ===== */
+      .steps {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+      }
+
+      .step {
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.65);
+        border: 1px solid rgba(215, 224, 237, 0.9);
+        border-radius: var(--radius-lg);
+      }
+
+      .step-index {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        margin-bottom: 16px;
+        color: #fff;
+        background: var(--ink);
+        border-radius: 12px;
+        font-size: 0.74rem;
+        font-weight: 850;
+      }
+
+      .step:nth-child(2) .step-index {
+        background: var(--accent);
+      }
+
+      .step:nth-child(3) .step-index {
+        background: var(--violet);
+      }
+
+      .step:nth-child(4) .step-index {
+        background: var(--teal);
+      }
+
+      .step h3 {
+        margin-bottom: 6px;
+        font-size: 0.96rem;
+        letter-spacing: -0.02em;
+      }
+
+      .step p {
+        margin-bottom: 0;
+        color: var(--muted);
+        font-size: 0.83rem;
+      }
+
+      /* ===== Features grid ===== */
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+      }
+
+      .feature-card {
+        padding: 22px;
+        background: rgba(255, 255, 255, 0.65);
+        border: 1px solid rgba(215, 224, 237, 0.9);
+        border-radius: var(--radius-lg);
+      }
+
+      .feature-number {
+        display: grid;
+        width: 38px;
+        height: 38px;
+        margin-bottom: 20px;
+        place-items: center;
+        color: var(--accent-dark);
+        background: var(--accent-soft);
+        border-radius: 11px;
+      }
+
+      .feature-card:nth-child(2) .feature-number {
+        color: #6242cc;
+        background: #e9e2ff;
+      }
+
+      .feature-card:nth-child(3) .feature-number {
+        color: #147c74;
+        background: #d9f2ee;
+      }
+
+      .feature-card:nth-child(4) .feature-number {
+        color: #ae6719;
+        background: #ffecd5;
+      }
+
+      .feature-card h3 {
+        margin-bottom: 8px;
+        font-size: 1rem;
+        letter-spacing: -0.025em;
+      }
+
+      .feature-card p {
+        margin-bottom: 0;
+        color: var(--muted);
+        font-size: 0.83rem;
+        line-height: 1.55;
+      }
+
+      /* ===== Example ===== */
+      .example-panel {
+        max-width: 680px;
+        margin: 0 auto;
+        padding: clamp(22px, 4vw, 30px);
+        background: rgba(255, 255, 255, 0.72);
+        border: 1px solid rgba(215, 224, 237, 0.95);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-soft);
+      }
+
+      .example-badge {
+        display: inline-block;
+        margin-bottom: 16px;
+        padding: 5px 10px;
+        color: var(--muted);
+        background: var(--surface-soft);
+        border-radius: 7px;
+        font-size: 0.66rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .example-input {
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .example-label {
+        display: block;
+        margin-bottom: 6px;
+        color: var(--muted);
+        font-size: 0.78rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .example-input p {
+        margin: 0;
+        color: var(--ink);
+        font-size: 0.94rem;
+        font-weight: 650;
+      }
+
+      /* ===== FAQ ===== */
+      .faq-layout {
+        max-width: 780px;
+        margin: 0 auto;
+      }
+
+      .faq-list {
+        border-top: 1px solid var(--line-strong);
+      }
+
+      .faq-item {
+        border-bottom: 1px solid var(--line-strong);
+      }
+
+      .faq-question {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        gap: 20px;
+        padding: 20px 0;
+        color: var(--ink);
+        text-align: left;
+        background: transparent;
+        border: 0;
+        cursor: pointer;
+        font-size: 0.96rem;
+        font-weight: 750;
+      }
+
+      .faq-icon {
+        display: grid;
+        flex: 0 0 auto;
+        width: 28px;
+        height: 28px;
+        place-items: center;
+        color: var(--accent-dark);
+        background: var(--surface-blue);
+        border-radius: 8px;
+        transition: transform 200ms ease;
+      }
+
+      .faq-item.is-open .faq-icon {
+        transform: rotate(45deg);
+      }
+
+      .faq-answer {
+        display: grid;
+        grid-template-rows: 0fr;
+        transition: grid-template-rows 220ms ease;
+      }
+
+      .faq-answer > div {
+        min-height: 0;
+        overflow: hidden;
+      }
+
+      .faq-answer p {
+        max-width: 700px;
+        margin: -3px 0 20px;
+        color: var(--muted);
+        font-size: 0.86rem;
+      }
+
+      .faq-item.is-open .faq-answer {
+        grid-template-rows: 1fr;
+      }
+
+      /* ===== Related tools ===== */
+      .related-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+      }
+
+      .tool-card {
+        display: flex;
+        min-height: 190px;
+        flex-direction: column;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.72);
+        border: 1px solid rgba(215, 224, 237, 0.95);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-soft);
+        transition:
+          transform 220ms ease,
+          box-shadow 220ms ease,
+          border-color 220ms ease;
+      }
+
+      .tool-card:hover,
+      .tool-card:focus-within {
+        border-color: #b8cbee;
+        box-shadow: 0 20px 40px rgba(44, 71, 113, 0.13);
+        transform: translateY(-5px);
+      }
+
+      .tool-icon {
+        display: grid;
+        width: 38px;
+        height: 38px;
+        place-items: center;
+        color: var(--accent-dark);
+        background: var(--accent-soft);
+        border-radius: 11px;
+      }
+
+      .tool-icon.violet {
+        color: #6344ca;
+        background: #e9e3ff;
+      }
+
+      .tool-icon.teal {
+        color: #167a73;
+        background: #d9f3ef;
+      }
+
+      .tool-icon.orange {
+        color: #b66817;
+        background: #ffebcf;
+      }
+
+      .tool-card h3 {
+        margin: 16px 0 6px;
+        font-size: 0.96rem;
+        letter-spacing: -0.02em;
+      }
+
+      .tool-card p {
+        margin-bottom: 16px;
+        color: var(--muted);
+        font-size: 0.8rem;
+        line-height: 1.5;
+      }
+
+      .tool-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        width: fit-content;
+        margin-top: auto;
+        color: var(--accent-dark);
+        font-size: 0.78rem;
+        font-weight: 800;
+      }
+
+      .tool-link svg {
+        transition: transform 180ms ease;
+      }
+
+      .tool-link:hover svg {
+        transform: translateX(3px);
+      }
+
+      /* ===== Footer (same as homepage) ===== */
+      .site-footer {
+        padding: 63px 0 25px;
+        color: #cad5e6;
+        background: #14243c;
+      }
+
+      .footer-grid {
+        display: grid;
+        grid-template-columns: 1.45fr repeat(3, 0.8fr) 0.9fr;
+        gap: 30px;
+        padding-bottom: 54px;
+      }
+
+      .footer-brand {
+        max-width: 240px;
+      }
+
+      .footer-brand .brand {
+        color: #fff;
+        margin-bottom: 18px;
+      }
+
+      .footer-brand p,
+      .footer-heading {
+        color: #91a3be;
+        font-size: 0.79rem;
+      }
+
+      .footer-brand p {
+        line-height: 1.7;
+      }
+
+      .footer-heading {
+        margin-bottom: 17px;
+        font-size: 0.69rem;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .footer-links {
+        display: grid;
+        gap: 10px;
+      }
+
+      .footer-links a {
+        width: fit-content;
+        color: #d7e0ee;
+        font-size: 0.79rem;
+        transition: color 180ms ease;
+      }
+
+      .footer-links a:hover {
+        color: #fff;
+      }
+
+      .social-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .social-link {
+        display: grid !important;
+        width: 31px;
+        height: 31px;
+        place-items: center;
+        color: #d7e0ee !important;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.11);
+        border-radius: 9px;
+      }
+
+      .social-link:hover {
+        color: #fff !important;
+        background: rgba(255, 255, 255, 0.16);
+      }
+
+      .footer-bottom {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        padding-top: 21px;
+        border-top: 1px solid rgba(211, 224, 243, 0.16);
+        color: #8295b0;
+        font-size: 0.72rem;
+      }
+
+      .footer-bottom p {
+        margin-bottom: 0;
+      }
+
+      .footer-contact {
+        color: #dce6f4;
+        overflow-wrap: anywhere;
+      }
+
+      /* ===== Responsive ===== */
+      @media (max-width: 980px) {
+        .features-grid,
+        .steps {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .related-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .footer-grid {
+          grid-template-columns: 1.5fr repeat(2, 1fr);
+        }
+
+        .footer-brand {
+          grid-column: span 3;
+        }
+      }
+
+      @media (max-width: 760px) {
+        .site-header {
+          top: 9px;
+          width: min(calc(100% - 20px), 1100px);
+          margin-top: 9px;
+        }
+
+        .nav-shell {
+          padding-left: 14px;
+        }
+
+        .menu-toggle {
+          display: grid;
+          place-items: center;
+        }
+
+        .nav-links {
+          position: absolute;
+          top: calc(100% + 8px);
+          right: 0;
+          left: 0;
+          display: grid;
+          gap: 2px;
+          padding: 8px;
+          background: rgba(255, 255, 255, 0.94);
+          border: 1px solid var(--line);
+          border-radius: 15px;
+          box-shadow: var(--shadow-soft);
+          opacity: 0;
+          pointer-events: none;
+          transform: translateY(-7px);
+          transition:
+            opacity 180ms ease,
+            transform 180ms ease;
+        }
+
+        .nav-links.is-open {
+          opacity: 1;
+          pointer-events: auto;
+          transform: translateY(0);
+        }
+
+        .nav-links a {
+          padding: 12px;
+        }
+
+        .nav-cta {
+          margin: 4px 0 0;
+          text-align: center;
+        }
+
+        .tool-intro {
+          padding: 46px 0 6px;
+        }
+
+        .section {
+          padding: 44px 0;
+        }
+
+        .section-header {
+          display: block;
+        }
+
+        .section-intro {
+          margin-top: 14px;
+        }
+
+        .field-row {
+          grid-template-columns: 1fr;
+        }
+
+        .steps,
+        .features-grid,
+        .related-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .button-row,
+        .tool-actions {
+          display: grid;
+        }
+
+        .tool-actions .button {
+          width: 100%;
+        }
+
+        .hook-item {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .copy-btn {
+          width: 100%;
+        }
+
+        .footer-grid {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 35px 20px;
+        }
+
+        .footer-brand {
+          grid-column: span 2;
+        }
+
+        .footer-bottom {
+          display: block;
+        }
+
+        .footer-contact {
+          margin-top: 8px;
+        }
+      }
+
+      @media (max-width: 500px) {
+        .container,
+        .container-narrow {
+          width: min(calc(100% - 28px), var(--max-width));
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+
+        *,
+        *::before,
+        *::after {
+          transition-duration: 0.01ms !important;
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+        }
+      }
+    </style>
+    <!-- Fonts (Inter was referenced in CSS but never actually loaded; Playfair Display powers the logo monogram) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Hook Generator",
+  "url": "https://quickgenai.in/tools/hook-generator/",
+  "description": "Stop staring at a blank first line: QuickGenAI's free Hook Generator creates scroll-stopping opening hooks for videos, posts, ads, and captions in seconds.",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "QuickGenAI",
+    "url": "https://quickgenai.in/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Hook Generator – QuickGenAI",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Web",
+  "url": "https://quickgenai.in/tools/hook-generator/",
+  "description": "Stop staring at a blank first line: QuickGenAI's free Hook Generator creates scroll-stopping opening hooks for videos, posts, ads, and captions in seconds.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://quickgenai.in/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "AI Tools",
+      "item": "https://quickgenai.in/ai-tools"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Hook Generator",
+      "item": "https://quickgenai.in/tools/hook-generator/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is a hook?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A hook is the opening line of a piece of content, designed to capture attention and encourage someone to keep watching or reading."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What can I use the Hook Generator for?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It can help you draft opening lines for videos, social media posts, ads, and other written or spoken content."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What information should I enter?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Enter the topic or content idea you're working on."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use the generated hooks for social media?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, the hooks are meant as starting points for content such as social media posts, videos, and ads."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I copy a generated hook?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Each hook in your results has a Copy button next to it. Click it to copy that hook to your clipboard."
+      }
+    }
+  ]
+}
+</script>
+</head>
+
+  <body>
+<noscript><style>
+  /* AdSense/Bot-safe fallback: full navigation must render with zero JavaScript */
+  .nav-links{display:flex!important;flex-wrap:wrap;opacity:1!important;pointer-events:auto!important;position:static!important;transform:none!important;box-shadow:none!important;background:transparent!important;}
+  .menu-toggle{display:none!important;}
+</style></noscript>
+
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+
+    <header class="site-header">
+      <nav class="nav-shell" aria-label="Primary navigation">
+        <a class="brand" href="/" aria-label="Go to QuickGenAI home">
+          <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 100 100" role="img" aria-label="QuickGenAI logo">
+              <text x="8" y="74" font-family="'Playfair Display',Georgia,serif" font-style="italic" font-weight="700" font-size="76" fill="white">G</text>
+              <line x1="47" y1="26" x2="47" y2="58" stroke="white" stroke-width="2.4" stroke-linecap="round"/>
+              <text x="49" y="60" font-family="'Playfair Display',Georgia,serif" font-weight="700" font-size="21" fill="white">AI</text>
+              <path d="M46 66 Q 60 82, 82 78" fill="none" stroke="white" stroke-width="1.6" stroke-linecap="round"/>
+            </svg></span>
+          <span>QuickGenAI</span>
+        </a>
+
+        <button
+          class="menu-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="primary-links"
+          aria-label="Open navigation menu"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round" />
+          </svg>
+        </button>
+
+        <div class="nav-links" id="primary-links">
+          <a href="https://quickgenai.in">Home</a>
+          <a href="https://quickgenai.in/ai-tools" aria-current="page">Tools</a>
+          <a href="https://quickgenai.in/about">About</a>
+          <a href="https://quickgenai.in/contact">Contact</a>
+          <a class="nav-cta" href="https://quickgenai.in/ai-tools#all-tools">Explore tools <span aria-hidden="true">↗</span></a>
+        </div>
+      </nav>
+    </header>
+
+    <main id="main-content">
+      <!-- TOOL INTRO -->
+      <section class="tool-intro" aria-labelledby="tool-title">
+        <div class="container">
+          <div class="tool-intro-inner">
+            <span class="tool-intro-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v7a2.5 2.5 0 0 1-2.5 2.5H11l-4.5 4v-4h0A2.5 2.5 0 0 1 4 13.5v-7Z" /></svg>
+            </span>
+            <h1 id="tool-title">Hook Generator</h1>
+            <p>Create engaging hooks for videos, posts, ads, and other content.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- MAIN TOOL -->
+      <section class="section" aria-labelledby="generator-heading">
+        <div class="container">
+          <h2 id="generator-heading" class="sr-only">Hook Generator Tool</h2>
+
+          <form class="tool-panel" id="tool-form" novalidate>
+            <div class="field" id="topic-field">
+              <label class="field-label" for="topic-input">What are you creating?</label>
+              <textarea id="topic-input" name="topic" placeholder="e.g. How to save money while shopping online" aria-describedby="topic-error topic-hint" required></textarea>
+              <span class="field-error" id="topic-error" role="alert">Please enter what are you creating?.</span>
+              <span class="field-hint" id="topic-hint">Describe the video, post, or content you want a hook for.</span>
+            </div>
+
+            <div class="tool-actions">
+              <button class="button button-primary" type="submit" id="generate-btn">
+                <span id="generate-btn-label">Generate Hooks</span>
+              </button>
+            </div>
+          </form>
+
+          <!-- RESULT AREA -->
+          <div class="result-panel" aria-live="polite">
+            <div class="result-box" id="result-box">
+              <p class="result-empty" id="result-empty">Your generated hooks will appear here.</p>
+            </div>
+            <div class="result-footer-actions" id="result-actions" hidden>
+              <button class="button button-secondary" type="button" id="regenerate-btn">Regenerate</button>
+            <button class="button button-ghost" type="button" id="clear-btn">Clear</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ABOUT -->
+      <section class="section section-muted" aria-labelledby="about-title">
+        <div class="container">
+          <div class="section-header" style="justify-content: center; text-align: center; flex-direction: column; align-items: center;">
+            <p class="section-kicker">Learn more</p>
+            <h2 id="about-title">About Hook Generator</h2>
+          </div>
+          <div class="about-copy">
+            <h1>AI Hook Writer: Create Clearer Openings for Every Content Format</h1>
+ 
+<p>People often scroll past a post before its main point appears. A strong opening can help the right reader understand why the content matters, but no line can guarantee views or clicks.</p>
+ 
+<p>An AI hook writer gives you opening-line drafts for videos, social posts, ads, emails, and articles. The results improve when you provide clear context and review each suggestion against the content that follows. Use the process below to get more useful options and shape the best one into your own voice.</p>
+ 
+<h2>What an AI hook writer can and can't do</h2>
+ 
+<h3>How an AI hook writer generates opening lines</h3>
+<p>An AI hook writer uses your prompt to produce possible openings. It can consider details such as your topic, intended audience, content type, tone, and key message. A dedicated hook writer focuses on openings, while a general writing assistant may also draft or revise longer content. An AI hook generator often refers to a tool that produces several options from a short brief.</p>
+<p>Treat every suggestion as a draft. AI can offer wording, but it doesn't verify facts, predict results, or replace your editorial judgment. Review claims and make sure each opening fits the piece.</p>
+ 
+<h3>Where hooks fit across content formats</h3>
+<p>A hook can be a spoken first line in a video, the first sentence of a caption, or the opening of an article. Email subject lines and ad headlines also need to earn attention, though they work within different limits and reader expectations. In each case, the opening should make the content's relevance clear or raise a question the content answers.</p>
+<p>Match the hook to what follows. A dramatic tease can feel misleading if the next paragraph offers a basic tip, while a plain benefit statement may suit a practical guide.</p>
+ 
+<h3>Who benefits most from using one</h3>
+<p>Creators, marketers, small-business owners, and writers can use a hook writer to develop several opening options without starting from a blank page. It can be useful when a campaign needs different versions for several platforms or audiences. The tool helps with brainstorming; the writer still decides what sounds right.</p>
+<p>Expert, sensitive, and regulated topics need closer review. A generated hook about health, money, or legal matters can overstate what the content supports, so verify every claim before publishing.</p>
+ 
+<h2>Give an AI hook writer the context it needs</h2>
+ 
+<h3>Define the audience and the problem</h3>
+<p>Describe who will see the content, what they care about, and what problem or desire it addresses. "New managers at small retail shops who need a better way to schedule weekend shifts" gives the tool more to work with than "business owners." Add the audience's knowledge level and likely concerns when those details matter.</p>
+<p>This context helps the draft use relevant words and frame a useful question. Without it, the tool may fall back on broad phrases that could apply to almost anyone.</p>
+ 
+<h3>Share the content's promise and proof</h3>
+<p>State the central takeaway or question the piece answers. For example, a post may explain how to prepare a week of lunches using ingredients already in the pantry. That gives the tool a clear promise to reflect.</p>
+<p>Include product details or source material the hook must use. Don't ask the system to invent research, customer stories, credentials, or results. If a fact isn't in your brief or a reliable source, leave it out of the final version.</p>
+ 
+<h3>Specify format, tone, and constraints</h3>
+<p>Name the platform and content type, then set a length and voice. You might request a short spoken line for a how-to video, or a calm subject line for a service update. List any terms, claims, or styles to avoid.</p>
+<p>Ask for a few distinct approaches, such as direct, curiosity-led, and benefit-focused. A reusable prompt can follow this order: audience, topic, content promise, format, tone, and constraints. Specific direction usually gives you better drafts than a broad request for "catchy hooks."</p>
+ 
+<h2>Turn AI suggestions into stronger hooks</h2>
+ 
+<h3>Generate a focused set of options</h3>
+<p>Start with one content idea, not a broad topic like "fitness" or "marketing." Ask for a manageable group of openings and have the tool label each approach. This makes comparison easier and keeps the task focused.</p>
+<p>A long list doesn't mean the options are strong. Look for a hook that is relevant, clear, and easy to connect to the main content.</p>
+ 
+<h3>Select hooks that match the content</h3>
+<p>Check whether each line accurately previews the post, video, or article. Remove claims that promise more than the content delivers, as well as suspense that hides a simple point. The opening should create interest without misrepresenting what comes next.</p>
+<p>Read the hook beside the next sentence or opening shot. If the transition feels abrupt, revise one or both parts so the start and the main idea work together.</p>
+ 
+<h3>Edit the best option into your own voice</h3>
+<p>Replace broad wording with a real detail, a familiar term your audience uses, or an example from the content. Then read the line aloud and cut any words that slow it down. Spoken openings often need simpler phrasing than written ones.</p>
+<p>Save prompts and edits that work well for your team. Reuse the method, not the exact wording: different topics and audiences call for different openings.</p>
+ 
+<h2>Adapt AI hooks to each platform and format</h2>
+ 
+<h3>Write video hooks for spoken delivery</h3>
+<p>A video opening needs to make sense when heard once. Choose words that feel natural to say, and connect the line to the first visual or action. A spoken promise about repairing a loose chair, for example, should lead into a shot of the repair, not a long unrelated greeting.</p>
+<p>YouTube's creator guidance for Shorts includes one creator's advice to make the subject clear early. Treat that as a useful example, not a rule that guarantees results. Check current platform guidance before making claims about ideal length or performance.</p>
+ 
+<h3>Shape social media hooks for fast scanning</h3>
+<p>Put the main idea or reader benefit near the start. Short lines, clear captions, and readable on-screen text can help people grasp the point while scrolling. Make sure the written hook and any text in the video tell the same story.</p>
+<p>A post that begins "Three ways to reduce food waste at home" should offer those three ways. Avoid copying a format from another account without checking whether it fits your audience and content.</p>
+ 
+<h3>Adapt hooks for blogs, emails, and ads</h3>
+<p>An article headline and opening paragraph should accurately describe the material. An email subject line should match the message inside; a curiosity gap that hides the email's real purpose can erode trust. For ads, check the platform's rules and the offer details before using a generated claim.</p>
+<p>The FTC's advertising guidance says that ad claims must be truthful, not deceptive, and evidence-based. This matters when an AI draft includes claims about savings, results, or product benefits. Keep only claims your business can support.</p>
+ 
+<h2>Improve hooks without losing trust or originality</h2>
+ 
+<h3>Recognize generic or misleading language</h3>
+<p>Watch for empty superlatives, familiar clichés, and vague questions that don't point to a real problem. Phrases such as "Change your life today" say little unless the content explains a clear, credible benefit. Check each factual claim against a source you trust.</p>
+<p>Treat generated quotes, statistics, and personal stories as unverified until you confirm them. If you can't verify a detail, remove it or rewrite the hook without it.</p>
+ 
+<h3>Keep the wording distinctive and authentic</h3>
+<p>Add your own examples, experience, and audience language where they fit. Avoid copying another creator's recognizable phrasing or asking an AI system to imitate a living writer's style. Your hook should sound like it belongs with the rest of your content and brand voice.</p>
+<p>Specific detail often makes a line feel more human. "The meeting starts in ten minutes and your slides are still blank" gives a clear scene; "Need help with presentations?" stays broad.</p>
+ 
+<h3>Test variations with care</h3>
+<p>If you have suitable analytics, compare clearly defined versions and track the same outcome under similar conditions. Note the audience, platform, format, and test setup when you review results. A change in performance doesn't prove the hook alone caused it.</p>
+<p>Use platform documentation or original research for benchmarks. Avoid applying one campaign result to every audience or treating a single test as a universal formula.</p>
+ 
+<h2>Build a repeatable AI hook-writing process</h2>
+ 
+<h3>Use a final review checklist</h3>
+<p>Before publishing, check that the hook speaks to a clear audience and makes an accurate promise. Confirm that it fits the format, sounds natural in your voice, and is easy to understand. Verify each factual claim and check that the next line or opening shot delivers on the setup.</p>
+ 
+<h3>Put the process to work</h3>
+<p>Choose one upcoming post or video and write down its audience, problem, and main takeaway. Ask an AI hook writer for several distinct options, then edit the strongest draft and compare it with the full content. Record useful results with their context so you can make better choices next time.</p>
+<p>An AI hook writer is most useful as a partner for brainstorming and revision. The human writer remains responsible for accuracy, relevance, and trust. Start with your next piece and see which opening says the most with the fewest clear words.</p>
+ 
+<h2>Conclusion</h2>
+<p>A strong AI-generated hook starts with a clear brief: who the content is for, what it promises, and where it will appear. Generate a focused set of options, check each one against the content, and revise the best draft until it sounds natural. Pick one upcoming piece, write its audience and promise, and create a few openings to test.</p>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- HOW TO USE -->
+      <section class="section" aria-labelledby="how-title">
+        <div class="container">
+          <div class="section-header" style="justify-content: center; text-align: center; flex-direction: column; align-items: center;">
+            <p class="section-kicker">Getting started</p>
+            <h2 id="how-title">How to Use Hook Generator</h2>
+          </div>
+          <div class="steps">
+            <article class="step">
+              <span class="step-index">01</span>
+              <h3>Enter your topic</h3>
+              <p>Describe the video, post, or content idea you're creating a hook for.</p>
+            </article>
+            <article class="step">
+              <span class="step-index">02</span>
+              <h3>Click Generate Hooks</h3>
+              <p>Submit your input and let the tool produce hook options for you.</p>
+            </article>
+            <article class="step">
+              <span class="step-index">03</span>
+              <h3>Review and copy</h3>
+              <p>Read through the results and copy the hook you want to use.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- FEATURES / USE CASES -->
+      <section class="section section-muted" aria-labelledby="features-title">
+        <div class="container">
+          <div class="section-header" style="justify-content: center; text-align: center; flex-direction: column; align-items: center;">
+            <p class="section-kicker">What it offers</p>
+            <h2 id="features-title">Hook Generator Features</h2>
+          </div>
+          <div class="features-grid">
+            <article class="feature-card">
+              <span class="feature-number" aria-hidden="true">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12.5 11 15l4-5" stroke-linecap="round" stroke-linejoin="round" /><rect x="4" y="4" width="16" height="16" rx="4" /></svg>
+              </span>
+              <h3>Multiple hook ideas</h3>
+              <p>Generate several hook options from a single topic instead of just one.</p>
+            </article>
+            <article class="feature-card">
+              <span class="feature-number" aria-hidden="true">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12.5 11 15l4-5" stroke-linecap="round" stroke-linejoin="round" /><rect x="4" y="4" width="16" height="16" rx="4" /></svg>
+              </span>
+              <h3>Multiple formats</h3>
+              <p>Create hooks suited to different content types, such as videos, posts, and ads.</p>
+            </article>
+            <article class="feature-card">
+              <span class="feature-number" aria-hidden="true">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12.5 11 15l4-5" stroke-linecap="round" stroke-linejoin="round" /><rect x="4" y="4" width="16" height="16" rx="4" /></svg>
+              </span>
+              <h3>Easy copying</h3>
+              <p>Copy any generated hook to your clipboard with a single click.</p>
+            </article>
+            <article class="feature-card">
+              <span class="feature-number" aria-hidden="true">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12.5 11 15l4-5" stroke-linecap="round" stroke-linejoin="round" /><rect x="4" y="4" width="16" height="16" rx="4" /></svg>
+              </span>
+              <h3>Simple interface</h3>
+              <p>A focused, browser-based tool with no unnecessary settings.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+            <section class="section" aria-labelledby="example-title">
+        <div class="container">
+          <div class="section-header" style="justify-content: center; text-align: center; flex-direction: column; align-items: center;">
+            <p class="section-kicker">See it in action</p>
+            <h2 id="example-title">Hook Generator Example</h2>
+          </div>
+          <div class="example-panel">
+            <span class="example-badge">Illustrative example</span>
+            <div class="example-input">
+              <span class="example-label">Topic</span>
+              <p>How to save money while shopping online</p>
+            </div>
+            <ul class="hook-list" aria-label="Example hooks">
+              <li class="hook-item"><p><span class="hook-number">Hook 1&nbsp;·&nbsp;</span>Stop paying full price — here's what most online shoppers miss.</p></li>
+              <li class="hook-item"><p><span class="hook-number">Hook 2&nbsp;·&nbsp;</span>This one browser habit could be costing you money every time you shop.</p></li>
+              <li class="hook-item"><p><span class="hook-number">Hook 3&nbsp;·&nbsp;</span>Before you check out, try this simple trick first.</p></li>
+            </ul>
+            <p style="margin-top: 18px; color: var(--muted); font-size: 0.82rem; text-align: center;">This is a sample illustration, not an actual generated result.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section class="section section-muted" aria-labelledby="faq-title">
+        <div class="container faq-layout">
+          <div class="section-header" style="justify-content: center; text-align: center; flex-direction: column; align-items: center;">
+            <p class="section-kicker">Need to know</p>
+            <h2 id="faq-title">Frequently Asked Questions</h2>
+          </div>
+          <div class="faq-list">
+            <div class="faq-item is-open">
+              <button class="faq-question" type="button" aria-expanded="true" aria-controls="faq-answer-1" id="faq-question-1">
+                <span>What is a hook?</span>
+                <span class="faq-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="faq-answer" id="faq-answer-1" role="region" aria-labelledby="faq-question-1">
+                <div><p>A hook is the opening line of a piece of content, designed to capture attention and encourage someone to keep watching or reading.</p></div>
+              </div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-question" type="button" aria-expanded="false" aria-controls="faq-answer-2" id="faq-question-2">
+                <span>What can I use the Hook Generator for?</span>
+                <span class="faq-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="faq-answer" id="faq-answer-2" role="region" aria-labelledby="faq-question-2">
+                <div><p>It can help you draft opening lines for videos, social media posts, ads, and other written or spoken content.</p></div>
+              </div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-question" type="button" aria-expanded="false" aria-controls="faq-answer-3" id="faq-question-3">
+                <span>What information should I enter?</span>
+                <span class="faq-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="faq-answer" id="faq-answer-3" role="region" aria-labelledby="faq-question-3">
+                <div><p>Enter the topic or content idea you're working on.</p></div>
+              </div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-question" type="button" aria-expanded="false" aria-controls="faq-answer-4" id="faq-question-4">
+                <span>Can I use the generated hooks for social media?</span>
+                <span class="faq-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="faq-answer" id="faq-answer-4" role="region" aria-labelledby="faq-question-4">
+                <div><p>Yes, the hooks are meant as starting points for content such as social media posts, videos, and ads.</p></div>
+              </div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-question" type="button" aria-expanded="false" aria-controls="faq-answer-5" id="faq-question-5">
+                <span>How do I copy a generated hook?</span>
+                <span class="faq-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="faq-answer" id="faq-answer-5" role="region" aria-labelledby="faq-question-5">
+                <div><p>Each hook in your results has a Copy button next to it. Click it to copy that hook to your clipboard.</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- RELATED TOOLS -->
+      <section class="section" aria-labelledby="related-title">
+        <div class="container">
+          <div class="section-header" style="justify-content: center; text-align: center; flex-direction: column; align-items: center;">
+            <p class="section-kicker">Keep exploring</p>
+            <h2 id="related-title">Related Tools</h2>
+          </div>
+          <div class="related-grid">
+            <article class="tool-card">
+              <span class="tool-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v7a2.5 2.5 0 0 1-2.5 2.5H11l-4.5 4v-4h0A2.5 2.5 0 0 1 4 13.5v-7Z" /></svg>
+              </span>
+              <h3>General AI Chat</h3>
+              <p>Chat with an AI assistant for everyday questions.</p>
+              <a class="tool-link" href="https://quickgenai.in/ai-tools/general-ai-chat">Try General AI Chat <span aria-hidden="true">→</span></a>
+            </article>
+            <article class="tool-card">
+              <span class="tool-icon teal">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19V5M4 19h16M8 15l3-4 3 2 4-6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              </span>
+              <h3>Blog Generator</h3>
+              <p>Draft blog post content from a topic and audience.</p>
+              <a class="tool-link" href="https://quickgenai.in/ai-tools/blog-generator">Try Blog Generator <span aria-hidden="true">→</span></a>
+            </article>
+            <article class="tool-card">
+              <span class="tool-icon orange">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3.5" y="3.5" width="17" height="17" rx="4" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.7" r=".8" fill="currentColor" stroke="none" /></svg>
+              </span>
+              <h3>Title Generator</h3>
+              <p>Create title options for videos, articles, and posts.</p>
+              <a class="tool-link" href="https://quickgenai.in/ai-tools/title-generator">Try Title Generator <span aria-hidden="true">→</span></a>
+            </article>
+            <article class="tool-card">
+              <span class="tool-icon violet">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m5 19 14-14M7 5h.01M17 19h.01" stroke-linecap="round" /><circle cx="7" cy="5" r="2.5" /><circle cx="17" cy="19" r="2.5" /></svg>
+              </span>
+              <h3>Tweet Hook Generator</h3>
+              <p>Create hook lines suited to short-form posts.</p>
+              <a class="tool-link" href="https://quickgenai.in/ai-tools/tweet-hook-generator">Try Tweet Hook Generator <span aria-hidden="true">→</span></a>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a class="brand" href="/" aria-label="Go to QuickGenAI home">
+              <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 100 100" role="img" aria-label="QuickGenAI logo">
+              <text x="8" y="74" font-family="'Playfair Display',Georgia,serif" font-style="italic" font-weight="700" font-size="76" fill="white">G</text>
+              <line x1="47" y1="26" x2="47" y2="58" stroke="white" stroke-width="2.4" stroke-linecap="round"/>
+              <text x="49" y="60" font-family="'Playfair Display',Georgia,serif" font-weight="700" font-size="21" fill="white">AI</text>
+              <path d="M46 66 Q 60 82, 82 78" fill="none" stroke="white" stroke-width="1.6" stroke-linecap="round"/>
+            </svg></span>
+              <span>QuickGenAI</span>
+            </a>
+            <p>Practical AI tools for writing, content, SEO, creativity, development, and productivity.</p>
+            <a class="footer-contact" href="mailto:contactmayankproduction@gmail.com">contactmayankproduction@gmail.com</a>
+          </div>
+
+          <div>
+            <p class="footer-heading">Navigation</p>
+            <nav class="footer-links" aria-label="Footer navigation">
+              <a href="https://quickgenai.in">Home</a>
+              <a href="https://quickgenai.in/ai-tools">Tools</a>
+              <a href="https://quickgenai.in/about">About</a>
+              <a href="https://quickgenai.in/contact">Contact</a>
+            </nav>
+          </div>
+
+          <div>
+            <p class="footer-heading">Related Tools</p>
+            <nav class="footer-links" aria-label="Related tools">
+              <a href="https://quickgenai.in/ai-tools/script-generator">Script Writer</a>
+              <a href="https://quickgenai.in/ai-tools/faq-generator">FAQ Generator</a>
+              <a href="https://quickgenai.in/ai-tools/email-generator">E-mail Generator</a>
+              <a href="https://quickgenai.in/ai-tools/blog-generator">Blog Generator</a>
+            </nav>
+          </div>
+
+          <div>
+            <p class="footer-heading">Legal</p>
+            <nav class="footer-links" aria-label="Legal navigation">
+              <a href="https://quickgenai.in/privacy-policy">Privacy Policy</a>
+              <a href="https://quickgenai.in/terms">Terms &amp; Conditions</a>
+              <a href="https://quickgenai.in/disclaimer">Disclaimer</a>
+            </nav>
+          </div>
+
+          <div>
+            <p class="footer-heading">Social Media</p>
+            <div class="social-links">
+              <a class="social-link" href="https://www.instagram.com/genweb.network/" aria-label="Instagram" title="Instagram">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                  <rect x="3.5" y="3.5" width="17" height="17" rx="4" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.7" r=".8" fill="currentColor" stroke="none" />
+                </svg>
+              </a>
+              <a class="social-link" href="https://www.youtube.com/@Horizon-pro" aria-label="YouTube" title="YouTube">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M21.2 7.2a2.6 2.6 0 0 0-1.8-1.8C17.8 5 12 5 12 5s-5.8 0-7.4.4a2.6 2.6 0 0 0-1.8 1.8A27 27 0 0 0 2.4 12a27 27 0 0 0 .4 4.8 2.6 2.6 0 0 0 1.8 1.8c1.6.4 7.4.4 7.4.4s5.8 0 7.4-.4a2.6 2.6 0 0 0 1.8-1.8 27 27 0 0 0 .4-4.8 27 27 0 0 0-.4-4.8ZM10.3 15.1V8.9l5.3 3.1-5.3 3.1Z" />
+                </svg>
+              </a>
+              <a class="social-link" href="https://x.com/genweb_network" aria-label="X" title="X">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M5.2 4h4l3.3 4.8L16.3 4h2.5l-5.1 6.4L19.5 20h-4l-3.8-5.5L7.4 20H4.8l5.5-7.1L5.2 4Zm3.5 1.7H8l7.9 12.6h.8L8.7 5.7Z" />
+                </svg>
+              </a>
+              <a class="social-link" href="https://www.facebook.com/profile.php?id=61589589786305" aria-label="Facebook" title="Facebook">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M14 8h3V4h-3c-2.8 0-5 2.2-5 5v3H6v4h3v4h4v-4h3l1-4h-4V9c0-.6.4-1 1-1Z" />
+                </svg>
+              </a>
+              <a class="social-link" href="https://www.linkedin.com/in/mayank-singh-14b897414/" aria-label="LinkedIn" title="LinkedIn">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M5 8.2A2.1 2.1 0 1 0 5 4a2.1 2.1 0 0 0 0 4.2ZM3.2 20.1h3.6V9.4H3.2v10.7ZM9 9.4v10.7h3.6v-5.3c0-1.4.3-2.7 2-2.7s1.9 1.6 1.9 2.8v5.2h3.6v-5.9c0-2.9-.6-5.2-4-5.2-1.6 0-2.7.9-3.2 1.7h-.1V9.4H9Z" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <p>© <span id="current-year">2026</span> QuickGenAI. All rights reserved.</p>
+          <p>Built for useful work, one task at a time.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      (() => {
+        "use strict";
+
+        /* ---------- API CONFIGURATION ----------
+           Central backend. Every tool page calls the SAME endpoints;
+           only the "tool" id in the request body changes per page.
+        ------------------------------------------ */
+        const API_BASE_URL = "https://qwickgen22.onrender.com";
+        const API_ENDPOINT_GENERATE = "/api/generate";
+        const API_ENDPOINT_CHAT = "/api/chat";
+        const API_ENDPOINT_HEALTH = "/api/health";
+
+/* ---------- Mobile nav (same behavior as homepage) ---------- */
+        const menuToggle = document.querySelector(".menu-toggle");
+        const navLinks = document.querySelector("#primary-links");
+
+        if (menuToggle && navLinks) {
+          const closeMenu = () => {
+            navLinks.classList.remove("is-open");
+            menuToggle.setAttribute("aria-expanded", "false");
+            menuToggle.setAttribute("aria-label", "Open navigation menu");
+          };
+
+          menuToggle.addEventListener("click", () => {
+            const isOpen = navLinks.classList.toggle("is-open");
+            menuToggle.setAttribute("aria-expanded", String(isOpen));
+            menuToggle.setAttribute("aria-label", isOpen ? "Close navigation menu" : "Open navigation menu");
+          });
+
+          navLinks.querySelectorAll("a").forEach((link) => {
+            link.addEventListener("click", closeMenu);
+          });
+
+          document.addEventListener("click", (event) => {
+            if (!navLinks.contains(event.target) && !menuToggle.contains(event.target)) closeMenu();
+          });
+
+          document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape") {
+              closeMenu();
+              menuToggle.focus();
+            }
+          });
+
+          window.addEventListener("resize", () => {
+            if (window.innerWidth > 760) closeMenu();
+          });
+        }
+
+        /* ---------- FAQ accordion ---------- */
+        document.querySelectorAll(".faq-question").forEach((question) => {
+          question.addEventListener("click", () => {
+            const item = question.closest(".faq-item");
+            const shouldOpen = !item.classList.contains("is-open");
+
+            document.querySelectorAll(".faq-item.is-open").forEach((openItem) => {
+              openItem.classList.remove("is-open");
+              openItem.querySelector(".faq-question").setAttribute("aria-expanded", "false");
+            });
+
+            if (shouldOpen) {
+              item.classList.add("is-open");
+              question.setAttribute("aria-expanded", "true");
+            }
+          });
+        });
+
+        const year = document.querySelector("#current-year");
+
+        /* ---------- Hook Generator (tool: hook) ---------- */
+        const TOOL_ID = "hook";
+        const form = document.getElementById("tool-form");
+        const primaryField = document.getElementById("topic-field");
+        const primaryInput = document.getElementById("topic-input");
+        const generateBtn = document.getElementById("generate-btn");
+        const generateBtnLabel = document.getElementById("generate-btn-label");
+        const resultBox = document.getElementById("result-box");
+        const resultActions = document.getElementById("result-actions");
+        const regenerateBtn = document.getElementById("regenerate-btn");
+        const clearBtn = document.getElementById("clear-btn");
+
+        let isLoading = false;
+
+        function setLoading(loading) {
+          isLoading = loading;
+          generateBtn.disabled = loading;
+          generateBtnLabel.textContent = loading ? "Generating hooks..." : "Generate Hooks";
+        }
+
+        function showEmptyState() {
+          resultBox.classList.remove("has-content");
+          resultBox.innerHTML = '<p class="result-empty">Your generated hooks will appear here.</p>';
+          resultActions.hidden = true;
+        }
+
+        function showLoadingState() {
+          resultBox.classList.remove("has-content");
+          resultBox.innerHTML = '<p class="result-status"><span class="spinner" aria-hidden="true"></span>Generating hooks...</p>';
+          resultActions.hidden = true;
+        }
+
+        function showErrorState(message) {
+          resultBox.classList.remove("has-content");
+          resultBox.innerHTML = '<p class="result-error" role="alert"><span>⚠</span><span></span></p>';
+          resultBox.querySelector(".result-error span:last-child").textContent = message;
+          resultActions.hidden = true;
+        }
+
+        async function copyText(text, button) {
+          try {
+            await navigator.clipboard.writeText(text);
+            const original = button.textContent;
+            button.textContent = "Copied";
+            button.classList.add("copied");
+            setTimeout(() => { button.textContent = original; button.classList.remove("copied"); }, 1600);
+          } catch (err) {
+            button.textContent = "Copy failed";
+            setTimeout(() => { button.textContent = "Copy"; }, 1600);
+          }
+        }
+
+        function renderList(content) {
+          resultBox.classList.add("has-content");
+          const lines = content
+            .split(/\r?\n/)
+            .map((l) => l.replace(/^[\s]*[-*•\d]+[.)]?\s*/, "").trim())
+            .filter((l) => l.length > 0);
+
+          const list = document.createElement("ul");
+          list.className = "hook-list";
+          list.setAttribute("aria-label", "Generated results");
+
+          (lines.length ? lines : [content]).forEach((text, index) => {
+            const item = document.createElement("li");
+            item.className = "hook-item";
+            const p = document.createElement("p");
+            const label = document.createElement("span");
+            label.className = "hook-number";
+            label.textContent = "Result " + (index + 1) + "  ";
+            p.appendChild(label);
+            p.appendChild(document.createTextNode(text));
+            const copyBtn = document.createElement("button");
+            copyBtn.type = "button";
+            copyBtn.className = "copy-btn";
+            copyBtn.textContent = "Copy";
+            copyBtn.addEventListener("click", () => copyText(text, copyBtn));
+            item.appendChild(p);
+            item.appendChild(copyBtn);
+            list.appendChild(item);
+          });
+
+          resultBox.innerHTML = "";
+          resultBox.appendChild(list);
+          resultActions.hidden = false;
+        }
+
+        function renderText(content) {
+          resultBox.classList.add("has-content");
+          const wrap = document.createElement("div");
+          wrap.className = "hook-item";
+          wrap.style.flexDirection = "column";
+          wrap.style.alignItems = "stretch";
+          wrap.style.gap = "12px";
+
+          const pre = document.createElement("p");
+          pre.style.whiteSpace = "pre-wrap";
+          pre.style.margin = "0";
+          pre.textContent = content;
+
+          const copyBtn = document.createElement("button");
+          copyBtn.type = "button";
+          copyBtn.className = "copy-btn";
+          copyBtn.style.alignSelf = "flex-start";
+          copyBtn.textContent = "Copy";
+          copyBtn.addEventListener("click", () => copyText(content, copyBtn));
+
+          wrap.appendChild(pre);
+          wrap.appendChild(copyBtn);
+          resultBox.innerHTML = "";
+          resultBox.appendChild(wrap);
+          resultActions.hidden = false;
+        }
+
+        async function generateResult() {
+          const value = primaryInput.value.trim();
+          if (!value) {
+            primaryField.classList.add("has-error");
+            primaryInput.focus();
+            return;
+          }
+          primaryField.classList.remove("has-error");
+
+          setLoading(true);
+          showLoadingState();
+
+          try {
+            const response = await fetch(API_BASE_URL + API_ENDPOINT_GENERATE, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                tool: TOOL_ID,
+                input: value,
+                extra: "",
+              }),
+            });
+
+            let data;
+            try {
+              data = await response.json();
+            } catch (parseErr) {
+              throw new Error("bad-response");
+            }
+
+            if (!response.ok || !data || data.success !== true) {
+              const serverMessage = data && data.error ? data.error : null;
+              throw new Error(serverMessage || "api-error");
+            }
+
+            if (!data.content) {
+              throw new Error("api-error");
+            }
+
+            renderList(data.content);
+          } catch (err) {
+            if (err instanceof TypeError) {
+              showErrorState("Unable to connect to the service. Please try again later.");
+            } else if (err.message && err.message !== "api-error" && err.message !== "bad-response") {
+              showErrorState(err.message);
+            } else {
+              showErrorState("Something went wrong while generating hooks. Please try again.");
+            }
+          } finally {
+            setLoading(false);
+          }
+        }
+
+        form.addEventListener("submit", (event) => { event.preventDefault(); if (!isLoading) generateResult(); });
+        primaryInput.addEventListener("input", () => {
+          if (primaryField.classList.contains("has-error") && primaryInput.value.trim()) primaryField.classList.remove("has-error");
+        });
+        regenerateBtn.addEventListener("click", () => { if (!isLoading) generateResult(); });
+        clearBtn.addEventListener("click", () => {
+          primaryInput.value = "";
+          primaryField.classList.remove("has-error");
+          showEmptyState();
+          primaryInput.focus();
+        });
+      })();
+    </script>
+  </body>
+</html>
