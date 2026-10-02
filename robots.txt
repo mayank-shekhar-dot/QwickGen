@@ -1,3 +1,16 @@
-User-agent: Mediapartners-Google
-Disallow: /ai-tools
-Disallow: /imgpro
+User-agent: *
+Allow: /
+
+# Keep personalized/private mentor and backend files out of search crawling.
+Disallow: /mentor.html
+Disallow: /app.py
+Disallow: /app1.py
+Disallow: /mentor.py
+Disallow: /prompt_builder.py
+Disallow: /requirements.txt
+
+# Keep crawler access to ads.txt and the sitemap.
+Allow: /ads.txt
+Allow: /sitemap.xml
+
+Sitemap: https://quickgenai.in/sitemap.xml
