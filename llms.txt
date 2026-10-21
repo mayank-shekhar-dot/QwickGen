@@ -1,0 +1,82 @@
+# QuickGenAI
+
+> QuickGenAI is a free website with AI-powered writing, coding and marketing tools, plus articles about AI news, tools, risks and trends.
+
+## Tools
+
+- [Blog Generator – Draft Blog Post Content](https://quickgenai.in/ai-tools/blog-generator): Turn any topic into a structured blog post draft in seconds with QuickGenAI's free Blog Generator, complete with headings, ready to edit and
+- [Career Coach Chat – Free Career Advice Tool](https://quickgenai.in/ai-tools/career-coach-chat): Talk through job searches, resumes, interviews, or career changes with QuickGenAI's free Career Coach Chat, a judgment-free AI that helps yo
+- [Code Converter – Convert Code Between Languages](https://quickgenai.in/ai-tools/code-converter): Convert code between Python, JavaScript, Java, and more in seconds with QuickGenAI's free Code Converter, preserving logic while translating
+- [Code Debugger – Find & Fix Code Issues](https://quickgenai.in/ai-tools/code-debugger): Paste a broken code snippet into QuickGenAI's free Code Debugger to get AI-powered help spotting the bug and fixing it faster than manual re
+- [Code Explainer – Understand Any Code Snippet](https://quickgenai.in/ai-tools/code-explainer): Paste any confusing code snippet into QuickGenAI's free Code Explainer for a plain-language breakdown of what it does, no computer science d
+- [Code Generator – Turn Text into Working Code](https://quickgenai.in/ai-tools/code-generator): Describe what you need in plain English and get working code instantly with QuickGenAI's free Code Generator, supporting multiple languages
+- [Email Generator – Draft Emails Quickly](https://quickgenai.in/ai-tools/email-generator): Draft clear, professional emails in seconds with QuickGenAI's free Email Generator: describe the purpose and tone, and get a ready-to-send d
+- [Emotional Support Chat – Talk It Through](https://quickgenai.in/ai-tools/emotional-support-chat): Talk things through anytime with QuickGenAI's free Emotional Support Chat, a calm, non-judgmental AI companion for processing feelings betwe
+- [FAQ Generator – Create FAQs Instantly](https://quickgenai.in/ai-tools/faq-generator): Generate a full set of relevant FAQ questions and clear answers for any topic in seconds with QuickGenAI's free FAQ Generator, built for blo
+- [General AI Chat – Chat With an AI Assistant](https://quickgenai.in/ai-tools/general-ai-chat): Ask anything and get instant, helpful answers with QuickGenAI's free General AI Chat, a flexible AI assistant for quick questions, research,
+- [Hook Generator – Create Engaging Hooks](https://quickgenai.in/ai-tools/hook-generator): Stop staring at a blank first line: QuickGenAI's free Hook Generator creates scroll-stopping opening hooks for videos, posts, ads, and capti
+- [Idea Generator – Content & Project Ideas](https://quickgenai.in/ai-tools/idea-generator): Beat creative block with QuickGenAI's free Idea Generator, which turns a single topic into a list of fresh content or project ideas you can
+- [ImgPro – Free AI Image Generator Online](https://quickgenai.in/ai-tools/imgpro): Generate stunning AI images for free with ImgPro by QuickGenAI. Type a prompt and create high-quality images instantly — no sign-up, no cost
+- [Keyword Generator – Generate Keyword Ideas](https://quickgenai.in/ai-tools/keyword-generator): Find keyword ideas around any seed topic in seconds with QuickGenAI's free Keyword Generator, useful for blog planning, SEO research, and co
+- [Meta Description Generator – Free SEO Tool](https://quickgenai.in/ai-tools/meta-description): Generate SEO-friendly meta descriptions under 160 characters for any page with QuickGenAI's free Meta Description Generator, built to improv
+- [Mindfulness Guide – Reflection Prompts](https://quickgenai.in/ai-tools/mindfulness-guide): Slow down and reflect with QuickGenAI's free Mindfulness Guide, an AI tool that offers gentle prompts for mindfulness, journaling, and every
+- [Script Generator – Video & Content Scripts](https://quickgenai.in/ai-tools/script-generator): Turn a topic into a ready-to-record video or content script with QuickGenAI's free Script Generator, built for YouTube, Reels, podcasts, and
+- [SQL Generator – Generate SQL Queries](https://quickgenai.in/ai-tools/sql-generator): Describe what data you need in plain English and get a working SQL query instantly with QuickGenAI's free SQL Generator, no need to memorize
+- [Title Generator – Create Title Options](https://quickgenai.in/ai-tools/title-generator): Generate multiple catchy, click-worthy title options for articles, videos, and posts in seconds with QuickGenAI's free Title Generator, buil
+- [Tweet Hook Generator – Hooks for X Posts](https://quickgenai.in/ai-tools/tweet-hook-generator): Write tweets and X posts that actually get read with QuickGenAI's free Tweet Hook Generator, which creates scroll-stopping opening lines for
+- [YouTube Title Generator – Catchy Video Titles](https://quickgenai.in/ai-tools/youtube-title-generator): Generate multiple click-worthy YouTube title options from your video topic with QuickGenAI's free YouTube Title Generator, built to improve
+
+## Categories
+
+- [AI Learning & Basics for Beginners](https://quickgenai.in/categories/ai-learning-basics-and-education)
+- [AI News, Risks & Industry Updates](https://quickgenai.in/categories/ai-news-risks-and-industry-updates)
+- [AI Tools for Productivity & Business](https://quickgenai.in/categories/ai-tools-productivity-and-business-use)
+- [Future AI Trends & Advanced Concepts](https://quickgenai.in/categories/future-ai-trends-and-advanced-concepts)
+
+## About and policies
+
+- [About](https://quickgenai.in/about)
+- [Contact](https://quickgenai.in/contact)
+- [Privacy Policy](https://quickgenai.in/privacy-policy)
+- [Terms](https://quickgenai.in/terms)
+- [Disclaimer](https://quickgenai.in/disclaimer)
+- [Cookie Policy](https://quickgenai.in/cookie-policy)
+
+## Articles
+
+- [Adopting Agentic AI in 2026: A Business Guide](https://quickgenai.in/adopting-agentic-ai-2026)
+- [AI Agents for Document Processing in 2026](https://quickgenai.in/ai-agents-intelligent-document-processing)
+- [AI Digital Twin Assistants Explained](https://quickgenai.in/ai-digital-twin-assistant)
+- [AI-Driven Micro Learning in 2026](https://quickgenai.in/ai-driven-micro-learning)
+- [AI Financial Scams Targeting Seniors](https://quickgenai.in/ai-financial-scams-targeting-seniors)
+- [How AI Finds Exploitable Bugs in Software](https://quickgenai.in/ai-finding-exploitable-bugs)
+- [Best AI Tools for Bloggers and Writers](https://quickgenai.in/ai-for-bloggers-and-writers)
+- [AI in Education: Smarter Learning in 2026](https://quickgenai.in/ai-in-education-smarter-learning)
+- [AI Memory & Personalization Explained](https://quickgenai.in/ai-memory-personalization)
+- [AI Micro Agents: What They Are & Why They Matter](https://quickgenai.in/ai-micro-agents)
+- [AI-Powered Website Design: Best Tools 2026](https://quickgenai.in/ai-powered-website-design)
+- [AI Shadow Mode Explained: How It's Used](https://quickgenai.in/ai-shadow-mode)
+- [Best AI Tools for Developers in 2026](https://quickgenai.in/ai-tools-for-developers)
+- [How AI Tools Replaced ₹50,000/Month Software](https://quickgenai.in/ai-tools-replaced-50000-rupees-software-business)
+- [Run a Full Blog with AI in 2 Hours a Week](https://quickgenai.in/ai-workflow-run-blog-2-hours-week)
+- [ChatGPT Images 2.0: Features & Use Cases](https://quickgenai.in/chatgpt-images-2-update)
+- [DeepSeek AI Launch: What It Is & Why It Matters](https://quickgenai.in/deepseek-ai-launch)
+- [The Future of AI Content Creation in 2026](https://quickgenai.in/future-of-ai-content-creation)
+- [The Future of AI in Digital Marketing](https://quickgenai.in/future-of-ai-digital-marketing)
+- [Google TPU & Gemini Updates 2026](https://quickgenai.in/google-tpu-gemini-updates)
+- [How Beginners Should Start Using ChatGPT](https://quickgenai.in/how-beginners-should-start-using-chatgpt)
+- [Jobs That Will Survive AI: 2026 Breakdown](https://quickgenai.in/jobs-that-will-survive-ai-2025-breakdown)
+- [Learn a New Skill with AI in 30 Days](https://quickgenai.in/learning-new-skill-with-ai-30-days)
+- [Meta Account System Overhaul 2026 Explained](https://quickgenai.in/meta-account-system-overhaul)
+- [Meta Layoffs & AI Restructuring 2026](https://quickgenai.in/meta-layoffs-ai-restructuring)
+- [Microsoft Layoffs 2026: The AI Impact](https://quickgenai.in/microsoft-layoffs-ai-impact)
+- [Microsoft's AI-Driven Workforce Changes](https://quickgenai.in/microsoft-workforce-changes-ai)
+- [OpenAI's Agentic AI Workspace Explained](https://quickgenai.in/openai-agentic-ai-workspace)
+- [Oracle's AI Debt Problem Explained](https://quickgenai.in/oracle-ai-debt-issue)
+- [10 Python Projects with AI to Build in 2026](https://quickgenai.in/python-projects-with-ai)
+- [Real-World AI Use Cases Across Industries](https://quickgenai.in/real-world-ai-use-cases-2026)
+- [Safe and Responsible AI Use: 2026 Guide](https://quickgenai.in/safe-and-responsible-ai-use)
+- [When AI Becomes Smarter Than Humans: Timeline](https://quickgenai.in/what-happens-when-ai-becomes-smarter-than-humans-timeline)
+- [Why Big Tech Fears the AI It's Building](https://quickgenai.in/why-big-tech-secretly-scared-of-ai-they-are-building)
+
+Sitemap: https://quickgenai.in/sitemap.xml
